@@ -23,6 +23,10 @@ namespace CastAjansCore.WebUI
             services.AddMvc();
             string cnnStr = "Data Source=94.73.146.4;Initial Catalog=u7506792_CastAja;Persist Security Info=True;User ID=u7506792_CastAja;Password=albay69sFENDER";
             services.AddDbContext<CastAjansContext>(option => option.UseSqlServer(cnnStr));
+
+            services.AddSession();
+            services.AddMemoryCache();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -34,6 +38,8 @@ namespace CastAjansCore.WebUI
             }
 
             app.UseStaticFiles();
+
+            //env.EnvironmentName = EnvironmentName.Production;
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -45,7 +51,12 @@ namespace CastAjansCore.WebUI
                     RequestPath = new PathString("/vendor")
                 });
             }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+            }
 
+            app.UseSession();
             app.UseMvc(ConfigureRoutes);
         }
 
