@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity.Migrations;
-using System.Text;
-
-namespace CastAjansCore.DataLayer.EntityFramework.Migrations
+﻿namespace CastAjansCore.DataLayer.EntityFramework.Migrations
 {
-    internal sealed class Configuration : DbMigrationsConfiguration<CastAjansContext>
-    {
-        public Configuration()
-        {
-            AutomaticMigrationsEnabled = true;
-            //AutomaticMigrationDataLossAllowed = true;
-            //SetSqlGenerator("MySql.Data.MySqlClient", new MySql.Data.Entity.MySqlMigrationSqlGenerator());
-        }
+    //internal sealed class Configuration : DbMigrationsConfiguration<CastAjansContext>
+    //{
+    //    public Configuration()
+    //    {
+    //        AutomaticMigrationsEnabled = true;
+    //        //AutomaticMigrationDataLossAllowed = true;
+    //        //SetSqlGenerator("MySql.Data.MySqlClient", new MySql.Data.Entity.MySqlMigrationSqlGenerator());
+    //    }
 
-        protected override void Seed(CastAjansContext context)
-        {
-        }
-    }
+    //    protected override void Seed(CastAjansContext context)
+    //    {
+    //    }
+    //}
 
 }

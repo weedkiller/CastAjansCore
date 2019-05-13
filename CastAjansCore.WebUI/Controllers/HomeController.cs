@@ -12,5 +12,11 @@ namespace CastAjansCore.WebUI.Controllers
         {
             return View();
         }
+
+        [Route("delete/{id?}")]
+        public string Delete(int id)
+        {
+            return $"delete {id}";
+        }
     }
 }
