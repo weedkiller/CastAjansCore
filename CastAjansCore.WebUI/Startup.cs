@@ -63,6 +63,8 @@ namespace CastAjansCore.WebUI
         private void ConfigureRoutes(IRouteBuilder routeBuilder)
         {
             routeBuilder.MapRoute(name: "default", template: "{controller=home}/{action=index}/{id?}");
+
+            routeBuilder.MapRoute(name: "areas", template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
         }
     }
 }
