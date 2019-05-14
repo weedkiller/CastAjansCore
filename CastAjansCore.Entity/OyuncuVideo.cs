@@ -1,9 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Calbay.Core.Entities;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CastAjansCore.Entity
 {
     [Table("OyuncuVideolari", Schema = "Cast")]
-    public class OyuncuVideo : BaseEntity
+    public class OyuncuVideo : BaseEntity, IEntity
     {
         public int OyuncuId { get; set; }
 

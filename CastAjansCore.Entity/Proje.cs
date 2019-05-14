@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Calbay.Core.Entities;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CastAjansCore.Entity
 {
     [Table("Projeler", Schema = "Cast")]
-    public class Proje : BaseEntity
+    public class Proje : BaseEntity, IEntity
     {
         [Required]
         public int MusteriId { get; set; }

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Calbay.Core.Entities;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
-
 namespace CastAjansCore.Entity
 {
-    public class Telefon : BaseEntity
+    public class Telefon : BaseEntity, IEntity
     {
         [ForeignKey("Kisi")]
         public int KisiId { get; set; }

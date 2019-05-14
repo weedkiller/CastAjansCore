@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Calbay.Core.Entities;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CastAjansCore.Entity
 {
     [Table("BolumKarakterleri", Schema = "Cast")]
-    public class BolumKarakter : BaseEntity
+    public class BolumKarakter : BaseEntity, IEntity
     {
         [Required]
         public int BolumId { get; set; }

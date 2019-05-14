@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Calbay.Core.Entities;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CastAjansCore.Entity
 {
     [Table("Kullanicilar", Schema = "Sistem")]
-    public class Kullanici
+    public class Kullanici: IEntity
     {
         [Key]
         [ForeignKey("Kisi")]

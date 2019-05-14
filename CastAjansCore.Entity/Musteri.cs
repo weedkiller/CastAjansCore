@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Calbay.Core.Entities;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CastAjansCore.Entity
 {
     [Table("Musteriler", Schema = "Cast")]
-    public class Musteri : BaseEntity
+    public class Musteri : BaseEntity, IEntity
     {
         [Required]
         [MaxLength(200)]

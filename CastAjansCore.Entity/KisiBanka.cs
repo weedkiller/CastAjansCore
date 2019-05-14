@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Calbay.Core.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Text;
 namespace CastAjansCore.Entity
 {
     [Table("KisiBankalari", Schema = "Sistem")]
-    public class KisiBanka : BaseEntity
+    public class KisiBanka : BaseEntity, IEntity
     {
         public int KisiId { get; set; }
 

@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Calbay.Core.Entities;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CastAjansCore.Entity
 {
     [Table("Ilceler", Schema = "Sistem")]
-    public class Ilce : BaseEntity
+    public class Ilce : BaseEntity, IEntity
     {
         [Required]
         [MaxLength(200)]

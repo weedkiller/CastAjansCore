@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Calbay.Core.Entities;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CastAjansCore.Entity
 {
     [Table("Firmalar", Schema = "Sistem")]
-    public class Firma : BaseEntity
+    public class Firma : BaseEntity, IEntity
     {
         [Required]
         [MaxLength(100)]

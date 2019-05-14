@@ -2,10 +2,16 @@
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
-namespace CastAjansCore.DataLayer.EntityFramework
+namespace CastAjansCore.DataLayer.Concrete.EntityFramework
 {
     public class CastAjansContext : DbContext
     {
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            string cnnStr = "Data Source=94.73.146.4;Initial Catalog=u7506792_CastAja;Persist Security Info=True;User ID=u7506792_CastAja;Password=albay69sFENDER";
+            optionsBuilder.UseSqlServer(cnnStr);
+        }
+
         public DbSet<Banka> Bankalar { get; set; }
 
         public DbSet<Bolum> Bolumler { get; set; }

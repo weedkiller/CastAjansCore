@@ -1,4 +1,4 @@
-﻿namespace CastAjansCore.DataLayer.EntityFramework.Migrations
+﻿namespace CastAjansCore.DataLayer.Concrete.EntityFramework.Migrations
 {
     //internal sealed class Configuration : DbMigrationsConfiguration<CastAjansContext>
     //{
