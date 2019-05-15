@@ -5,18 +5,18 @@ using System.Linq.Expressions;
 
 namespace Calbay.Core.Business
 {
-    public interface IEntitiyRepository<TList, TEdit>
-        where TList : class, IEntity, new()
-        where TEdit : class, IEntity, new()
+    public interface IServiceRepository<TEntity> where TEntity : class, IEntity, new()
     {
-        TEdit Get(Expression<Func<TEdit, bool>> filter = null);
+        TEntity Get(Expression<Func<TEntity, bool>> filter = null);
 
-        List<TList> GetList(Expression<Func<TList, bool>> filter = null);
+        List<TEntity> GetList(Expression<Func<TEntity, bool>> filter = null);
 
-        void Add(TEdit entity);
+        void Add(TEntity entity);
 
-        void Update(TEdit entity);
+        void Update(TEntity entity);
 
-        void Delete(int id);
+        void Delete(int id); 
+
+        TEntity GetById(int id);
     }
 }

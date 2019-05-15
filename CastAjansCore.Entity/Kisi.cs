@@ -8,7 +8,7 @@ using System.Text;
 namespace CastAjansCore.Entity
 {
     [Table("Kisiler", Schema = "Sistem")]
-    public class Kisi: IEntity
+    public class Kisi : IEntity
     {
         public int Id { get; set; }
 
@@ -22,8 +22,8 @@ namespace CastAjansCore.Entity
         [Required]
         [MaxLength(50)]
         public string Soyadi { get; set; }
-
-        public string DogumTarihi { get; set; }
+        
+        public DateTime DogumTarihi { get; set; }
 
         public EnuCinsiyet Cinsiyet { get; set; }
 
@@ -32,6 +32,7 @@ namespace CastAjansCore.Entity
         public int UyrukId { get; set; }
 
         [MaxLength(200)]
+        [DataType(DataType.EmailAddress)]
         public string EPosta { get; set; }
 
         [MaxLength(100)]
@@ -56,7 +57,7 @@ namespace CastAjansCore.Entity
 
         //public virtual Supervisor Supervisor { get; set; }
 
- 
+
 
     }
 }

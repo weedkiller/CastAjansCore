@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using CastAjansCore.Business.Abstract;
+using CastAjansCore.Business.Concrete;
+using CastAjansCore.DataLayer.Abstract;
+using CastAjansCore.DataLayer.Concrete.EntityFramework;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -19,15 +23,19 @@ namespace CastAjansCore.WebUI
         public Startup(IConfiguration configuration)
         {
             _configuration = configuration;
+
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            
+
 
             services.AddSession();
             services.AddMemoryCache();
+
+            services.AddScoped<IKisiServis, KisiManager>();
+            services.AddScoped<IKisiDal, EfKisiDal>();
 
         }
 
@@ -63,7 +71,7 @@ namespace CastAjansCore.WebUI
         }
 
         private void ConfigureRoutes(IRouteBuilder routeBuilder)
-        {
+        {            
             routeBuilder.MapRoute(name: "default", template: "{controller=home}/{action=index}/{id?}");
 
             routeBuilder.MapRoute(name: "areas", template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");

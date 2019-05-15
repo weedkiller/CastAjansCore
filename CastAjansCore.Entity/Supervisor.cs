@@ -10,7 +10,7 @@ namespace CastAjansCore.Entity
     {
         [Key]
         [ForeignKey("Kisi")]
-        public int KisiId { get; set; }
+        public int Id { get; set; }
 
         [MaxLength(4000)]
         public string Aciklama { get; set; }
