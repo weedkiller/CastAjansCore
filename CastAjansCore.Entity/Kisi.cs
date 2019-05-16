@@ -29,7 +29,7 @@ namespace CastAjansCore.Entity
 
         public EnuKanGrubu KanGrubu { get; set; }
 
-        public int UyrukId { get; set; }
+        public int? UyrukId { get; set; }
 
         [MaxLength(200)]
         [DataType(DataType.EmailAddress)]

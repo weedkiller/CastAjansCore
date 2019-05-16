@@ -4,9 +4,8 @@ using System.Collections.Generic;
 
 namespace CastAjansCore.Business.Abstract
 {
-    public interface IKisiServis : IServiceRepository<Kisi>
+    public interface ITelefonServis : IServiceRepository<Telefon>
     {
-        List<Kisi> GetByKanGrubu(EnuKanGrubu kanGrubu);
-
+        
     }
 }

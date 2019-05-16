@@ -1,14 +1,20 @@
 ﻿using Calbay.Core.Business;
-using Calbay.Core.DataAccess;
 using CastAjansCore.Business.Abstract;
+using CastAjansCore.DataLayer.Abstract;
 using CastAjansCore.Entity;
+using System.Collections.Generic;
 
 namespace CastAjansCore.Business.Concrete
 {
     public class KisiManager : ManagerRepositoryBase<Kisi>, IKisiServis
-    {
-        public KisiManager(IEntitiyRepository<Kisi> dal) : base(dal)
+    {        
+        public KisiManager(IKisiDal dal) : base(dal)
         {
+        }
+
+        public List<Kisi> GetByKanGrubu(EnuKanGrubu kanGrubu)
+        {
+            return base._dal.GetList(k => k.KanGrubu == kanGrubu);
         }
     }
 }

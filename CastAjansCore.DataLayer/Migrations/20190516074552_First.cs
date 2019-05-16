@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CastAjansCore.DataLayer.Migrations
 {
-    public partial class Initial : Migration
+    public partial class First : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -52,10 +52,10 @@ namespace CastAjansCore.DataLayer.Migrations
                     TC = table.Column<string>(maxLength: 11, nullable: true),
                     Adi = table.Column<string>(maxLength: 50, nullable: false),
                     Soyadi = table.Column<string>(maxLength: 50, nullable: false),
-                    DogumTarihi = table.Column<string>(nullable: true),
+                    DogumTarihi = table.Column<DateTime>(nullable: false),
                     Cinsiyet = table.Column<int>(nullable: false),
                     KanGrubu = table.Column<int>(nullable: false),
-                    UyrukId = table.Column<int>(nullable: false),
+                    UyrukId = table.Column<int>(nullable: true),
                     EPosta = table.Column<string>(maxLength: 200, nullable: true),
                     WebSitesi = table.Column<string>(maxLength: 100, nullable: true),
                     FaceBook = table.Column<string>(maxLength: 200, nullable: true),
@@ -80,7 +80,7 @@ namespace CastAjansCore.DataLayer.Migrations
                 schema: "Cast",
                 columns: table => new
                 {
-                    KisiId = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: false),
                     AnneAdiSoyadi = table.Column<string>(nullable: true),
                     BabaAdiSoyadi = table.Column<string>(nullable: true),
                     Boy = table.Column<int>(nullable: false),
@@ -100,7 +100,7 @@ namespace CastAjansCore.DataLayer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Oyuncular", x => x.KisiId);
+                    table.PrimaryKey("PK_Oyuncular", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Oyuncular_EngelDurumlari_EngelDurumuId",
                         column: x => x.EngelDurumuId,
@@ -109,8 +109,8 @@ namespace CastAjansCore.DataLayer.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Oyuncular_Kisiler_KisiId",
-                        column: x => x.KisiId,
+                        name: "FK_Oyuncular_Kisiler_Id",
+                        column: x => x.Id,
                         principalSchema: "Sistem",
                         principalTable: "Kisiler",
                         principalColumn: "Id",
@@ -122,15 +122,15 @@ namespace CastAjansCore.DataLayer.Migrations
                 schema: "Cast",
                 columns: table => new
                 {
-                    KisiId = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: false),
                     Aciklama = table.Column<string>(maxLength: 4000, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Supervisorler", x => x.KisiId);
+                    table.PrimaryKey("PK_Supervisorler", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Supervisorler_Kisiler_KisiId",
-                        column: x => x.KisiId,
+                        name: "FK_Supervisorler_Kisiler_Id",
+                        column: x => x.Id,
                         principalSchema: "Sistem",
                         principalTable: "Kisiler",
                         principalColumn: "Id",
@@ -269,15 +269,15 @@ namespace CastAjansCore.DataLayer.Migrations
                 schema: "Sistem",
                 columns: table => new
                 {
-                    KisiId = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: false),
                     Sifre = table.Column<string>(maxLength: 4000, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Kullanicilar", x => x.KisiId);
+                    table.PrimaryKey("PK_Kullanicilar", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Kullanicilar_Kisiler_KisiId",
-                        column: x => x.KisiId,
+                        name: "FK_Kullanicilar_Kisiler_Id",
+                        column: x => x.Id,
                         principalSchema: "Sistem",
                         principalTable: "Kisiler",
                         principalColumn: "Id",
@@ -321,7 +321,7 @@ namespace CastAjansCore.DataLayer.Migrations
                         column: x => x.OyuncuId,
                         principalSchema: "Cast",
                         principalTable: "Oyuncular",
-                        principalColumn: "KisiId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -362,7 +362,7 @@ namespace CastAjansCore.DataLayer.Migrations
                         column: x => x.OyuncuId,
                         principalSchema: "Cast",
                         principalTable: "Oyuncular",
-                        principalColumn: "KisiId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -562,7 +562,7 @@ namespace CastAjansCore.DataLayer.Migrations
                         column: x => x.SupervisorId,
                         principalSchema: "Cast",
                         principalTable: "Supervisorler",
-                        principalColumn: "KisiId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Projeler_Yonetmenler_YonetmenId",
@@ -634,7 +634,7 @@ namespace CastAjansCore.DataLayer.Migrations
                     Adi = table.Column<string>(maxLength: 50, nullable: true),
                     Aciklama = table.Column<string>(maxLength: 4000, nullable: true),
                     KarakterSayisi = table.Column<int>(nullable: false),
-                    OyuncuKisiId = table.Column<int>(nullable: true)
+                    OyuncuId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -661,11 +661,11 @@ namespace CastAjansCore.DataLayer.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_BolumKarakterleri_Oyuncular_OyuncuKisiId",
-                        column: x => x.OyuncuKisiId,
+                        name: "FK_BolumKarakterleri_Oyuncular_OyuncuId",
+                        column: x => x.OyuncuId,
                         principalSchema: "Cast",
                         principalTable: "Oyuncular",
-                        principalColumn: "KisiId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -714,7 +714,7 @@ namespace CastAjansCore.DataLayer.Migrations
                         column: x => x.OyuncuId,
                         principalSchema: "Cast",
                         principalTable: "Oyuncular",
-                        principalColumn: "KisiId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -737,10 +737,10 @@ namespace CastAjansCore.DataLayer.Migrations
                 column: "GuncelleyenId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BolumKarakterleri_OyuncuKisiId",
+                name: "IX_BolumKarakterleri_OyuncuId",
                 schema: "Cast",
                 table: "BolumKarakterleri",
-                column: "OyuncuKisiId");
+                column: "OyuncuId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BolumKarakterOyunculari_BolumKarakterId",

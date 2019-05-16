@@ -10,7 +10,7 @@ namespace Calbay.Core.Business
         where TEntity : class, IEntity, new()        
         //where TDal : class, IEntitiyRepository<TEntity>, new()
     {
-        IEntitiyRepository<TEntity> _dal;
+        public IEntitiyRepository<TEntity> _dal;
         public ManagerRepositoryBase(IEntitiyRepository<TEntity> dal)
         {
             _dal = dal;

@@ -116,7 +116,7 @@ namespace CastAjansCore.DataLayer.Migrations
 
                     b.Property<int>("KarakterSayisi");
 
-                    b.Property<int?>("OyuncuKisiId");
+                    b.Property<int?>("OyuncuId");
 
                     b.HasKey("Id");
 
@@ -126,7 +126,7 @@ namespace CastAjansCore.DataLayer.Migrations
 
                     b.HasIndex("GuncelleyenId");
 
-                    b.HasIndex("OyuncuKisiId");
+                    b.HasIndex("OyuncuId");
 
                     b.ToTable("BolumKarakterleri","Cast");
                 });
@@ -308,7 +308,7 @@ namespace CastAjansCore.DataLayer.Migrations
 
                     b.Property<int>("Cinsiyet");
 
-                    b.Property<string>("DogumTarihi");
+                    b.Property<DateTime>("DogumTarihi");
 
                     b.Property<string>("EPosta")
                         .HasMaxLength(200);
@@ -334,7 +334,7 @@ namespace CastAjansCore.DataLayer.Migrations
                     b.Property<string>("Twitter")
                         .HasMaxLength(200);
 
-                    b.Property<int>("UyrukId");
+                    b.Property<int?>("UyrukId");
 
                     b.Property<string>("WebSitesi")
                         .HasMaxLength(100);
@@ -387,12 +387,12 @@ namespace CastAjansCore.DataLayer.Migrations
 
             modelBuilder.Entity("CastAjansCore.Entity.Kullanici", b =>
                 {
-                    b.Property<int>("KisiId");
+                    b.Property<int>("Id");
 
                     b.Property<string>("Sifre")
                         .HasMaxLength(4000);
 
-                    b.HasKey("KisiId");
+                    b.HasKey("Id");
 
                     b.ToTable("Kullanicilar","Sistem");
                 });
@@ -447,7 +447,7 @@ namespace CastAjansCore.DataLayer.Migrations
 
             modelBuilder.Entity("CastAjansCore.Entity.Oyuncu", b =>
                 {
-                    b.Property<int>("KisiId");
+                    b.Property<int>("Id");
 
                     b.Property<string>("Aciklama")
                         .HasMaxLength(4000);
@@ -487,7 +487,7 @@ namespace CastAjansCore.DataLayer.Migrations
                     b.Property<string>("Yetenekleri")
                         .HasMaxLength(4000);
 
-                    b.HasKey("KisiId");
+                    b.HasKey("Id");
 
                     b.HasIndex("EngelDurumuId");
 
@@ -612,12 +612,12 @@ namespace CastAjansCore.DataLayer.Migrations
 
             modelBuilder.Entity("CastAjansCore.Entity.Supervisor", b =>
                 {
-                    b.Property<int>("KisiId");
+                    b.Property<int>("Id");
 
                     b.Property<string>("Aciklama")
                         .HasMaxLength(4000);
 
-                    b.HasKey("KisiId");
+                    b.HasKey("Id");
 
                     b.ToTable("Supervisorler","Cast");
                 });
@@ -699,7 +699,7 @@ namespace CastAjansCore.DataLayer.Migrations
 
                     b.HasOne("CastAjansCore.Entity.Oyuncu")
                         .WithMany("BolumKarakterleri")
-                        .HasForeignKey("OyuncuKisiId");
+                        .HasForeignKey("OyuncuId");
                 });
 
             modelBuilder.Entity("CastAjansCore.Entity.BolumKarakterOyuncu", b =>
@@ -773,8 +773,7 @@ namespace CastAjansCore.DataLayer.Migrations
                 {
                     b.HasOne("CastAjansCore.Entity.Uyruk", "Uyruk")
                         .WithMany()
-                        .HasForeignKey("UyrukId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("UyrukId");
                 });
 
             modelBuilder.Entity("CastAjansCore.Entity.KisiBanka", b =>
@@ -804,7 +803,7 @@ namespace CastAjansCore.DataLayer.Migrations
                 {
                     b.HasOne("CastAjansCore.Entity.Kisi", "Kisi")
                         .WithMany()
-                        .HasForeignKey("KisiId")
+                        .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
@@ -835,7 +834,7 @@ namespace CastAjansCore.DataLayer.Migrations
 
                     b.HasOne("CastAjansCore.Entity.Kisi", "Kisi")
                         .WithMany()
-                        .HasForeignKey("KisiId")
+                        .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
@@ -912,7 +911,7 @@ namespace CastAjansCore.DataLayer.Migrations
                 {
                     b.HasOne("CastAjansCore.Entity.Kisi", "Kisi")
                         .WithMany()
-                        .HasForeignKey("KisiId")
+                        .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 

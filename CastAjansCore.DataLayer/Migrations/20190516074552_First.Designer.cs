@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CastAjansCore.DataLayer.Migrations
 {
     [DbContext(typeof(CastAjansContext))]
-    [Migration("20190515230105_first")]
-    partial class first
+    [Migration("20190516074552_First")]
+    partial class First
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -310,7 +310,7 @@ namespace CastAjansCore.DataLayer.Migrations
 
                     b.Property<int>("Cinsiyet");
 
-                    b.Property<string>("DogumTarihi");
+                    b.Property<DateTime>("DogumTarihi");
 
                     b.Property<string>("EPosta")
                         .HasMaxLength(200);
@@ -336,7 +336,7 @@ namespace CastAjansCore.DataLayer.Migrations
                     b.Property<string>("Twitter")
                         .HasMaxLength(200);
 
-                    b.Property<int>("UyrukId");
+                    b.Property<int?>("UyrukId");
 
                     b.Property<string>("WebSitesi")
                         .HasMaxLength(100);
@@ -775,8 +775,7 @@ namespace CastAjansCore.DataLayer.Migrations
                 {
                     b.HasOne("CastAjansCore.Entity.Uyruk", "Uyruk")
                         .WithMany()
-                        .HasForeignKey("UyrukId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("UyrukId");
                 });
 
             modelBuilder.Entity("CastAjansCore.Entity.KisiBanka", b =>
