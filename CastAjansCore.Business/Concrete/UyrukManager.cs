@@ -5,10 +5,11 @@ using CastAjansCore.Entity;
 
 namespace CastAjansCore.Business.Concrete
 {
-    public class AdresManager : ManagerRepositoryBase<Adres>, IAdresServis
+    public class UyrukManager : ManagerRepositoryBase<Uyruk>, IUyrukServis
     {
-        public AdresManager(IEntitiyRepository<Adres> dal) : base(dal)
+        public UyrukManager(IEntitiyRepository<Uyruk> dal) : base(dal)
         {
+
         }
     }
 }

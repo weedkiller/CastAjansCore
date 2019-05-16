@@ -21,8 +21,6 @@ namespace CastAjansCore.DataLayer.Concrete.EntityFramework
 
         public DbSet<BolumKarakterOyuncu> BolumKarakterOyunculari { get; set; }
 
-        public DbSet<EngelDurumu> EngelDurumlari { get; set; }
-
         public DbSet<Firma> Firma { get; set; }
 
         public DbSet<Il> Iller { get; set; }

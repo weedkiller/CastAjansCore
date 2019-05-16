@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace Calbay.Core.Business
 {
@@ -10,6 +11,8 @@ namespace Calbay.Core.Business
         TEntity Get(Expression<Func<TEntity, bool>> filter = null);
 
         List<TEntity> GetList(Expression<Func<TEntity, bool>> filter = null);
+
+        Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> filter = null);
 
         void Add(TEntity entity);
 

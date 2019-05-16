@@ -34,7 +34,8 @@ namespace CastAjansCore.Entity
 
         public EnuSacRengi SacRengi { get; set; }
 
-        public int EngelDurumuId { get; set; }
+        [MaxLength(200)]
+        public string EngelDurumu { get; set; }
 
         [MaxLength(4000)]
         public string OyuculukEgitimi { get; set; }
@@ -49,10 +50,7 @@ namespace CastAjansCore.Entity
         public string Aciklama { get; set; }
 
         public decimal Kase { get; set; }
-
-        [ForeignKey("EngelDurumuId")]
-        public virtual EngelDurumu EngelDurumu { get; set; }
-
+        
         public virtual Kisi Kisi { get; set; }
 
         public ICollection<OyuncuResim> OyuncuResimleri { get; set; }

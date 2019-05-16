@@ -3,6 +3,7 @@ using Calbay.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace Calbay.Core.Business
 {
@@ -39,6 +40,11 @@ namespace Calbay.Core.Business
         public List<TEntity> GetList(Expression<Func<TEntity, bool>> filter = null)
         {
             return _dal.GetList();
+        }
+
+        public Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> filter = null)
+        {
+            return _dal.GetListAsync();
         }
 
         public void Update(TEntity entity)

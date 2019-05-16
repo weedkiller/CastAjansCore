@@ -3,7 +3,7 @@ using CastAjansCore.Entity;
 
 namespace CastAjansCore.DataLayer.Abstract
 {
-    public interface IBolum : IEntitiyRepository<Bolum>
+    public interface IBolumDal : IEntitiyRepository<Bolum>
     {
     }
 }

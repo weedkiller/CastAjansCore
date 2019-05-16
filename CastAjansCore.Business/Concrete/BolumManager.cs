@@ -5,9 +5,9 @@ using CastAjansCore.Entity;
 
 namespace CastAjansCore.Business.Concrete
 {
-    public class AdresManager : ManagerRepositoryBase<Adres>, IAdresServis
+    public class BolumManager : ManagerRepositoryBase<Bolum>, IBolumServis
     {
-        public AdresManager(IEntitiyRepository<Adres> dal) : base(dal)
+        public BolumManager(IEntitiyRepository<Bolum> dal) : base(dal)
         {
         }
     }

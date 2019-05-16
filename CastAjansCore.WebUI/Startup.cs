@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -36,6 +35,9 @@ namespace CastAjansCore.WebUI
 
             services.AddScoped<IKisiServis, KisiManager>();
             services.AddScoped<IKisiDal, EfKisiDal>();
+
+            services.AddScoped<IUyrukServis, UyrukManager>();
+            services.AddScoped<IUyrukDal, EfUyrukDal>();
 
         }
 

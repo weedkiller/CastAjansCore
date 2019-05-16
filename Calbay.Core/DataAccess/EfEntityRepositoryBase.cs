@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace Calbay.Core.DataAccess
 {
@@ -48,6 +49,18 @@ namespace Calbay.Core.DataAccess
                     : context.Set<TEntity>().Where(filter).ToList();
             }
         }
+
+        public Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> filter = null)
+        {
+            using (var context = new TContex())
+            {
+                return filter == null
+                    ? context.Set<TEntity>().ToListAsync()
+                    : context.Set<TEntity>().Where(filter).ToListAsync();
+            }
+        }
+
+
 
         public void Update(TEntity entity)
         {

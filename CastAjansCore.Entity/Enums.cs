@@ -71,8 +71,7 @@ namespace CastAjansCore.Entity
         Esmer = 2,
 
         [Display(Name = "Kumral")]
-        Kumral = 3,
-
+        Kumral = 3
     }
 
     public enum EnuSacRengi
@@ -118,9 +117,6 @@ namespace CastAjansCore.Entity
 
         [Display(Name = "Platin")]
         Platin = 13
-
-
-
     }
 
     public enum EnuKanGrubu
