@@ -56,53 +56,56 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.TC)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Adi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Soyadi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DogumTarihi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cinsiyet)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.KanGrubu)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EPosta)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.WebSitesi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FaceBook)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Twitter)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Instagram)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Linkedin)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Uyruk.Adi)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TC)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Adi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Soyadi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DogumTarihi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cinsiyet)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.KanGrubu)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EPosta)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WebSitesi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FaceBook)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Twitter)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Instagram)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Linkedin)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Uyruk.Adi)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
+                    <a href=@("/Kisiler/Details/"+item.Id)>Detay</a> |
+                    <a asp-action="Edit" asp-route-id="10" asp-route-foo="bar">Edit</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

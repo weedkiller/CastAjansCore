@@ -1,12 +1,10 @@
 ﻿using Calbay.Core.Helper;
 using CastAjansCore.Business.Abstract;
-using CastAjansCore.DataLayer.Concrete.EntityFramework;
 using CastAjansCore.Entity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace CastAjansCore.WebUI.Controllers
@@ -22,9 +20,9 @@ namespace CastAjansCore.WebUI.Controllers
         }
 
         // GET: Kisiler
-        public async Task<IActionResult> Index()
-        {
-            return View(await _kisiServis.GetListAsync());
+        public  Task<IActionResult> Index()
+        {            
+            return await View(_kisiServis.GetListAsync());
         }
 
         // GET: Kisiler/Details/5

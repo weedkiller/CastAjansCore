@@ -33,11 +33,13 @@ namespace CastAjansCore.WebUI
             services.AddSession();
             services.AddMemoryCache();
 
+            services.AddSingleton<IUyrukServis, UyrukManager>();
+            services.AddScoped<IUyrukDal, EfUyrukDal>();
+
             services.AddScoped<IKisiServis, KisiManager>();
             services.AddScoped<IKisiDal, EfKisiDal>();
 
-            services.AddScoped<IUyrukServis, UyrukManager>();
-            services.AddScoped<IUyrukDal, EfUyrukDal>();
+          
 
         }
 
