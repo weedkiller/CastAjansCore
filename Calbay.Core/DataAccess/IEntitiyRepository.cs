@@ -10,6 +10,8 @@ namespace Calbay.Core.DataAccess
     {
         T Get(Expression<Func<T, bool>> filter = null);
 
+        Task<T> GetAsync(Expression<Func<T, bool>> filter = null);
+
         List<T> GetList(Expression<Func<T, bool>> filter = null);
 
         Task<List<T>> GetListAsync(Expression<Func<T, bool>> filter = null);
@@ -19,5 +21,11 @@ namespace Calbay.Core.DataAccess
         void Update(T entity);
 
         void Delete(T entity);
+
+        Task AddAsync(T entity);
+
+        Task UpdateAsync(T entity);
+
+        Task DeleteAsync(T entity);
     }
 }

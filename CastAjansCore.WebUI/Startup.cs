@@ -18,7 +18,7 @@ namespace CastAjansCore.WebUI
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
 
-        private IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
         public Startup(IConfiguration configuration)
         {
             _configuration = configuration;
@@ -33,13 +33,74 @@ namespace CastAjansCore.WebUI
             services.AddSession();
             services.AddMemoryCache();
 
+            AddScoped(services);
+        }
+
+        private void AddScoped(IServiceCollection services)
+        {
+            services.AddSingleton<IAdresServis, AdresManager>();
+            services.AddSingleton<IAdresDal, EfAdresDal>();
+            //services.AddScoped<IAdresDal, EfAdresDal>();
+            
+            services.AddSingleton<IBankaServis, BankaManager>();
+            services.AddSingleton<IBankaDal, EfBankaDal>();
+
+            services.AddSingleton<IBolumServis, BolumManager>();
+            services.AddSingleton<IBolumDal, EfBolumDal>();
+
+            services.AddSingleton<IBolumKarakterServis, BolumKarakterManager>();
+            services.AddSingleton<IBolumKarakterDal, EfBolumKarakterDal>();
+
+            services.AddSingleton<IBolumKarakterOyuncuServis, BolumKarakterOyuncuManager>();
+            services.AddSingleton<IBolumKarakterOyuncuDal, EfBolumKarakterOyuncuDal>();
+
+            services.AddSingleton<IFirmaServis, FirmaManager>();
+            services.AddSingleton<IFirmaDal, EfFirmaDal>();
+
+            services.AddSingleton<IIlServis, IlManager>();
+            services.AddSingleton<IIlDal, EfIlDal>();
+
+            services.AddSingleton<IIlceServis, IlceManager>();
+            services.AddSingleton<IIlceDal, EfIlceDal>();
+
+            services.AddSingleton<IKisiServis, KisiManager>();
+            services.AddSingleton<IKisiDal, EfKisiDal>();
+
+            services.AddSingleton<IKisiBankaServis, KisiBankaManager>();
+            services.AddSingleton<IKisiBankaDal, EfKisiBankaDal>();
+
+            services.AddSingleton<IKullaniciServis, KullaniciManager>();
+            services.AddSingleton<IKullaniciDal, EfKullaniciDal>();
+
+            services.AddSingleton<IKullaniciServis, KullaniciManager>();
+            services.AddSingleton<IKullaniciDal, EfKullaniciDal>();
+
+            services.AddSingleton<IMusteriServis, MusteriManager>();
+            services.AddSingleton<IMusteriDal, EfMusteriDal>();
+
+            services.AddSingleton<IOyuncuServis, OyuncuManager>();
+            services.AddSingleton<IOyuncuDal, EfOyuncuDal>();
+
+            services.AddSingleton<IOyuncuResimServis, OyuncuResimManager>();
+            services.AddSingleton<IOyuncuResimDal, EfOyuncuResimDal>();
+
+            services.AddSingleton<IOyuncuVideoServis, OyuncuVideoManager>();
+            services.AddSingleton<IOyuncuVideoDal, EfOyuncuVideoDal>();
+
+            services.AddSingleton<IProjeServis, ProjeManager>();
+            services.AddSingleton<IProjeDal, EfProjeDal>();
+
+            services.AddSingleton<ISupervisorServis, SupervisorManager>();
+            services.AddSingleton<ISupervisorDal, EfSupervisorDal>();
+
+            services.AddSingleton<ITelefonServis, TelefonManager>();
+            services.AddSingleton<ITelefonDal, EfTelefonDal>();
+
             services.AddSingleton<IUyrukServis, UyrukManager>();
-            services.AddScoped<IUyrukDal, EfUyrukDal>();
+            services.AddSingleton<IUyrukDal, EfUyrukDal>();
 
-            services.AddScoped<IKisiServis, KisiManager>();
-            services.AddScoped<IKisiDal, EfKisiDal>();
-
-          
+            services.AddSingleton<IYonetmenServis, YonetmenManager>();
+            services.AddSingleton<IYonetmenDal, EfYonetmenDal>();
 
         }
 

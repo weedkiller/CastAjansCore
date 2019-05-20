@@ -11,7 +11,12 @@ namespace CastAjansCore.Entity
         [ForeignKey("Kisi")]
         public int Id { get; set; }
 
-        [MaxLength(4000)]
+        [Display(Name = "Kullanıcı Adı")]
+        [MaxLength(20)]        
+        public string KullaniciAdi { get; set; }
+
+        [Display(Name = "Şifre")]
+        [MaxLength(20)]        
         public string Sifre { get; set; }
 
         public virtual Kisi Kisi { get; set; }

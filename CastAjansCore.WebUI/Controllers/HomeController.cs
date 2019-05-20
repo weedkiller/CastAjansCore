@@ -17,17 +17,17 @@ namespace CastAjansCore.WebUI.Controllers
         public IActionResult Index()
         {
             //IKisiServis _kisiServis = new KisiManager(new EfKisiDal());
-            Kisi kisi = new Kisi {
-                Adi = "Önder",
-                Soyadi = "çalbay",
-                Cinsiyet= EnuCinsiyet.Bay,
-                EPosta = "ondercalbay@hotmail.com",
-                TC="18530489042",
-                KanGrubu = EnuKanGrubu.BPozitif,
-                WebSitesi = "ondercalbay.com"                
-            };
+            //Kisi kisi = new Kisi {
+            //    Adi = "Önder",
+            //    Soyadi = "çalbay",
+            //    Cinsiyet= EnuCinsiyet.Bay,
+            //    EPosta = "ondercalbay@hotmail.com",
+            //    TC="18530489042",
+            //    KanGrubu = EnuKanGrubu.BPozitif,
+            //    WebSitesi = "ondercalbay.com"                
+            //};
 
-            _kisiServis.Add(kisi);
+            //_kisiServis.Add(kisi);
             //Kisi kisi = _kisiServis.Get(k => k.Adi == "Önder");
             //HttpContext.Session.SetObject("kisiListDto", kisi);
             return View(_kisiServis.GetList());
