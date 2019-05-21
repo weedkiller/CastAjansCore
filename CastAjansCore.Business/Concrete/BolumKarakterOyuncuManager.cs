@@ -5,9 +5,9 @@ using CastAjansCore.Entity;
 
 namespace CastAjansCore.Business.Concrete
 {
-    public class BolumKarakterOyuncuManager : ManagerRepositoryBase<BolumKarakterOyuncu>, IBolumKarakterOyuncuServis
+    public class BolumKarakterOyuncuManager : ManagerRepositoryBase<ProjeKarakterOyuncu>, IProjeKarakterOyuncuServis
     {
-        public BolumKarakterOyuncuManager(IBolumKarakterOyuncuDal dal) : base(dal)
+        public BolumKarakterOyuncuManager(IProjeKarakterOyuncuDal dal) : base(dal)
         {
 
         }

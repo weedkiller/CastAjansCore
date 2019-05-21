@@ -3,7 +3,7 @@ using CastAjansCore.Entity;
 
 namespace CastAjansCore.DataLayer.Abstract
 {
-    public interface IBolumKarakterOyuncuDal : IEntitiyRepository<BolumKarakterOyuncu>
+    public interface IProjeKarakterOyuncuDal : IEntitiyRepository<ProjeKarakterOyuncu>
     {
     }
 }

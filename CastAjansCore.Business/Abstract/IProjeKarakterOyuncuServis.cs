@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace CastAjansCore.Business.Abstract
 {
-    public interface ISupervisorServis : IServiceRepository<Supervisor>
+    public interface IProjeKarakterOyuncuServis : IServiceRepository<ProjeKarakterOyuncu>
     {
         
     }

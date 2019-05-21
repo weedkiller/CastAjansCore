@@ -2,6 +2,7 @@
 using CastAjansCore.Entity;
 using CastAjansCore.WebUI.Filters;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace CastAjansCore.WebUI.Controllers
 {
@@ -14,7 +15,7 @@ namespace CastAjansCore.WebUI.Controllers
         }
 
         [HandleException]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             //IKisiServis _kisiServis = new KisiManager(new EfKisiDal());
             //Kisi kisi = new Kisi {
@@ -30,7 +31,7 @@ namespace CastAjansCore.WebUI.Controllers
             //_kisiServis.Add(kisi);
             //Kisi kisi = _kisiServis.Get(k => k.Adi == "Önder");
             //HttpContext.Session.SetObject("kisiListDto", kisi);
-            return View(_kisiServis.GetList());
+            return View(await _kisiServis.GetListAsync());
         }
 
         [Route("delete/{id?}")]

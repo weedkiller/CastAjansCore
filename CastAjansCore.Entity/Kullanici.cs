@@ -12,11 +12,13 @@ namespace CastAjansCore.Entity
         public int Id { get; set; }
 
         [Display(Name = "Kullanıcı Adı")]
-        [MaxLength(20)]        
+        [MaxLength(20)]
+        [Required]
         public string KullaniciAdi { get; set; }
 
         [Display(Name = "Şifre")]
-        [MaxLength(20)]        
+        [MaxLength(20)]
+        [Required]
         public string Sifre { get; set; }
 
         public virtual Kisi Kisi { get; set; }

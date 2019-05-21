@@ -25,9 +25,9 @@ namespace CastAjansCore.WebUI.Controllers
         //    return View(kullanicilar);
         //}
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var kullanicilar = _kullaniciServis.GetList();
+            var kullanicilar = await _kullaniciServis.GetListAsync();
             return View(kullanicilar);
         }
 
@@ -63,7 +63,7 @@ namespace CastAjansCore.WebUI.Controllers
             }
             else
             {
-                var entity = await _kullaniciServis.GetByIdAsync(id.Value);
+                var entity = await _kullaniciServis.GetWithKisi(id.Value);
                 if (entity == null)
                 {
                     return NotFound();

@@ -4,11 +4,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CastAjansCore.Entity
 {
-    [Table("BolumKarakterleri", Schema = "Cast")]
-    public class BolumKarakter : BaseEntity, IEntity
+    [Table("ProjeKarakterleri", Schema = "Cast")]
+    public class ProjeKarakter : BaseEntity, IEntity
     {
         [Required]
-        public int BolumId { get; set; }
+        public int ProjeId { get; set; }
 
         [MaxLength(50)]
         public string Adi { get; set; }
@@ -18,7 +18,7 @@ namespace CastAjansCore.Entity
 
         public int KarakterSayisi { get; set; }
 
-        [ForeignKey("BolumId")]
-        public virtual Bolum Bolum { get; set; }
+        [ForeignKey("ProjeId")]
+        public virtual Proje Proje { get; set; }
     }
 }

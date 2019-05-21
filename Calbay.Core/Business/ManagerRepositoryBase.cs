@@ -17,69 +17,69 @@ namespace Calbay.Core.Business
             _dal = dal;
         }
 
-        public void Add(TEntity entity)
+        public virtual void Add(TEntity entity)
         {
             _dal.Add(entity);
         }
 
-        public virtual Task AddAsync(TEntity entity)
+        public virtual async Task AddAsync(TEntity entity)
         {
-            return _dal.AddAsync(entity);
+            await _dal.AddAsync(entity);
         }
 
-        public void Delete(int id)
+        public virtual void Delete(int id)
         {
             _dal.Delete(new TEntity { Id = id });
         }
 
-        public Task DeleteAsync(int id)
+        public virtual async Task DeleteAsync(int id)
         {
-            return _dal.DeleteAsync(new TEntity { Id = id });
+            await _dal.DeleteAsync(new TEntity { Id = id });
         }
 
         public void Dispose()
-        {
-            
+        {          
+            GC.SuppressFinalize(this);
         }
 
-        public TEntity Get(Expression<Func<TEntity, bool>> filter = null)
+        public virtual TEntity Get(Expression<Func<TEntity, bool>> filter = null)
         {
             return _dal.Get(filter);
         }
 
-        public Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> filter = null)
+        public virtual async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> filter = null)
         {
-            return _dal.GetAsync(filter);
+            return await _dal.GetAsync(filter);
         }
 
-        public TEntity GetById(int id)
+        public virtual TEntity GetById(int id)
         {
             return _dal.Get(x => x.Id == id);
         }
 
-        public Task<TEntity> GetByIdAsync(int id)
+        public virtual async Task<TEntity> GetByIdAsync(int id)
         {
-            return _dal.GetAsync(x => x.Id == id);
+            return await _dal.GetAsync(x => x.Id == id);
         }
 
-        public List<TEntity> GetList(Expression<Func<TEntity, bool>> filter = null)
+        public virtual List<TEntity> GetList(Expression<Func<TEntity, bool>> filter = null)
         {
             return _dal.GetList();
         }
 
-        public Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> filter = null)
+        public virtual async Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> filter = null)
         {
-            return _dal.GetListAsync();
+            return await _dal.GetListAsync();
         }
 
-        public void Update(TEntity entity)
+        public virtual void Update(TEntity entity)
         {
             _dal.Update(entity);
         }
 
-        public Task UpdateAsync(TEntity entity)
+        public virtual async Task UpdateAsync(TEntity entity)
         {
-           return _dal.UpdateAsync(entity);
+            await _dal.UpdateAsync(entity);
         }
     }
 }

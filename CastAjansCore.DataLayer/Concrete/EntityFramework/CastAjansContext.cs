@@ -8,18 +8,18 @@ namespace CastAjansCore.DataLayer.Concrete.EntityFramework
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string cnnStr = "Data Source=94.73.146.4;Initial Catalog=u7506792_CastAja;Persist Security Info=True;User ID=u7506792_CastAja;Password=albay69sFENDER";
+            string cnnStr = "Data Source=94.73.146.4;Initial Catalog=u7506792_CastAja;Persist Security Info=True;User ID=u7506792_CastAja;Password=albay69sFENDER;MultipleActiveResultSets=True;";
             optionsBuilder.UseSqlServer(cnnStr);
             
         }
 
         public DbSet<Banka> Bankalar { get; set; }
 
-        public DbSet<Bolum> Bolumler { get; set; }
+    
 
-        public DbSet<BolumKarakter> BolumKarakterleri { get; set; }
+        public DbSet<ProjeKarakter> ProjeKarakterleri { get; set; }
 
-        public DbSet<BolumKarakterOyuncu> BolumKarakterOyunculari { get; set; }
+        public DbSet<ProjeKarakterOyuncu> ProjeKarakterOyunculari { get; set; }
 
         public DbSet<Firma> Firma { get; set; }
 
@@ -42,12 +42,11 @@ namespace CastAjansCore.DataLayer.Concrete.EntityFramework
         public DbSet<OyuncuVideo> OyuncuVideolari { get; set; }
 
         public DbSet<Proje> Projeler { get; set; }
-
-        public DbSet<Supervisor> Supervisorler { get; set; }
+ 
 
         public DbSet<Uyruk> Uyruklar { get; set; }
 
-        public DbSet<Yonetmen> Yonetmenler { get; set; }
+ 
 
         //protected override void OnModelCreating(DbModelBuilder modelBuilder)
         //{

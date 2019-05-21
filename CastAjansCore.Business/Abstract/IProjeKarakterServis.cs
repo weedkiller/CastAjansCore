@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace CastAjansCore.Business.Abstract
 {
-    public interface IBolumServis : IServiceRepository<Bolum>
+    public interface IProjeKarakterServis : IServiceRepository<ProjeKarakter>
     {
         
     }

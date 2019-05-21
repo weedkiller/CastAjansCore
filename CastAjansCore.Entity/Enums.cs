@@ -152,14 +152,20 @@ namespace CastAjansCore.Entity
         [Display(Name = "Seçiniz")]
         Seciniz = 0,
 
-        [Display(Name = "Dizi")]
-        Dizi = 1,
-
-        [Display(Name = "Film")]
-        Film = 2,
-
         [Display(Name = "Reklam")]
-        Reklam = 3
+        Reklam = 1,
+
+        [Display(Name = "Dizi")]
+        Dizi = 2,
+
+        [Display(Name = "Kamu Spotu")]
+        KamuSpotu = 3,
+
+        [Display(Name = "Sinema")]
+        Sinema = 4,
+
+        [Display(Name = "Kısa Film")]
+        KisaFilm = 5
     }
 
     public enum EnuMecra
@@ -194,6 +200,20 @@ namespace CastAjansCore.Entity
         [Display(Name = "İş")]
         Is = 3
     }
+
+    public enum EnuKarakterDurumu
+    {
+        [Display(Name = "Teklif Atıldı")]
+        TeklifAtildi = 1,
+
+        [Display(Name = "Kabul Edildi")]
+        KabulEdildi = 2,
+
+        [Display(Name = "Oynadı")]
+        Oynadi = 3
+    }
+
+
 
 
 }

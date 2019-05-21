@@ -12,7 +12,7 @@ namespace Calbay.Core.DataAccess
         where TEntity : class, IEntity, new()
         where TContex : DbContext, new()
     {
-        public void Add(TEntity entity)
+        public virtual void Add(TEntity entity)
         {
             using (var context = new TContex())
             {
@@ -22,13 +22,13 @@ namespace Calbay.Core.DataAccess
             }
         }
 
-        public Task AddAsync(TEntity entity)
+        public virtual async Task AddAsync(TEntity entity)
         {
             using (var context = new TContex())
             {
                 var addedEntity = context.Entry(entity);
                 addedEntity.State = EntityState.Added;
-                return context.SaveChangesAsync();
+                await context.SaveChangesAsync();
             }
         }
 
@@ -42,22 +42,22 @@ namespace Calbay.Core.DataAccess
             }
         }
 
-        public Task DeleteAsync(TEntity entity)
+        public virtual async Task DeleteAsync(TEntity entity)
         {
             using (var context = new TContex())
             {
                 var addedEntity = context.Entry(entity);
                 addedEntity.State = EntityState.Deleted;
-                return context.SaveChangesAsync();
+                await context.SaveChangesAsync();
             }
         }
 
         public void Dispose()
         {
-            
+
         }
 
-        public TEntity Get(Expression<Func<TEntity, bool>> filter)
+        public virtual TEntity Get(Expression<Func<TEntity, bool>> filter)
         {
             using (var context = new TContex())
             {
@@ -65,11 +65,26 @@ namespace Calbay.Core.DataAccess
             }
         }
 
-        public Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> filter)
+        public virtual async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> filter)
         {
             using (var context = new TContex())
             {
-                return context.Set<TEntity>().SingleOrDefaultAsync(filter);
+                var task = await context.Set<TEntity>().SingleOrDefaultAsync(filter);
+
+                return task;
+            }
+        }
+
+        public virtual async Task<TEntity> GetAsync(List<string> includes, Expression<Func<TEntity, bool>> filter)
+        {
+            using (var context = new TContex())
+            {
+                IQueryable<TEntity> query = context.Set<TEntity>();
+                foreach (var item in includes)
+                {
+                    query = query.Include(item);
+                }
+                return await query.SingleOrDefaultAsync<TEntity>(filter);
             }
         }
 
@@ -78,24 +93,25 @@ namespace Calbay.Core.DataAccess
             using (var context = new TContex())
             {
                 return filter == null
-                    ? context.Set<TEntity>().ToList()
-                    : context.Set<TEntity>().Where(filter).ToList();
+                    ? context.Set<TEntity>().ToList<TEntity>()
+                    : context.Set<TEntity>().Where(filter).ToList<TEntity>();
             }
         }
 
-        public virtual Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> filter = null)
+        public virtual async Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> filter = null)
         {
             using (var context = new TContex())
             {
-                return filter == null
-                    ? context.Set<TEntity>().ToListAsync()
-                    : context.Set<TEntity>().Where(filter).ToListAsync();
+                var query = await (filter == null
+                    ? context.Set<TEntity>().ToListAsync<TEntity>()
+                    : context.Set<TEntity>().Where(filter).ToListAsync<TEntity>());
+                return query;
             }
         }
 
 
 
-        public void Update(TEntity entity)
+        public virtual void Update(TEntity entity)
         {
             using (var context = new TContex())
             {
@@ -105,13 +121,13 @@ namespace Calbay.Core.DataAccess
             }
         }
 
-        public Task UpdateAsync(TEntity entity)
+        public virtual async Task UpdateAsync(TEntity entity)
         {
             using (var context = new TContex())
             {
                 var addedEntity = context.Entry(entity);
                 addedEntity.State = EntityState.Modified;
-                return context.SaveChangesAsync();
+                await context.SaveChangesAsync();
             }
         }
     }

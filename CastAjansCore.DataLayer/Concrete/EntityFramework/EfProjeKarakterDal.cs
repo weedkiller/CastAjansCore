@@ -4,7 +4,7 @@ using CastAjansCore.Entity;
 
 namespace CastAjansCore.DataLayer.Concrete.EntityFramework
 {
-    public class EfBolumKarakterDal : EfEntityRepositoryBase<BolumKarakter, CastAjansContext>, IBolumKarakterDal
+    public class EfProjeKarakterDal : EfEntityRepositoryBase<ProjeKarakter, CastAjansContext>, IProjeKarakterManagerDal
     {
 
     }

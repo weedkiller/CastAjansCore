@@ -57,6 +57,6 @@ namespace CastAjansCore.Entity
 
         public ICollection<OyuncuVideo> OyuncuVideolari { get; set; }
 
-        public ICollection<BolumKarakter> BolumKarakterleri { get; set; }
+        public ICollection<ProjeKarakter> BolumKarakterleri { get; set; }
     }
 }

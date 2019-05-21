@@ -4,23 +4,22 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CastAjansCore.Entity
 {
-    [Table("BolumKarakterOyunculari", Schema = "Cast")]
-    public class BolumKarakterOyuncu : BaseEntity, IEntity
+    [Table("ProjeKarakterOyunculari", Schema = "Cast")]
+    public class ProjeKarakterOyuncu : BaseEntity, IEntity
     {
         [Required]
-        public int BolumKarakterId { get; set; }
+        public int ProjeKarakterId { get; set; }
 
         [Required]
         public int OyuncuId { get; set; }
 
-        public bool Secildi { get; set; }
+        public EnuKarakterDurumu  karakterDurumu { get; set; }
 
-        [ForeignKey("BolumKarakterId")]
-        public virtual BolumKarakter BolumKarakter { get; set; }
+        [ForeignKey("ProjeKarakterId")]
+        public virtual ProjeKarakter ProjeKarakter { get; set; }
 
         [ForeignKey("OyuncuId")]
         public virtual Oyuncu Oyuncu { get; set; }
-
 
     }
 }

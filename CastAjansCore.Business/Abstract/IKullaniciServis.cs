@@ -7,6 +7,6 @@ namespace CastAjansCore.Business.Abstract
 {
     public interface IKullaniciServis : IServiceRepository<Kullanici>
     {
-        
+        Task<Kullanici> GetWithKisi(int id);
     }
 }

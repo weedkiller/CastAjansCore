@@ -45,14 +45,13 @@ namespace CastAjansCore.WebUI
             services.AddSingleton<IBankaServis, BankaManager>();
             services.AddSingleton<IBankaDal, EfBankaDal>();
 
-            services.AddSingleton<IBolumServis, BolumManager>();
-            services.AddSingleton<IBolumDal, EfBolumDal>();
+        
 
-            services.AddSingleton<IBolumKarakterServis, BolumKarakterManager>();
-            services.AddSingleton<IBolumKarakterDal, EfBolumKarakterDal>();
+            services.AddSingleton<IProjeKarakterServis, ProjeKarakterManager>();
+            services.AddSingleton<IProjeKarakterManagerDal, EfProjeKarakterDal>();
 
-            services.AddSingleton<IBolumKarakterOyuncuServis, BolumKarakterOyuncuManager>();
-            services.AddSingleton<IBolumKarakterOyuncuDal, EfBolumKarakterOyuncuDal>();
+            services.AddSingleton<IProjeKarakterOyuncuServis, BolumKarakterOyuncuManager>();
+            services.AddSingleton<IProjeKarakterOyuncuDal, EfProjeKarakterOyuncuDal>();
 
             services.AddSingleton<IFirmaServis, FirmaManager>();
             services.AddSingleton<IFirmaDal, EfFirmaDal>();
@@ -90,8 +89,7 @@ namespace CastAjansCore.WebUI
             services.AddSingleton<IProjeServis, ProjeManager>();
             services.AddSingleton<IProjeDal, EfProjeDal>();
 
-            services.AddSingleton<ISupervisorServis, SupervisorManager>();
-            services.AddSingleton<ISupervisorDal, EfSupervisorDal>();
+ 
 
             services.AddSingleton<ITelefonServis, TelefonManager>();
             services.AddSingleton<ITelefonDal, EfTelefonDal>();
@@ -99,8 +97,7 @@ namespace CastAjansCore.WebUI
             services.AddSingleton<IUyrukServis, UyrukManager>();
             services.AddSingleton<IUyrukDal, EfUyrukDal>();
 
-            services.AddSingleton<IYonetmenServis, YonetmenManager>();
-            services.AddSingleton<IYonetmenDal, EfYonetmenDal>();
+ 
 
         }
 

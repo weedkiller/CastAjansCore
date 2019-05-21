@@ -1,19 +1,14 @@
 ﻿using Calbay.Core.Entities;
-using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CastAjansCore.Entity
 {
-    [Table("Projeler", Schema = "Cast")]
-    public class Proje : BaseEntity, IEntity
+    [Table("ProjeMecralar", Schema = "Cast")]
+    public class ProjeMecra : BaseEntity, IEntity
     {
         [Required]
         public int MusteriId { get; set; }
-
-        public DateTime TarihBas { get; set; }
-
-        public DateTime TarihBit { get; set; }
 
         [MaxLength(50)]
         public string Adi { get; set; }
@@ -25,15 +20,18 @@ namespace CastAjansCore.Entity
         [MaxLength(4000)]
         public string Aciklama { get; set; }
 
-        public int IsiTakipEdenId { get; set; }
+        [MaxLength(4000)]
+        public string Konu { get; set; }
 
-        public string TeklifAciklama { get; set; }
+        public int SupervisorId { get; set; }
+
+        public int IsiTakipEdenId { get; set; }
 
         public int YonetmenId { get; set; }
 
         [ForeignKey("MusteriId")]
         public virtual Musteri Musteri { get; set; }
-
+        
         [ForeignKey("IsiTakipEdenId")]
         public virtual Kisi IsiTakipEden { get; set; }
     }

@@ -4,14 +4,16 @@ using CastAjansCore.DataLayer.Concrete.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CastAjansCore.DataLayer.Migrations
 {
     [DbContext(typeof(CastAjansContext))]
-    partial class CastAjansContextModelSnapshot : ModelSnapshot
+    [Migration("20190521225916_async")]
+    partial class async
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -257,11 +259,9 @@ namespace CastAjansCore.DataLayer.Migrations
                     b.Property<int>("Id");
 
                     b.Property<string>("KullaniciAdi")
-                        .IsRequired()
                         .HasMaxLength(20);
 
                     b.Property<string>("Sifre")
-                        .IsRequired()
                         .HasMaxLength(20);
 
                     b.HasKey("Id");

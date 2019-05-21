@@ -13,16 +13,24 @@
     <div class="col-md-4">
         <form asp-action="Edit">
 
-            @{ Html.ViewData.TemplateInfo.HtmlFieldPrefix = "Kisi"; }
-            @await Html.PartialAsync("KisiEdit", Model.Kisi)
+            <div class="form-group">
+                <label asp-for="KullaniciAdi" class="control-label"></label>
+                <input asp-for="KullaniciAdi" class="form-control" />
+                <span asp-validation-for="KullaniciAdi" class="text-danger"></span>
+            </div>
 
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="Sifre" class="control-label"></label>
                 <input asp-for="Sifre" class="form-control" />
                 <span asp-validation-for="Sifre" class="text-danger"></span>
             </div>
+
+            @{ Html.ViewData.TemplateInfo.HtmlFieldPrefix = "Kisi"; }
+            @await Html.PartialAsync("KisiEdit", Model.Kisi)
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

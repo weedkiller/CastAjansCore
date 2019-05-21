@@ -4,7 +4,7 @@ using CastAjansCore.Entity;
 
 namespace CastAjansCore.DataLayer.Concrete.EntityFramework
 {
-    public class EfSupervisorDal : EfEntityRepositoryBase<Supervisor, CastAjansContext>, ISupervisorDal
+    public class EfProjeKarakterOyuncuDal : EfEntityRepositoryBase<ProjeKarakterOyuncu, CastAjansContext>, IProjeKarakterOyuncuDal
     {
 
     }
