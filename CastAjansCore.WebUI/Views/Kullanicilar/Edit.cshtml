@@ -17,48 +17,43 @@
         </div>
     </div>
 
-    <div class="card-body">
-
-        <div class="row">
-            <div class="col-md-6">
-                <fieldset>
-                    <legend class="font-weight-semibold"><i class="icon-reading mr-2"></i> Personal details</legend>
-                </fieldset>
-            </div> 
-        </div>
-        
-
-
+    <form asp-action="Edit">
+        <div class="card-body">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
             <div class="row">
-                <div class="col-md-12">
-                    <form asp-action="Edit">
 
-                        <div class="form-group">
-                            <label asp-for="KullaniciAdi" class="control-label"></label>
-                            <input asp-for="KullaniciAdi" class="form-control" />
+                @{ Html.ViewData.TemplateInfo.HtmlFieldPrefix = "Kisi"; }
+                @await Html.PartialAsync("KisiEdit", Model.Kisi)
+                
+
+                <div class="col-md-6">
+                    <fieldset>
+                        <legend class="font-weight-semibold"><i class="icon-truck mr-2"></i> Hesap Bilgileri</legend>
+
+                        <div class="form-group row">
+                            <label asp-for="KullaniciAdi" class="col-lg-3 col-form-label"></label>
                             <span asp-validation-for="KullaniciAdi" class="text-danger"></span>
+                            <div class="col-lg-9">
+                                <input asp-for="KullaniciAdi" class="form-control" />
+                            </div>
                         </div>
 
-                        <div class="form-group">
-                            <label asp-for="Sifre" class="control-label"></label>
-                            <input asp-for="Sifre" class="form-control" />
+                        <div class="form-group row">
+                            <label asp-for="Sifre" class="col-lg-3 col-form-label">Email:</label>
                             <span asp-validation-for="Sifre" class="text-danger"></span>
+                            <div class="col-lg-9">
+                                <input asp-for="Sifre" class="form-control" />
+                            </div>
                         </div>
-
-                        @{ Html.ViewData.TemplateInfo.HtmlFieldPrefix = "Kisi"; }
-                        @await Html.PartialAsync("KisiEdit", Model.Kisi)
-
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <input type="hidden" asp-for="Id" />
-
-                        <div class="form-group">
-                            <input type="submit" value="Save" class="btn btn-primary" />
-                        </div>
-                    </form>
+                    </fieldset>
                 </div>
             </div>
+            
+                <a asp-action="Index" class="btn btn-danger left">Geri</a>
+                <button type="submit" class="btn btn-primary right">Kaydet <i class="icon-paperplane ml-2"></i></button>
+            
 
-            <div>
-                <a asp-action="Index">Back to List</a>
-            </div>
-
+        </div>
+    </form>
+</div>
