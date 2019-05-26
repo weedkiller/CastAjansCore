@@ -5,6 +5,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
+
 <div class="card">
     <div class="card-header header-elements-inline">
         <h5 class="card-title">Kullanici</h5>
@@ -25,7 +27,7 @@
 
                 @{ Html.ViewData.TemplateInfo.HtmlFieldPrefix = "Kisi"; }
                 @await Html.PartialAsync("KisiEdit", Model.Kisi)
-                
+
 
                 <div class="col-md-6">
                     <fieldset>
@@ -49,10 +51,10 @@
                     </fieldset>
                 </div>
             </div>
-            
-                <a asp-action="Index" class="btn btn-danger left">Geri</a>
-                <button type="submit" class="btn btn-primary right">Kaydet <i class="icon-paperplane ml-2"></i></button>
-            
+
+            <a asp-action="Index" class="btn btn-danger left">Geri</a>
+            <button type="submit" class="btn btn-primary right">Kaydet <i class="icon-paperplane ml-2"></i></button>
+
 
         </div>
     </form>
