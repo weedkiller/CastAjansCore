@@ -1,0 +1,47 @@
+﻿@model CastAjansCore.Entity.Il
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="card">
+    <div class="card-header header-elements-inline">
+        <h5 class="card-title">Kullanici</h5>
+        <div class="header-elements">
+            <div class="list-icons">
+                <a class="list-icons-item" data-action="collapse"></a>
+                <a class="list-icons-item" data-action="reload"></a>
+                <a class="list-icons-item" data-action="remove"></a>
+            </div>
+        </div>
+    </div>
+
+    <form asp-action="Edit">
+        <div class="card-body">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="row">
+                <div class="col-md-6">
+                    <fieldset>
+                        <legend class="font-weight-semibold"><i class="icon-truck mr-2"></i> Hesap Bilgileri</legend>
+
+                        <div class="form-group row">
+                            <label asp-for="Adi" class="col-lg-3 col-form-label"></label>
+                            <span asp-validation-for="Adi" class="text-danger"></span>
+                            <div class="col-lg-9">
+                                <input asp-for="Adi" class="form-control" />
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+
+            <a asp-action="Index" class="btn btn-danger left">Geri</a>
+            <button type="submit" class="btn btn-primary right">Kaydet <i class="icon-paperplane ml-2"></i></button>
+
+
+        </div>
+    </form>
+</div>

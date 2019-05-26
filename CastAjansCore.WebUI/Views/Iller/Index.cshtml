@@ -5,70 +5,53 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<script>
-    $(document).ready(function () {
-        $('#myTable').DataTable();
-    });
-</script>
-
-
-<!-- Page header -->
-<div class="page-header page-header-light">
-    <div class="page-header-content header-elements-md-inline">
-        <div class="page-title d-flex">
-            <h4><i class="icon-arrow-left52 mr-2"></i> @ViewData["Title"] </h4>
-            <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
-        </div>
-    </div>
-</div>
-<!-- /page header -->
-<!-- Content area -->
-<div class="content">
-    <div class="card">
-        <div class="card-header header-elements-inline">
-            <h5 class="card-title">Basic datatable</h5>
-            <div class="header-elements">
-                <div class="list-icons">
-                    <a class="list-icons-item" asp-action="Edit">+</a>
-                    <a class="list-icons-item" data-action="collapse"></a>
-                    <a class="list-icons-item" data-action="reload"></a>
-                    <a class="list-icons-item" data-action="remove"></a>
-                </div>
+<!-- Basic table -->
+<div class="card">
+    <div class="card-header header-elements-inline">
+        <h5 class="card-title"></h5>
+        <div class="header-elements">
+            <div class="list-icons">
+                <a class="list-icons-item" asp-action="Edit">+</a>
+                @*<a class="list-icons-item" data-action="collapse"></a>*@
+                <a class="list-icons-item" data-action="reload"></a>
+                @*<a class="list-icons-item" data-action="remove"></a>*@
             </div>
         </div>
-        <div class="dataTables_wrapper no-footer">
-            <table id="myTable" class="table datatable-responsive">
-                <thead>
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Adi)
-                        </th>
-                        <th>
-                            İlçeler
-                        </th>                       
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Adi)
-                            </td>
-                            <td>
-                                <a class="list-icons-item" href="/Ilceler/list/"@item.Id>İlçeler</a>
-                            </td>                            
-                            <td>
-                                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+    </div>
+    @*<div class="card-body">
 
+        </div>*@
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Adi)
+                    </th>
+                    <th>
+                        İlçeler
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Adi)
+                        </td>
+                        <td>
+                            İlçeler
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary"><i class="icon-pencil"></i></a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger"><i class="icon-trash"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 </div>
+<!-- /basic table -->
