@@ -27,11 +27,12 @@ namespace CastAjansCore.Business.Concrete
         public override async Task UpdateAsync(Kullanici entity)
         {
             Task[] tasks = new Task[2];
-            tasks[0]=_kisiServis.UpdateAsync(entity.Kisi);
+            tasks[0] = _kisiServis.UpdateAsync(entity.Kisi);
             tasks[1] = base.UpdateAsync(entity);
 
             await Task.WhenAll(tasks);
         }
+
         public async Task<Kullanici> GetWithKisi(int id)
         {
             return await _dal.GetAsync(new List<string> { "Kisi" }, (x => x.Id == id));

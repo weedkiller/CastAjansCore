@@ -19,6 +19,7 @@ namespace CastAjansCore.Entity
         [Display(Name = "Şifre")]
         [MaxLength(20)]
         [Required]
+        [DataType(DataType.Password)]
         public string Sifre { get; set; }
 
         public virtual Kisi Kisi { get; set; }

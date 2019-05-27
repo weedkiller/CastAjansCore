@@ -1,8 +1,11 @@
 ﻿using CastAjansCore.Business.Abstract;
 using CastAjansCore.DataLayer.Abstract;
 using CastAjansCore.Entity;
+using CastAjansCore.WebUI.Model;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace CastAjansCore.WebUI.Controllers
@@ -11,11 +14,13 @@ namespace CastAjansCore.WebUI.Controllers
     {
         private readonly IKullaniciServis _kullaniciServis;
         private readonly IUyrukServis _uyrukServis;
+        private readonly IKisiServis _kisiServis;
 
-        public KullanicilarController(IKullaniciServis kullaniciServis, IUyrukServis uyrukServis)
+        public KullanicilarController(IKullaniciServis kullaniciServis, IKisiServis kisiServis, IUyrukServis uyrukServis)
         {
             _kullaniciServis = kullaniciServis;
             _uyrukServis = uyrukServis;
+            _kisiServis = kisiServis;
         }
 
         // GET: Kullanicis
@@ -57,22 +62,38 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Kullanicis/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            var uyruklar = await _uyrukServis.GetListAsync();
-            ViewData["Uyruklar"] = uyruklar;
+            KullaniciEditDto model = new KullaniciEditDto();
+            model.Kisi = new KisiEditDto();
+            Task<List<Uyruk>> tUyruk = _uyrukServis.GetListAsync();
             if (id == null)
             {
-                return View(new Kullanici { Kisi = new Kisi() });
+                model.Kullanici = new Kullanici();
+                model.Kisi.Kisi = new Kisi();
+                model.Kisi.Uyruklar = new List<SelectListItem>();
             }
             else
-            {
-                var entity = await _kullaniciServis.GetWithKisi(id.Value);
-                if (entity == null)
+            {                
+                Task<Kullanici> tKullanici  = _kullaniciServis.GetByIdAsync(id.Value);
+                Task<Kisi> tkisi = _kisiServis.GetByIdAsync(id.Value);
+
+                model.Kullanici = await tKullanici;
+                model.Kisi.Kisi = await tkisi;
+                model.Kisi.Uyruklar = new List<SelectListItem>();
+                if (model.Kullanici == null)
                 {
                     return NotFound();
                 }
-
-                return View(entity);
             }
+          
+            model.Kisi.Uyruklar.Add(new SelectListItem("Seçiniz", ""));
+            foreach (var item in await tUyruk)
+            {
+                model.Kisi.Uyruklar.Add(new SelectListItem(item.Adi, item.Id.ToString()));
+            }
+
+            
+
+            return View(model);
         }
 
         // POST: Kullanicis/Edit/5
@@ -80,13 +101,14 @@ namespace CastAjansCore.WebUI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int? id, Kullanici kullanici)
+        public async Task<IActionResult> Edit(int? id, KullaniciEditDto kullaniciEditDto)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-
+                    Kullanici kullanici = kullaniciEditDto.Kullanici;
+                    kullanici.Kisi = kullaniciEditDto.Kisi.Kisi;
                     if (id == null)
                     {
                         await _kullaniciServis.AddAsync(kullanici);
@@ -102,7 +124,7 @@ namespace CastAjansCore.WebUI.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!await KullaniciExistsAsync(kullanici.Id))
+                    if (!await KullaniciExistsAsync(kullaniciEditDto.Kullanici.Id))
                     {
                         return NotFound();
                     }
@@ -114,7 +136,7 @@ namespace CastAjansCore.WebUI.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(kullanici);
+            return View(kullaniciEditDto);
         }
 
         // GET: Kullanicis/Delete/5

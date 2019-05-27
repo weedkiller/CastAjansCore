@@ -1,91 +1,87 @@
-﻿@model CastAjansCore.Entity.Kisi
+﻿@model CastAjansCore.WebUI.Model.KisiEditDto
 @using  CastAjansCore.Entity
 
 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 @{ Html.ViewData.TemplateInfo.HtmlFieldPrefix = "Kisi"; }
-<input asp-for="Id" hidden class="form-control" />
+<input asp-for="Kisi.Id" hidden class="form-control" />
 <div class="col-md-6">
 
     <fieldset>
         <legend class="font-weight-semibold"><i class="icon-reading mr-2"></i> Kisi Bilgileri</legend>
 
         <div class="form-group row">
-            <label asp-for="TC" class="col-lg-3 col-form-label"></label>
+            <label asp-for="Kisi.TC" class="col-lg-3 col-form-label"></label>
             <div class="col-lg-9">
 
                 <div class="form-group">
-                    <input asp-for="TC" class="form-control" />
-                    <span asp-validation-for="TC" class="text-danger"></span>
+                    <input asp-for="Kisi.TC" class="form-control" />
+                    <span asp-validation-for="Kisi.TC" class="text-danger"></span>
                 </div>
             </div>
         </div>
 
         <div class="form-group row">
-            <label asp-for="Adi" class="col-lg-3 col-form-label"></label>
+            <label asp-for="Kisi.Adi" class="col-lg-3 col-form-label"></label>
             <div class="col-lg-9">
 
                 <div class="form-group">
-                    <input asp-for="Adi" class="form-control" />
-                    <span asp-validation-for="Adi" class="text-danger"></span>
+                    <input asp-for="Kisi.Adi" class="form-control" />
+                    <span asp-validation-for="Kisi.Adi" class="text-danger"></span>
                 </div>
             </div>
         </div>
 
         <div class="form-group row">
-            <label asp-for="Soyadi" class="col-lg-3 col-form-label"></label>
+            <label asp-for="Kisi.Soyadi" class="col-lg-3 col-form-label"></label>
             <div class="col-lg-9">
 
                 <div class="form-group">
-                    <input asp-for="Soyadi" class="form-control" />
-                    <span asp-validation-for="Soyadi" class="text-danger"></span>
+                    <input asp-for="Kisi.Soyadi" class="form-control" />
+                    <span asp-validation-for="Kisi.Soyadi" class="text-danger"></span>
                 </div>
             </div>
         </div>
 
         <div class="form-group row">
-            <label asp-for="DogumTarihi" class="col-lg-3 col-form-label"></label>
+            <label asp-for="Kisi.DogumTarihi" class="col-lg-3 col-form-label"></label>
             <div class="col-lg-9">
                 
                 <div class="form-group">
-                    <input asp-for="DogumTarihi" type="date" asp-format="{0:dd/MM/yyyy}" class="form-control" />
-                    <span asp-validation-for="DogumTarihi" class="text-danger"></span>
+                    <input asp-for="Kisi.DogumTarihi" type="date" asp-format="{0:dd/MM/yyyy}" class="form-control" />
+                    <span asp-validation-for="Kisi.DogumTarihi" class="text-danger"></span>
                 </div>
             </div>
         </div>
 
         <div class="form-group row">
-            <label asp-for="Cinsiyet" class="col-lg-3 col-form-label"></label>
+            <label asp-for="Kisi.Cinsiyet" class="col-lg-3 col-form-label"></label>
             <div class="col-lg-9">
 
                 <div class="form-group">
-                    <select asp-for="Cinsiyet" asp-items="Html.GetEnumSelectList<EnuCinsiyet>()" class="form-control"></select>
-                    <span asp-validation-for="Cinsiyet" class="text-danger"></span>
+                    <select asp-for="Kisi.Cinsiyet" asp-items="Html.GetEnumSelectList<EnuCinsiyet>()" class="form-control"></select>
+                    <span asp-validation-for="Kisi.Cinsiyet" class="text-danger"></span>
                 </div>
             </div>
         </div>
 
         <div class="form-group row">
-            <label asp-for="KanGrubu" class="col-lg-3 col-form-label"></label>
+            <label asp-for="Kisi.KanGrubu" class="col-lg-3 col-form-label"></label>
             <div class="col-lg-9">
 
                 <div class="form-group">
-                    <select asp-for="KanGrubu" asp-items="Html.GetEnumSelectList<EnuKanGrubu>()" class="form-control"></select>
-                    <span asp-validation-for="KanGrubu" class="text-danger"></span>
+                    <select asp-for="Kisi.KanGrubu" asp-items="Html.GetEnumSelectList<EnuKanGrubu>()" class="form-control"></select>
+                    <span asp-validation-for="Kisi.KanGrubu" class="text-danger"></span>
                 </div>
             </div>
         </div>
 
 
         <div class="form-group row">
-            <label asp-for="UyrukId" class="col-lg-3 col-form-label"></label>
+            <label asp-for="Kisi.UyrukId" class="col-lg-3 col-form-label"></label>
             <div class="col-lg-9">
-
                 <div class="form-group">
-                    @{
-                        var uyruklar = new SelectList((List<Uyruk>)(ViewData["Uyruklar"]), "Id", "Adi");
-                    }
-                    <select asp-for="UyrukId" asp-items="uyruklar" class="form-control" />
-                    <span asp-validation-for="UyrukId" class="text-danger"></span>
+                    <select asp-for="Kisi.UyrukId" asp-items="Model.Uyruklar" class="form-control"></select>
+                    <span asp-validation-for="Kisi.UyrukId" class="text-danger"></span>
                 </div>
             </div>
         </div>
@@ -98,52 +94,52 @@
     <fieldset>
         <legend class="font-weight-semibold"><i class="icon-reading mr-2"></i> Sosyal</legend>
         <div class="form-group row">
-            <label asp-for="WebSitesi" class="col-lg-3 col-form-label"></label>
+            <label asp-for="Kisi.WebSitesi" class="col-lg-3 col-form-label"></label>
             <div class="col-lg-9">
 
                 <div class="form-group">
-                    <input asp-for="WebSitesi" class="form-control" />
-                    <span asp-validation-for="WebSitesi" class="text-danger"></span>
+                    <input asp-for="Kisi.WebSitesi" class="form-control" />
+                    <span asp-validation-for="Kisi.WebSitesi" class="text-danger"></span>
                 </div>
             </div>
         </div>
         <div class="form-group row">
-            <label asp-for="FaceBook" class="col-lg-3 col-form-label"></label>
+            <label asp-for="Kisi.FaceBook" class="col-lg-3 col-form-label"></label>
             <div class="col-lg-9">
 
                 <div class="form-group">
-                    <input asp-for="FaceBook" class="form-control" />
-                    <span asp-validation-for="FaceBook" class="text-danger"></span>
+                    <input asp-for="Kisi.FaceBook" class="form-control" />
+                    <span asp-validation-for="Kisi.FaceBook" class="text-danger"></span>
                 </div>
             </div>
         </div>
         <div class="form-group row">
-            <label asp-for="Twitter" class="col-lg-3 col-form-label"></label>
+            <label asp-for="Kisi.Twitter" class="col-lg-3 col-form-label"></label>
             <div class="col-lg-9">
 
                 <div class="form-group">
-                    <input asp-for="Twitter" class="form-control" />
-                    <span asp-validation-for="Twitter" class="text-danger"></span>
+                    <input asp-for="Kisi.Twitter" class="form-control" />
+                    <span asp-validation-for="Kisi.Twitter" class="text-danger"></span>
                 </div>
             </div>
         </div>
         <div class="form-group row">
-            <label asp-for="Instagram" class="col-lg-3 col-form-label"></label>
+            <label asp-for="Kisi.Instagram" class="col-lg-3 col-form-label"></label>
             <div class="col-lg-9">
 
                 <div class="form-group">
-                    <input asp-for="Instagram" class="form-control" />
-                    <span asp-validation-for="Instagram" class="text-danger"></span>
+                    <input asp-for="Kisi.Instagram" class="form-control" />
+                    <span asp-validation-for="Kisi.Instagram" class="text-danger"></span>
                 </div>
             </div>
         </div>
         <div class="form-group row">
-            <label asp-for="Linkedin" class="col-lg-3 col-form-label"></label>
+            <label asp-for="Kisi.Linkedin" class="col-lg-3 col-form-label"></label>
             <div class="col-lg-9">
 
                 <div class="form-group">
-                    <input asp-for="Linkedin" class="form-control" />
-                    <span asp-validation-for="Linkedin" class="text-danger"></span>
+                    <input asp-for="Kisi.Linkedin" class="form-control" />
+                    <span asp-validation-for="Kisi.Linkedin" class="text-danger"></span>
                 </div>
             </div>
         </div>
@@ -155,12 +151,12 @@
     <fieldset>
         <legend class="font-weight-semibold"><i class="icon-reading mr-2"></i> İletişim</legend>
         <div class="form-group row">
-            <label asp-for="EPosta" class="col-lg-3 col-form-label"></label>
+            <label asp-for="Kisi.EPosta" class="col-lg-3 col-form-label"></label>
             <div class="col-lg-9">
 
                 <div class="form-group">
-                    <input asp-for="EPosta" class="form-control" />
-                    <span asp-validation-for="EPosta" class="text-danger"></span>
+                    <input asp-for="Kisi.EPosta" class="form-control" />
+                    <span asp-validation-for="Kisi.EPosta" class="text-danger"></span>
                 </div>
             </div>
         </div>

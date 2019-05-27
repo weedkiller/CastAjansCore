@@ -7,6 +7,6 @@ namespace CastAjansCore.WebUI.Model
     {
         public Kullanici Kullanici { get; set; }
 
-        public List<Uyruk> Uyruklar { get; set; }
+        public KisiEditDto Kisi { get; set; }
     }
 }
