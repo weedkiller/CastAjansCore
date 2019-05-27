@@ -15,7 +15,7 @@
     <link href="/Limitless_2_2/css/colors.min.css" rel="stylesheet" type="text/css">
     <!-- /global stylesheets -->
     <!-- Core JS files -->
-    <script src="/Limitless_2_2/js/main/jquery.min.js"></script>
+    <script src="/Limitless_2_2/js/main/jquery.min.js"></script>    
     <script src="/Limitless_2_2/js/main/bootstrap.bundle.min.js"></script>
     <script src="/Limitless_2_2/js/plugins/loaders/blockui.min.js"></script>
     <script src="/Limitless_2_2/js/plugins/ui/ripple.min.js"></script>
@@ -23,6 +23,33 @@
     <!-- Theme JS files -->
     <script src="/Limitless_2_2/js/app.js"></script>
     <!-- /theme JS files -->
+
+    <script>
+        $(document).ready(function () {
+            $('.datepicker').datepicker();
+
+        });
+        $.validator.methods.date = function (value, element) {
+            return this.optional(element) || moment(value, "DD.MM.YYYY", true).isValid();
+        }
+
+        jQuery.validator.methods["date"] = function (value, element) { return true; };
+
+        $.validator.addMethod('date', function (value, element) {
+            if (this.optional(element)) {
+                return true;
+            }
+            var valid = true;
+            try {
+                $.datepicker.parseDate('dd.mm.yy', value);
+            }
+            catch (err) {
+                valid = false;
+            }
+            return valid;
+        });
+            });
+    </script>
 </head>
 <body>
     <!-- Main navbar -->

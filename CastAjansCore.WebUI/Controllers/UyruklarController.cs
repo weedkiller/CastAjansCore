@@ -1,45 +1,45 @@
-﻿using CastAjansCore.Business.Abstract;
-using CastAjansCore.DataLayer.Abstract;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using CastAjansCore.Business.Abstract;
 using CastAjansCore.Entity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 
 namespace CastAjansCore.WebUI.Controllers
 {
-    public class KullanicilarController : Controller
+    public class UyruklarController : Controller
     {
-        private readonly IKullaniciServis _kullaniciServis;
-        private readonly IUyrukServis _uyrukServis;
+        private readonly IUyrukServis _UyrukServis;
 
-        public KullanicilarController(IKullaniciServis kullaniciServis, IUyrukServis uyrukServis)
+        public UyruklarController(IUyrukServis UyrukServis)
         {
-            _kullaniciServis = kullaniciServis;
-            _uyrukServis = uyrukServis;
+            _UyrukServis = UyrukServis;
         }
 
-        // GET: Kullanicis
+        // GET: Uyruks
         //public async Task<IActionResult> Index()
         //{
-        //    var kullanicilar = await _kullaniciServis.GetListAsync();
-        //    return View(kullanicilar);
+        //    var Uyruklar = await _UyrukServis.GetListAsync();
+        //    return View(Uyruklar);
         //}
 
         public async Task<IActionResult> Index()
         {
-            var kullanicilar = await _kullaniciServis.GetListAsync();
-            return View(kullanicilar);
+            var Uyruklar = await _UyrukServis.GetListAsync();
+            return View(Uyruklar);
         }
 
-        // GET: Kullanicis/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET: Uyruks/DetaUyruks/5
+        public async Task<IActionResult> DetaUyruks(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var entity = await _kullaniciServis.GetByIdAsync(id.Value);
+            var entity = await _UyrukServis.GetByIdAsync(id.Value);
             if (entity == null)
             {
                 return NotFound();
@@ -48,24 +48,18 @@ namespace CastAjansCore.WebUI.Controllers
             return View(entity);
         }
 
-        // GET: Kullanicis/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
+         
 
-        // GET: Kullanicis/Edit/5
+        // GET: Uyruks/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            var uyruklar = await _uyrukServis.GetListAsync();
-            ViewData["Uyruklar"] = uyruklar;
             if (id == null)
             {
-                return View(new Kullanici { Kisi = new Kisi() });
+                return View(new Uyruk());
             }
             else
             {
-                var entity = await _kullaniciServis.GetWithKisi(id.Value);
+                var entity = await _UyrukServis.GetByIdAsync(id.Value);
                 if (entity == null)
                 {
                     return NotFound();
@@ -75,34 +69,42 @@ namespace CastAjansCore.WebUI.Controllers
             }
         }
 
-        // POST: Kullanicis/Edit/5
+        // POST: Uyruks/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // more detaUyruks see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int? id, Kullanici kullanici)
+        public async Task<IActionResult> Edit(int? id, Uyruk Uyruk)
         {
+
+
             if (ModelState.IsValid)
             {
                 try
                 {
+                    //Uyruk.GuncelleyenId = 1;
+                    //Uyruk.GuncellemeZamani = DateTime.Now;
+                    //Uyruk.Aktif = true;
 
-                    if (id == null)
+                    if (id == null || id == 0)
                     {
-                        await _kullaniciServis.AddAsync(kullanici);
+                        //Uyruk.EkleyenId = 1;
+                        //Uyruk.EklemeZamani = DateTime.Now;
+
+                        await _UyrukServis.AddAsync(Uyruk);
                     }
                     else
                     {
-                        if (id != kullanici.Id)
+                        if (id != Uyruk.Id)
                         {
                             return NotFound();
                         }
-                        await _kullaniciServis.UpdateAsync(kullanici);
+                        await _UyrukServis.UpdateAsync(Uyruk);
                     }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!await KullaniciExistsAsync(kullanici.Id))
+                    if (!await UyrukExistsAsync(Uyruk.Id))
                     {
                         return NotFound();
                     }
@@ -114,10 +116,10 @@ namespace CastAjansCore.WebUI.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(kullanici);
+            return View(Uyruk);
         }
 
-        // GET: Kullanicis/Delete/5
+        // GET: Uyruks/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,27 +127,27 @@ namespace CastAjansCore.WebUI.Controllers
                 return NotFound();
             }
 
-            var kullanici = await _kullaniciServis.GetByIdAsync(id.Value);
-            if (kullanici == null)
+            var Uyruk = await _UyrukServis.GetByIdAsync(id.Value);
+            if (Uyruk == null)
             {
                 return NotFound();
             }
 
-            return View(kullanici);
+            return View(Uyruk);
         }
 
-        // POST: Kullanicis/Delete/5
+        // POST: Uyruks/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _kullaniciServis.DeleteAsync(id);
+            await _UyrukServis.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
 
-        private async Task<bool> KullaniciExistsAsync(int id)
+        private async Task<bool> UyrukExistsAsync(int id)
         {
-            Kullanici entity = await _kullaniciServis.GetByIdAsync(id);
+            Uyruk entity = await _UyrukServis.GetByIdAsync(id);
             return entity != null;
         }
     }

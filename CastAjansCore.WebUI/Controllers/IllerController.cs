@@ -10,13 +10,11 @@ namespace CastAjansCore.WebUI.Controllers
 {
     public class IllerController : Controller
     {
-        private readonly IIlServis _IlServis;
-        private readonly IIlDal _IlDal;
+        private readonly IIlServis _IlServis;        
 
-        public IllerController(IIlServis IlServis, IIlDal IlDal)
+        public IllerController(IIlServis IlServis)
         {
-            _IlServis = IlServis;
-            _IlDal = IlDal;
+            _IlServis = IlServis;            
         }
 
         // GET: Ils

@@ -1,11 +1,8 @@
 ﻿@model CastAjansCore.Entity.Kisi
 @using  CastAjansCore.Entity
 
-
-
-
 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
+@{ Html.ViewData.TemplateInfo.HtmlFieldPrefix = "Kisi"; }
 <input asp-for="Id" hidden class="form-control" />
 <div class="col-md-6">
 
@@ -48,9 +45,9 @@
         <div class="form-group row">
             <label asp-for="DogumTarihi" class="col-lg-3 col-form-label"></label>
             <div class="col-lg-9">
-
+                
                 <div class="form-group">
-                    <input asp-for="DogumTarihi" class="form-control" />
+                    <input asp-for="DogumTarihi" type="date" asp-format="{0:dd/MM/yyyy}" class="form-control" />
                     <span asp-validation-for="DogumTarihi" class="text-danger"></span>
                 </div>
             </div>
@@ -84,7 +81,10 @@
             <div class="col-lg-9">
 
                 <div class="form-group">
-                    <input asp-for="UyrukId" class="form-control" />
+                    @{
+                        var uyruklar = new SelectList((List<Uyruk>)(ViewData["Uyruklar"]), "Id", "Adi");
+                    }
+                    <select asp-for="UyrukId" asp-items="uyruklar" class="form-control" />
                     <span asp-validation-for="UyrukId" class="text-danger"></span>
                 </div>
             </div>

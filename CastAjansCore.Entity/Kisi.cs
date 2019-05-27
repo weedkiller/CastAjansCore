@@ -24,6 +24,8 @@ namespace CastAjansCore.Entity
         public string Soyadi { get; set; }
 
         [Display(Name = "Doğum Tarihi")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DogumTarihi { get; set; }
 
         [Display(Name = "Cinsiyet")]
