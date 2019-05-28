@@ -1,10 +1,9 @@
-﻿@model CastAjansCore.Entity.Il
+﻿@model CastAjansCore.Entity.Ilce
 
 @{
-    ViewData["Title"] = "İller";
+    ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 
 <div class="card">
     <div class="card-header header-elements-inline">
@@ -22,11 +21,18 @@
         <div class="card-body">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="IlId" />         
             <div class="row">
                 <div class="col-md-6">
                     <fieldset>
                         <legend class="font-weight-semibold"><i class="icon-truck mr-2"></i> İller</legend>
-
+                        <div class="form-group row">
+                            <label asp-for="Il.Adi" class="col-lg-3 col-form-label"></label>
+                            <span asp-validation-for="Il.Adi" class="text-danger"></span>
+                            <div class="col-lg-9">
+                                <input asp-for="Il.Adi" class="form-control" readonly />
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <label asp-for="Adi" class="col-lg-3 col-form-label"></label>
                             <span asp-validation-for="Adi" class="text-danger"></span>
@@ -38,7 +44,7 @@
                 </div>
             </div>
 
-            <a asp-action="Index" class="btn btn-danger left">Geri</a>
+            <a asp-action="Index" asp-route-Id="@Model.IlId" class="btn btn-danger left">Geri</a>
             <button type="submit" class="btn btn-primary right">Kaydet <i class="icon-paperplane ml-2"></i></button>
 
 

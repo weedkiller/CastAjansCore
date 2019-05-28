@@ -61,38 +61,35 @@ namespace CastAjansCore.WebUI.Controllers
 
         // GET: Kullanicis/Edit/5
         public async Task<IActionResult> Edit(int? id)
-        {
+        { 
+            Task<List<Uyruk>> tUyruk = _uyrukServis.GetListAsync();
+
             KullaniciEditDto model = new KullaniciEditDto();
             model.Kisi = new KisiEditDto();
-            Task<List<Uyruk>> tUyruk = _uyrukServis.GetListAsync();
             if (id == null)
             {
-                model.Kullanici = new Kullanici();
-                model.Kisi.Kisi = new Kisi();
-                model.Kisi.Uyruklar = new List<SelectListItem>();
+                
             }
             else
-            {                
-                Task<Kullanici> tKullanici  = _kullaniciServis.GetByIdAsync(id.Value);
+            {
+                Task<Kullanici> tKullanici = _kullaniciServis.GetByIdAsync(id.Value);
                 Task<Kisi> tkisi = _kisiServis.GetByIdAsync(id.Value);
 
                 model.Kullanici = await tKullanici;
-                model.Kisi.Kisi = await tkisi;
-                model.Kisi.Uyruklar = new List<SelectListItem>();
+                model.Kisi.Kisi = await tkisi;                
                 if (model.Kullanici == null)
                 {
                     return NotFound();
                 }
             }
-          
             model.Kisi.Uyruklar.Add(new SelectListItem("Seçiniz", ""));
+
+            //await Task.WhenAll(tkisi, tKullanici, tUyruk);
             foreach (var item in await tUyruk)
             {
                 model.Kisi.Uyruklar.Add(new SelectListItem(item.Adi, item.Id.ToString()));
             }
-
             
-
             return View(model);
         }
 

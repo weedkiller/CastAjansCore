@@ -10,6 +10,7 @@ namespace CastAjansCore.Entity
     {
         [Required]
         [MaxLength(200)]
+        [Display(Name = "İl")]
         public string Adi { get; set; }
 
         public ICollection<Ilce> Ilceler { get; set; }

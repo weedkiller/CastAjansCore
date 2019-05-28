@@ -9,6 +9,7 @@ namespace CastAjansCore.Entity
     {
         [Required]
         [MaxLength(200)]
+        [Display(Name = "İlçe")]
         public string Adi { get; set; }
 
         public int IlId { get; set; }
