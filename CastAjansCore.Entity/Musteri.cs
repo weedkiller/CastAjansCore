@@ -25,6 +25,7 @@ namespace CastAjansCore.Entity
         [MaxLength(100)]
         public string Adres { get; set; }
 
+        [Display(Name = "İlçe")]
         public int IlceId { get; set; }
 
         public virtual Ilce Ilce { get; set; }

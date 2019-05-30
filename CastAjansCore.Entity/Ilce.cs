@@ -12,6 +12,7 @@ namespace CastAjansCore.Entity
         [Display(Name = "İlçe")]
         public string Adi { get; set; }
 
+        [Display(Name = "İl")]
         public int IlId { get; set; }
 
         [ForeignKey("IlId")]

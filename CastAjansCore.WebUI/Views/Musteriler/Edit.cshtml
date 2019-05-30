@@ -1,0 +1,110 @@
+﻿@model CastAjansCore.WebUI.Model.MusteriEditDto
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+    GetIlceler(IlId)
+    {
+
+        $.getJSON("/Ilceler/GetJson", { Typeid: dID },
+            function (data) {
+                var select = $("#subtypeid");
+                select.empty();
+                select.append($('<option/>', {
+                    value: 0,
+                    text: "Select project sub-types"
+                }));
+                $.each(data, function (index, itemData) {
+                    select.append($('<option/>', {
+                        value: itemData.Value,
+                        text: itemData.Text
+                    }));
+                });
+            });
+    }
+
+</script>
+
+<div class="card">
+    <div class="card-header header-elements-inline">
+        <h5 class="card-title"></h5>
+        <div class="header-elements">
+            <div class="list-icons">
+                <a class="list-icons-item" data-action="collapse"></a>
+                <a class="list-icons-item" data-action="reload"></a>
+                <a class="list-icons-item" data-action="remove"></a>
+            </div>
+        </div>
+    </div>
+
+    <form asp-action="Edit">
+        <div class="card-body">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="@Model.Musteri.Id" />
+            <div class="row">
+                <div class="col-md-6">
+                    <fieldset>
+                        <legend class="font-weight-semibold"><i class="icon-truck mr-2"></i> İller</legend>
+
+                        <div class="form-group row">
+                            <label asp-for="@Model.Musteri.Adi" class="col-lg-3 col-form-label"></label>
+                            <span asp-validation-for="@Model.Musteri.Adi" class="text-danger"></span>
+                            <div class="col-lg-9">
+                                <input asp-for="@Model.Musteri.Adi" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="@Model.Musteri.Telefon" class="col-lg-3 col-form-label"></label>
+                            <span asp-validation-for="@Model.Musteri.Telefon" class="text-danger"></span>
+                            <div class="col-lg-9">
+                                <input asp-for="@Model.Musteri.Telefon" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="@Model.Musteri.Faks" class="col-lg-3 col-form-label"></label>
+                            <span asp-validation-for="@Model.Musteri.Faks" class="text-danger"></span>
+                            <div class="col-lg-9">
+                                <input asp-for="@Model.Musteri.Faks" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="@Model.Musteri.EPosta" class="col-lg-3 col-form-label"></label>
+                            <span asp-validation-for="@Model.Musteri.EPosta" class="text-danger"></span>
+                            <div class="col-lg-9">
+                                <input asp-for="@Model.Musteri.EPosta" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="@Model.Musteri.Ilce.IlId" class="col-lg-3 col-form-label"></label>
+                            <span asp-validation-for="@Model.Musteri.Ilce.IlId" class="text-danger"></span>
+                            <div class="col-lg-9">
+                                <select asp-for="@Model.Musteri.Ilce.IlId" onchange="GetIller(this.val())" class="form-control"></select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="@Model.Musteri.IlceId" class="col-lg-3 col-form-label"></label>
+                            <span asp-validation-for="@Model.Musteri.IlceId" class="text-danger"></span>
+                            <div class="col-lg-9">
+                                <select asp-for="@Model.Musteri.IlceId" class="form-control"></select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="@Model.Musteri.Adres" class="col-lg-3 col-form-label"></label>
+                            <span asp-validation-for="@Model.Musteri.Adres" class="text-danger"></span>
+                            <div class="col-lg-9">
+                                <textarea asp-for="@Model.Musteri.Adres" rows="3" class="form-control" />
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+
+            <a asp-action="Index" class="btn btn-danger left">Geri</a>
+            <button type="submit" class="btn btn-primary right">Kaydet <i class="icon-paperplane ml-2"></i></button>
+
+
+        </div>
+    </form>
+</div>

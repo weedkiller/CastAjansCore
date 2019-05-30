@@ -1,8 +1,11 @@
 ﻿using CastAjansCore.Business.Abstract;
 using CastAjansCore.Entity;
+using CastAjansCore.WebUI.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CastAjansCore.WebUI.Controllers
@@ -10,10 +13,12 @@ namespace CastAjansCore.WebUI.Controllers
     public class MusterilerController : Controller
     {
         private readonly IMusteriServis _MusteriServis;
+        private readonly IIlServis _IlServis;
 
-        public MusterilerController(IMusteriServis MusteriServis)
+        public MusterilerController(IMusteriServis MusteriServis, IIlServis IlServis)
         {
             _MusteriServis = MusteriServis;
+            _IlServis = IlServis;
         }
 
         // GET: Musteris
@@ -29,39 +34,25 @@ namespace CastAjansCore.WebUI.Controllers
             return View(Musterilar);
         }
 
-        // GET: Musteris/DetaMusteris/5
-        public async Task<IActionResult> DetaMusteris(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var entity = await _MusteriServis.GetByIdAsync(id.Value);
-            if (entity == null)
-            {
-                return NotFound();
-            }
-
-            return View(entity);
-        }
-
-        // GET: Musteris/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
 
         // GET: Musteris/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            var entity = new MusteriEditDto();
+            entity.Iller = (await _IlServis.GetListAsync(i => i.Aktif == true)).OrderBy(i => i.Adi).ToList();
+
             if (id == null)
             {
-                return View(new Musteri());
+                return View(entity);
             }
             else
             {
-                var entity = await _MusteriServis.GetByIdAsync(id.Value);
+
+                Task<Musteri> tMusteri = _MusteriServis.GetByIdAsync(id.Value);
+                
+                entity.Musteri = await tMusteri;
+
+
                 if (entity == null)
                 {
                     return NotFound();

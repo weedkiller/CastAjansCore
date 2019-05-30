@@ -39,6 +39,14 @@ namespace CastAjansCore.WebUI.Controllers
             return View(ilceListDto);
         }
 
+        public async Task<JsonResult> GetJson(int id)
+        {
+
+            Task<List<Ilce>> tIlce = _IlceServis.GetListAsync(i => i.IlId == id && i.Aktif == true);
+
+            return View(Json(await tIlce));
+        }
+
         // GET: Ilces/DetaIlces/5
         public async Task<IActionResult> DetaIlces(int? id)
         {
