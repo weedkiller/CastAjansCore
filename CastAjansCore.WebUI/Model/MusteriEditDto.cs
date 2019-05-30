@@ -1,4 +1,5 @@
 ﻿using CastAjansCore.Entity;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 
 namespace CastAjansCore.WebUI.Model
@@ -8,10 +9,13 @@ namespace CastAjansCore.WebUI.Model
         public MusteriEditDto()
         {
             Musteri = new Musteri();
-            Iller = new List<Il>();
+            Iller = new List<SelectListItem>();
+            Ilceler = new List<SelectListItem>();
         }
         public Musteri Musteri { get; set; }
 
-        public List<Il> Iller { get; set; }
+        public List<SelectListItem> Iller { get; set; }
+
+        public List<SelectListItem> Ilceler { get; set; }
     }
 }

@@ -44,7 +44,7 @@ namespace CastAjansCore.WebUI.Controllers
 
             Task<List<Ilce>> tIlce = _IlceServis.GetListAsync(i => i.IlId == id && i.Aktif == true);
 
-            return View(Json(await tIlce));
+            return Json(await tIlce);
         }
 
         // GET: Ilces/DetaIlces/5

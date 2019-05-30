@@ -80,21 +80,21 @@
                             <label asp-for="@Model.Musteri.Ilce.IlId" class="col-lg-3 col-form-label"></label>
                             <span asp-validation-for="@Model.Musteri.Ilce.IlId" class="text-danger"></span>
                             <div class="col-lg-9">
-                                <select asp-for="@Model.Musteri.Ilce.IlId" onchange="GetIller(this.val())" class="form-control"></select>
+                                <select asp-for="@Model.Musteri.Ilce.IlId" asp-items="@Model.Iller" onchange="GetIller(this.val())" class="form-control"></select>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label asp-for="@Model.Musteri.IlceId" class="col-lg-3 col-form-label"></label>
                             <span asp-validation-for="@Model.Musteri.IlceId" class="text-danger"></span>
                             <div class="col-lg-9">
-                                <select asp-for="@Model.Musteri.IlceId" class="form-control"></select>
+                                <select asp-for="@Model.Musteri.IlceId" asp-items="@Model.Ilceler" class="form-control"></select>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label asp-for="@Model.Musteri.Adres" class="col-lg-3 col-form-label"></label>
                             <span asp-validation-for="@Model.Musteri.Adres" class="text-danger"></span>
                             <div class="col-lg-9">
-                                <textarea asp-for="@Model.Musteri.Adres" rows="3" class="form-control" />
+                                <textarea asp-for="@Model.Musteri.Adres" rows="3" class="form-control"></textarea>
                             </div>
                         </div>
                     </fieldset>
