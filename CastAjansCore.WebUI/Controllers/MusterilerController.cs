@@ -2,6 +2,7 @@
 using CastAjansCore.Entity;
 using CastAjansCore.WebUI.Model;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,11 +15,13 @@ namespace CastAjansCore.WebUI.Controllers
     {
         private readonly IMusteriServis _MusteriServis;
         private readonly IIlServis _IlServis;
+        private readonly IIlceServis _IlceServis;
 
-        public MusterilerController(IMusteriServis MusteriServis, IIlServis IlServis)
+        public MusterilerController(IMusteriServis MusteriServis, IIlServis IlServis, IIlceServis IlceServis)
         {
             _MusteriServis = MusteriServis;
             _IlServis = IlServis;
+            _IlceServis = IlceServis;
         }
 
         // GET: Musteris
@@ -38,27 +41,39 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Musteris/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            var entity = new MusteriEditDto();
-            entity.Iller = (await _IlServis.GetListAsync(i => i.Aktif == true)).OrderBy(i => i.Adi).ToList();
+            var model = new MusteriEditDto();
+            Task<List<Il>> tIller =  _IlServis.GetListAsync(i => i.Aktif == true);
+
+
+            model.Iller.Add(new SelectListItem("Seçiniz", ""));
+            foreach (var item in (await tIller).OrderBy(i => i.Adi).ToList())
+            {
+                model.Iller.Add(new SelectListItem(item.Adi, item.Id.ToString()));
+            }
 
             if (id == null)
             {
-                return View(entity);
+                return View(model);
             }
             else
             {
-
                 Task<Musteri> tMusteri = _MusteriServis.GetByIdAsync(id.Value);
                 
-                entity.Musteri = await tMusteri;
+                model.Musteri = await tMusteri;
+                Task<List<Ilce>> tIlceler = _IlceServis.GetListAsync(i => i.IlId == model.Musteri.IlceId);
+                model.Ilceler.Add(new SelectListItem("Seçiniz", ""));
+                foreach (var item in (await tIlceler).OrderBy(i => i.Adi).ToList())
+                {
+                    model.Ilceler.Add(new SelectListItem(item.Adi, item.Id.ToString()));
+                }
 
 
-                if (entity == null)
+                if (model == null)
                 {
                     return NotFound();
                 }
 
-                return View(entity);
+                return View(model);
             }
         }
 
