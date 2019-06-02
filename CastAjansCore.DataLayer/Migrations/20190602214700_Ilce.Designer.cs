@@ -4,14 +4,16 @@ using CastAjansCore.DataLayer.Concrete.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CastAjansCore.DataLayer.Migrations
 {
     [DbContext(typeof(CastAjansContext))]
-    partial class CastAjansContextModelSnapshot : ModelSnapshot
+    [Migration("20190602214700_Ilce")]
+    partial class Ilce
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -292,7 +294,7 @@ namespace CastAjansCore.DataLayer.Migrations
                     b.Property<int>("EkleyenId");
 
                     b.Property<string>("Faks")
-                        .HasMaxLength(13);
+                        .HasMaxLength(100);
 
                     b.Property<DateTime>("GuncellemeZamani");
 
@@ -304,7 +306,7 @@ namespace CastAjansCore.DataLayer.Migrations
                         .HasMaxLength(100);
 
                     b.Property<string>("Telefon")
-                        .HasMaxLength(13);
+                        .HasMaxLength(100);
 
                     b.HasKey("Id");
 
@@ -324,25 +326,25 @@ namespace CastAjansCore.DataLayer.Migrations
                     b.Property<string>("Aciklama")
                         .HasMaxLength(4000);
 
-                    b.Property<int?>("AltBeden")
+                    b.Property<string>("AltBeden")
                         .HasMaxLength(20);
 
                     b.Property<string>("AnneAdiSoyadi");
 
-                    b.Property<int?>("AyakNumarasi");
+                    b.Property<int>("AyakNumarasi");
 
                     b.Property<string>("BabaAdiSoyadi");
 
-                    b.Property<int?>("Boy");
+                    b.Property<int>("Boy");
 
                     b.Property<string>("EngelDurumu")
                         .HasMaxLength(200);
 
                     b.Property<int>("GozRengi");
 
-                    b.Property<decimal?>("Kase");
+                    b.Property<decimal>("Kase");
 
-                    b.Property<int?>("Kilo");
+                    b.Property<int>("Kilo");
 
                     b.Property<string>("OyuculukEgitimi")
                         .HasMaxLength(4000);
@@ -354,7 +356,7 @@ namespace CastAjansCore.DataLayer.Migrations
 
                     b.Property<int>("TenRengi");
 
-                    b.Property<int?>("UstBeden")
+                    b.Property<string>("UstBeden")
                         .HasMaxLength(20);
 
                     b.Property<string>("Yetenekleri")

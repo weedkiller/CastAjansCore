@@ -5,21 +5,20 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script type="text/javascript">
-    GetIlceler(IlId)
-    {
-
-        $.getJSON("/Ilceler/GetJson", { Typeid: dID },
+    function GetIlceler() {
+        var IlId = $("#Musteri_Ilce_IlId").val();
+        $.getJSON("/Ilceler/GetJson", { id: IlId },
             function (data) {
-                var select = $("#subtypeid");
+                var select = $("#Musteri_IlceId");
                 select.empty();
                 select.append($('<option/>', {
                     value: 0,
-                    text: "Select project sub-types"
+                    text: "Seçiniz"
                 }));
                 $.each(data, function (index, itemData) {
                     select.append($('<option/>', {
-                        value: itemData.Value,
-                        text: itemData.Text
+                        value: itemData.id,
+                        text: itemData.adi
                     }));
                 });
             });
@@ -27,26 +26,27 @@
 
 </script>
 
-<div class="card">
-    <div class="card-header header-elements-inline">
-        <h5 class="card-title"></h5>
-        <div class="header-elements">
-            <div class="list-icons">
-                <a class="list-icons-item" data-action="collapse"></a>
-                <a class="list-icons-item" data-action="reload"></a>
-                <a class="list-icons-item" data-action="remove"></a>
-            </div>
-        </div>
-    </div>
+<form asp-action="Edit">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header header-elements-inline">
+                    <h5 class="card-title">
+                        <i class="icon-newspaper mr-2"></i> Bilgiler
+                    </h5>
+                </div>
 
-    <form asp-action="Edit">
-        <div class="card-body">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="@Model.Musteri.Id" />
-            <div class="row">
-                <div class="col-md-6">
+                <div class="card-body">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="@Model.Musteri.Id" />
+                    <input type="hidden" asp-for="@Model.Musteri.EkleyenId" />
+                    <input type="hidden" asp-for="@Model.Musteri.EklemeZamani" />
+                    <input type="hidden" asp-for="@Model.Musteri.GuncelleyenId" />
+                    <input type="hidden" asp-for="@Model.Musteri.GuncellemeZamani" />
+                    <input type="hidden" asp-for="@Model.Musteri.Aktif" />
+
                     <fieldset>
-                        <legend class="font-weight-semibold"><i class="icon-truck mr-2"></i> İller</legend>
+
 
                         <div class="form-group row">
                             <label asp-for="@Model.Musteri.Adi" class="col-lg-3 col-form-label"></label>
@@ -76,11 +76,31 @@
                                 <input asp-for="@Model.Musteri.EPosta" class="form-control" />
                             </div>
                         </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header header-elements-inline">
+                    <h5 class="card-title">
+                        <i class="icon-home2 mr-2"></i> Adres
+                    </h5>
+                </div>
+
+
+
+                <div class="card-body">
+                    <fieldset>
                         <div class="form-group row">
                             <label asp-for="@Model.Musteri.Ilce.IlId" class="col-lg-3 col-form-label"></label>
                             <span asp-validation-for="@Model.Musteri.Ilce.IlId" class="text-danger"></span>
                             <div class="col-lg-9">
-                                <select asp-for="@Model.Musteri.Ilce.IlId" asp-items="@Model.Iller" onchange="GetIller(this.val())" class="form-control"></select>
+                                <select asp-for="@Model.Musteri.Ilce.IlId" asp-items="@Model.Iller" onchange="GetIlceler()" class="form-control">
+                                    Seçiniz
+                                </select>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -100,11 +120,12 @@
                     </fieldset>
                 </div>
             </div>
-
-            <a asp-action="Index" class="btn btn-danger left">Geri</a>
-            <button type="submit" class="btn btn-primary right">Kaydet <i class="icon-paperplane ml-2"></i></button>
-
-
         </div>
-    </form>
-</div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <a asp-action="Index" class="btn btn-danger left">Geri <i class="icon-cross3"></i></a>
+            <button type="submit" class="btn btn-primary right">Kaydet <i class="icon-checkmark ml-2"></i></button>
+        </div>
+    </div>
+</form>

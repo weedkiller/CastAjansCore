@@ -64,12 +64,12 @@ namespace Calbay.Core.Business
 
         public virtual List<TEntity> GetList(Expression<Func<TEntity, bool>> filter = null)
         {
-            return _dal.GetList();
+            return _dal.GetList(filter);
         }
 
         public virtual async Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> filter = null)
         {
-            return await _dal.GetListAsync();
+            return await _dal.GetListAsync(filter);
         }
 
         public virtual void Update(TEntity entity)

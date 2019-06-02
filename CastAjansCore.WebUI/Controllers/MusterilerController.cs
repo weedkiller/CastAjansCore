@@ -42,8 +42,7 @@ namespace CastAjansCore.WebUI.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             var model = new MusteriEditDto();
-            Task<List<Il>> tIller =  _IlServis.GetListAsync(i => i.Aktif == true);
-
+            Task<List<Il>> tIller = _IlServis.GetListAsync(i => i.Aktif == true);
 
             model.Iller.Add(new SelectListItem("Seçiniz", ""));
             foreach (var item in (await tIller).OrderBy(i => i.Adi).ToList())
@@ -57,16 +56,14 @@ namespace CastAjansCore.WebUI.Controllers
             }
             else
             {
-                Task<Musteri> tMusteri = _MusteriServis.GetByIdAsync(id.Value);
-                
-                model.Musteri = await tMusteri;
-                Task<List<Ilce>> tIlceler = _IlceServis.GetListAsync(i => i.IlId == model.Musteri.IlceId);
+                model.Musteri = await _MusteriServis.GetByIdAsync(id.Value);
+                model.Musteri.Ilce = await _IlceServis.GetByIdAsync(model.Musteri.IlceId.Value);
+                Task<List<Ilce>> tIlceler = _IlceServis.GetListAsync(i => i.IlId == model.Musteri.Ilce.IlId && i.Aktif == true);
                 model.Ilceler.Add(new SelectListItem("Seçiniz", ""));
                 foreach (var item in (await tIlceler).OrderBy(i => i.Adi).ToList())
-                {
+                { 
                     model.Ilceler.Add(new SelectListItem(item.Adi, item.Id.ToString()));
                 }
-
 
                 if (model == null)
                 {
@@ -82,37 +79,39 @@ namespace CastAjansCore.WebUI.Controllers
         // more detaMusteris see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int? id, Musteri Musteri)
+        public async Task<IActionResult> Edit(int? id, MusteriEditDto musteriEditdto)
         {
 
-
+            ModelState.Remove("Musteri.Ilce.Id");
+            ModelState.Remove("Musteri.Ilce.IlId");
+            ModelState.Remove("Musteri.Ilce.Adi");
             if (ModelState.IsValid)
             {
                 try
                 {
-                    Musteri.GuncelleyenId = 1;
-                    Musteri.GuncellemeZamani = DateTime.Now;
-                    Musteri.Aktif = true;
+                    musteriEditdto.Musteri.GuncelleyenId = 1;
+                    musteriEditdto.Musteri.GuncellemeZamani = DateTime.Now;
+                    musteriEditdto.Musteri.Aktif = true;
 
                     if (id == null || id == 0)
                     {
-                        Musteri.EkleyenId = 1;
-                        Musteri.EklemeZamani = DateTime.Now;
+                        musteriEditdto.Musteri.EkleyenId = 1;
+                        musteriEditdto.Musteri.EklemeZamani = DateTime.Now;
 
-                        await _MusteriServis.AddAsync(Musteri);
+                        await _MusteriServis.AddAsync(musteriEditdto.Musteri);
                     }
                     else
                     {
-                        if (id != Musteri.Id)
+                        if (id != musteriEditdto.Musteri.Id)
                         {
                             return NotFound();
                         }
-                        await _MusteriServis.UpdateAsync(Musteri);
+                        await _MusteriServis.UpdateAsync(musteriEditdto.Musteri);
                     }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!await MusteriExistsAsync(Musteri.Id))
+                    if (!await MusteriExistsAsync(musteriEditdto.Musteri.Id))
                     {
                         return NotFound();
                     }
@@ -123,8 +122,9 @@ namespace CastAjansCore.WebUI.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
 
-            return View(Musteri);
+            return View(musteriEditdto);
         }
 
         // GET: Musteris/Delete/5
