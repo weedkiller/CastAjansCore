@@ -1,30 +1,10 @@
 ﻿@model CastAjansCore.WebUI.Model.MusteriEditDto
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Müşteriler";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script type="text/javascript">
-    function GetIlceler() {
-        var IlId = $("#Musteri_Ilce_IlId").val();
-        $.getJSON("/Ilceler/GetJson", { id: IlId },
-            function (data) {
-                var select = $("#Musteri_IlceId");
-                select.empty();
-                select.append($('<option/>', {
-                    value: 0,
-                    text: "Seçiniz"
-                }));
-                $.each(data, function (index, itemData) {
-                    select.append($('<option/>', {
-                        value: itemData.id,
-                        text: itemData.adi
-                    }));
-                });
-            });
-    }
 
-</script>
 
 <form asp-action="Edit">
     <div class="row">
@@ -46,8 +26,6 @@
                     <input type="hidden" asp-for="@Model.Musteri.Aktif" />
 
                     <fieldset>
-
-
                         <div class="form-group row">
                             <label asp-for="@Model.Musteri.Adi" class="col-lg-3 col-form-label"></label>
                             <span asp-validation-for="@Model.Musteri.Adi" class="text-danger"></span>
@@ -60,6 +38,13 @@
                             <span asp-validation-for="@Model.Musteri.Telefon" class="text-danger"></span>
                             <div class="col-lg-9">
                                 <input asp-for="@Model.Musteri.Telefon" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="@Model.Musteri.Telefon2" class="col-lg-3 col-form-label"></label>
+                            <span asp-validation-for="@Model.Musteri.Telefon2" class="text-danger"></span>
+                            <div class="col-lg-9">
+                                <input asp-for="@Model.Musteri.Telefon2" class="form-control" />
                             </div>
                         </div>
                         <div class="form-group row">
@@ -90,15 +75,13 @@
                     </h5>
                 </div>
 
-
-
                 <div class="card-body">
                     <fieldset>
                         <div class="form-group row">
                             <label asp-for="@Model.Musteri.Ilce.IlId" class="col-lg-3 col-form-label"></label>
                             <span asp-validation-for="@Model.Musteri.Ilce.IlId" class="text-danger"></span>
                             <div class="col-lg-9">
-                                <select asp-for="@Model.Musteri.Ilce.IlId" asp-items="@Model.Iller" onchange="GetIlceler()" class="form-control">
+                                <select asp-for="@Model.Musteri.Ilce.IlId" asp-items="@Model.Iller" onchange="GetIlceler($('#Musteri_Ilce_IlId'),$('#Musteri_IlceId'))" class="form-control">
                                     Seçiniz
                                 </select>
                             </div>

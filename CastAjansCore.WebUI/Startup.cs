@@ -38,8 +38,7 @@ namespace CastAjansCore.WebUI
 
         private void AddScoped(IServiceCollection services)
         {
-            services.AddSingleton<IAdresServis, AdresManager>();
-            services.AddSingleton<IAdresDal, EfAdresDal>();
+           
             //services.AddScoped<IAdresDal, EfAdresDal>();
             
             services.AddSingleton<IBankaServis, BankaManager>();
@@ -65,8 +64,7 @@ namespace CastAjansCore.WebUI
             services.AddSingleton<IKisiServis, KisiManager>();
             services.AddSingleton<IKisiDal, EfKisiDal>();
 
-            services.AddSingleton<IKisiBankaServis, KisiBankaManager>();
-            services.AddSingleton<IKisiBankaDal, EfKisiBankaDal>();
+            
 
             services.AddSingleton<IKullaniciServis, KullaniciManager>();
             services.AddSingleton<IKullaniciDal, EfKullaniciDal>();
@@ -91,8 +89,7 @@ namespace CastAjansCore.WebUI
 
  
 
-            services.AddSingleton<ITelefonServis, TelefonManager>();
-            services.AddSingleton<ITelefonDal, EfTelefonDal>();
+          
 
             services.AddSingleton<IUyrukServis, UyrukManager>();
             services.AddSingleton<IUyrukDal, EfUyrukDal>();

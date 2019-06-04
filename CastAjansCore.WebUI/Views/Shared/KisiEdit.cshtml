@@ -1,165 +1,269 @@
 ﻿@model CastAjansCore.WebUI.Model.KisiEditDto
 @using  CastAjansCore.Entity
 
+
+<script type="text/javascript">
+    function GetIlceler() {
+        var IlId = $("#Musteri_Ilce_IlId").val();
+        $.getJSON("/Ilceler/GetJson", { id: IlId },
+            function (data) {
+                var select = $("#Musteri_IlceId");
+                select.empty();
+                select.append($('<option/>', {
+                    value: 0,
+                    text: "Seçiniz"
+                }));
+                $.each(data, function (index, itemData) {
+                    select.append($('<option/>', {
+                        value: itemData.id,
+                        text: itemData.adi
+                    }));
+                });
+            });
+    }
+
+</script>
 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 @{ Html.ViewData.TemplateInfo.HtmlFieldPrefix = "Kisi"; }
 <input asp-for="Kisi.Id" hidden class="form-control" />
+
 <div class="col-md-6">
-
-    <fieldset>
-        <legend class="font-weight-semibold"><i class="icon-reading mr-2"></i> Kisi Bilgileri</legend>
-
-        <div class="form-group row">
-            <label asp-for="Kisi.TC" class="col-lg-3 col-form-label"></label>
-            <div class="col-lg-9">
-
-                <div class="form-group">
-                    <input asp-for="Kisi.TC" class="form-control" />
-                    <span asp-validation-for="Kisi.TC" class="text-danger"></span>
-                </div>
-            </div>
+    <div class="card">
+        <div class="card-header header-elements-inline">
+            <h5 class="card-title"><i class="icon-reading mr-2"></i> Kisi Bilgileri</h5>
         </div>
+        <div class="card-body">
+            <fieldset>
+                <div class="form-group row">
+                    <label asp-for="Kisi.TC" class="col-lg-3 col-form-label"></label>
+                    <div class="col-lg-9">
 
-        <div class="form-group row">
-            <label asp-for="Kisi.Adi" class="col-lg-3 col-form-label"></label>
-            <div class="col-lg-9">
-
-                <div class="form-group">
-                    <input asp-for="Kisi.Adi" class="form-control" />
-                    <span asp-validation-for="Kisi.Adi" class="text-danger"></span>
+                        <div class="form-group">
+                            <input asp-for="Kisi.TC" class="form-control" />
+                            <span asp-validation-for="Kisi.TC" class="text-danger"></span>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="form-group row">
-            <label asp-for="Kisi.Soyadi" class="col-lg-3 col-form-label"></label>
-            <div class="col-lg-9">
+                <div class="form-group row">
+                    <label asp-for="Kisi.Adi" class="col-lg-3 col-form-label"></label>
+                    <div class="col-lg-9">
 
-                <div class="form-group">
-                    <input asp-for="Kisi.Soyadi" class="form-control" />
-                    <span asp-validation-for="Kisi.Soyadi" class="text-danger"></span>
+                        <div class="form-group">
+                            <input asp-for="Kisi.Adi" class="form-control" />
+                            <span asp-validation-for="Kisi.Adi" class="text-danger"></span>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="form-group row">
-            <label asp-for="Kisi.DogumTarihi" class="col-lg-3 col-form-label"></label>
-            <div class="col-lg-9">
-                
-                <div class="form-group">
-                    <input asp-for="Kisi.DogumTarihi" type="date" asp-format="{0:dd/MM/yyyy}" class="form-control" />
-                    <span asp-validation-for="Kisi.DogumTarihi" class="text-danger"></span>
+                <div class="form-group row">
+                    <label asp-for="Kisi.Soyadi" class="col-lg-3 col-form-label"></label>
+                    <div class="col-lg-9">
+
+                        <div class="form-group">
+                            <input asp-for="Kisi.Soyadi" class="form-control" />
+                            <span asp-validation-for="Kisi.Soyadi" class="text-danger"></span>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="form-group row">
-            <label asp-for="Kisi.Cinsiyet" class="col-lg-3 col-form-label"></label>
-            <div class="col-lg-9">
+                <div class="form-group row">
+                    <label asp-for="Kisi.DogumTarihi" class="col-lg-3 col-form-label"></label>
+                    <div class="col-lg-9">
 
-                <div class="form-group">
-                    <select asp-for="Kisi.Cinsiyet" asp-items="Html.GetEnumSelectList<EnuCinsiyet>()" class="form-control"></select>
-                    <span asp-validation-for="Kisi.Cinsiyet" class="text-danger"></span>
+                        <div class="form-group">
+                            <input asp-for="Kisi.DogumTarihi" type="date" asp-format="{0:dd/MM/yyyy}" class="form-control" />
+                            <span asp-validation-for="Kisi.DogumTarihi" class="text-danger"></span>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="form-group row">
-            <label asp-for="Kisi.KanGrubu" class="col-lg-3 col-form-label"></label>
-            <div class="col-lg-9">
+                <div class="form-group row">
+                    <label asp-for="Kisi.Cinsiyet" class="col-lg-3 col-form-label"></label>
+                    <div class="col-lg-9">
 
-                <div class="form-group">
-                    <select asp-for="Kisi.KanGrubu" asp-items="Html.GetEnumSelectList<EnuKanGrubu>()" class="form-control"></select>
-                    <span asp-validation-for="Kisi.KanGrubu" class="text-danger"></span>
+                        <div class="form-group">
+                            <select asp-for="Kisi.Cinsiyet" asp-items="Html.GetEnumSelectList<EnuCinsiyet>()" class="form-control"></select>
+                            <span asp-validation-for="Kisi.Cinsiyet" class="text-danger"></span>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
 
+                <div class="form-group row">
+                    <label asp-for="Kisi.KanGrubu" class="col-lg-3 col-form-label"></label>
+                    <div class="col-lg-9">
 
-        <div class="form-group row">
-            <label asp-for="Kisi.UyrukId" class="col-lg-3 col-form-label"></label>
-            <div class="col-lg-9">
-                <div class="form-group">
-                    <select asp-for="Kisi.UyrukId" asp-items="Model.Uyruklar" class="form-control"></select>
-                    <span asp-validation-for="Kisi.UyrukId" class="text-danger"></span>
+                        <div class="form-group">
+                            <select asp-for="Kisi.KanGrubu" asp-items="Html.GetEnumSelectList<EnuKanGrubu>()" class="form-control"></select>
+                            <span asp-validation-for="Kisi.KanGrubu" class="text-danger"></span>
+                        </div>
+                    </div>
                 </div>
-            </div>
+
+
+                <div class="form-group row">
+                    <label asp-for="Kisi.UyrukId" class="col-lg-3 col-form-label"></label>
+                    <div class="col-lg-9">
+                        <div class="form-group">
+                            <select asp-for="Kisi.UyrukId" asp-items="Model.Uyruklar" class="form-control"></select>
+                            <span asp-validation-for="Kisi.UyrukId" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
         </div>
-    </fieldset>
+    </div>
 
 </div>
 
-
 <div class="col-md-6">
-    <fieldset>
-        <legend class="font-weight-semibold"><i class="icon-reading mr-2"></i> Sosyal</legend>
-        <div class="form-group row">
-            <label asp-for="Kisi.WebSitesi" class="col-lg-3 col-form-label"></label>
-            <div class="col-lg-9">
-
-                <div class="form-group">
-                    <input asp-for="Kisi.WebSitesi" class="form-control" />
-                    <span asp-validation-for="Kisi.WebSitesi" class="text-danger"></span>
-                </div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label asp-for="Kisi.FaceBook" class="col-lg-3 col-form-label"></label>
-            <div class="col-lg-9">
-
-                <div class="form-group">
-                    <input asp-for="Kisi.FaceBook" class="form-control" />
-                    <span asp-validation-for="Kisi.FaceBook" class="text-danger"></span>
-                </div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label asp-for="Kisi.Twitter" class="col-lg-3 col-form-label"></label>
-            <div class="col-lg-9">
-
-                <div class="form-group">
-                    <input asp-for="Kisi.Twitter" class="form-control" />
-                    <span asp-validation-for="Kisi.Twitter" class="text-danger"></span>
-                </div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label asp-for="Kisi.Instagram" class="col-lg-3 col-form-label"></label>
-            <div class="col-lg-9">
-
-                <div class="form-group">
-                    <input asp-for="Kisi.Instagram" class="form-control" />
-                    <span asp-validation-for="Kisi.Instagram" class="text-danger"></span>
-                </div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label asp-for="Kisi.Linkedin" class="col-lg-3 col-form-label"></label>
-            <div class="col-lg-9">
-
-                <div class="form-group">
-                    <input asp-for="Kisi.Linkedin" class="form-control" />
-                    <span asp-validation-for="Kisi.Linkedin" class="text-danger"></span>
-                </div>
-            </div>
+    <div class="card">
+        <div class="card-header header-elements-inline">
+            <h5 class="card-title"><i class="icon-address-book3 mr-2"></i> İletişim</h5>
         </div>
 
-    </fieldset>
+        <div class="card-body">
+            <fieldset>
+                <div class="form-group row">
+                    <label asp-for="Kisi.EPosta" class="col-lg-3 col-form-label"></label>
+                    <div class="col-lg-9">
+
+                        <div class="form-group">
+                            <input asp-for="Kisi.EPosta" class="form-control" />
+                            <span asp-validation-for="Kisi.EPosta" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Kisi.Telefon" class="col-lg-3 col-form-label"></label>
+                    <div class="col-lg-9">
+
+                        <div class="form-group">
+                            <input asp-for="Kisi.Telefon" class="form-control" />
+                            <span asp-validation-for="Kisi.Telefon" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Kisi.Telefon2" class="col-lg-3 col-form-label"></label>
+                    <div class="col-lg-9">
+
+                        <div class="form-group">
+                            <input asp-for="Kisi.Telefon2" class="form-control" />
+                            <span asp-validation-for="Kisi.Telefon2" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Kisi.Faks" class="col-lg-3 col-form-label"></label>
+                    <div class="col-lg-9">
+
+                        <div class="form-group">
+                            <input asp-for="Kisi.Faks" class="form-control" />
+                            <span asp-validation-for="Kisi.Faks" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Kisi.Telefon" class="col-lg-3 col-form-label"></label>
+                    <div class="col-lg-9">
+
+                        <div class="form-group">
+                            <input asp-for="Kisi.Telefon" class="form-control" />
+                            <span asp-validation-for="Kisi.Telefon" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label asp-for="Kisi.Ilce.IlId" class="col-lg-3 col-form-label"></label>
+                    <span asp-validation-for="Kisi.Ilce.IlId" class="text-danger"></span>
+                    <div class="col-lg-9">
+                        <select asp-for="Kisi.Ilce.IlId" asp-items="@Model.Iller" onchange="GetIlceler()" class="form-control">
+                            Seçiniz
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Kisi.IlceId" class="col-lg-3 col-form-label"></label>
+                    <span asp-validation-for="Kisi.IlceId" class="text-danger"></span>
+                    <div class="col-lg-9">
+                        <select asp-for="Kisi.IlceId" asp-items="@Model.Ilceler" class="form-control"></select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Kisi.Adres" class="col-lg-3 col-form-label"></label>
+                    <span asp-validation-for="Kisi.Adres" class="text-danger"></span>
+                    <div class="col-lg-9">
+                        <textarea asp-for="Kisi.Adres" rows="3" class="form-control"></textarea>
+                    </div>
+                </div>
+
+            </fieldset>
+        </div>
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="card">
+        <div class="card-header header-elements-inline">
+            <h5 class="card-title"><i class="icon-reading mr-2"></i> Sosyal</h5>
+        </div>
+
+        <div class="card-body">
+            <fieldset>
+                <div class="form-group row">
+                    <label asp-for="Kisi.WebSitesi" class="col-lg-3 col-form-label"></label>
+                    <div class="col-lg-9">
+
+                        <div class="form-group">
+                            <input asp-for="Kisi.WebSitesi" class="form-control" />
+                            <span asp-validation-for="Kisi.WebSitesi" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Kisi.FaceBook" class="col-lg-3 col-form-label"></label>
+                    <div class="col-lg-9">
+
+                        <div class="form-group">
+                            <input asp-for="Kisi.FaceBook" class="form-control" />
+                            <span asp-validation-for="Kisi.FaceBook" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Kisi.Twitter" class="col-lg-3 col-form-label"></label>
+                    <div class="col-lg-9">
+
+                        <div class="form-group">
+                            <input asp-for="Kisi.Twitter" class="form-control" />
+                            <span asp-validation-for="Kisi.Twitter" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Kisi.Instagram" class="col-lg-3 col-form-label"></label>
+                    <div class="col-lg-9">
+
+                        <div class="form-group">
+                            <input asp-for="Kisi.Instagram" class="form-control" />
+                            <span asp-validation-for="Kisi.Instagram" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Kisi.Linkedin" class="col-lg-3 col-form-label"></label>
+                    <div class="col-lg-9">
+
+                        <div class="form-group">
+                            <input asp-for="Kisi.Linkedin" class="form-control" />
+                            <span asp-validation-for="Kisi.Linkedin" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
 </div>
 
-<div class="col-md-6">
-    <fieldset>
-        <legend class="font-weight-semibold"><i class="icon-reading mr-2"></i> İletişim</legend>
-        <div class="form-group row">
-            <label asp-for="Kisi.EPosta" class="col-lg-3 col-form-label"></label>
-            <div class="col-lg-9">
-
-                <div class="form-group">
-                    <input asp-for="Kisi.EPosta" class="form-control" />
-                    <span asp-validation-for="Kisi.EPosta" class="text-danger"></span>
-                </div>
-            </div>
-        </div>
-
-    </fieldset>
-</div>

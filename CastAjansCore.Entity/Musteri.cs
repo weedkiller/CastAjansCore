@@ -18,11 +18,21 @@ namespace CastAjansCore.Entity
 
         [MaxLength(13)]
         [DataType(DataType.PhoneNumber)]
+        [Display(Name = "Telefon 1")]
         public string Telefon { get; set; }
+        [MaxLength(13)]
+        [DataType(DataType.PhoneNumber)]
+        [Display(Name = "Telefon 2")]
+        public string Telefon2 { get; set; }
 
         [MaxLength(13)]
         [DataType(DataType.PhoneNumber)]
         public string Faks { get; set; }
+
+        [MaxLength(4000)]
+        [DataType(DataType.MultilineText)]
+        [Display(Name = "Açıklama")]
+        public string Aciklama { get; set; }
 
         [MaxLength(200)]
         [Display(Name = "E-Posta")]
@@ -37,5 +47,7 @@ namespace CastAjansCore.Entity
 
         [ForeignKey("IlceId")]
         public virtual Ilce Ilce { get; set; }
+
+
     }
 }

@@ -31,7 +31,7 @@ namespace CastAjansCore.WebUI.Controllers
         {
             IlceListDto ilceListDto = new IlceListDto();
             Task<Il> tIl = _IlServis.GetByIdAsync(id);
-            Task<List<Ilce>> tIlce = _IlceServis.GetListAsync(i => i.IlId == id && i.Aktif == true);
+            Task<List<Ilce>> tIlce = _IlceServis.GetListAsync(i => i.IlId == id);
 
             ilceListDto.Il = await tIl;
             ilceListDto.Ilceler = await tIlce;
@@ -42,7 +42,7 @@ namespace CastAjansCore.WebUI.Controllers
         public async Task<JsonResult> GetJson(int id)
         {
 
-            Task<List<Ilce>> tIlce = _IlceServis.GetListAsync(i => i.IlId == id && i.Aktif == true);
+            Task<List<Ilce>> tIlce = _IlceServis.GetListAsync(i => i.IlId == id);
             var ilceler = await tIlce;
             return Json(ilceler);
         }
@@ -106,16 +106,9 @@ namespace CastAjansCore.WebUI.Controllers
             if (ModelState.IsValid)
             {
                 try
-                {
-                    Ilce.GuncelleyenId = 1;
-                    Ilce.GuncellemeZamani = DateTime.Now;
-                    Ilce.Aktif = true;
-
+                { 
                     if (id == null || id == 0)
-                    {
-                        Ilce.EkleyenId = 1;
-                        Ilce.EklemeZamani = DateTime.Now;
-
+                    {                       
                         await _IlceServis.AddAsync(Ilce);
                     }
                     else

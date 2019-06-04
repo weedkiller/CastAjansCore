@@ -84,16 +84,9 @@ namespace CastAjansCore.WebUI.Controllers
             if (ModelState.IsValid)
             {
                 try
-                {
-                    Il.GuncelleyenId = 1;
-                    Il.GuncellemeZamani = DateTime.Now;
-                    Il.Aktif = true;
-
+                { 
                     if (id == null || id == 0)
-                    {
-                        Il.EkleyenId = 1;
-                        Il.EklemeZamani = DateTime.Now;
-                        
+                    {                      
                         await _IlServis.AddAsync(Il);
                     }
                     else

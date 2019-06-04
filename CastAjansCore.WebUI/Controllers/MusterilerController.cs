@@ -42,7 +42,7 @@ namespace CastAjansCore.WebUI.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             var model = new MusteriEditDto();
-            Task<List<Il>> tIller = _IlServis.GetListAsync(i => i.Aktif == true);
+            Task<List<Il>> tIller = _IlServis.GetListAsync();
 
             model.Iller.Add(new SelectListItem("Seçiniz", ""));
             foreach (var item in (await tIller).OrderBy(i => i.Adi).ToList())
@@ -58,7 +58,7 @@ namespace CastAjansCore.WebUI.Controllers
             {
                 model.Musteri = await _MusteriServis.GetByIdAsync(id.Value);
                 model.Musteri.Ilce = await _IlceServis.GetByIdAsync(model.Musteri.IlceId.Value);
-                Task<List<Ilce>> tIlceler = _IlceServis.GetListAsync(i => i.IlId == model.Musteri.Ilce.IlId && i.Aktif == true);
+                Task<List<Ilce>> tIlceler = _IlceServis.GetListAsync(i => i.IlId == model.Musteri.Ilce.IlId);
                 model.Ilceler.Add(new SelectListItem("Seçiniz", ""));
                 foreach (var item in (await tIlceler).OrderBy(i => i.Adi).ToList())
                 { 

@@ -9,11 +9,11 @@ namespace CastAjansCore.Entity
     {
         public int Id { get; set; }
 
-        public int EkleyenId { get; set; }
+        public int? EkleyenId { get; set; }
 
         public DateTime EklemeZamani { get; set; }
 
-        public int GuncelleyenId { get; set; }
+        public int? GuncelleyenId { get; set; }
 
         public DateTime GuncellemeZamani { get; set; }
 
