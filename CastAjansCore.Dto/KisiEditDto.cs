@@ -1,18 +1,23 @@
 ﻿using CastAjansCore.Entity;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
+using System.Text;
 
-namespace CastAjansCore.WebUI.Model
+namespace CastAjansCore.Dto
 {
-    public class MusteriEditDto
+    public class KisiEditDto
     {
-        public MusteriEditDto()
+        public KisiEditDto()
         {
-            Musteri = new Musteri();
+            Kisi = new Kisi();
+            Uyruklar = new List<SelectListItem>();
             Iller = new List<SelectListItem>();
             Ilceler = new List<SelectListItem>();
         }
-        public Musteri Musteri { get; set; }
+        public Kisi Kisi { get; set; }
+
+        public List<SelectListItem> Uyruklar { get; set; }
 
         public List<SelectListItem> Iller { get; set; }
 

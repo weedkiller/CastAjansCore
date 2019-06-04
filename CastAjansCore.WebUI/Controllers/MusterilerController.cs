@@ -1,11 +1,10 @@
 ﻿using CastAjansCore.Business.Abstract;
+using CastAjansCore.Dto;
 using CastAjansCore.Entity;
-using CastAjansCore.WebUI.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -42,10 +41,10 @@ namespace CastAjansCore.WebUI.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             var model = new MusteriEditDto();
-            Task<List<Il>> tIller = _IlServis.GetListAsync();
+            var iller = (await _IlServis.GetListAsync()).OrderBy(i => i.Adi).ToList();
 
             model.Iller.Add(new SelectListItem("Seçiniz", ""));
-            foreach (var item in (await tIller).OrderBy(i => i.Adi).ToList())
+            foreach (var item in iller)
             {
                 model.Iller.Add(new SelectListItem(item.Adi, item.Id.ToString()));
             }
@@ -58,9 +57,9 @@ namespace CastAjansCore.WebUI.Controllers
             {
                 model.Musteri = await _MusteriServis.GetByIdAsync(id.Value);
                 model.Musteri.Ilce = await _IlceServis.GetByIdAsync(model.Musteri.IlceId.Value);
-                Task<List<Ilce>> tIlceler = _IlceServis.GetListAsync(i => i.IlId == model.Musteri.Ilce.IlId);
+                var ilceler = (await _IlceServis.GetListAsync(i => i.IlId == model.Musteri.Ilce.IlId)).OrderBy(i => i.Adi).ToList();
                 model.Ilceler.Add(new SelectListItem("Seçiniz", ""));
-                foreach (var item in (await tIlceler).OrderBy(i => i.Adi).ToList())
+                foreach (var item in  ilceler)
                 { 
                     model.Ilceler.Add(new SelectListItem(item.Adi, item.Id.ToString()));
                 }

@@ -1,11 +1,10 @@
 ﻿using CastAjansCore.Business.Abstract;
-using CastAjansCore.DataLayer.Abstract;
+using CastAjansCore.Dto;
 using CastAjansCore.Entity;
-using CastAjansCore.WebUI.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CastAjansCore.WebUI.Controllers
@@ -13,14 +12,10 @@ namespace CastAjansCore.WebUI.Controllers
     public class KullanicilarController : Controller
     {
         private readonly IKullaniciServis _kullaniciServis;
-        private readonly IUyrukServis _uyrukServis;
-        private readonly IKisiServis _kisiServis;
 
-        public KullanicilarController(IKullaniciServis kullaniciServis, IKisiServis kisiServis, IUyrukServis uyrukServis)
+        public KullanicilarController(IKullaniciServis kullaniciServis)
         {
             _kullaniciServis = kullaniciServis;
-            _uyrukServis = uyrukServis;
-            _kisiServis = kisiServis;
         }
 
         // GET: Kullanicis
@@ -61,35 +56,14 @@ namespace CastAjansCore.WebUI.Controllers
 
         // GET: Kullanicis/Edit/5
         public async Task<IActionResult> Edit(int? id)
-        { 
-            Task<List<Uyruk>> tUyruk = _uyrukServis.GetListAsync();
+        {
+            KullaniciEditDto model = await _kullaniciServis.GetEditDtoAsync(id);
 
-            KullaniciEditDto model = new KullaniciEditDto();
-            model.Kisi = new KisiEditDto();
-            if (id == null)
+            if (model.Kullanici == null)
             {
-                
+                return NotFound();
             }
-            else
-            {
-                Task<Kullanici> tKullanici = _kullaniciServis.GetByIdAsync(id.Value);
-                Task<Kisi> tkisi = _kisiServis.GetByIdAsync(id.Value);
 
-                model.Kullanici = await tKullanici;
-                model.Kisi.Kisi = await tkisi;                
-                if (model.Kullanici == null)
-                {
-                    return NotFound();
-                }
-            }
-            model.Kisi.Uyruklar.Add(new SelectListItem("Seçiniz", ""));
-
-            //await Task.WhenAll(tkisi, tKullanici, tUyruk);
-            foreach (var item in await tUyruk)
-            {
-                model.Kisi.Uyruklar.Add(new SelectListItem(item.Adi, item.Id.ToString()));
-            }
-            
             return View(model);
         }
 
@@ -100,12 +74,16 @@ namespace CastAjansCore.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int? id, KullaniciEditDto kullaniciEditDto)
         {
+            ModelState.Remove("KisiEditDto.Kisi.Ilce.Id");
+            ModelState.Remove("KisiEditDto.Kisi.Ilce.IlId");
+            ModelState.Remove("KisiEditDto.Kisi.Ilce.Adi");
+
             if (ModelState.IsValid)
             {
                 try
                 {
                     Kullanici kullanici = kullaniciEditDto.Kullanici;
-                    kullanici.Kisi = kullaniciEditDto.Kisi.Kisi;
+                    kullanici.Kisi = kullaniciEditDto.KisiEditDto.Kisi;
                     if (id == null)
                     {
                         await _kullaniciServis.AddAsync(kullanici);

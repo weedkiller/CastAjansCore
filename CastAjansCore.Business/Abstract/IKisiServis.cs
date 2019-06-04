@@ -1,6 +1,8 @@
 ﻿using Calbay.Core.Business;
+using CastAjansCore.Dto;
 using CastAjansCore.Entity;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CastAjansCore.Business.Abstract
 {
@@ -8,5 +10,6 @@ namespace CastAjansCore.Business.Abstract
     {
         List<Kisi> GetByKanGrubu(EnuKanGrubu kanGrubu);
 
+        Task<KisiEditDto> GetEditDtoAsync(int? id);
     }
 }

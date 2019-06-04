@@ -1,30 +1,8 @@
-﻿@model CastAjansCore.WebUI.Model.KisiEditDto
+﻿@model CastAjansCore.Dto.KisiEditDto
 @using  CastAjansCore.Entity
 
-
-<script type="text/javascript">
-    function GetIlceler() {
-        var IlId = $("#Musteri_Ilce_IlId").val();
-        $.getJSON("/Ilceler/GetJson", { id: IlId },
-            function (data) {
-                var select = $("#Musteri_IlceId");
-                select.empty();
-                select.append($('<option/>', {
-                    value: 0,
-                    text: "Seçiniz"
-                }));
-                $.each(data, function (index, itemData) {
-                    select.append($('<option/>', {
-                        value: itemData.id,
-                        text: itemData.adi
-                    }));
-                });
-            });
-    }
-
-</script>
 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-@{ Html.ViewData.TemplateInfo.HtmlFieldPrefix = "Kisi"; }
+@{ Html.ViewData.TemplateInfo.HtmlFieldPrefix = "KisiEditDto"; }
 <input asp-for="Kisi.Id" hidden class="form-control" />
 
 <div class="col-md-6">
@@ -165,22 +143,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label asp-for="Kisi.Telefon" class="col-lg-3 col-form-label"></label>
-                    <div class="col-lg-9">
-
-                        <div class="form-group">
-                            <input asp-for="Kisi.Telefon" class="form-control" />
-                            <span asp-validation-for="Kisi.Telefon" class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
 
                 <div class="form-group row">
                     <label asp-for="Kisi.Ilce.IlId" class="col-lg-3 col-form-label"></label>
                     <span asp-validation-for="Kisi.Ilce.IlId" class="text-danger"></span>
                     <div class="col-lg-9">
-                        <select asp-for="Kisi.Ilce.IlId" asp-items="@Model.Iller" onchange="GetIlceler()" class="form-control">
+                        <select asp-for="Kisi.Ilce.IlId" asp-items="@Model.Iller" onchange="GetIlceler($('#KisiEditDto_Kisi_Ilce_IlId'),$('#KisiEditDto_Kisi_IlceId'))" class="form-control">
                             Seçiniz
                         </select>
                     </div>

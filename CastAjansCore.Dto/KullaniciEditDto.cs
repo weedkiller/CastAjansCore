@@ -1,17 +1,20 @@
 ﻿using CastAjansCore.Entity;
+using System;
 using System.Collections.Generic;
+using System.Text;
 
-namespace CastAjansCore.WebUI.Model
+namespace CastAjansCore.Dto
 {
     public class KullaniciEditDto
     {
         public KullaniciEditDto()
         {
             Kullanici = new Kullanici();
-            Kisi = new KisiEditDto();
+            KisiEditDto = new KisiEditDto();
+
         }
         public Kullanici Kullanici { get; set; }
 
-        public KisiEditDto Kisi { get; set; }
+        public KisiEditDto KisiEditDto { get; set; }
     }
 }

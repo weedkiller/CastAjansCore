@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using Calbay.Core.Business;
+﻿using Calbay.Core.Business;
 using CastAjansCore.Business.Abstract;
 using CastAjansCore.DataLayer.Abstract;
+using CastAjansCore.Dto;
 using CastAjansCore.Entity;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CastAjansCore.Business.Concrete
 {
@@ -36,6 +35,25 @@ namespace CastAjansCore.Business.Concrete
         public async Task<Kullanici> GetWithKisi(int id)
         {
             return await _dal.GetAsync(new List<string> { "Kisi" }, (x => x.Id == id));
+        }
+
+        public async Task<KullaniciEditDto> GetEditDtoAsync(int? id)
+        {
+            KullaniciEditDto kullaniciEditDto = new KullaniciEditDto();
+            Task<KisiEditDto> tKisiEditDto = _kisiServis.GetEditDtoAsync(id);
+            if (id==null)
+            {
+                kullaniciEditDto.KisiEditDto = await tKisiEditDto;
+            }
+            else
+            {
+                Task<Kullanici> tkullanici = base.GetByIdAsync(id.Value);
+          
+                kullaniciEditDto.Kullanici = await tkullanici;
+                kullaniciEditDto.KisiEditDto = await tKisiEditDto;
+            }
+            
+            return kullaniciEditDto;
         }
     }
 }

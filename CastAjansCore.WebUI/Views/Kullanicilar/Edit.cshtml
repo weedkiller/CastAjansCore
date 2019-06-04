@@ -1,19 +1,19 @@
-﻿@model CastAjansCore.WebUI.Model.KullaniciEditDto
+﻿@model CastAjansCore.Dto.KullaniciEditDto
 
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<form asp-action="Edit">
+    <div class="row">
+        @await Html.PartialAsync("KisiEdit", Model.KisiEditDto)
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header header-elements-inline">
+                    <h5 class="card-title"><i class="icon-truck mr-2"></i> Kullanıcı Bilgileri</h5>
+                </div>
 
-<div class="row">
-    @await Html.PartialAsync("KisiEdit", Model.Kisi)
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-header header-elements-inline">
-                <h5 class="card-title"><i class="icon-truck mr-2"></i> Kullanıcı Bilgileri</h5>
-            </div>
 
-            <form asp-action="Edit">
                 <div class="card-body">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="hidden" asp-for="Kullanici.Id" />
@@ -36,15 +36,16 @@
                         </div>
                     </fieldset>
                 </div>
-            </form>
+
+            </div>
         </div>
     </div>
-</div>
 
-<div class="row">
-    <div class="col-md-12">
-        <a asp-action="Index" class="btn btn-danger left">Geri</a>
-        <button type="submit" class="btn btn-primary right">Kaydet <i class="icon-paperplane ml-2"></i></button>
+    <div class="row">
+        <div class="col-md-12">
+            <a asp-action="Index" class="btn btn-danger left">Geri</a>
+            <button type="submit" class="btn btn-primary right">Kaydet <i class="icon-paperplane ml-2"></i></button>
+        </div>
     </div>
-</div>
+</form>
 

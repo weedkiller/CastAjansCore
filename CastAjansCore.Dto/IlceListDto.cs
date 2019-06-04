@@ -1,7 +1,9 @@
 ﻿using CastAjansCore.Entity;
+using System;
 using System.Collections.Generic;
+using System.Text;
 
-namespace CastAjansCore.WebUI.Model
+namespace CastAjansCore.Dto
 {
     public class IlceListDto
     {
