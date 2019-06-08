@@ -4,14 +4,16 @@ using CastAjansCore.DataLayer.Concrete.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CastAjansCore.DataLayer.Migrations
 {
     [DbContext(typeof(CastAjansContext))]
-    partial class CastAjansContextModelSnapshot : ModelSnapshot
+    [Migration("20190605103532_kisilerbaseentity")]
+    partial class kisilerbaseentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -358,8 +360,6 @@ namespace CastAjansCore.DataLayer.Migrations
 
                     b.Property<bool>("Aktif");
 
-                    b.Property<bool>("Default");
-
                     b.Property<string>("DosyaYolu");
 
                     b.Property<DateTime>("EklemeZamani");
@@ -449,6 +449,8 @@ namespace CastAjansCore.DataLayer.Migrations
                     b.Property<DateTime>("TarihBit");
 
                     b.Property<string>("TeklifAciklama");
+
+                    b.Property<int>("YonetmenId");
 
                     b.HasKey("Id");
 

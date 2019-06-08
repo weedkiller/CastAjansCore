@@ -20,11 +20,11 @@ namespace CastAjansCore.WebUI.Controllers
         }
 
         // GET: Ilces
-        //public async Task<IActionResult> Index()
-        //{
-        //    var Ilcelar = await _IlceServis.GetListAsync();
-        //    return View(Ilcelar);
-        //}
+        public async Task<IActionResult> Index()
+        {
+            var Ilcelar = await _IlceServis.GetListAsync();
+            return View(Ilcelar);
+        }
 
         public async Task<IActionResult> Index(int id)
         {

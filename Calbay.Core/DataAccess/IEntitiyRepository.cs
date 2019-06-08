@@ -14,9 +14,11 @@ namespace Calbay.Core.DataAccess
 
         Task<T> GetAsync(List<string> includes, Expression<Func<T, bool>> filter);
 
-        List<T> GetList(Expression<Func<T, bool>> filter = null);        
+        List<T> GetList(Expression<Func<T, bool>> filter = null);
 
         Task<List<T>> GetListAsync(Expression<Func<T, bool>> filter = null);
+
+        Task<List<T>> GetListAsync(List<string> includes, Expression<Func<T, bool>> filter = null);
 
         void Add(T entity);
 

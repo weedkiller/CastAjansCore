@@ -109,7 +109,22 @@ namespace Calbay.Core.DataAccess
             }
         }
 
+        public virtual async Task<List<TEntity>> GetListAsync(List<string> includes, Expression<Func<TEntity, bool>> filter = null)
+        {
+            using (var context = new TContex())
+            {
+                var query = (filter == null
+                    ? context.Set<TEntity>()
+                    : context.Set<TEntity>().Where(filter));
 
+                foreach (var item in includes)
+                {
+                    query = query.Include(item);
+                }
+
+                return await query.ToListAsync<TEntity>();
+            }
+        }
 
         public virtual void Update(TEntity entity)
         {

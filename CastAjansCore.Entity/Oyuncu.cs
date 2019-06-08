@@ -44,21 +44,26 @@ namespace CastAjansCore.Entity
 
         [MaxLength(200)]
         [Display(Name = "Engel Durumu")]
+        [DataType( DataType.MultilineText)]
         public string EngelDurumu { get; set; }
 
         [MaxLength(4000)]
+        [DataType(DataType.MultilineText)]
         [Display(Name = "Oyunculuk Eğitimi")]
         public string OyuculukEgitimi { get; set; }
 
         [MaxLength(4000)]
+        [DataType(DataType.MultilineText)]
         [Display(Name = "Tecrübeler")]
         public string Tecrubeler { get; set; }
 
         [MaxLength(4000)]
+        [DataType(DataType.MultilineText)]
         [Display(Name = "Yetenekler")]
         public string Yetenekleri { get; set; }
 
         [MaxLength(4000)]
+        [DataType(DataType.MultilineText)]
         [Display(Name = "Açıklama")]
         public string Aciklama { get; set; }
 

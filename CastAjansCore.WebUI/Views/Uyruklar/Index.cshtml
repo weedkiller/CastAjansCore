@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<CastAjansCore.Entity.Uyruk>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Uyruklar";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -11,10 +11,7 @@
         <h5 class="card-title"></h5>
         <div class="header-elements">
             <div class="list-icons">
-                <a class="list-icons-item" asp-action="Edit">+</a>
-                @*<a class="list-icons-item" data-action="collapse"></a>*@
-                <a class="list-icons-item" data-action="reload"></a>
-                @*<a class="list-icons-item" data-action="remove"></a>*@
+                <a class="list-icons-item" asp-action="Edit"><i class="icon-plus3"></i></a>
             </div>
         </div>
     </div>
@@ -28,9 +25,6 @@
                     <th>
                         @Html.DisplayNameFor(model => model.Adi)
                     </th>
-                    <th>
-                        İlçeler
-                    </th>
                     <th></th>
                 </tr>
             </thead>
@@ -41,10 +35,7 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Adi)
                         </td>
-                        <td>
-                            İlçeler
-                        </td>
-                        <td>
+                        <td class="text-right">
                             <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary"><i class="icon-pencil"></i></a> |
                             <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger"><i class="icon-trash"></i></a>
                         </td>

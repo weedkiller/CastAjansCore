@@ -16,12 +16,19 @@ namespace CastAjansCore.Business.Concrete
         IIlServis _IlServis;
         IIlceServis _IlceServis;
         IUyrukServis _uyrukServis;
+        IBankaServis _bankaServis;
 
-        public KisiManager(IKisiDal dal, IIlServis ilServis, IIlceServis ilceServis,IUyrukServis uyrukServis) : base(dal)
+        public KisiManager(IKisiDal dal,
+            IIlServis ilServis,
+            IIlceServis ilceServis,
+            IUyrukServis uyrukServis,
+            IBankaServis bankaServis
+            ) : base(dal)
         {
             _IlServis = ilServis;
             _IlceServis = ilceServis;
             _uyrukServis = uyrukServis;
+            _bankaServis = bankaServis;
         }
 
         public List<Kisi> GetByKanGrubu(EnuKanGrubu kanGrubu)
@@ -34,6 +41,7 @@ namespace CastAjansCore.Business.Concrete
             KisiEditDto kisiEditDto = new KisiEditDto();
             Task<List<Uyruk>> tUyruk = _uyrukServis.GetListAsync();
             Task<List<Il>> tIller = _IlServis.GetListAsync();
+            Task<List<Banka>> tBankalar = _bankaServis.GetListAsync();
 
             kisiEditDto.Uyruklar.Add(new SelectListItem("Seçiniz", ""));
             foreach (var item in await tUyruk)
@@ -45,13 +53,19 @@ namespace CastAjansCore.Business.Concrete
             var iller = (await tIller).OrderBy(i => i.Adi).ToList();
             foreach (var item in iller)
             {
-               kisiEditDto.Iller.Add(new SelectListItem(item.Adi, item.Id.ToString()));
+                kisiEditDto.Iller.Add(new SelectListItem(item.Adi, item.Id.ToString()));
             }
 
-            if(id != null)
+            kisiEditDto.Bankalar.Add(new SelectListItem("Seçiniz", ""));
+            foreach (var item in await tBankalar)
+            {
+                kisiEditDto.Bankalar.Add(new SelectListItem(item.Adi, item.Id.ToString()));
+            }
+
+            if (id != null)
             {
                 Task<Kisi> tkisi = GetByIdAsync(id.Value);
-                
+
                 kisiEditDto.Kisi = await tkisi;
                 if (kisiEditDto.Kisi.IlceId.IsNotNull())
                 {

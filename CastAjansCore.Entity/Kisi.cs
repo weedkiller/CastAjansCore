@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace CastAjansCore.Entity
 {
     [Table("Kisiler", Schema = "Sistem")]
-    public class Kisi : IEntity
+    public class Kisi : BaseEntity, IEntity
     {
         public int Id { get; set; }
 

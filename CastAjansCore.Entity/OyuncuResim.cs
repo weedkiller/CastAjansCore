@@ -13,6 +13,8 @@ namespace CastAjansCore.Entity
 
         public string DosyaYolu { get; set; }
 
+        public bool Default { get; set; }
+
         [ForeignKey("OyuncuId")]
         public virtual Oyuncu Oyuncu { get; set; }
     }

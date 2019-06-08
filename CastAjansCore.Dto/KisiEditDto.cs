@@ -1,8 +1,6 @@
 ﻿using CastAjansCore.Entity;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace CastAjansCore.Dto
 {
@@ -14,6 +12,7 @@ namespace CastAjansCore.Dto
             Uyruklar = new List<SelectListItem>();
             Iller = new List<SelectListItem>();
             Ilceler = new List<SelectListItem>();
+            Bankalar = new List<SelectListItem>();
         }
         public Kisi Kisi { get; set; }
 
@@ -22,5 +21,7 @@ namespace CastAjansCore.Dto
         public List<SelectListItem> Iller { get; set; }
 
         public List<SelectListItem> Ilceler { get; set; }
+
+        public List<SelectListItem> Bankalar { get; set; }
     }
 }

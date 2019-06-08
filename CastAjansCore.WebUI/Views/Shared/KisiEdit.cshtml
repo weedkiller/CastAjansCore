@@ -88,6 +88,29 @@
                         </div>
                     </div>
                 </div>
+
+
+                <div class="form-group row">
+                    <label asp-for="Kisi.BankaId" class="col-lg-3 col-form-label"></label>
+                    <div class="col-lg-9">
+                        <div class="form-group">
+                            <select asp-for="Kisi.BankaId" asp-items="Model.Bankalar" class="form-control"></select>
+                            <span asp-validation-for="Kisi.BankaId" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label asp-for="Kisi.Iban" class="col-lg-3 col-form-label"></label>
+                    <div class="col-lg-9">
+                        <div class="form-group">
+                            <input asp-for="Kisi.Iban" class="form-control" />
+                            <span asp-validation-for="Kisi.Iban" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+
             </fieldset>
 
         </div>

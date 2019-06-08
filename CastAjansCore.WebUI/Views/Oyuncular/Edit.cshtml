@@ -1,0 +1,140 @@
+﻿@model CastAjansCore.Dto.OyuncuEditDto
+@using  CastAjansCore.Entity
+
+@{
+    ViewData["Title"] = "Oyuncu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form asp-action="Edit">
+    <div class="row">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Oyuncu.Id" />
+        @await Html.PartialAsync("KisiEdit", Model.KisiEditDto)
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header header-elements-inline">
+                    <h5 class="card-title"><i class="icon-truck mr-2"></i> Oyuncu Bilgileri</h5>
+                </div>
+                <div class="card-body">
+                    <fieldset>
+                        <div class="form-group">
+                            <label asp-for="Oyuncu.AnneAdiSoyadi" class="control-label"></label>
+                            <input asp-for="Oyuncu.AnneAdiSoyadi" class="form-control" />
+                            <span asp-for="Oyuncu.AnneAdiSoyadi" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Oyuncu.BabaAdiSoyadi" class="control-label"></label>
+                            <input asp-for="Oyuncu.BabaAdiSoyadi" class="form-control" />
+                            <span asp-for="Oyuncu.BabaAdiSoyadi" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Oyuncu.Kase" class="control-label"></label>
+                            <input asp-for="Oyuncu.Kase" class="form-control" />
+                            <span asp-for="Oyuncu.Kase" class="text-danger"></span>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header header-elements-inline">
+                    <h5 class="card-title"><i class="icon-truck mr-2"></i> Özellikleri</h5>
+                </div>
+                <div class="card-body">
+                    <fieldset>
+                        
+                        <div class="form-group">
+                            <label asp-for="Oyuncu.Boy" class="control-label"></label>
+                            <input asp-for="Oyuncu.Boy" class="form-control" />
+                            <span asp-for="Oyuncu.Boy" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Oyuncu.Kilo" class="control-label"></label>
+                            <input asp-for="Oyuncu.Kilo" class="form-control" />
+                            <span asp-for="Oyuncu.Kilo" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Oyuncu.AltBeden" class="control-label"></label>
+                            <input asp-for="Oyuncu.AltBeden" class="form-control" />
+                            <span asp-for="Oyuncu.AltBeden" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Oyuncu.UstBeden" class="control-label"></label>
+                            <input asp-for="Oyuncu.UstBeden" class="form-control" />
+                            <span asp-for="Oyuncu.UstBeden" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Oyuncu.AyakNumarasi" class="control-label"></label>
+                            <input asp-for="Oyuncu.AyakNumarasi" class="form-control" />
+                            <span asp-for="Oyuncu.AyakNumarasi" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Oyuncu.GozRengi" class="control-label"></label>
+                            <select asp-for="Oyuncu.GozRengi" asp-items="Html.GetEnumSelectList<EnuGozRengi>()" class="form-control"></select>
+                            <span asp-for="Oyuncu.GozRengi" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Oyuncu.TenRengi" class="control-label"></label>
+                            <select asp-for="Oyuncu.TenRengi" asp-items="Html.GetEnumSelectList<EnuTenRengi>()" class="form-control"></select>
+                            <span asp-for="Oyuncu.TenRengi" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Oyuncu.SacRengi" class="control-label"></label>
+                            <select asp-for="Oyuncu.SacRengi" asp-items="Html.GetEnumSelectList<EnuSacRengi>()" class="form-control"></select>
+                            <span asp-for="Oyuncu.SacRengi" class="text-danger"></span>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header header-elements-inline">
+                    <h5 class="card-title"><i class="icon-truck mr-2"></i> Oyuncu Açıklamaları</h5>
+                </div>
+                <div class="card-body">
+                    <fieldset>
+
+                        <div class="form-group">
+                            <label asp-for="Oyuncu.EngelDurumu" class="control-label"></label>
+                            <textarea asp-for="Oyuncu.EngelDurumu" class="form-control"></textarea>
+                            <span asp-for="Oyuncu.EngelDurumu" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Oyuncu.OyuculukEgitimi" class="control-label"></label>
+                            <textarea asp-for="Oyuncu.OyuculukEgitimi" class="form-control"></textarea>
+                            <span asp-for="Oyuncu.OyuculukEgitimi" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Oyuncu.Tecrubeler" class="control-label"></label>
+                            <textarea asp-for="Oyuncu.Tecrubeler" class="form-control"></textarea>
+                            <span asp-for="Oyuncu.Tecrubeler" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Oyuncu.Yetenekleri" class="control-label"></label>
+                            <textarea asp-for="Oyuncu.Yetenekleri" class="form-control"></textarea>
+                            <span asp-for="Oyuncu.Yetenekleri" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Oyuncu.Aciklama" class="control-label"></label>
+                            <textarea asp-for="Oyuncu.Aciklama" class="form-control"></textarea>
+                            <span asp-for="Oyuncu.Aciklama" class="text-danger"></span>
+                        </div>
+                    </fieldset>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <a asp-action="Index" class="btn btn-danger left">Geri</a>
+            <button type="submit" class="btn btn-primary right">Kaydet <i class="icon-paperplane ml-2"></i></button>
+        </div>
+    </div>
+</form>
+
+
