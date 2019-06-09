@@ -17,82 +17,50 @@ namespace CastAjansCore.WebUI.Controllers
         private readonly IMusteriServis _MusteriServis;
         private readonly IKullaniciServis _KullaniciServis;
 
-        public ProjelerController(IProjeServis ProjeServis,IMusteriServis MusteriServis, IKullaniciServis KullaniciServis)
+        public ProjelerController(IProjeServis ProjeServis, IMusteriServis MusteriServis, IKullaniciServis KullaniciServis)
         {
             _ProjeServis = ProjeServis;
             _MusteriServis = MusteriServis;
             _KullaniciServis = KullaniciServis;
         }
-        
+
         public async Task<IActionResult> Index(int? id)
         {
             ProjeListDto ProjeListDto = new ProjeListDto();
-            if (id != null)
-            {
-                Task<Musteri> tMusteri = _MusteriServis.GetByIdAsync(id.Value);
-            }
-            Expression<Proje> expression;
-            expression.fun                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          (i=>i.)
-            Task<List<Proje>> tProje = _ProjeServis.GetListAsync(i => i.MusteriId == id);
+            Task<Musteri> tMusteri = _MusteriServis.GetByIdAsync(id.Value);
+            Task<List<Proje>> tProje = _ProjeServis.GetListAsync(i => (id == null || i.MusteriId == id));
 
-            ProjeListDto.Il = await tIl;
+            ProjeListDto.Musteri = await tMusteri;
             ProjeListDto.Projeler = await tProje;
 
             return View(ProjeListDto);
         }
 
-        public async Task<JsonResult> GetJson(int id)
-        {
-
-            Task<List<Proje>> tProje = _ProjeServis.GetListAsync(i => i.IlId == id);
-            var Projeler = await tProje;
-            return Json(Projeler);
-        }
-
-        // GET: Projes/DetaProjes/5
-        public async Task<IActionResult> DetaProjes(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var entity = await _ProjeServis.GetByIdAsync(id.Value);
-            if (entity == null)
-            {
-                return NotFound();
-            }
-
-            return View(entity);
-        }
-
-        // GET: Projes/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
         // GET: Projes/Edit/5
-        public async Task<IActionResult> Edit(int? id, int ilId)
+        public async Task<IActionResult> Edit(int? id, int musteriId)
         {
+            var tMusteri = _MusteriServis.GetByIdAsync(musteriId);
+            var projeEditDto = new ProjeEditDto
+            {
+                Kullanicilar = await _KullaniciServis.GetSelectListAsync(i => i.Kisi.Aktif == true)
+            };
 
             if (id == null)
             {
-                var il = await _KullaniciServis.GetByIdAsync(ilId);
-                return View(new Proje { IlId = ilId, Il = il });
+                projeEditDto.Proje = new Proje { Musteri = await tMusteri, MusteriId = musteriId };
+
+                return View(projeEditDto);
             }
             else
-            {
-
-                var entity = await _ProjeServis.GetByIdAsync(id.Value);
-                entity.Il = await _KullaniciServis.GetByIdAsync(entity.IlId);
-
-                if (entity == null)
+            {   
+                projeEditDto.Proje = await _ProjeServis.GetByIdAsync(id.Value);
+                projeEditDto.Proje.Musteri = await tMusteri;
+                if (projeEditDto.Proje == null)
                 {
                     return NotFound();
                 }
 
-                return View(entity);
+                return View(projeEditDto);
             }
         }
 
@@ -103,15 +71,13 @@ namespace CastAjansCore.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int? id, Proje Proje)
         {
-
-
             if (ModelState.IsValid)
             {
                 try
                 {
                     if (id == null || id == 0)
                     {
-                        await _ProjeServis.AddAsync(Proje);
+                        await _ProjeServis.AddAsync(Proje, HttpContext.Session.GetUserHelper());
                     }
                     else
                     {
@@ -119,7 +85,7 @@ namespace CastAjansCore.WebUI.Controllers
                         {
                             return NotFound();
                         }
-                        await _ProjeServis.UpdateAsync(Proje);
+                        await _ProjeServis.UpdateAsync(Proje, HttpContext.Session.GetUserHelper());
                     }
                 }
                 catch (DbUpdateConcurrencyException)
@@ -133,7 +99,7 @@ namespace CastAjansCore.WebUI.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index) + "/" + Proje.IlId);
+                return RedirectToAction(nameof(Index) + "/" + Proje.MusteriId);
             }
 
             return View(Proje);
@@ -161,7 +127,7 @@ namespace CastAjansCore.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _ProjeServis.DeleteAsync(id);
+            await _ProjeServis.DeleteAsync(id, HttpContext.Session.GetUserHelper());
             return RedirectToAction(nameof(Index));
         }
 

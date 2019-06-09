@@ -1,4 +1,5 @@
 ﻿using Calbay.Core.Entities;
+using Calbay.Core.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -16,17 +17,17 @@ namespace Calbay.Core.Business
 
         Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> filter = null);
 
-        void Add(TEntity entity);
+        void Add(TEntity entity, UserHelper userHelper);
 
-        void Update(TEntity entity);
+        void Update(TEntity entity, UserHelper userHelper);
 
-        void Delete(int id);
+        void Delete(int id, UserHelper userHelper);
 
-        Task AddAsync(TEntity entity);
+        Task AddAsync(TEntity entity, UserHelper userHelper);
 
-        Task UpdateAsync(TEntity entity);
+        Task UpdateAsync(TEntity entity, UserHelper userHelper);
 
-        Task DeleteAsync(int id);
+        Task DeleteAsync(int id, UserHelper userHelper);
 
         TEntity GetById(int id);
 

@@ -87,7 +87,7 @@ namespace CastAjansCore.WebUI.Controllers
                 { 
                     if (id == null || id == 0)
                     {                      
-                        await _IlServis.AddAsync(Il);
+                        await _IlServis.AddAsync(Il, HttpContext.Session.GetUserHelper());
                     }
                     else
                     {
@@ -95,7 +95,7 @@ namespace CastAjansCore.WebUI.Controllers
                         {
                             return NotFound();
                         }
-                        await _IlServis.UpdateAsync(Il);
+                        await _IlServis.UpdateAsync(Il, HttpContext.Session.GetUserHelper());
                     }
                 }
                 catch (DbUpdateConcurrencyException)
@@ -137,7 +137,7 @@ namespace CastAjansCore.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _IlServis.DeleteAsync(id);
+            await _IlServis.DeleteAsync(id, HttpContext.Session.GetUserHelper());
             return RedirectToAction(nameof(Index));
         }
 

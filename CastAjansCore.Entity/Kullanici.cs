@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace CastAjansCore.Entity
 {
     [Table("Kullanicilar", Schema = "Sistem")]
-    public class Kullanici: IEntity
+    public class Kullanici : BaseEntity, IEntity
     {
         [Key]
         [ForeignKey("Kisi")]
@@ -23,6 +23,6 @@ namespace CastAjansCore.Entity
         public string Sifre { get; set; }
 
         public virtual Kisi Kisi { get; set; }
-        
+
     }
 }

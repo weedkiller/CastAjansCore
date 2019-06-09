@@ -6,9 +6,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace CastAjansCore.Entity
 {
     [Table("Iller", Schema = "Sistem")]
-    public class Il :  IEntity
+    public class Il : BaseEntity, IEntity
     {
-        public int Id { get; set; }
         [Required]
         [MaxLength(200)]
         [Display(Name = "İl")]

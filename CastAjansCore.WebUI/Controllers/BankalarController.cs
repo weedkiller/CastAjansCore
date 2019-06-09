@@ -72,7 +72,7 @@ namespace CastAjansCore.WebUI.Controllers
                         //Banka.EkleyenId = 1;
                         //Banka.EklemeZamani = DateTime.Now;
 
-                        await _BankaServis.AddAsync(Banka);
+                        await _BankaServis.AddAsync(Banka, HttpContext.Session.GetUserHelper());
                     }
                     else
                     {
@@ -80,7 +80,7 @@ namespace CastAjansCore.WebUI.Controllers
                         {
                             return NotFound();
                         }
-                        await _BankaServis.UpdateAsync(Banka);
+                        await _BankaServis.UpdateAsync(Banka, HttpContext.Session.GetUserHelper());
                     }
                 }
                 catch (DbUpdateConcurrencyException)
@@ -122,7 +122,7 @@ namespace CastAjansCore.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _BankaServis.DeleteAsync(id);
+            await _BankaServis.DeleteAsync(id, HttpContext.Session.GetUserHelper());
             return RedirectToAction(nameof(Index));
         }
 

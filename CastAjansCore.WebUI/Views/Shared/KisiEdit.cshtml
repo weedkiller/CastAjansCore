@@ -3,7 +3,12 @@
 
 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 @{ Html.ViewData.TemplateInfo.HtmlFieldPrefix = "KisiEditDto"; }
-<input asp-for="Kisi.Id" hidden class="form-control" />
+<input type="hidden" asp-for="Kisi.Id" />
+<input type="hidden" asp-for="Kisi.EkleyenId" />
+<input type="hidden" asp-for="Kisi.EklemeZamani" />
+<input type="hidden" asp-for="Kisi.GuncelleyenId" />
+<input type="hidden" asp-for="Kisi.GuncellemeZamani" />
+<input type="hidden" asp-for="Kisi.Aktif" />
 
 <div class="col-md-6">
     <div class="card">

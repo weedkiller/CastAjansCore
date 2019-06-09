@@ -75,7 +75,7 @@ namespace CastAjansCore.WebUI.Controllers
                     Oyuncu.Kisi = OyuncuEditDto.KisiEditDto.Kisi;
                     if (id == null)
                     {
-                        await _OyuncuServis.AddAsync(Oyuncu);
+                        await _OyuncuServis.AddAsync(Oyuncu, HttpContext.Session.GetUserHelper());
                     }
                     else
                     {
@@ -83,7 +83,7 @@ namespace CastAjansCore.WebUI.Controllers
                         {
                             return NotFound();
                         }
-                        await _OyuncuServis.UpdateAsync(Oyuncu);
+                        await _OyuncuServis.UpdateAsync(Oyuncu, HttpContext.Session.GetUserHelper());
                     }
                 }
                 catch (DbUpdateConcurrencyException)
@@ -128,7 +128,7 @@ namespace CastAjansCore.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _OyuncuServis.DeleteAsync(id);
+            await _OyuncuServis.DeleteAsync(id, HttpContext.Session.GetUserHelper());
             return RedirectToAction(nameof(Index));
         }
 

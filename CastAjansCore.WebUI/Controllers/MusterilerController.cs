@@ -40,14 +40,10 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Musteris/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            var model = new MusteriEditDto();
-            var iller = (await _IlServis.GetListAsync()).OrderBy(i => i.Adi).ToList();
-
-            model.Iller.Add(new SelectListItem("Seçiniz", ""));
-            foreach (var item in iller)
+            var model = new MusteriEditDto
             {
-                model.Iller.Add(new SelectListItem(item.Adi, item.Id.ToString()));
-            }
+                Iller = (await _IlServis.GetSelectListAsync())
+            };
 
             if (id == null)
             {
@@ -56,13 +52,10 @@ namespace CastAjansCore.WebUI.Controllers
             else
             {
                 model.Musteri = await _MusteriServis.GetByIdAsync(id.Value);
-                model.Musteri.Ilce = await _IlceServis.GetByIdAsync(model.Musteri.IlceId.Value);
-                var ilceler = (await _IlceServis.GetListAsync(i => i.IlId == model.Musteri.Ilce.IlId)).OrderBy(i => i.Adi).ToList();
-                model.Ilceler.Add(new SelectListItem("Seçiniz", ""));
-                foreach (var item in  ilceler)
-                { 
-                    model.Ilceler.Add(new SelectListItem(item.Adi, item.Id.ToString()));
-                }
+                var tIlce = _IlceServis.GetByIdAsync(model.Musteri.IlceId.Value);
+                var tIlceler = _IlceServis.GetSelectListAsync(i => i.IlId == model.Musteri.Ilce.IlId);
+                model.Musteri.Ilce = await tIlce;
+                model.Ilceler = await tIlceler;
 
                 if (model == null)
                 {
@@ -97,7 +90,7 @@ namespace CastAjansCore.WebUI.Controllers
                         musteriEditdto.Musteri.EkleyenId = 1;
                         musteriEditdto.Musteri.EklemeZamani = DateTime.Now;
 
-                        await _MusteriServis.AddAsync(musteriEditdto.Musteri);
+                        await _MusteriServis.AddAsync(musteriEditdto.Musteri, HttpContext.Session.GetUserHelper());
                     }
                     else
                     {
@@ -105,7 +98,7 @@ namespace CastAjansCore.WebUI.Controllers
                         {
                             return NotFound();
                         }
-                        await _MusteriServis.UpdateAsync(musteriEditdto.Musteri);
+                        await _MusteriServis.UpdateAsync(musteriEditdto.Musteri, HttpContext.Session.GetUserHelper());
                     }
                 }
                 catch (DbUpdateConcurrencyException)
@@ -148,7 +141,7 @@ namespace CastAjansCore.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _MusteriServis.DeleteAsync(id);
+            await _MusteriServis.DeleteAsync(id, HttpContext.Session.GetUserHelper());
             return RedirectToAction(nameof(Index));
         }
 

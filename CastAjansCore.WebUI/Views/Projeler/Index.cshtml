@@ -1,0 +1,59 @@
+﻿@model CastAjansCore.Dto.ProjeListDto
+@using Calbay.Core.Helper
+@{
+    ViewData["Title"] = "Projeler";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- Basic table -->
+<div class="card">
+    <div class="card-header header-elements-inline">
+        <h5 class="card-title"></h5>
+        <div class="header-elements">
+            <div class="list-icons">
+                <a class="list-icons-item" asp-action="Edit" asp-route-musteriId="@Model.Musteri.Id"><i class="icon-plus3"></i></a>
+            </div>
+        </div>
+    </div>
+    @*<div class="card-body">
+
+        </div>*@
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Adı</th>
+                    <th>Proje Tarihi</th>
+                    <th>İş Tipi</th>
+                    <th>Mecra</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Projeler)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Adi)
+                    </td>
+                    <td>
+                        @(item.TarihBas.ToShortDateString() + " - " + item.TarihBas.ToShortDateString())
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsTipi.ToDisplay())
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Mecra.ToDisplay())
+                    </td>
+                    <td class="text-right">
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary"><i class="icon-pencil"></i></a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger"><i class="icon-trash"></i></a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- /basic table -->

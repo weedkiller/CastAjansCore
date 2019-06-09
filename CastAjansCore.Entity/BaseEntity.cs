@@ -18,11 +18,6 @@ namespace CastAjansCore.Entity
         public DateTime GuncellemeZamani { get; set; }
 
         public bool Aktif { get; set; }
-
-        [ForeignKey("EkleyenId")]
-        public virtual Kisi Ekleyen { get; set; }
-
-        [ForeignKey("GuncelleyenId")]
-        public virtual Kisi Guncelleyen { get; set; }
+        
     }
 }

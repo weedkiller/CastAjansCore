@@ -12,9 +12,9 @@ namespace CastAjansCore.Entity
         [Display(Name = "Müşteri")]
         public int MusteriId { get; set; }
 
-        [Display(Name ="Başlama Tarihi")]
+        [Display(Name ="Baş.Tarihi")]
         public DateTime TarihBas { get; set; }
-        [Display(Name = "Bitiş Tarihi")]
+        [Display(Name = "Bit.Tarihi")]
         public DateTime TarihBit { get; set; }
 
         [MaxLength(50)]
@@ -28,19 +28,19 @@ namespace CastAjansCore.Entity
         public EnuMecra Mecra { get; set; }
 
         [MaxLength(4000)]
-        [Display(Name = "Acıklama")]
+        [Display(Name = "Açıklama")]
         public string Aciklama { get; set; }
 
-        [Display(Name = "İşi Takip Eden")]
+        [Display(Name = "Takip Eden")]
         public int IsiTakipEdenId { get; set; }
 
-        [Display(Name = "Teklif Açıklama")]
+        [Display(Name = "Teklif Açık.")]
         public string TeklifAciklama { get; set; }
         
         [ForeignKey("MusteriId")]
         public virtual Musteri Musteri { get; set; }
 
         [ForeignKey("IsiTakipEdenId")]
-        public virtual Kisi IsiTakipEden { get; set; }
+        public virtual Kullanici IsiTakipEden { get; set; }
     }
 }

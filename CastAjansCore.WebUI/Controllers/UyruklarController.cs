@@ -91,7 +91,7 @@ namespace CastAjansCore.WebUI.Controllers
                         //Uyruk.EkleyenId = 1;
                         //Uyruk.EklemeZamani = DateTime.Now;
 
-                        await _UyrukServis.AddAsync(Uyruk);
+                        await _UyrukServis.AddAsync(Uyruk, HttpContext.Session.GetUserHelper());
                     }
                     else
                     {
@@ -99,7 +99,7 @@ namespace CastAjansCore.WebUI.Controllers
                         {
                             return NotFound();
                         }
-                        await _UyrukServis.UpdateAsync(Uyruk);
+                        await _UyrukServis.UpdateAsync(Uyruk, HttpContext.Session.GetUserHelper());
                     }
                 }
                 catch (DbUpdateConcurrencyException)
@@ -141,7 +141,7 @@ namespace CastAjansCore.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _UyrukServis.DeleteAsync(id);
+            await _UyrukServis.DeleteAsync(id, HttpContext.Session.GetUserHelper());
             return RedirectToAction(nameof(Index));
         }
 

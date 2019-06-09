@@ -6,6 +6,8 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Reflection;
+using System.ComponentModel.DataAnnotations;
 
 namespace Calbay.Core.Helper
 {
@@ -308,10 +310,12 @@ namespace Calbay.Core.Helper
          ***********************************************************************/
         public static string DataForUsage(this Object data)
         {
-            NumberFormatInfo nfi = new NumberFormatInfo();
-            nfi.NumberDecimalSeparator = ",";
-            nfi.NumberDecimalDigits = 2;
-            nfi.NumberGroupSeparator = ".";
+            NumberFormatInfo nfi = new NumberFormatInfo
+            {
+                NumberDecimalSeparator = ",",
+                NumberDecimalDigits = 2,
+                NumberGroupSeparator = "."
+            };
 
             if (data is System.Decimal)
             {
@@ -368,48 +372,48 @@ namespace Calbay.Core.Helper
          ***********************************************************************/
         public static Object DataForSQL(this Object data)
         {
-            if (data is System.DBNull)
+            if (data is DBNull)
             {
                 return DBNull.Value;
             }
 
-            if (data is System.DateTime)
+            if (data is DateTime)
             {
                 if (data == null) return DBNull.Value; else return ((DateTime)data);
             }
 
-            if (data is System.Boolean)
+            if (data is Boolean)
             {
                 if (data == null) return DBNull.Value; else return data.Equals(true) ? 1 : 0;
             }
-            if (data is System.Double)
+            if (data is double)
             {
-                return ((data == null) ? DBNull.Value : data);
+                return (data ?? DBNull.Value);
             }
 
-            if (data is System.Decimal)
+            if (data is Decimal)
             {
-                return ((data == null) ? DBNull.Value : data);
+                return (data ?? DBNull.Value);
             }
 
-            if (data is System.Int16)
+            if (data is Int16)
             {
-                return ((data == null) ? DBNull.Value : data);
+                return (data ?? DBNull.Value);
             }
 
-            if (data is System.Int32)
+            if (data is Int32)
             {
-                return ((data == null) ? DBNull.Value : data);
+                return (data ?? DBNull.Value);
             }
 
-            if (data is System.Int64)
+            if (data is Int64)
             {
-                return ((data == null) ? DBNull.Value : data);
+                return (data ?? DBNull.Value);
             }
 
-            if (data is System.Byte[])
+            if (data is Byte[])
             {
-                return ((data == null) ? DBNull.Value : data);
+                return (data ?? DBNull.Value);
             }
 
             if (data == null || data.ToString().Trim().Equals("")) return DBNull.Value; else return data.ToString().Trim();
@@ -418,8 +422,7 @@ namespace Calbay.Core.Helper
 
         public static bool IsNumeric(this string s)
         {
-            float output;
-            return float.TryParse(s, out output);
+            return float.TryParse(s, out float output);
         }
 
         public static Stream ToStream(this string s)
@@ -512,13 +515,15 @@ namespace Calbay.Core.Helper
             string sonuc = "";
             if (obj != null)
             {
-                NumberFormatInfo nfi = new NumberFormatInfo();
-                nfi.CurrencyDecimalDigits = 2;
-                nfi.CurrencyDecimalSeparator = ".";
-                nfi.CurrencyGroupSeparator = ",";
-                nfi.NumberDecimalDigits = 2;
-                nfi.NumberDecimalSeparator = ".";
-                nfi.NumberGroupSeparator = ",";
+                NumberFormatInfo nfi = new NumberFormatInfo
+                {
+                    CurrencyDecimalDigits = 2,
+                    CurrencyDecimalSeparator = ".",
+                    CurrencyGroupSeparator = ",",
+                    NumberDecimalDigits = 2,
+                    NumberDecimalSeparator = ".",
+                    NumberGroupSeparator = ","
+                };
                 if (obj is decimal)
                 {
                     sonuc = ((decimal)obj).ToString("#,##0.#0", nfi);
@@ -669,6 +674,25 @@ namespace Calbay.Core.Helper
             return val.Replace('Ğ', 'G').Replace('İ', 'I').Replace('Ö', 'O').Replace('Ş', 'S').Replace('Ç', 'C').Replace('Ü', 'U').
                            Replace('ğ', 'g').Replace("ı", "i").Replace('ö', 'o').Replace('ş', 's').Replace('ç', 'c').Replace('ü', 'u');
         }
+
+        public static string ToDisplay(this Enum value)
+        {
+
+            Type enumType = value.GetType();
+            var enumValue = Enum.GetName(enumType, value);
+            MemberInfo member = enumType.GetMember(enumValue)[0];
+
+            var attrs = member.GetCustomAttributes(typeof(DisplayAttribute), false);
+            var outString = ((DisplayAttribute)attrs[0]).Name;
+
+            if (((DisplayAttribute)attrs[0]).ResourceType != null)
+            {
+                outString = ((DisplayAttribute)attrs[0]).GetName();
+            }
+
+            return outString;
+        }
+
 
 
     }

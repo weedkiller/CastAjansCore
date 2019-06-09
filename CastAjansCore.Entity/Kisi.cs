@@ -8,8 +8,6 @@ namespace CastAjansCore.Entity
     [Table("Kisiler", Schema = "Sistem")]
     public class Kisi : BaseEntity, IEntity
     {
-        public int Id { get; set; }
-
         [MaxLength(11)]
         public string TC { get; set; }
 

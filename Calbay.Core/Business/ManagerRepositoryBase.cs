@@ -1,5 +1,6 @@
 ﻿using Calbay.Core.DataAccess;
 using Calbay.Core.Entities;
+using Calbay.Core.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -8,37 +9,56 @@ using System.Threading.Tasks;
 namespace Calbay.Core.Business
 {
     public class ManagerRepositoryBase<TEntity> : IServiceRepository<TEntity>, IDisposable
-        where TEntity : class, IEntity, new()        
+        where TEntity : class, IEntity, new()
         //where TDal : class, IEntitiyRepository<TEntity>, new()
     {
         public IEntitiyRepository<TEntity> _dal;
+
         public ManagerRepositoryBase(IEntitiyRepository<TEntity> dal)
         {
             _dal = dal;
         }
 
-        public virtual void Add(TEntity entity)
+        public virtual void Add(TEntity entity, UserHelper userHelper)
         {
+            entity.EkleyenId = userHelper.Id;
+            entity.EklemeZamani = DateTime.Now;
+            entity.GuncelleyenId = userHelper.Id;
+            entity.GuncellemeZamani = DateTime.Now;
+            entity.Aktif = true;
+
             _dal.Add(entity);
         }
 
-        public virtual async Task AddAsync(TEntity entity)
+        public virtual async Task AddAsync(TEntity entity, UserHelper userHelper)
         {
+            entity.EkleyenId = userHelper.Id;
+            entity.EklemeZamani = DateTime.Now;
+            entity.GuncelleyenId = userHelper.Id;
+            entity.GuncellemeZamani = DateTime.Now;
+            entity.Aktif = true;
+
             await _dal.AddAsync(entity);
         }
 
-        public virtual void Delete(int id)
+        public virtual void Delete(int id, UserHelper userHelper)
         {
-            _dal.Delete(new TEntity { Id = id });
+            var entity = GetById(id);
+            entity.Aktif = false;
+            Update(entity, userHelper);
+            //_dal.Delete(new TEntity { Id = id });
         }
 
-        public virtual async Task DeleteAsync(int id)
+        public virtual async Task DeleteAsync(int id, UserHelper userHelper)
         {
-            await _dal.DeleteAsync(new TEntity { Id = id });
+            var entity = await GetByIdAsync(id);
+            entity.Aktif = false;
+            await UpdateAsync(entity, userHelper);
+            //await _dal.DeleteAsync(new TEntity { Id = id });
         }
 
         public void Dispose()
-        {          
+        {
             GC.SuppressFinalize(this);
         }
 
@@ -72,13 +92,19 @@ namespace Calbay.Core.Business
             return await _dal.GetListAsync(filter);
         }
 
-        public virtual void Update(TEntity entity)
+        public virtual void Update(TEntity entity, UserHelper userHelper)
         {
+            entity.GuncelleyenId = userHelper.Id;
+            entity.GuncellemeZamani = DateTime.Now;
+
             _dal.Update(entity);
         }
 
-        public virtual async Task UpdateAsync(TEntity entity)
+        public virtual async Task UpdateAsync(TEntity entity, UserHelper userHelper)
         {
+            entity.GuncelleyenId = userHelper.Id;
+            entity.GuncellemeZamani = DateTime.Now;
+
             await _dal.UpdateAsync(entity);
         }
     }

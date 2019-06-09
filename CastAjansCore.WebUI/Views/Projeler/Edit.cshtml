@@ -1,0 +1,106 @@
+﻿@model CastAjansCore.Dto.ProjeEditDto
+@using CastAjansCore.Entity
+@{
+    ViewData["Title"] = "Projeler";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <input type="hidden" asp-for="@Model.Proje.Id" />
+    <input type="hidden" asp-for="@Model.Proje.MusteriId" />
+    <input type="hidden" asp-for="@Model.Proje.EkleyenId" />
+    <input type="hidden" asp-for="@Model.Proje.EklemeZamani" />
+    <input type="hidden" asp-for="@Model.Proje.GuncelleyenId" />
+    <input type="hidden" asp-for="@Model.Proje.GuncellemeZamani" />
+    <input type="hidden" asp-for="@Model.Proje.Aktif" />
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <fieldset>
+                        <legend class="font-weight-semibold"><i class="icon-truck mr-2"></i> Bilgiler</legend>
+
+                        <div class="form-group row">
+                            <label asp-for="Proje.Adi" class="col-lg-3 col-form-label"></label>
+                            <span asp-validation-for="Proje.Adi" class="text-danger"></span>
+                            <div class="col-lg-9">
+                                <input asp-for="Proje.Adi" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="Proje.MusteriId" class="col-lg-3 col-form-label"></label>
+                            <div class="col-lg-9">
+                                <input value="Proje.Musteri.Adi" readonly class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="Proje.IsiTakipEdenId" class="col-lg-3 control-label"></label>
+                            <span asp-validation-for="Proje.IsiTakipEdenId" class="text-danger"></span>
+                            <div class="col-lg-9">
+                                <select asp-for="Proje.IsiTakipEdenId" asp-items="Model.Kullanicilar" class="form-control"></select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-3 control-label">Proje Tarihi</label>
+                            <span asp-validation-for="Proje.TarihBas" class="text-danger"></span>
+                            <span asp-validation-for="Proje.TarihBit" class="text-danger"></span>
+                            <div class="col-lg-4">
+                                <input asp-for="Proje.TarihBas" class="form-control" />
+                            </div>
+                            <div class="col-lg-1">-</div>
+                            <div class="col-lg-4">
+                                <input asp-for="Proje.TarihBit" class="form-control" />
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <fieldset>
+                        <legend class="font-weight-semibold"><i class="icon-truck mr-2"></i> Bilgiler</legend>
+
+                        <div class="form-group row">
+                            <label asp-for="Proje.IsTipi" class="col-lg-3 control-label"></label>
+                            <span asp-validation-for="Proje.IsTipi" class="text-danger"></span>
+                            <div class="col-lg-9">
+                                <select asp-for="Proje.IsTipi" asp-items="Html.GetEnumSelectList<EnuIsTipi>()" class="form-control"></select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="Proje.Mecra" class="col-lg-3 control-label"></label>
+                            <span asp-validation-for="Proje.Mecra" class="text-danger"></span>
+                            <div class="col-lg-9">
+                                <select asp-for="Proje.Mecra" asp-items="Html.GetEnumSelectList<EnuMecra>()" class="form-control"></select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="Proje.Aciklama" class="col-lg-3 control-label"></label>
+                            <span asp-validation-for="Proje.Aciklama" class="text-danger"></span>
+                            <div class="col-lg-9">
+                                <input asp-for="Proje.Aciklama" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="Proje.TeklifAciklama" class="col-lg-3 control-label"></label>
+                            <span asp-validation-for="Proje.TeklifAciklama" class="text-danger"></span>
+                            <div class="col-lg-9">
+                                <input asp-for="Proje.TeklifAciklama" class="form-control" />
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <a asp-action="Index" class="btn btn-danger left">Geri</a>
+    <button type="submit" class="btn btn-primary right">Kaydet <i class="icon-paperplane ml-2"></i></button>
+</form>

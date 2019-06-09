@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Calbay.Core.Helper;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,22 @@ namespace CastAjansCore.WebUI
 {
     public static class SessionExtentionMethots
     {
+        public static UserHelper GetUserHelper(this ISession session)
+        {
+            var u = session.GetObject<UserHelper>("UserHelper");
+            if (u == null)
+            {
+                u = new UserHelper { Id = 1, Adi = "Önder" };
+                session.SetUserHelper(u);
+            }
+            return u;
+        }
+
+        public static void SetUserHelper(this ISession session, UserHelper userHelper)
+        {
+            session.SetObject("UserHelper", userHelper);
+        }
+
         public static void SetObject(this ISession session, string key, object value)
         {
             session.SetString(key, JsonConvert.SerializeObject(value));

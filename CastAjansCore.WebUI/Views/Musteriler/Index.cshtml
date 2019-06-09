@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<CastAjansCore.Entity.Musteri>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Müşteriler";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -12,9 +12,6 @@
         <div class="header-elements">
             <div class="list-icons">
                 <a class="list-icons-item" asp-action="Edit"><i class="icon-plus3"></i></a>
-                @*<a class="list-icons-item" data-action="collapse"></a>*@
-                <a class="list-icons-item" data-action="reload"></a>
-                @*<a class="list-icons-item" data-action="remove"></a>*@
             </div>
         </div>
     </div>
@@ -42,7 +39,7 @@
                             @Html.DisplayFor(modelItem => item.Adi)
                         </td>
                         <td>
-                            <a asp-controller="Projeler" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary"><i class="icon-undefined"></i></a> |
+                            <a asp-controller="Projeler" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary"><i class="icon-design"></i></a> 
                         </td>
                         <td class="text-right">
                             <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary"><i class="icon-pencil"></i></a> |

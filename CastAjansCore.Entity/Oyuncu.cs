@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace CastAjansCore.Entity
 {
     [Table("Oyuncular", Schema = "Cast")]
-    public class Oyuncu : IEntity
+    public class Oyuncu : BaseEntity, IEntity
     {
         [Key]
         [ForeignKey("Kisi")]

@@ -5,6 +5,7 @@ using CastAjansCore.DataLayer.Abstract;
 using CastAjansCore.Dto;
 using CastAjansCore.Entity;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,6 +32,34 @@ namespace CastAjansCore.Business.Concrete
             _bankaServis = bankaServis;
         }
 
+        public override void Add(Kisi entity, UserHelper userHelper)
+        {
+            base.Add(entity, userHelper);
+        }
+
+        private async Task Kontrol(Kisi entity)
+        {
+            var tTC = GetAsync(i => (entity.Id == 0 || i.Id != entity.Id) && i.TC == entity.TC && i.Aktif == true);
+            var tEPosta = GetAsync(i => (entity.Id == 0 || i.Id != entity.Id) && i.TC == entity.EPosta && i.Aktif == true);
+
+            if (await tTC != null)
+            {
+                throw new Exception($"{entity.TC} TC'li kayıt mevcuttur.");
+            }
+
+            if (await tEPosta != null)
+            {
+                throw new Exception($"{entity.EPosta} E-Postalı kayıt mevcuttur.");
+            }
+        }
+
+        public override async Task AddAsync(Kisi entity, UserHelper userHelper)
+        {
+            await Kontrol(entity);
+            await base.AddAsync(entity, userHelper);
+        }
+
+
         public List<Kisi> GetByKanGrubu(EnuKanGrubu kanGrubu)
         {
             return base._dal.GetList(k => k.KanGrubu == kanGrubu);
@@ -39,28 +68,13 @@ namespace CastAjansCore.Business.Concrete
         public async Task<KisiEditDto> GetEditDtoAsync(int? id)
         {
             KisiEditDto kisiEditDto = new KisiEditDto();
-            Task<List<Uyruk>> tUyruk = _uyrukServis.GetListAsync();
-            Task<List<Il>> tIller = _IlServis.GetListAsync();
-            Task<List<Banka>> tBankalar = _bankaServis.GetListAsync();
+            var tUyruk = _uyrukServis.GetSelectListAsync(i => i.Aktif == true);
+            var tIller = _IlServis.GetSelectListAsync(i => i.Aktif == true);
+            var tBankalar = _bankaServis.GetSelectListAsync(i => i.Aktif == true);
 
-            kisiEditDto.Uyruklar.Add(new SelectListItem("Seçiniz", ""));
-            foreach (var item in await tUyruk)
-            {
-                kisiEditDto.Uyruklar.Add(new SelectListItem(item.Adi, item.Id.ToString()));
-            }
-
-            kisiEditDto.Iller.Add(new SelectListItem("Seçiniz", ""));
-            var iller = (await tIller).OrderBy(i => i.Adi).ToList();
-            foreach (var item in iller)
-            {
-                kisiEditDto.Iller.Add(new SelectListItem(item.Adi, item.Id.ToString()));
-            }
-
-            kisiEditDto.Bankalar.Add(new SelectListItem("Seçiniz", ""));
-            foreach (var item in await tBankalar)
-            {
-                kisiEditDto.Bankalar.Add(new SelectListItem(item.Adi, item.Id.ToString()));
-            }
+            kisiEditDto.Uyruklar = await tUyruk;
+            kisiEditDto.Iller = await tIller;
+            kisiEditDto.Bankalar = await tBankalar;
 
             if (id != null)
             {
@@ -70,12 +84,8 @@ namespace CastAjansCore.Business.Concrete
                 if (kisiEditDto.Kisi.IlceId.IsNotNull())
                 {
                     kisiEditDto.Kisi.Ilce = await _IlceServis.GetByIdAsync(kisiEditDto.Kisi.IlceId.Value);
-                    var ilceler = (await _IlceServis.GetListAsync(i => i.IlId == kisiEditDto.Kisi.Ilce.IlId.ToInt(0))).OrderBy(i => i.Adi).ToList();
-                    kisiEditDto.Ilceler.Add(new SelectListItem("Seçiniz", ""));
-                    foreach (var item in ilceler)
-                    {
-                        kisiEditDto.Ilceler.Add(new SelectListItem(item.Adi, item.Id.ToString()));
-                    }
+                    var tilceler = _IlceServis.GetSelectListAsync(i => i.IlId == kisiEditDto.Kisi.Ilce.IlId.ToInt(0) && i.Aktif == true);
+                    kisiEditDto.Ilceler = await tilceler;
                 }
             }
             return kisiEditDto;

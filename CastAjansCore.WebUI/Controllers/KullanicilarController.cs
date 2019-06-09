@@ -20,8 +20,8 @@ namespace CastAjansCore.WebUI.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var kullanicilar = await _kullaniciServis.GetListAsync();
-            return View(kullanicilar);
+            var kullanicilar = await _kullaniciServis.GetListAsync(i => i.Aktif == true);
+            return View(kullanicilar.OrderBy(i => i.Kisi.Adi).ThenBy(i => i.Kisi.Soyadi));
         }
 
         // GET: Kullanicis/Details/5
@@ -40,7 +40,7 @@ namespace CastAjansCore.WebUI.Controllers
 
             return View(entity);
         }
-          
+
         // GET: Kullanicis/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -73,7 +73,7 @@ namespace CastAjansCore.WebUI.Controllers
                     kullanici.Kisi = kullaniciEditDto.KisiEditDto.Kisi;
                     if (id == null)
                     {
-                        await _kullaniciServis.AddAsync(kullanici);
+                        await _kullaniciServis.AddAsync(kullanici, HttpContext.Session.GetUserHelper());
                     }
                     else
                     {
@@ -81,7 +81,7 @@ namespace CastAjansCore.WebUI.Controllers
                         {
                             return NotFound();
                         }
-                        await _kullaniciServis.UpdateAsync(kullanici);
+                        await _kullaniciServis.UpdateAsync(kullanici, HttpContext.Session.GetUserHelper());
                     }
                 }
                 catch (DbUpdateConcurrencyException)
@@ -126,7 +126,7 @@ namespace CastAjansCore.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _kullaniciServis.DeleteAsync(id);
+            await _kullaniciServis.DeleteAsync(id, HttpContext.Session.GetUserHelper());
             return RedirectToAction(nameof(Index));
         }
 

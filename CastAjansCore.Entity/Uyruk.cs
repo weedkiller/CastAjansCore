@@ -5,11 +5,8 @@ using Calbay.Core.Entities;
 namespace CastAjansCore.Entity
 {
     [Table("Uyruklar", Schema = "Sistem")]
-    public class Uyruk: IEntity
+    public class Uyruk: BaseEntity,IEntity
     {
-        [Required]
-        public int Id { get; set; }
-
         [Required]
         [MaxLength(50)]
         public string Adi { get; set; }

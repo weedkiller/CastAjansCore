@@ -4,14 +4,16 @@ using CastAjansCore.DataLayer.Concrete.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CastAjansCore.DataLayer.Migrations
 {
     [DbContext(typeof(CastAjansContext))]
-    partial class CastAjansContextModelSnapshot : ModelSnapshot
+    [Migration("20190609134313_baseEntity")]
+    partial class baseEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -626,7 +628,7 @@ namespace CastAjansCore.DataLayer.Migrations
 
             modelBuilder.Entity("CastAjansCore.Entity.Proje", b =>
                 {
-                    b.HasOne("CastAjansCore.Entity.Kullanici", "IsiTakipEden")
+                    b.HasOne("CastAjansCore.Entity.Kisi", "IsiTakipEden")
                         .WithMany()
                         .HasForeignKey("IsiTakipEdenId")
                         .OnDelete(DeleteBehavior.Restrict);

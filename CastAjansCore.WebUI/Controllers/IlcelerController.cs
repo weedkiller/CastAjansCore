@@ -20,11 +20,11 @@ namespace CastAjansCore.WebUI.Controllers
         }
 
         // GET: Ilces
-        public async Task<IActionResult> Index()
-        {
-            var Ilcelar = await _IlceServis.GetListAsync();
-            return View(Ilcelar);
-        }
+        //public async Task<IActionResult> Index()
+        //{
+        //    var Ilcelar = await _IlceServis.GetListAsync();
+        //    return View(Ilcelar);
+        //}
 
         public async Task<IActionResult> Index(int id)
         {
@@ -62,13 +62,7 @@ namespace CastAjansCore.WebUI.Controllers
 
             return View(entity);
         }
-
-        // GET: Ilces/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
+        
         // GET: Ilces/Edit/5
         public async Task<IActionResult> Edit(int? id, int ilId)
         {
@@ -108,7 +102,7 @@ namespace CastAjansCore.WebUI.Controllers
                 { 
                     if (id == null || id == 0)
                     {                       
-                        await _IlceServis.AddAsync(Ilce);
+                        await _IlceServis.AddAsync(Ilce, HttpContext.Session.GetUserHelper());
                     }
                     else
                     {
@@ -116,7 +110,7 @@ namespace CastAjansCore.WebUI.Controllers
                         {
                             return NotFound();
                         }
-                        await _IlceServis.UpdateAsync(Ilce);
+                        await _IlceServis.UpdateAsync(Ilce, HttpContext.Session.GetUserHelper());
                     }
                 }
                 catch (DbUpdateConcurrencyException)
@@ -158,7 +152,7 @@ namespace CastAjansCore.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _IlceServis.DeleteAsync(id);
+            await _IlceServis.DeleteAsync(id, HttpContext.Session.GetUserHelper());
             return RedirectToAction(nameof(Index));
         }
 

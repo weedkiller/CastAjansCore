@@ -67,17 +67,17 @@ namespace CastAjansCore.Business.Concrete
             return listDto;
         }
 
-        public override async Task AddAsync(Oyuncu entity)
+        public override async Task AddAsync(Oyuncu entity, UserHelper userHelper)
         {
-            await _kisiServis.AddAsync(entity.Kisi);
-            await base.AddAsync(entity);
+            await _kisiServis.AddAsync(entity.Kisi, userHelper);
+            await base.AddAsync(entity, userHelper);
         }
 
-        public override async Task UpdateAsync(Oyuncu entity)
+        public override async Task UpdateAsync(Oyuncu entity, UserHelper userHelper)
         {
             Task[] tasks = new Task[2];
-            tasks[0] = _kisiServis.UpdateAsync(entity.Kisi);
-            tasks[1] = base.UpdateAsync(entity);
+            tasks[0] = _kisiServis.UpdateAsync(entity.Kisi, userHelper);
+            tasks[1] = base.UpdateAsync(entity, userHelper);
 
             await Task.WhenAll(tasks);
         }
