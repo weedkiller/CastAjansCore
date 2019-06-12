@@ -1,0 +1,33 @@
+﻿@model CastAjansCore.Dto.ExcelImport
+@{
+    ViewData["Title"] = "ExcelImport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<form asp-action="ExcelImport" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <fieldset>
+                        <legend class="font-weight-semibold"><i class="icon-truck mr-2"></i> Bilgiler</legend>
+
+                        <div class="form-group row">
+                            <label class="col-lg-3 control-label">Excel</label>
+                            <div class="col-lg-9">
+                                <input asp-for="file" class="form-control" />
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <a asp-action="Index" class="btn btn-danger left">Geri</a>
+    <button type="submit" class="btn btn-primary right">Kaydet <i class="icon-paperplane ml-2"></i></button>
+</form>

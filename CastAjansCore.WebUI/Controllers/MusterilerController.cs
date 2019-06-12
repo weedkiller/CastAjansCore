@@ -150,5 +150,6 @@ namespace CastAjansCore.WebUI.Controllers
             Musteri entity = await _MusteriServis.GetByIdAsync(id);
             return entity != null;
         }
+
     }
 }
