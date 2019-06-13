@@ -76,7 +76,9 @@
     <!-- /main navbar -->
     <!-- Page content -->
     <div class="page-content">
-        <partial name="Menu" />
+        
+        <partial name="_Menu" view-data="null"/>
+        @*@Html.RenderPartial("_Menu")*@
         <!-- Main content -->
         <div class="content-wrapper">
             <!-- Page header -->

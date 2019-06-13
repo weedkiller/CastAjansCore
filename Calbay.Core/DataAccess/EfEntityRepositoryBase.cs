@@ -100,11 +100,14 @@ namespace Calbay.Core.DataAccess
 
         public virtual async Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> filter = null)
         {
+            //var prefix = filter.Compile();
+            filter = i => i.Aktif == true;
             using (var context = new TContex())
             {
-                var query = await (filter == null
-                    ? context.Set<TEntity>().ToListAsync<TEntity>()
-                    : context.Set<TEntity>().Where(filter).ToListAsync<TEntity>());
+                //var query = await (filter == null
+                //    ? context.Set<TEntity>().ToListAsync<TEntity>()
+                //    : context.Set<TEntity>().Where(filter).ToListAsync<TEntity>());
+                var query = await context.Set<TEntity>().Where(filter).ToListAsync<TEntity>();
                 return query;
             }
         }

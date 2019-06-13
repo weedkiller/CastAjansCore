@@ -4,14 +4,16 @@ using CastAjansCore.DataLayer.Concrete.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CastAjansCore.DataLayer.Migrations
 {
     [DbContext(typeof(CastAjansContext))]
-    partial class CastAjansContextModelSnapshot : ModelSnapshot
+    [Migration("20190612214955_oyuncular")]
+    partial class oyuncular
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -164,10 +166,6 @@ namespace CastAjansCore.DataLayer.Migrations
                         .HasMaxLength(100);
 
                     b.Property<bool>("Aktif");
-
-                    b.Property<string>("AnneAdiSoyadi");
-
-                    b.Property<string>("BabaAdiSoyadi");
 
                     b.Property<int?>("BankaId");
 
@@ -330,7 +328,11 @@ namespace CastAjansCore.DataLayer.Migrations
                     b.Property<int?>("AltBeden")
                         .HasMaxLength(20);
 
+                    b.Property<string>("AnneAdiSoyadi");
+
                     b.Property<int?>("AyakNumarasi");
+
+                    b.Property<string>("BabaAdiSoyadi");
 
                     b.Property<int?>("Boy");
 

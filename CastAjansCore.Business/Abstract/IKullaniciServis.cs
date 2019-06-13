@@ -13,6 +13,6 @@ namespace CastAjansCore.Business.Abstract
     {
         Task<Kullanici> GetWithKisi(int id);
         Task<KullaniciEditDto> GetEditDtoAsync(int? id);
-        Task<List<SelectListItem>> GetSelectListAsync(Expression<Func<Kullanici, bool>> filter);
+        Task<List<SelectListItem>> GetSelectListAsync(Expression<Func<Kullanici, bool>> filter = null);
     }
 }

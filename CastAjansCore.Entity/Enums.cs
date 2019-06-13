@@ -7,7 +7,7 @@ namespace CastAjansCore.Entity
 {
     public enum EnuCinsiyet
     {
-        [Display(Name = "Seçiniz")]
+        [Display(Name = "-")]
         Seciniz = 0,
 
         [Display(Name = "Bayan")]
@@ -19,7 +19,7 @@ namespace CastAjansCore.Entity
 
     public enum EnuMedeniDurumu
     {
-        [Display(Name = "Seçiniz")]
+        [Display(Name = "-")]
         Seciniz = 0,
 
         [Display(Name = "Bekâr")]
@@ -34,7 +34,7 @@ namespace CastAjansCore.Entity
 
     public enum EnuGozRengi
     {
-        [Display(Name = "Seçiniz")]
+        [Display(Name = "-")]
         Seciniz = 0,
 
         [Display(Name = "Gri")]
@@ -53,12 +53,15 @@ namespace CastAjansCore.Entity
         Kahve = 4,
 
         [Display(Name = "Koyu Kahve")]
-        KoyuKahve = 5
+        KoyuKahve = 5,
+
+        [Display(Name = "Siyah")]
+        Siyah = 6
     }
 
     public enum EnuTenRengi
     {
-        [Display(Name = "Seçiniz")]
+        [Display(Name = "-")]
         Seciniz = 0,
 
         [Display(Name = "Beyaz")]
@@ -71,12 +74,15 @@ namespace CastAjansCore.Entity
         Esmer = 2,
 
         [Display(Name = "Kumral")]
-        Kumral = 3
+        Kumral = 3,
+
+        [Display(Name = "Siyahi")]
+        Siyahi = 4
     }
 
     public enum EnuSacRengi
     {
-        [Display(Name = "Seçiniz")]
+        [Display(Name = "-")]
         Seciniz = 0,
 
         [Display(Name = "Beyaz")]
@@ -121,35 +127,36 @@ namespace CastAjansCore.Entity
 
     public enum EnuKanGrubu
     {
-        [Display(Name = "Seçiniz")]
+        [Display(Name = "-")]
         Seciniz = 0,
 
-        [Display(Name = "A Rh Pozitif")]
+        [Display(Name = "A Rh(+)")]
         APozitif = 1,
 
-        [Display(Name = "A Rh Negetif")]
+        [Display(Name = "A Rh(-)")]
         ANegatif = 2,
 
-        [Display(Name = "AB Rh Pozitif")]
-        ABPozitif = 3,
+        [Display(Name = "B Rh(+)")]
+        BPozitif = 3,
 
-        [Display(Name = "AB Rh Negetif")]
-        ABNegatif = 4,
+        [Display(Name = "B Rh(-)")]
+        BNegatif = 4,
 
-        [Display(Name = "B Rh Pozitif")]
-        BPozitif = 5,
+        [Display(Name = "AB Rh(+)")]
+        ABPozitif = 5,
 
-        [Display(Name = "B Rh Negetif")]
-        BNegatif = 6,
-        [Display(Name = "0 Rh Pozitif")]
+        [Display(Name = "AB Rh(-)")]
+        ABNegatif = 6,
+
+        [Display(Name = "0 Rh(+)")]
         SifirPozitif = 7,
 
-        [Display(Name = "0 Rh Negetif")]
+        [Display(Name = "0 Rh(-)")]
         SifirNegatif = 8,
     }
     public enum EnuIsTipi
     {
-        [Display(Name = "Seçiniz")]
+        [Display(Name = "-")]
         Seciniz = 0,
 
         [Display(Name = "Reklam")]
@@ -170,7 +177,7 @@ namespace CastAjansCore.Entity
 
     public enum EnuMecra
     {
-        [Display(Name = "Seçiniz")]
+        [Display(Name = "-")]
         Seciniz = 0,
 
         [Display(Name = "Tv")]
@@ -189,17 +196,17 @@ namespace CastAjansCore.Entity
         Dergi = 3,
     }
 
-    public enum EnuTelefonTuru
-    {
-        [Display(Name = "Cep")]
-        Cep = 1,
+    //public enum EnuTelefonTuru
+    //{
+    //    [Display(Name = "Cep")]
+    //    Cep = 1,
 
-        [Display(Name = "Ev")]
-        Ev = 2,
+    //    [Display(Name = "Ev")]
+    //    Ev = 2,
 
-        [Display(Name = "İş")]
-        Is = 3
-    }
+    //    [Display(Name = "İş")]
+    //    Is = 3
+    //}
 
     public enum EnuKarakterDurumu
     {

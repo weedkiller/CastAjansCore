@@ -39,22 +39,21 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Projes/Edit/5
         public async Task<IActionResult> Edit(int? id, int musteriId)
         {
-            var tMusteri = _MusteriServis.GetByIdAsync(musteriId);
             var projeEditDto = new ProjeEditDto
             {
-                Kullanicilar = await _KullaniciServis.GetSelectListAsync(i => i.Kisi.Aktif == true)
+                Kullanicilar = await _KullaniciServis.GetSelectListAsync()
             };
 
             if (id == null)
             {
-                projeEditDto.Proje = new Proje { Musteri = await tMusteri, MusteriId = musteriId };
+                projeEditDto.Proje = new Proje { Musteri = await _MusteriServis.GetByIdAsync(musteriId), MusteriId = musteriId };
 
                 return View(projeEditDto);
             }
             else
-            {   
+            {
                 projeEditDto.Proje = await _ProjeServis.GetByIdAsync(id.Value);
-                projeEditDto.Proje.Musteri = await tMusteri;
+                projeEditDto.Proje.Musteri = await _MusteriServis.GetByIdAsync(projeEditDto.Proje.MusteriId); ;
                 if (projeEditDto.Proje == null)
                 {
                     return NotFound();
@@ -99,7 +98,7 @@ namespace CastAjansCore.WebUI.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index) + "/" + Proje.MusteriId);
+                return RedirectToAction(nameof(Index), new { id = Proje.MusteriId });
             }
 
             return View(Proje);

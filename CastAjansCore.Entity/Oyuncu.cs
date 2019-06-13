@@ -12,21 +12,15 @@ namespace CastAjansCore.Entity
         [ForeignKey("Kisi")]
         public int Id { get; set; }
 
-        [Display(Name = "Anne Ad Soyad")]
-        public string AnneAdiSoyadi { get; set; }
-
-        [Display(Name = "Baba Ad Soyad")]
-        public string BabaAdiSoyadi { get; set; }
-
+        [Display(Name = "Boy(Cm)")]
         public int? Boy { get; set; }
 
+        [Display(Name = "Kilo(Kg)")]
         public int? Kilo { get; set; }
 
-        [MaxLength(20)]
         [Display(Name = "Alt Beden")]
         public int? AltBeden { get; set; }
 
-        [MaxLength(20)]
         [Display(Name = "Üst Beden")]
         public int? UstBeden { get; set; }
 
@@ -41,6 +35,14 @@ namespace CastAjansCore.Entity
 
         [Display(Name = "Saç Rengi")]
         public EnuSacRengi SacRengi { get; set; }
+
+        [MaxLength(200)]
+        [Display(Name = "Meslek")]
+        public string Meslek { get; set; }
+
+        [MaxLength(200)]
+        [Display(Name = "Yabancı Dil")]
+        public string YabanciDil { get; set; }
 
         [MaxLength(200)]
         [Display(Name = "Engel Durumu")]

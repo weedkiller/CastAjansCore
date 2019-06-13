@@ -1,9 +1,7 @@
 ﻿using CastAjansCore.Business.Abstract;
-using CastAjansCore.DataLayer.Abstract;
 using CastAjansCore.Entity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Threading.Tasks;
 
 namespace CastAjansCore.WebUI.Controllers

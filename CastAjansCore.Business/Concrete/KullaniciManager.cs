@@ -61,7 +61,7 @@ namespace CastAjansCore.Business.Concrete
             return kullaniciEditDto;
         }
 
-        public async Task<List<SelectListItem>> GetSelectListAsync(Expression<Func<Kullanici, bool>> filter)
+        public async Task<List<SelectListItem>> GetSelectListAsync(Expression<Func<Kullanici, bool>> filter = null)
         {
             var tKullaniciler = (await base._dal.GetListAsync(new List<string> { "Kisi" }, filter)).OrderBy(i => i.Kisi.Adi).ThenBy(i => i.Kisi.Soyadi).ToList();
             List<SelectListItem> result = new List<SelectListItem>

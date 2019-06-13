@@ -23,7 +23,7 @@ namespace CastAjansCore.Entity
 
         [Display(Name = "Doğum Tarihi")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        //[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DogumTarihi { get; set; }
 
         [Display(Name = "Cinsiyet")]
@@ -31,6 +31,12 @@ namespace CastAjansCore.Entity
 
         [Display(Name = "Kan Grubu")]
         public EnuKanGrubu KanGrubu { get; set; }
+
+        [Display(Name = "Anne Ad Soyad")]
+        public string AnneAdiSoyadi { get; set; }
+
+        [Display(Name = "Baba Ad Soyad")]
+        public string BabaAdiSoyadi { get; set; }
 
         [Display(Name = "Uyruk")]
         public int? UyrukId { get; set; }

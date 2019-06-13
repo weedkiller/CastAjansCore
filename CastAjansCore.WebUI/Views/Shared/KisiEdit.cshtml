@@ -19,8 +19,7 @@
             <fieldset>
                 <div class="form-group row">
                     <label asp-for="Kisi.TC" class="col-lg-3 col-form-label"></label>
-                    <div class="col-lg-9">
-
+                    <div class="col-lg-9"> 
                         <div class="form-group">
                             <input asp-for="Kisi.TC" class="form-control" />
                             <span asp-validation-for="Kisi.TC" class="text-danger"></span>
@@ -30,8 +29,7 @@
 
                 <div class="form-group row">
                     <label asp-for="Kisi.Adi" class="col-lg-3 col-form-label"></label>
-                    <div class="col-lg-9">
-
+                    <div class="col-lg-9"> 
                         <div class="form-group">
                             <input asp-for="Kisi.Adi" class="form-control" />
                             <span asp-validation-for="Kisi.Adi" class="text-danger"></span>
@@ -41,8 +39,7 @@
 
                 <div class="form-group row">
                     <label asp-for="Kisi.Soyadi" class="col-lg-3 col-form-label"></label>
-                    <div class="col-lg-9">
-
+                    <div class="col-lg-9"> 
                         <div class="form-group">
                             <input asp-for="Kisi.Soyadi" class="form-control" />
                             <span asp-validation-for="Kisi.Soyadi" class="text-danger"></span>
@@ -52,10 +49,9 @@
 
                 <div class="form-group row">
                     <label asp-for="Kisi.DogumTarihi" class="col-lg-3 col-form-label"></label>
-                    <div class="col-lg-9">
-
+                    <div class="col-lg-9"> 
                         <div class="form-group">
-                            <input asp-for="Kisi.DogumTarihi" type="date" asp-format="{0:dd/MM/yyyy}" class="form-control" />
+                            <input asp-for="Kisi.DogumTarihi" class="form-control" />
                             <span asp-validation-for="Kisi.DogumTarihi" class="text-danger"></span>
                         </div>
                     </div>
@@ -63,8 +59,7 @@
 
                 <div class="form-group row">
                     <label asp-for="Kisi.Cinsiyet" class="col-lg-3 col-form-label"></label>
-                    <div class="col-lg-9">
-
+                    <div class="col-lg-9"> 
                         <div class="form-group">
                             <select asp-for="Kisi.Cinsiyet" asp-items="Html.GetEnumSelectList<EnuCinsiyet>()" class="form-control"></select>
                             <span asp-validation-for="Kisi.Cinsiyet" class="text-danger"></span>
@@ -74,8 +69,7 @@
 
                 <div class="form-group row">
                     <label asp-for="Kisi.KanGrubu" class="col-lg-3 col-form-label"></label>
-                    <div class="col-lg-9">
-
+                    <div class="col-lg-9"> 
                         <div class="form-group">
                             <select asp-for="Kisi.KanGrubu" asp-items="Html.GetEnumSelectList<EnuKanGrubu>()" class="form-control"></select>
                             <span asp-validation-for="Kisi.KanGrubu" class="text-danger"></span>
@@ -94,6 +88,20 @@
                     </div>
                 </div>
 
+                <div class="form-group row">
+                    <label asp-for="Kisi.AnneAdiSoyadi" class="col-lg-3 col-form-label"></label>
+                    <span asp-for="Oyuncu.AnneAdiSoyadi" class="text-danger"></span>
+                    <div class="col-lg-9">
+                        <input asp-for="Kisi.AnneAdiSoyadi" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Kisi.BabaAdiSoyadi" class="col-lg-3 col-form-label"></label>
+                    <span asp-for="Oyuncu.BabaAdiSoyadi" class="text-danger"></span>
+                    <div class="col-lg-9">
+                        <input asp-for="Kisi.BabaAdiSoyadi" class="form-control" />
+                    </div>
+                </div>
 
                 <div class="form-group row">
                     <label asp-for="Kisi.BankaId" class="col-lg-3 col-form-label"></label>

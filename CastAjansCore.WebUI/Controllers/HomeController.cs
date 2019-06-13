@@ -1,7 +1,9 @@
 ﻿using CastAjansCore.Business.Abstract;
+using CastAjansCore.Dto;
 using CastAjansCore.Entity;
 using CastAjansCore.WebUI.Filters;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace CastAjansCore.WebUI.Controllers
@@ -12,6 +14,32 @@ namespace CastAjansCore.WebUI.Controllers
         public HomeController(IKisiServis kisiServis)
         {
             _kisiServis = kisiServis;
+        }
+         
+        public PartialViewResult _Menu()
+        {
+            var menuListDto = new MenuListDto
+            {
+                //UserHelper = HttpContext.Session.GetUserHelper(),
+                Menuler = new List<MenuDto>
+                {
+                    new MenuDto { Adi = "Müşteriler", Icon = "icon-clapboard-play", Link = "/Musteriler" } ,
+                    new MenuDto { Adi = "Oyuncular", Icon = "icon-accessibility", Link = "/Oyuncular" },
+                    new MenuDto { Adi = "Oyuncular", Icon = "icon-accessibility", Link = "/Oyuncular" },
+                    new MenuDto
+                    {
+                        Adi = "Sistem",
+                        Icon = "icon-gear",
+                        Link = "#",
+                        AltMenuler = new List<MenuDto> {
+                             new MenuDto { Adi = "Bankalar", Link = "/Bankalar" } ,
+                             new MenuDto{ Adi="Firmalar", Link="/Firmalar" }
+                        }
+                    }
+                }
+            };
+
+            return PartialView("_Menu", menuListDto);
         }
 
         [HandleException]
@@ -33,6 +61,7 @@ namespace CastAjansCore.WebUI.Controllers
             //HttpContext.Session.SetObject("kisiListDto", kisi);
             return View(await _kisiServis.GetListAsync());
         }
+
 
         [Route("delete/{id?}")]
         public string Delete(int id)
