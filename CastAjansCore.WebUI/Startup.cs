@@ -38,9 +38,9 @@ namespace CastAjansCore.WebUI
 
         private void AddScoped(IServiceCollection services)
         {
-           
+
             //services.AddScoped<IAdresDal, EfAdresDal>();
-            
+ 
             services.AddSingleton<IBankaServis, BankaManager>();
             services.AddSingleton<IBankaDal, EfBankaDal>();
 

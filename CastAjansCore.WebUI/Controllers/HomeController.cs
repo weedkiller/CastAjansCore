@@ -15,8 +15,9 @@ namespace CastAjansCore.WebUI.Controllers
         {
             _kisiServis = kisiServis;
         }
-         
-        public PartialViewResult _Menu()
+
+        [Route("_Menu")]
+        public PartialViewResult Menu()
         {
             var menuListDto = new MenuListDto
             {

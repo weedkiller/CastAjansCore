@@ -1,25 +1,23 @@
 ﻿using CastAjansCore.Dto;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Razor.TagHelpers;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace CastAjansCore.WebUI.TagHelpers
+namespace CastAjansCore.WebUI.ViewComponents
 {
-    [HtmlTargetElement("menu-list")]
-    public class MenuTagHelper : TagHelper
+    public class Menuler : ViewComponent
     {
-        private List<MenuListDto> _menuList;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        public MenuTagHelper(IHttpContextAccessor httpContextAccessor)
+        public Menuler()
         {
 
-            _httpContextAccessor = httpContextAccessor;
-            _httpContextAccessor.HttpContext.Session.GetUserHelper();
-
+        }
+ 
+        public IViewComponentResult Invoke()
+        {
+            //parametre alıp almadığını kontrol ediyorum    
             var menuListDto = new MenuListDto
             {
                 //UserHelper = HttpContext.Session.GetUserHelper(),
@@ -40,23 +38,8 @@ namespace CastAjansCore.WebUI.TagHelpers
                     }
                 }
             };
-        }
 
-        [HtmlAttributeName("count")]
-        public int _count { get; set; }
-        public override void Process(TagHelperContext context, TagHelperOutput output)
-        {
-            output.TagName = "div";
-
-            StringBuilder sb = new StringBuilder();
-            foreach (var item in _menuList.Take(_count))
-            {
-                sb.AppendFormat("<h5><a href='/Home/Edit/{0}'>{1} {2}</a></h5>", item.Menuler, item.Menuler, item.Menuler);
-            }
-
-            output.Content.SetHtmlContent(sb.ToString());
-
-            base.Process(context, output);
+            return View();
         }
     }
 }

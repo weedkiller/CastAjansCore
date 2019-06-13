@@ -8,6 +8,10 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Reflection;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
+using System.Linq;
 
 namespace Calbay.Core.Helper
 {
@@ -691,6 +695,62 @@ namespace Calbay.Core.Helper
             }
 
             return outString;
+        }
+
+        private static void ReadException()
+        {
+            //OleDbConnection objConn = null;
+        }
+
+        public static DataTable ReadExcel(this Stream stream)
+        {
+            DataTable dt = new DataTable();
+
+            ISheet sheet;
+            //stream.Position = 0;
+            //if (sFileExtension == ".xls")
+            //{
+            //    HSSFWorkbook hssfwb = new HSSFWorkbook(stream); //This will read the Excel 97-2000 formats  
+            //    sheet = hssfwb.GetSheetAt(0); //get first sheet from workbook  
+            //}
+            //else
+            //{
+            XSSFWorkbook hssfwb = new XSSFWorkbook(stream); //This will read 2007 Excel format  
+            sheet = hssfwb.GetSheetAt(0); //get first sheet from workbook   
+            //}
+            IRow headerRow = sheet.GetRow(0); //Get Header Row
+            int cellCount = headerRow.LastCellNum;
+            
+            for (int j = 0; j < cellCount; j++)
+            {
+                NPOI.SS.UserModel.ICell cell = headerRow.GetCell(j);
+                if (cell == null || string.IsNullOrWhiteSpace(cell.ToString())) continue;
+                dt.Columns.Add(cell.ToString());
+            }            
+            for (int i = (sheet.FirstRowNum + 1); i <= sheet.LastRowNum; i++) //Read Excel File
+            {
+                DataRow dr = dt.NewRow();
+                IRow row = sheet.GetRow(i);
+                if (row == null) continue;
+                if (row.Cells.All(d => d.CellType == CellType.Blank)) continue;
+                for (int j = row.FirstCellNum; j < cellCount; j++)
+                {
+                    if (row.GetCell(j) != null)
+                        try
+                        {
+                            dr[j] = row.GetCell(j);
+                        }
+                        catch
+                        {
+
+                        }
+                        
+                }
+                dt.Rows.Add(dr);
+            }
+
+
+            return dt;
         }
 
 

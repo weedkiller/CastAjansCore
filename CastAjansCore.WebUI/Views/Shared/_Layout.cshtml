@@ -76,8 +76,10 @@
     <!-- /main navbar -->
     <!-- Page content -->
     <div class="page-content">
-        
-        <partial name="_Menu" view-data="null"/>
+        @*<menu-list></menu-list>*@
+        @await Component.InvokeAsync("Menuler")
+
+        @*<partial name="Menu" />*@
         @*@Html.RenderPartial("_Menu")*@
         <!-- Main content -->
         <div class="content-wrapper">
@@ -87,7 +89,7 @@
                     <div class="page-title d-flex">
                         <h4><i class="icon-arrow-left52 mr-2"></i> <span class="font-weight-semibold"> @ViewData["Title"]</span></h4>
                         <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
-                    </div>                   
+                    </div>
                 </div>
                 <div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
                     <div class="d-flex">
