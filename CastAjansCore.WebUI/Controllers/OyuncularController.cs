@@ -27,6 +27,7 @@ namespace CastAjansCore.WebUI.Controllers
         
         public async Task<IActionResult> Index()
         {
+            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
             var Oyuncular = await _OyuncuServis.GetListDtoAsync();
             return View(Oyuncular);
         }
@@ -34,6 +35,7 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Oyuncus/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
             if (id == null)
             {
                 return NotFound();
@@ -51,6 +53,7 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Oyuncus/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
             OyuncuEditDto model = await _OyuncuServis.GetEditDtoAsync(id);
 
             if (id != null  && model.Oyuncu == null)
@@ -115,6 +118,7 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Oyuncus/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
             if (id == null)
             {
                 return NotFound();

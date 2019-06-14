@@ -1,4 +1,5 @@
-﻿using CastAjansCore.Business.Abstract;
+﻿using Calbay.Core.Helper;
+using CastAjansCore.Business.Abstract;
 using CastAjansCore.Dto;
 using CastAjansCore.Entity;
 using CastAjansCore.WebUI.Filters;
@@ -15,37 +16,12 @@ namespace CastAjansCore.WebUI.Controllers
         {
             _kisiServis = kisiServis;
         }
-
-        [Route("_Menu")]
-        public PartialViewResult Menu()
-        {
-            var menuListDto = new MenuListDto
-            {
-                //UserHelper = HttpContext.Session.GetUserHelper(),
-                Menuler = new List<MenuDto>
-                {
-                    new MenuDto { Adi = "Müşteriler", Icon = "icon-clapboard-play", Link = "/Musteriler" } ,
-                    new MenuDto { Adi = "Oyuncular", Icon = "icon-accessibility", Link = "/Oyuncular" },
-                    new MenuDto { Adi = "Oyuncular", Icon = "icon-accessibility", Link = "/Oyuncular" },
-                    new MenuDto
-                    {
-                        Adi = "Sistem",
-                        Icon = "icon-gear",
-                        Link = "#",
-                        AltMenuler = new List<MenuDto> {
-                             new MenuDto { Adi = "Bankalar", Link = "/Bankalar" } ,
-                             new MenuDto{ Adi="Firmalar", Link="/Firmalar" }
-                        }
-                    }
-                }
-            };
-
-            return PartialView("_Menu", menuListDto);
-        }
-
+        
         [HandleException]
         public async Task<IActionResult> Index()
         {
+            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
+
             //IKisiServis _kisiServis = new KisiManager(new EfKisiDal());
             //Kisi kisi = new Kisi {
             //    Adi = "Önder",

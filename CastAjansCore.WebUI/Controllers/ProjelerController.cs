@@ -26,6 +26,7 @@ namespace CastAjansCore.WebUI.Controllers
 
         public async Task<IActionResult> Index(int? id)
         {
+            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
             ProjeListDto ProjeListDto = new ProjeListDto();
             Task<Musteri> tMusteri = _MusteriServis.GetByIdAsync(id.Value);
             Task<List<Proje>> tProje = _ProjeServis.GetListAsync(i => (id == null || i.MusteriId == id));
@@ -39,6 +40,7 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Projes/Edit/5
         public async Task<IActionResult> Edit(int? id, int musteriId)
         {
+            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
             var projeEditDto = new ProjeEditDto
             {
                 Kullanicilar = await _KullaniciServis.GetSelectListAsync()
@@ -107,6 +109,7 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Projes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
             if (id == null)
             {
                 return NotFound();

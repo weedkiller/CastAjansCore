@@ -15,5 +15,7 @@ namespace Calbay.Core.Helper
         public string KullaniciAdi { get; set; }
 
         public string Rol { get; set; }
+
+        public List<MenuDto> Menuler { get; set; }
     }
 }

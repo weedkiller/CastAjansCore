@@ -28,6 +28,7 @@ namespace CastAjansCore.WebUI.Controllers
 
         public async Task<IActionResult> Index(int id)
         {
+            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
             IlceListDto ilceListDto = new IlceListDto();
             Task<Il> tIl = _IlServis.GetByIdAsync(id);
             Task<List<Ilce>> tIlce = _IlceServis.GetListAsync(i => i.IlId == id);
@@ -49,6 +50,7 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Ilces/DetaIlces/5
         public async Task<IActionResult> DetaIlces(int? id)
         {
+            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
             if (id == null)
             {
                 return NotFound();
@@ -66,6 +68,7 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Ilces/Edit/5
         public async Task<IActionResult> Edit(int? id, int ilId)
         {
+            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
 
             if (id == null)
             {
@@ -94,8 +97,6 @@ namespace CastAjansCore.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int? id, Ilce Ilce)
         {
-
-
             if (ModelState.IsValid)
             {
                 try
@@ -133,6 +134,7 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Ilces/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
             if (id == null)
             {
                 return NotFound();

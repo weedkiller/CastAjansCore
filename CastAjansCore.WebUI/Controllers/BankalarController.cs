@@ -27,6 +27,7 @@ namespace CastAjansCore.WebUI.Controllers
 
         public async Task<IActionResult> Index()
         {
+            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
             var Bankalar = await _BankaServis.GetListAsync();
             return View(Bankalar);
         }
@@ -34,6 +35,7 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Bankas/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
             if (id == null)
             {
                 return View(new Banka());
@@ -57,8 +59,6 @@ namespace CastAjansCore.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int? id, Banka Banka)
         {
-
-
             if (ModelState.IsValid)
             {
                 try
@@ -103,6 +103,7 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Bankas/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
             if (id == null)
             {
                 return NotFound();

@@ -20,6 +20,7 @@ namespace CastAjansCore.WebUI.Controllers
 
         public async Task<IActionResult> Index()
         {
+            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
             var kullanicilar = await _kullaniciServis.GetListAsync(i => i.Aktif == true);
             return View(kullanicilar.OrderBy(i => i.Kisi.Adi).ThenBy(i => i.Kisi.Soyadi));
         }
@@ -27,6 +28,7 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Kullanicis/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
             if (id == null)
             {
                 return NotFound();
@@ -44,6 +46,7 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Kullanicis/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
             KullaniciEditDto model = await _kullaniciServis.GetEditDtoAsync(id);
 
             if (model.Kullanici == null)
@@ -107,6 +110,7 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Kullanicis/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
             if (id == null)
             {
                 return NotFound();

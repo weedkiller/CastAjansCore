@@ -15,7 +15,28 @@ namespace CastAjansCore.WebUI
             var u = session.GetObject<UserHelper>("UserHelper");
             if (u == null)
             {
-                u = new UserHelper { Id = 1, Adi = "Önder" };
+                u = new UserHelper
+                {
+                    Id = 1,
+                    Adi = "Önder",
+                    Soyadi = "ÇALBAY",
+                    KullaniciAdi = "albay69s",
+                    Menuler = new List<MenuDto>
+                    {
+                        new MenuDto { Adi = "Müşteriler", Icon = "icon-clapboard-play", Link = "/Musteriler" } ,
+                        new MenuDto { Adi = "Oyuncular", Icon = "icon-accessibility", Link = "/Oyuncular" },
+                        new MenuDto
+                        {
+                            Adi = "Sistem",
+                            Icon = "icon-gear",
+                            Link = "#",
+                            AltMenuler = new List<MenuDto> {
+                                 new MenuDto { Adi = "Bankalar", Link = "/Bankalar" } ,
+                                 new MenuDto{ Adi="Firmalar", Link="/Firmalar" }
+                            }
+                        }
+                    }
+                };
                 session.SetUserHelper(u);
             }
             return u;

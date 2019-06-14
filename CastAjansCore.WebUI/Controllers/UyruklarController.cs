@@ -17,42 +17,18 @@ namespace CastAjansCore.WebUI.Controllers
         {
             _UyrukServis = UyrukServis;
         }
-
-        // GET: Uyruks
-        //public async Task<IActionResult> Index()
-        //{
-        //    var Uyruklar = await _UyrukServis.GetListAsync();
-        //    return View(Uyruklar);
-        //}
-
+        
         public async Task<IActionResult> Index()
         {
+            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
             var Uyruklar = await _UyrukServis.GetListAsync();
             return View(Uyruklar);
         }
-
-        // GET: Uyruks/DetaUyruks/5
-        public async Task<IActionResult> DetaUyruks(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var entity = await _UyrukServis.GetByIdAsync(id.Value);
-            if (entity == null)
-            {
-                return NotFound();
-            }
-
-            return View(entity);
-        }
-
-         
-
+        
         // GET: Uyruks/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
             if (id == null)
             {
                 return View(new Uyruk());
@@ -76,8 +52,6 @@ namespace CastAjansCore.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int? id, Uyruk Uyruk)
         {
-
-
             if (ModelState.IsValid)
             {
                 try
@@ -122,6 +96,7 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Uyruks/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
             if (id == null)
             {
                 return NotFound();

@@ -24,6 +24,7 @@ namespace CastAjansCore.WebUI.Controllers
 
         public async Task<IActionResult> Index()
         {
+            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
             var Illar = await _IlServis.GetListAsync();
             return View(Illar);
         }
@@ -31,6 +32,7 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Ils/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
             if (id == null)
             {
                 return NotFound();
@@ -44,16 +46,11 @@ namespace CastAjansCore.WebUI.Controllers
 
             return View(entity);
         }
-
-        // GET: Ils/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
+        
         // GET: Ils/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
             if (id == null)
             {
                 return View(new Il());
@@ -77,8 +74,6 @@ namespace CastAjansCore.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int? id, Il Il)
         {
-
-
             if (ModelState.IsValid)
             {
                 try
@@ -116,6 +111,7 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Ils/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
             if (id == null)
             {
                 return NotFound();

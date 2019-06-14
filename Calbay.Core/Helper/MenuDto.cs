@@ -1,16 +1,13 @@
-﻿using Calbay.Core.Helper;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace CastAjansCore.Dto
+namespace Calbay.Core.Helper
 {
     public class MenuDto
     {
         public MenuDto()
         {
             AltMenuler = new List<MenuDto>();
-            
+
         }
         public string Adi { get; set; }
 

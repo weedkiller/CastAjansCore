@@ -1,10 +1,12 @@
-﻿<!DOCTYPE html>
+﻿@using Calbay.Core.Helper
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Limitless - Responsive Web Application Kit by Eugene Kopyov</title>
+    <title>Life Ajans - @ViewBag.Title</title>
     <!-- Global stylesheets -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
     <link href="/Limitless_2_2/css/icons/icomoon/styles.min.css" rel="stylesheet" type="text/css">
@@ -15,7 +17,7 @@
     <link href="/Limitless_2_2/css/colors.min.css" rel="stylesheet" type="text/css">
     <!-- /global stylesheets -->
     <!-- Core JS files -->
-    <script src="/Limitless_2_2/js/main/jquery.min.js"></script>    
+    <script src="/Limitless_2_2/js/main/jquery.min.js"></script>
     <script src="/Limitless_2_2/js/main/bootstrap.bundle.min.js"></script>
     <script src="/Limitless_2_2/js/plugins/loaders/blockui.min.js"></script>
     <script src="/Limitless_2_2/js/plugins/ui/ripple.min.js"></script>
@@ -24,14 +26,18 @@
     <script src="/Limitless_2_2/js/app.js"></script>
     <!-- /theme JS files -->
     <script src="/Js/core.js"></script>
-    
+
 </head>
 <body>
+    @{
+        var userHelper = (UserHelper)ViewData["UserHelper"];
+    }
     <!-- Main navbar -->
     <div class="navbar navbar-expand-md navbar-dark bg-indigo navbar-static">
         <div class="navbar-brand">
             <a href="/" class="d-inline-block">
-                <img src="/Limitless_2_2/images/logo_light.png" alt="">
+                @*<img src="/Limitless_2_2/images/logo_light.png" alt="">*@
+                <img src="/Resimler/logo_small.png" />
             </a>
         </div>
         <div class="d-md-none">
@@ -50,18 +56,19 @@
                     </a>
                 </li>
             </ul>
-            <ul class="navbar-nav ml-auto">              
+            <ul class="navbar-nav ml-auto">
                 @*<li class="nav-item dropdown">
-                    <a href="#" class="navbar-nav-link">
-                        <i class="icon-bell2"></i>
-                        <span class="d-md-none ml-2">Notifications</span>
-                        <span class="badge badge-mark border-white ml-auto ml-md-0"></span>
-                    </a>
-                </li>*@
+                        <a href="#" class="navbar-nav-link">
+                            <i class="icon-bell2"></i>
+                            <span class="d-md-none ml-2">Notifications</span>
+                            <span class="badge badge-mark border-white ml-auto ml-md-0"></span>
+                        </a>
+                    </li>*@
                 <li class="nav-item dropdown dropdown-user">
                     <a href="#" class="navbar-nav-link d-flex align-items-center dropdown-toggle" data-toggle="dropdown">
                         <img src="/Limitless_2_2/images/image.png" class="rounded-circle mr-2" height="34" alt="">
-                        <span>Victoria</span>
+
+                        <span>@userHelper.KullaniciAdi</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
                         <a href="#" class="dropdown-item"><i class="icon-user-plus"></i> Hesabım</a>
@@ -77,9 +84,9 @@
     <!-- Page content -->
     <div class="page-content">
         @*<menu-list></menu-list>*@
-        @await Component.InvokeAsync("Menuler")
+        @*@await Component.InvokeAsync("Menuler")*@
 
-        @*<partial name="Menu" />*@
+        <partial name="_Menu" />
         @*@Html.RenderPartial("_Menu")*@
         <!-- Main content -->
         <div class="content-wrapper">
@@ -95,30 +102,30 @@
                     <div class="d-flex">
                         <div class="breadcrumb">
                             <a href="index.html" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Anasayfa</a>
-                            <a href="#" class="breadcrumb-item">Link</a>
+                            <a href="#" class="breadcrumb-item">@ViewBag.Title</a>
                             <span class="breadcrumb-item active">Current</span>
                         </div>
                         <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
                     </div>
                     @*<div class="header-elements d-none">
-                        <div class="breadcrumb justify-content-center">
-                            <a href="#" class="breadcrumb-elements-item">
-                                Link
-                            </a>
-                            <div class="breadcrumb-elements-item dropdown p-0">
-                                <a href="#" class="breadcrumb-elements-item dropdown-toggle" data-toggle="dropdown">
-                                    Dropdown
+                            <div class="breadcrumb justify-content-center">
+                                <a href="#" class="breadcrumb-elements-item">
+                                    Link
                                 </a>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a href="#" class="dropdown-item">Action</a>
-                                    <a href="#" class="dropdown-item">Another action</a>
-                                    <a href="#" class="dropdown-item">One more action</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a href="#" class="dropdown-item">Separate action</a>
+                                <div class="breadcrumb-elements-item dropdown p-0">
+                                    <a href="#" class="breadcrumb-elements-item dropdown-toggle" data-toggle="dropdown">
+                                        Dropdown
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a href="#" class="dropdown-item">Action</a>
+                                        <a href="#" class="dropdown-item">Another action</a>
+                                        <a href="#" class="dropdown-item">One more action</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a href="#" class="dropdown-item">Separate action</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>*@
+                        </div>*@
                 </div>
             </div>
             <!-- /page header -->
