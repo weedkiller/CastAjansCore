@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Calbay.Core.Helper;
+using CastAjansCore.WebUI.Helper;
 
 namespace CastAjansCore.WebUI.Controllers
 {
@@ -24,7 +25,7 @@ namespace CastAjansCore.WebUI.Controllers
         {
             _OyuncuServis = OyuncuServis;
         }
-        
+
         public async Task<IActionResult> Index()
         {
             ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
@@ -56,7 +57,7 @@ namespace CastAjansCore.WebUI.Controllers
             ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
             OyuncuEditDto model = await _OyuncuServis.GetEditDtoAsync(id);
 
-            if (id != null  && model.Oyuncu == null)
+            if (id != null && model.Oyuncu == null)
             {
                 return NotFound();
             }
@@ -71,43 +72,51 @@ namespace CastAjansCore.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int? id, OyuncuEditDto OyuncuEditDto)
         {
-            ModelState.Remove("Oyuncu.Id");
-            ModelState.Remove("KisiEditDto.Kisi.Ilce.Id");
-            ModelState.Remove("KisiEditDto.Kisi.Ilce.IlId");
-            ModelState.Remove("KisiEditDto.Kisi.Ilce.Adi");
+            try
+            { 
+                ModelState.Remove("Oyuncu.Id");
+                ModelState.Remove("KisiEditDto.Kisi.Ilce.Id");
+                ModelState.Remove("KisiEditDto.Kisi.Ilce.IlId");
+                ModelState.Remove("KisiEditDto.Kisi.Ilce.Adi");
 
-            if (ModelState.IsValid)
-            {
-                try
+                if (ModelState.IsValid)
                 {
-                    Oyuncu Oyuncu = OyuncuEditDto.Oyuncu;
-                    Oyuncu.Kisi = OyuncuEditDto.KisiEditDto.Kisi;
-                    if (id == null)
+                    try
                     {
-                        await _OyuncuServis.AddAsync(Oyuncu, HttpContext.Session.GetUserHelper());
+                        Oyuncu Oyuncu = OyuncuEditDto.Oyuncu;
+                        Oyuncu.Kisi = OyuncuEditDto.KisiEditDto.Kisi;
+                        if (id == null)
+                        {
+                            await _OyuncuServis.AddAsync(Oyuncu, HttpContext.Session.GetUserHelper());
+                        }
+                        else
+                        {
+                            if (id != Oyuncu.Id)
+                            {
+                                return NotFound();
+                            }
+                            await _OyuncuServis.UpdateAsync(Oyuncu, HttpContext.Session.GetUserHelper());
+                        }
                     }
-                    else
+                    catch (DbUpdateConcurrencyException)
                     {
-                        if (id != Oyuncu.Id)
+                        if (!await OyuncuExistsAsync(OyuncuEditDto.Oyuncu.Id))
                         {
                             return NotFound();
                         }
-                        await _OyuncuServis.UpdateAsync(Oyuncu, HttpContext.Session.GetUserHelper());
+                        else
+                        {
+                            throw;
+                        }
                     }
+                    return RedirectToAction(nameof(Index));
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!await OyuncuExistsAsync(OyuncuEditDto.Oyuncu.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
             }
+            catch (Exception ex)
+            {
+                MesajHelper.HataEkle(ViewBag, ex.Message);
+            }
+            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
             var combolar = await _OyuncuServis.GetEditDtoAsync(id);
             OyuncuEditDto.KisiEditDto.Ilceler = combolar.KisiEditDto.Ilceler;
             OyuncuEditDto.KisiEditDto.Iller = combolar.KisiEditDto.Iller;
@@ -161,11 +170,11 @@ namespace CastAjansCore.WebUI.Controllers
                 DataTable dt = inputStream.ReadExcel();
                 //DataTable dt = GetDataTableFromSpreadsheet(inputStream, false);
             }
-               
+
 
             return View();
         }
-        
+
         //public static DataTable GetDataTableFromSpreadsheet(Stream MyExcelStream, bool ReadOnly)
         //{
         //    DataTable dt = MyExcelStream

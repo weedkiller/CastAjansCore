@@ -6,12 +6,21 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
+
 <form asp-action="Edit">
     <div class="row">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <input type="hidden" asp-for="Oyuncu.Id" />
+
         @await Html.PartialAsync("KisiEdit", Model.KisiEditDto)
-      
+
+
+        <input type="hidden" asp-for="Oyuncu.Id" />
+        <input type="hidden" asp-for="Oyuncu.EkleyenId" />
+        <input type="hidden" asp-for="Oyuncu.EklemeZamani" />
+        <input type="hidden" asp-for="Oyuncu.GuncelleyenId" />
+        <input type="hidden" asp-for="Oyuncu.GuncellemeZamani" />
+        <input type="hidden" asp-for="Oyuncu.Aktif" />
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header header-elements-inline">
@@ -80,6 +89,7 @@
                 </div>
             </div>
         </div>
+
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header header-elements-inline">

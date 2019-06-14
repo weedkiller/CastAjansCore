@@ -1,10 +1,21 @@
 ﻿@model CastAjansCore.Dto.KullaniciEditDto
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Kullanıcılar";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <form asp-action="Edit">
+
+    <input type="hidden" asp-for="Kullanici.Id" />
+    <input type="hidden" asp-for="Kullanici.EkleyenId" />
+    <input type="hidden" asp-for="Kullanici.EklemeZamani" />
+    <input type="hidden" asp-for="Kullanici.GuncelleyenId" />
+    <input type="hidden" asp-for="Kullanici.GuncellemeZamani" />
+    <input type="hidden" asp-for="Kullanici.Aktif" />
+
+    @{ Html.ViewData.TemplateInfo.HtmlFieldPrefix = "Kullanici"; }
+    @await Html.PartialAsync("_BaseEdit", Model.Kullanici)
+
     <div class="row">
         @await Html.PartialAsync("KisiEdit", Model.KisiEditDto)
         <div class="col-md-6">
@@ -16,7 +27,6 @@
 
                 <div class="card-body">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="hidden" asp-for="Kullanici.Id" />
 
                     <fieldset>
                         <div class="form-group row">

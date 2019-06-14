@@ -1,9 +1,11 @@
 ﻿using CastAjansCore.Business.Abstract;
 using CastAjansCore.Dto;
 using CastAjansCore.Entity;
+using CastAjansCore.WebUI.Helper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -64,47 +66,63 @@ namespace CastAjansCore.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int? id, KullaniciEditDto kullaniciEditDto)
         {
-            ModelState.Remove("KisiEditDto.Kisi.Ilce.Id");
-            ModelState.Remove("KisiEditDto.Kisi.Ilce.IlId");
-            ModelState.Remove("KisiEditDto.Kisi.Ilce.Adi");
-
-            if (ModelState.IsValid)
+            try
             {
-                try
+                ModelState.Remove("KisiEditDto.Kisi.Ilce.Id");
+                ModelState.Remove("KisiEditDto.Kisi.Ilce.IlId");
+                ModelState.Remove("KisiEditDto.Kisi.Ilce.Adi");
+
+                if (ModelState.IsValid)
                 {
-                    Kullanici kullanici = kullaniciEditDto.Kullanici;
-                    kullanici.Kisi = kullaniciEditDto.KisiEditDto.Kisi;
-                    if (id == null)
+                    try
                     {
-                        await _kullaniciServis.AddAsync(kullanici, HttpContext.Session.GetUserHelper());
+                        Kullanici kullanici = kullaniciEditDto.Kullanici;
+                        kullanici.Kisi = kullaniciEditDto.KisiEditDto.Kisi;
+                        if (id == null)
+                        {
+                            await _kullaniciServis.AddAsync(kullanici, HttpContext.Session.GetUserHelper());
+                        }
+                        else
+                        {
+                            if (id != kullanici.Id)
+                            {
+                                return NotFound();
+                            }
+                            await _kullaniciServis.UpdateAsync(kullanici, HttpContext.Session.GetUserHelper());
+                        }
                     }
-                    else
+                    catch (DbUpdateConcurrencyException)
                     {
-                        if (id != kullanici.Id)
+                        if (!await KullaniciExistsAsync(kullaniciEditDto.Kullanici.Id))
                         {
                             return NotFound();
                         }
-                        await _kullaniciServis.UpdateAsync(kullanici, HttpContext.Session.GetUserHelper());
+                        else
+                        {
+                            throw;
+                        }
                     }
+                    return RedirectToAction(nameof(Index));
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    if (!await KullaniciExistsAsync(kullaniciEditDto.Kullanici.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+
+
+                    MesajHelper.HataEkle(ViewBag, ModelState);
+
                 }
-                return RedirectToAction(nameof(Index));
+                var combolar = await _kullaniciServis.GetEditDtoAsync(id);
+                kullaniciEditDto.KisiEditDto.Ilceler = combolar.KisiEditDto.Ilceler;
+                kullaniciEditDto.KisiEditDto.Iller = combolar.KisiEditDto.Iller;
+                kullaniciEditDto.KisiEditDto.Uyruklar = combolar.KisiEditDto.Uyruklar;
             }
-            var combolar = await _kullaniciServis.GetEditDtoAsync(id);
-            kullaniciEditDto.KisiEditDto.Ilceler = combolar.KisiEditDto.Ilceler;
-            kullaniciEditDto.KisiEditDto.Iller = combolar.KisiEditDto.Iller;
-            kullaniciEditDto.KisiEditDto.Uyruklar = combolar.KisiEditDto.Uyruklar;
+            catch (Exception ex)
+            {
+                MesajHelper.HataEkle(ViewBag, ex.Message);
+            }
+            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
             return View(kullaniciEditDto);
+
         }
 
         // GET: Kullanicis/Delete/5

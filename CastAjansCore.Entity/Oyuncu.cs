@@ -10,7 +10,7 @@ namespace CastAjansCore.Entity
     {
         [Key]
         [ForeignKey("Kisi")]
-        public int Id { get; set; }
+        public new int Id { get; set; }        
 
         [Display(Name = "Boy(Cm)")]
         public int? Boy { get; set; }

@@ -9,11 +9,17 @@
 
 <h4>Kisi</h4>
 <hr />
+<input type="hidden" asp-for="Id" />
+<input type="hidden" asp-for="EkleyenId" />
+<input type="hidden" asp-for="EklemeZamani" />
+<input type="hidden" asp-for="GuncelleyenId" />
+<input type="hidden" asp-for="GuncellemeZamani" />
+<input type="hidden" asp-for="Aktif" />
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="TC" class="control-label"></label>
                 <input asp-for="TC" class="form-control" />
@@ -30,7 +36,7 @@
                 <span asp-validation-for="Soyadi" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DogumTarihi" class="control-label"></label>                
+                <label asp-for="DogumTarihi" class="control-label"></label>
                 <input asp-for="DogumTarihi" class="form-control" />
                 <span asp-validation-for="DogumTarihi" class="text-danger"></span>
             </div>

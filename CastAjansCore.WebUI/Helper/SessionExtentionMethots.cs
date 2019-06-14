@@ -31,8 +31,10 @@ namespace CastAjansCore.WebUI
                             Icon = "icon-gear",
                             Link = "#",
                             AltMenuler = new List<MenuDto> {
-                                 new MenuDto { Adi = "Bankalar", Link = "/Bankalar" } ,
-                                 new MenuDto{ Adi="Firmalar", Link="/Firmalar" }
+                                 new MenuDto { Adi = "Bankalar", Link = "/Bankalar" } ,                                 
+                                 new MenuDto{ Adi="Firmalar", Link="/Firmalar" },
+                                 new MenuDto { Adi = "İller", Link = "/Iller" } ,
+                                 new MenuDto{ Adi="Kullanıcılar", Link="/Kullanicilar" }
                             }
                         }
                     }

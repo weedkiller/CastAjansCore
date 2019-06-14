@@ -32,8 +32,10 @@
                 </tr>
             </thead>
             <tbody>
+
                 @foreach (var item in Model)
-                {
+               {
+
                     <tr>
                         <td>
                             @Html.DisplayFor(modelItem => item.Adi)
@@ -43,7 +45,9 @@
                         </td>
                         <td class="text-right">
                             <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary"><i class="icon-pencil"></i></a> |
-                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger"><i class="icon-trash"></i></a>
+                            @*<a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger"><i class="icon-trash"></i></a>*@
+
+                            <button type="button" id=@("btnSil-"+item.Id) data-refid=@item.Id class="btn btn-sm btn-outline-danger silModal"><i class="icon-trash"></i></button>
                         </td>
                     </tr>
                 }
