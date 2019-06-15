@@ -15,15 +15,20 @@ namespace CastAjansCore.Business.Concrete
     public class OyuncuManager : ManagerRepositoryBase<Oyuncu>, IOyuncuServis
     {
         private readonly IKisiServis _kisiServis;
-        public OyuncuManager(IOyuncuDal dal, IKisiServis kisiServis) : base(dal)
+        private readonly IOyuncuResimServis _OyuncuResimServis;
+        private readonly IOyuncuVideoServis _OyuncuVideoServis;
+        public OyuncuManager(IOyuncuDal dal, IKisiServis kisiServis, IOyuncuResimServis oyuncuResimServis, IOyuncuVideoServis oyuncuVideoServis) : base(dal)
         {
             _kisiServis = kisiServis;
+            _OyuncuResimServis = oyuncuResimServis;
+            _OyuncuVideoServis = oyuncuVideoServis;
         }
 
         public async Task<OyuncuEditDto> GetEditDtoAsync(int? id)
         {
             OyuncuEditDto OyuncuEditDto = new OyuncuEditDto();
             Task<KisiEditDto> tKisiEditDto = _kisiServis.GetEditDtoAsync(id);
+
             if (id == null)
             {
                 OyuncuEditDto.KisiEditDto = await tKisiEditDto;
@@ -31,9 +36,13 @@ namespace CastAjansCore.Business.Concrete
             else
             {
                 Task<Oyuncu> tOyuncu = base.GetByIdAsync(id.Value);
+                Task<List<OyuncuResim>> tOyuncuResimleri = _OyuncuResimServis.GetListByOyuncuIdAsync(id.Value);
+                Task<List<OyuncuVideo>> tOyuncuVideolari = _OyuncuVideoServis.GetListByOyuncuIdAsync(id.Value);
 
                 OyuncuEditDto.Oyuncu = await tOyuncu;
                 OyuncuEditDto.KisiEditDto = await tKisiEditDto;
+                OyuncuEditDto.OyuncuResimleri = await tOyuncuResimleri;
+                OyuncuEditDto.OyuncuVideolari = await tOyuncuVideolari;
             }
 
             return OyuncuEditDto;
@@ -70,14 +79,43 @@ namespace CastAjansCore.Business.Concrete
         public override async Task AddAsync(Oyuncu entity, UserHelper userHelper)
         {
             await _kisiServis.AddAsync(entity.Kisi, userHelper);
-            await base.AddAsync(entity, userHelper);
+            Task[] tasks = new Task[3];
+
+            entity.Id = entity.Kisi.Id;
+            tasks[0] = base.AddAsync(entity, userHelper);
+
+            foreach (var item in entity.OyuncuResimleri.Where(i => i.OyuncuId == 0))
+            {
+                item.OyuncuId = entity.Kisi.Id;
+            }
+            tasks[1] = _OyuncuResimServis.SaveListAsync(entity.OyuncuResimleri, userHelper);
+
+            foreach (var item in entity.OyuncuVideolari.Where(i => i.OyuncuId == 0))
+            {
+                item.OyuncuId = entity.Kisi.Id;
+            }
+            tasks[2] = _OyuncuVideoServis.SaveListAsync(entity.OyuncuVideolari, userHelper);
+
+            await Task.WhenAll(tasks);
         }
 
         public override async Task UpdateAsync(Oyuncu entity, UserHelper userHelper)
         {
-            Task[] tasks = new Task[2];
+            Task[] tasks = new Task[4];
             tasks[0] = _kisiServis.UpdateAsync(entity.Kisi, userHelper);
             tasks[1] = base.UpdateAsync(entity, userHelper);
+
+            foreach (var item in entity.OyuncuResimleri.Where(i => i.OyuncuId == 0))
+            {
+                item.OyuncuId = entity.Kisi.Id;
+            }
+            tasks[2] = _OyuncuResimServis.SaveListAsync(entity.OyuncuResimleri, userHelper);
+
+            foreach (var item in entity.OyuncuVideolari.Where(i => i.OyuncuId == 0))
+            {
+                item.OyuncuId = entity.Kisi.Id;
+            }
+            tasks[3] = _OyuncuVideoServis.SaveListAsync(entity.OyuncuVideolari, userHelper);
 
             await Task.WhenAll(tasks);
         }

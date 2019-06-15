@@ -1,4 +1,5 @@
 ﻿using CastAjansCore.Entity;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 
@@ -14,6 +15,11 @@ namespace CastAjansCore.Dto
             Ilceler = new List<SelectListItem>();
             Bankalar = new List<SelectListItem>();
         }
+
+        public IFormFile KimlikOnFile { get; set; }
+
+        public IFormFile KimlikArkaFile { get; set; }
+
         public Kisi Kisi { get; set; }
 
         public List<SelectListItem> Uyruklar { get; set; }

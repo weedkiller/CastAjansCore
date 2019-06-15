@@ -40,7 +40,9 @@ namespace CastAjansCore.WebUI
         {
 
             //services.AddScoped<IAdresDal, EfAdresDal>();
- 
+            //services.AddSingleton<IHostingEnvironment>(new HostingEnvironment());
+
+
             services.AddSingleton<IBankaServis, BankaManager>();
             services.AddSingleton<IBankaDal, EfBankaDal>();
 

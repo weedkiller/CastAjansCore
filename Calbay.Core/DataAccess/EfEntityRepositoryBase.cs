@@ -61,7 +61,7 @@ namespace Calbay.Core.DataAccess
         {
             using (var context = new TContex())
             {
-                return context.Set<TEntity>().SingleOrDefault(filter);
+                return context.Set<TEntity>().SingleOrDefault(SetFilter(filter));
             }
         }
 
@@ -69,7 +69,7 @@ namespace Calbay.Core.DataAccess
         {
             using (var context = new TContex())
             {
-                var task = await context.Set<TEntity>().SingleOrDefaultAsync(filter);
+                var task = await context.Set<TEntity>().SingleOrDefaultAsync(SetFilter(filter));
 
                 return task;
             }
@@ -84,30 +84,42 @@ namespace Calbay.Core.DataAccess
                 {
                     query = query.Include(item);
                 }
-                return await query.SingleOrDefaultAsync<TEntity>(filter);
+                return await query.SingleOrDefaultAsync<TEntity>(SetFilter(filter));
             }
         }
 
         public virtual List<TEntity> GetList(Expression<Func<TEntity, bool>> filter = null)
         {
+
             using (var context = new TContex())
             {
-                return filter == null
-                    ? context.Set<TEntity>().ToList<TEntity>()
-                    : context.Set<TEntity>().Where(filter).ToList<TEntity>();
+                return context.Set<TEntity>().Where(SetFilter(filter)).ToList<TEntity>();
             }
+        }
+
+        private Expression<Func<TEntity, bool>> SetFilter(Expression<Func<TEntity, bool>> filter = null)
+        {
+            if (filter == null)
+            {
+                Expression<Func<TEntity, bool>> clientWhere = c => true;
+                filter = clientWhere;
+            }
+
+            var prefix = filter.Compile();
+            Expression<Func<TEntity, bool>> defaultFilter = c => c.Aktif == true;
+            filter = filter = c => prefix(c) && c.Aktif == true;
+
+            return filter;
         }
 
         public virtual async Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> filter = null)
         {
-            //var prefix = filter.Compile();
-            filter = i => i.Aktif == true;
             using (var context = new TContex())
             {
                 //var query = await (filter == null
                 //    ? context.Set<TEntity>().ToListAsync<TEntity>()
                 //    : context.Set<TEntity>().Where(filter).ToListAsync<TEntity>());
-                var query = await context.Set<TEntity>().Where(filter).ToListAsync<TEntity>();
+                var query = await context.Set<TEntity>().Where(SetFilter(filter)).ToListAsync<TEntity>();
                 return query;
             }
         }
@@ -118,7 +130,7 @@ namespace Calbay.Core.DataAccess
             {
                 var query = (filter == null
                     ? context.Set<TEntity>()
-                    : context.Set<TEntity>().Where(filter));
+                    : context.Set<TEntity>().Where(SetFilter(filter)));
 
                 foreach (var item in includes)
                 {

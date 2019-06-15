@@ -14,16 +14,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Calbay.Core.Helper;
 using CastAjansCore.WebUI.Helper;
+using Microsoft.AspNetCore.Hosting;
 
 namespace CastAjansCore.WebUI.Controllers
 {
     public class OyuncularController : Controller
     {
         private readonly IOyuncuServis _OyuncuServis;
-
+        //private readonly IHostingEnvironment _HostingEnvironment;
         public OyuncularController(IOyuncuServis OyuncuServis)
         {
             _OyuncuServis = OyuncuServis;
+            //_HostingEnvironment = environment;
         }
 
         public async Task<IActionResult> Index()
@@ -70,10 +72,10 @@ namespace CastAjansCore.WebUI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int? id, OyuncuEditDto OyuncuEditDto)
+        public async Task<IActionResult> Edit(int? id, OyuncuEditDto oyuncuEditDto)
         {
             try
-            { 
+            {
                 ModelState.Remove("Oyuncu.Id");
                 ModelState.Remove("KisiEditDto.Kisi.Ilce.Id");
                 ModelState.Remove("KisiEditDto.Kisi.Ilce.IlId");
@@ -83,24 +85,51 @@ namespace CastAjansCore.WebUI.Controllers
                 {
                     try
                     {
-                        Oyuncu Oyuncu = OyuncuEditDto.Oyuncu;
-                        Oyuncu.Kisi = OyuncuEditDto.KisiEditDto.Kisi;
-                        if (id == null)
+                        Oyuncu Oyuncu = oyuncuEditDto.Oyuncu;
+                        Oyuncu.Kisi = oyuncuEditDto.KisiEditDto.Kisi;
+                        if (oyuncuEditDto.KisiEditDto.KimlikOnFile != null)
+                            oyuncuEditDto.KisiEditDto.Kisi.KimlikOnUrl = oyuncuEditDto.KisiEditDto.KimlikOnFile.SaveFile("Kimlikler");
+
+                        if (oyuncuEditDto.KisiEditDto.KimlikArkaFile != null)
+                            oyuncuEditDto.KisiEditDto.Kisi.KimlikArkaUrl = oyuncuEditDto.KisiEditDto.KimlikArkaFile.SaveFile("Kimlikler");
+
+
+                        if (oyuncuEditDto.OyuncuResimleriFile != null && oyuncuEditDto.OyuncuResimleriFile.Count > 0)
                         {
-                            await _OyuncuServis.AddAsync(Oyuncu, HttpContext.Session.GetUserHelper());
-                        }
-                        else
-                        {
-                            if (id != Oyuncu.Id)
+                            foreach (var item in oyuncuEditDto.OyuncuResimleriFile)
                             {
-                                return NotFound();
+                                oyuncuEditDto.OyuncuResimleri.Add(
+                                    new OyuncuResim { DosyaYolu = item.SaveFile("OyuncuResimleri") }
+                                    );
                             }
-                            await _OyuncuServis.UpdateAsync(Oyuncu, HttpContext.Session.GetUserHelper());
+                        }
+
+                        if (oyuncuEditDto.OyuncuVideolariFile != null && oyuncuEditDto.OyuncuVideolariFile.Count > 0)
+                        {
+                            foreach (var item in oyuncuEditDto.OyuncuVideolariFile)
+                            {
+                                oyuncuEditDto.OyuncuResimleri.Add(
+                                    new OyuncuResim { DosyaYolu = item.SaveFile("OyuncuResimleri") }
+                                    );
+                            }
+
+                            if (id == null)
+                            {
+                                await _OyuncuServis.AddAsync(Oyuncu, HttpContext.Session.GetUserHelper());
+                            }
+                            else
+                            {
+                                if (id != Oyuncu.Id)
+                                {
+                                    return NotFound();
+                                }
+                                await _OyuncuServis.UpdateAsync(Oyuncu, HttpContext.Session.GetUserHelper());
+                            }
                         }
                     }
                     catch (DbUpdateConcurrencyException)
                     {
-                        if (!await OyuncuExistsAsync(OyuncuEditDto.Oyuncu.Id))
+                        if (!await OyuncuExistsAsync(oyuncuEditDto.Oyuncu.Id))
                         {
                             return NotFound();
                         }
@@ -118,10 +147,10 @@ namespace CastAjansCore.WebUI.Controllers
             }
             ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
             var combolar = await _OyuncuServis.GetEditDtoAsync(id);
-            OyuncuEditDto.KisiEditDto.Ilceler = combolar.KisiEditDto.Ilceler;
-            OyuncuEditDto.KisiEditDto.Iller = combolar.KisiEditDto.Iller;
-            OyuncuEditDto.KisiEditDto.Uyruklar = combolar.KisiEditDto.Uyruklar;
-            return View(OyuncuEditDto);
+            oyuncuEditDto.KisiEditDto.Ilceler = combolar.KisiEditDto.Ilceler;
+            oyuncuEditDto.KisiEditDto.Iller = combolar.KisiEditDto.Iller;
+            oyuncuEditDto.KisiEditDto.Uyruklar = combolar.KisiEditDto.Uyruklar;
+            return View(oyuncuEditDto);
         }
 
         // GET: Oyuncus/Delete/5

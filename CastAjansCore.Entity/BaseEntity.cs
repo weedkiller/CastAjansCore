@@ -5,9 +5,9 @@ using System.Text;
 
 namespace CastAjansCore.Entity
 {
-    public class BaseEntity
+    public abstract class BaseEntity
     {
-        public int Id { get; set; }
+        public virtual int Id { get; set; }
 
         public int? EkleyenId { get; set; }
 
@@ -18,6 +18,6 @@ namespace CastAjansCore.Entity
         public DateTime GuncellemeZamani { get; set; }
 
         public bool Aktif { get; set; }
-        
+
     }
 }

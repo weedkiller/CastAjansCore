@@ -104,8 +104,18 @@ namespace CastAjansCore.Entity
         [Display(Name = "İban")]
         public string Iban { get; set; }
 
+        [MaxLength(200)]
+        [Display(Name = "Kimlik Ön Url")]
+        public string KimlikOnUrl { get; set; }
+
+        [MaxLength(200)]
+        [Display(Name = "Kimlik Arka Url")]
+        public string KimlikArkaUrl { get; set; }
+
         [ForeignKey("UyrukId")]
         public virtual Uyruk Uyruk { get; set; }
+
+
 
         //public virtual Oyuncu Oyuncu { get; set; }
 

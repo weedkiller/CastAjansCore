@@ -10,7 +10,7 @@ namespace CastAjansCore.Entity
     {
         [Key]
         [ForeignKey("Kisi")]
-        public new int Id { get; set; }        
+        public override int Id { get; set; }        
 
         [Display(Name = "Boy(Cm)")]
         public int? Boy { get; set; }
@@ -75,10 +75,10 @@ namespace CastAjansCore.Entity
         [ForeignKey("Id")]
         public virtual Kisi Kisi { get; set; }
 
-        public ICollection<OyuncuResim> OyuncuResimleri { get; set; }
+        public List<OyuncuResim> OyuncuResimleri { get; set; }
 
-        public ICollection<OyuncuVideo> OyuncuVideolari { get; set; }
+        public List<OyuncuVideo> OyuncuVideolari { get; set; }
 
-        public ICollection<ProjeKarakter> BolumKarakterleri { get; set; }
+        public List<ProjeKarakter> ProjeKarakterleri { get; set; }
     }
 }
