@@ -8,7 +8,7 @@
 
 
 
-<form asp-action="Edit"  enctype="multipart/form-data">
+<form asp-action="Edit" enctype="multipart/form-data">
     <div class="row">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -143,7 +143,86 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header header-elements-inline">
+                    <h5 class="card-title"><i class="icon-truck mr-2"></i> Oyuncu Fotoğrafları</h5>
+                </div>
+                <div class="card-body">
+                    <fieldset>
+
+                        <div class="form-group row">
+                            <label asp-for="Oyuncu.OyuncuResimleri" class="col-lg-3 col-form-label"></label>
+                            <span asp-for="Oyuncu.Aciklama" class="text-danger"></span>
+                            <div class="col-lg-9">
+                                <input asp-for="OyuncuResimleriFile" type="file" class="file-input" multiple="multiple" data-fouc>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            @for (int i = 0; i < Model.Oyuncu.OyuncuResimleri.Count; i++)
+                            {
+
+
+                                <div class="card">
+                                    <div class="card-img-actions m-1">
+                                        <img class="card-img img-fluid" src=@Model.Oyuncu.OyuncuResimleri[i].DosyaYolu alt="">
+                                        <div class="card-img-actions-overlay card-img">
+                                            <a href=@Model.Oyuncu.OyuncuResimleri[i].DosyaYolu
+                                               class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round legitRipple"
+                                               data-popup="lightbox" rel="group">
+                                                <i class="icon-plus3"></i>
+                                            </a>
+                                            @if (Model.Oyuncu.OyuncuResimleri[i].DosyaYolu != Model.KisiEditDto.Kisi.ProfilFotoUrl)
+                                            {
+                                                <a class="btn btn-xs btn-outline-success" href=@("/Oyuncular/AnaResimYap/"+Model.Oyuncu.OyuncuResimleri[i].Id+"?FotoId="+Model.Oyuncu.Id) data-toggle="tooltip" title="Ana Resim Yap"><i class="fas fa-bookmark"></i> Ana Resim Yap</a>
+                                            }
+                                            <a class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round ml-2 legitRipple"
+                                               href=@("/Oyuncular/FileDelete/"+Model.Oyuncu.Id+"?FotoId="+Model.Oyuncu.OyuncuResimleri[i].Id)
+                                               data-toggle="tooltip" title="Sil"><i class="fas fa-trash"></i></a>
+
+                                            <a href="#" class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round ml-2 legitRipple">
+                                                <i class="icon-link"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" asp-for="@Model.Oyuncu.OyuncuResimleri[i].Id" />
+                                    <input type="hidden" asp-for="@Model.Oyuncu.OyuncuResimleri[i].OyuncuId" />
+                                    <input type="hidden" asp-for="@Model.Oyuncu.OyuncuResimleri[i].DosyaYolu" />
+                                    <input type="hidden" asp-for="@Model.Oyuncu.OyuncuResimleri[i].EkleyenId" />
+                                    <input type="hidden" asp-for="@Model.Oyuncu.OyuncuResimleri[i].EklemeZamani" />
+                                    <input type="hidden" asp-for="@Model.Oyuncu.OyuncuResimleri[i].GuncelleyenId" />
+                                    <input type="hidden" asp-for="@Model.Oyuncu.OyuncuResimleri[i].GuncellemeZamani" />
+                                    <input type="hidden" asp-for="@Model.Oyuncu.OyuncuResimleri[i].Aktif" />
+                                </div>
+
+                                @*<div class="col-md-4">
+                                        <div class="thumbnail">
+                                            <a href=@Model.Oyuncu.OyuncuResimleri[i].DosyaYolu>
+                                                <img src=@Model.Oyuncu.OyuncuResimleri[i].DosyaYolu alt="Lights" style="width:100%">
+                                            </a>
+                                            <hr />
+                                            @if (Model.Oyuncu.OyuncuResimleri[i].DosyaYolu != Model.KisiEditDto.Kisi.ProfilFotoUrl)
+                                            {
+                                                <a class="btn btn-xs btn-outline-success" href=@("/Oyuncular/AnaResimYap/"+Model.Oyuncu.OyuncuResimleri[i].Id+"?FotoId="+Model.Oyuncu.Id) data-toggle="tooltip" title="Ana Resim Yap"><i class="fas fa-bookmark"></i> Ana Resim Yap</a>
+                                            }
+                                            <a class="btn btn-xs btn-outline-danger" href=@("/Oyuncular/FileDelete/"+Model.Oyuncu.Id+"?FotoId="+Model.Oyuncu.OyuncuResimleri[i].Id) data-toggle="tooltip" title="Sil"><i class="fas fa-trash"></i> Sil</a>
+                                        </div>
+                                    </div>*@
+                            }
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+
     </div>
+
+
+
+
+
+
 
     <div class="row">
         <div class="col-md-12">

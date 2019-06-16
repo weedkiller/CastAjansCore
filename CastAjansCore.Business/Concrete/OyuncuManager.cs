@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using Calbay.Core.Business;
+﻿using Calbay.Core.Business;
 using Calbay.Core.Helper;
 using CastAjansCore.Business.Abstract;
 using CastAjansCore.DataLayer.Abstract;
 using CastAjansCore.Dto;
 using CastAjansCore.Entity;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace CastAjansCore.Business.Concrete
 {
@@ -41,8 +41,8 @@ namespace CastAjansCore.Business.Concrete
 
                 OyuncuEditDto.Oyuncu = await tOyuncu;
                 OyuncuEditDto.KisiEditDto = await tKisiEditDto;
-                OyuncuEditDto.OyuncuResimleri = await tOyuncuResimleri;
-                OyuncuEditDto.OyuncuVideolari = await tOyuncuVideolari;
+                OyuncuEditDto.Oyuncu.OyuncuResimleri = await tOyuncuResimleri;
+                OyuncuEditDto.Oyuncu.OyuncuVideolari = await tOyuncuVideolari;
             }
 
             return OyuncuEditDto;
@@ -62,13 +62,7 @@ namespace CastAjansCore.Business.Concrete
                     Adi = item.Kisi.Adi,
                     Soyadi = item.Kisi.Soyadi,
                     DogumTarihi = item.Kisi.DogumTarihi,
-                    ProfilUrl = (
-                                    (OyuncuResim)(item.OyuncuResimleri
-                                                    .Where(i => i.Default == true && i.Aktif == true)
-                                                    .FirstOrDefault()
-                                                    .IfIsNull(new OyuncuResim())
-                                                )
-                                ).DosyaYolu
+                    ProfilFotoUrl = item.Kisi.ProfilFotoUrl
                 }
                 );
             }
@@ -78,44 +72,63 @@ namespace CastAjansCore.Business.Concrete
 
         public override async Task AddAsync(Oyuncu entity, UserHelper userHelper)
         {
-            await _kisiServis.AddAsync(entity.Kisi, userHelper);
-            Task[] tasks = new Task[3];
+            if (entity.Kisi.ProfilFotoUrl == null)
+            {
+                if (entity.OyuncuResimleri.Count > 0)
+                {
+                    entity.Kisi.ProfilFotoUrl = entity.OyuncuResimleri[0].DosyaYolu;
+                }
+            }
 
+            await _kisiServis.AddAsync(entity.Kisi, userHelper);
+
+            Task[] tasks = new Task[3];
             entity.Id = entity.Kisi.Id;
+
             tasks[0] = base.AddAsync(entity, userHelper);
 
             foreach (var item in entity.OyuncuResimleri.Where(i => i.OyuncuId == 0))
             {
                 item.OyuncuId = entity.Kisi.Id;
             }
-            tasks[1] = _OyuncuResimServis.SaveListAsync(entity.OyuncuResimleri, userHelper);
+            tasks[1] = _OyuncuResimServis.SaveListAsync(entity.OyuncuResimleri ?? new List<OyuncuResim>(), userHelper);
 
             foreach (var item in entity.OyuncuVideolari.Where(i => i.OyuncuId == 0))
             {
                 item.OyuncuId = entity.Kisi.Id;
             }
-            tasks[2] = _OyuncuVideoServis.SaveListAsync(entity.OyuncuVideolari, userHelper);
+            tasks[2] = _OyuncuVideoServis.SaveListAsync(entity.OyuncuVideolari ?? new List<OyuncuVideo>(), userHelper);
 
             await Task.WhenAll(tasks);
         }
 
         public override async Task UpdateAsync(Oyuncu entity, UserHelper userHelper)
         {
+            if (entity.Kisi.ProfilFotoUrl == null)
+            {
+                if (entity.OyuncuResimleri != null && entity.OyuncuResimleri.Count > 0)
+                {
+                    entity.Kisi.ProfilFotoUrl = entity.OyuncuResimleri[0].DosyaYolu;
+                }
+            }
+
             Task[] tasks = new Task[4];
             tasks[0] = _kisiServis.UpdateAsync(entity.Kisi, userHelper);
+
+
             tasks[1] = base.UpdateAsync(entity, userHelper);
 
             foreach (var item in entity.OyuncuResimleri.Where(i => i.OyuncuId == 0))
             {
                 item.OyuncuId = entity.Kisi.Id;
             }
-            tasks[2] = _OyuncuResimServis.SaveListAsync(entity.OyuncuResimleri, userHelper);
+            tasks[2] = _OyuncuResimServis.SaveListAsync(entity.OyuncuResimleri ?? new List<OyuncuResim>(), userHelper);
 
             foreach (var item in entity.OyuncuVideolari.Where(i => i.OyuncuId == 0))
             {
                 item.OyuncuId = entity.Kisi.Id;
             }
-            tasks[3] = _OyuncuVideoServis.SaveListAsync(entity.OyuncuVideolari, userHelper);
+            tasks[3] = _OyuncuVideoServis.SaveListAsync(entity.OyuncuVideolari ?? new List<OyuncuVideo>(), userHelper);
 
             await Task.WhenAll(tasks);
         }

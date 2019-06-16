@@ -28,7 +28,7 @@ namespace CastAjansCore.Dto
 
         public int Yas { get { return Math.Ceiling(DateTime.Today.Subtract(DogumTarihi).TotalDays / 360).ToInt(); } }
 
-        public string ProfilUrl { get; set; }
+        public string ProfilFotoUrl { get; set; }
 
     }
 }

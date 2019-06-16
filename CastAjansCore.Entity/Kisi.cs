@@ -21,6 +21,10 @@ namespace CastAjansCore.Entity
         [MaxLength(50)]
         public string Soyadi { get; set; }
 
+        [Display(Name = "Profil Foto")]
+        [MaxLength(100)]
+        public string ProfilFotoUrl { get; set; }
+
         [Display(Name = "Doğum Tarihi")]
         [DataType(DataType.Date)]
         //[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]

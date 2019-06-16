@@ -96,9 +96,13 @@ namespace CastAjansCore.WebUI.Controllers
 
                         if (oyuncuEditDto.OyuncuResimleriFile != null && oyuncuEditDto.OyuncuResimleriFile.Count > 0)
                         {
+                            if (oyuncuEditDto.Oyuncu.OyuncuResimleri == null)
+                            {
+                                oyuncuEditDto.Oyuncu.OyuncuResimleri = new List<OyuncuResim>();
+                            }
                             foreach (var item in oyuncuEditDto.OyuncuResimleriFile)
                             {
-                                oyuncuEditDto.OyuncuResimleri.Add(
+                                oyuncuEditDto.Oyuncu.OyuncuResimleri.Add(
                                     new OyuncuResim { DosyaYolu = item.SaveFile("OyuncuResimleri") }
                                     );
                             }
@@ -106,25 +110,26 @@ namespace CastAjansCore.WebUI.Controllers
 
                         if (oyuncuEditDto.OyuncuVideolariFile != null && oyuncuEditDto.OyuncuVideolariFile.Count > 0)
                         {
+                            oyuncuEditDto.Oyuncu.OyuncuVideolari = new List<OyuncuVideo>();
                             foreach (var item in oyuncuEditDto.OyuncuVideolariFile)
                             {
-                                oyuncuEditDto.OyuncuResimleri.Add(
-                                    new OyuncuResim { DosyaYolu = item.SaveFile("OyuncuResimleri") }
+                                oyuncuEditDto.Oyuncu.OyuncuVideolari.Add(
+                                    new OyuncuVideo { DosyaYolu = item.SaveFile("OyuncuVideolari") }
                                     );
                             }
+                        }
 
-                            if (id == null)
+                        if (id == null)
+                        {
+                            await _OyuncuServis.AddAsync(Oyuncu, HttpContext.Session.GetUserHelper());
+                        }
+                        else
+                        {
+                            if (id != Oyuncu.Id)
                             {
-                                await _OyuncuServis.AddAsync(Oyuncu, HttpContext.Session.GetUserHelper());
+                                return NotFound();
                             }
-                            else
-                            {
-                                if (id != Oyuncu.Id)
-                                {
-                                    return NotFound();
-                                }
-                                await _OyuncuServis.UpdateAsync(Oyuncu, HttpContext.Session.GetUserHelper());
-                            }
+                            await _OyuncuServis.UpdateAsync(Oyuncu, HttpContext.Session.GetUserHelper());
                         }
                     }
                     catch (DbUpdateConcurrencyException)

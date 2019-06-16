@@ -4,14 +4,16 @@ using CastAjansCore.DataLayer.Concrete.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CastAjansCore.DataLayer.Migrations
 {
     [DbContext(typeof(CastAjansContext))]
-    partial class CastAjansContextModelSnapshot : ModelSnapshot
+    [Migration("20190616142439_oyuncuResimProfilUrl")]
+    partial class oyuncuResimProfilUrl
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -214,9 +216,6 @@ namespace CastAjansCore.DataLayer.Migrations
                     b.Property<string>("Linkedin")
                         .HasMaxLength(200);
 
-                    b.Property<string>("ProfilFotoUrl")
-                        .HasMaxLength(100);
-
                     b.Property<string>("Soyadi")
                         .IsRequired()
                         .HasMaxLength(50);
@@ -364,6 +363,9 @@ namespace CastAjansCore.DataLayer.Migrations
 
                     b.Property<string>("OyuculukEgitimi")
                         .HasMaxLength(4000);
+
+                    b.Property<string>("ProfilFotoUrl")
+                        .HasMaxLength(100);
 
                     b.Property<int>("SacRengi");
 
