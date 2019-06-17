@@ -1,4 +1,6 @@
 ﻿using Calbay.Core.Entities;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -20,5 +22,7 @@ namespace CastAjansCore.Entity
 
         [ForeignKey("ProjeId")]
         public virtual Proje Proje { get; set; }
+
+        public IList<ProjeKarakterOyuncu> ProjeKarakterOyunculari { get; set; }
     }
 }

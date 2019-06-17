@@ -5,10 +5,13 @@ using CastAjansCore.DataLayer.Concrete.EntityFramework;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Localization;
+using System.Globalization;
 using System.IO;
 
 namespace CastAjansCore.WebUI
@@ -27,13 +30,44 @@ namespace CastAjansCore.WebUI
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
-
-
+            services.AddMvc(
+                options =>
+                {
+                    var F = services.BuildServiceProvider().GetService<IStringLocalizerFactory>();
+                    var L = F.Create("ModelBindingMessages", "CastAjansCore.WebUI");
+                    options.ModelBindingMessageProvider.SetValueIsInvalidAccessor(
+                        (x) => L["Değer '{0}' geçerli değil."]);
+                    options.ModelBindingMessageProvider.SetValueMustBeANumberAccessor(
+                        (x) => L["Alan {0} numara olmalıdır."]);
+                    options.ModelBindingMessageProvider.SetMissingBindRequiredValueAccessor(
+                        (x) => L["A value for the '{0}' property was not provided.", x]);
+                    options.ModelBindingMessageProvider.SetAttemptedValueIsInvalidAccessor(
+                        (x, y) => L["The value '{0}' is not valid for {1}.", x, y]);
+                    options.ModelBindingMessageProvider.SetMissingKeyOrValueAccessor(
+                        () => L["A değer gereklidir."]);
+                    options.ModelBindingMessageProvider.SetUnknownValueIsInvalidAccessor(
+                        (x) => L[" {0} değer geçersiz.", x]);
+                    options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(
+                        (x) => L["Boş değer geçersiz.", x]);
+                })
+                .AddDataAnnotationsLocalization()
+                .AddViewLocalization();
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var supportedCultures = new[] { new CultureInfo("en"), new CultureInfo("tr") };
+                options.DefaultRequestCulture = new RequestCulture("tr", "tr");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+            }); ;
             services.AddSession();
             services.AddMemoryCache();
-
             AddScoped(services);
+
+            var cultureInfo = new CultureInfo("tr-TR");
+            cultureInfo.NumberFormat.CurrencySymbol = "₺";
+
+            CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+            CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
         }
 
         private void AddScoped(IServiceCollection services)
@@ -103,6 +137,14 @@ namespace CastAjansCore.WebUI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            var supportedCultures = new[] { new CultureInfo("en"), new CultureInfo("tr") };
+            app.UseRequestLocalization(new RequestLocalizationOptions()
+            {
+                DefaultRequestCulture = new RequestCulture(new CultureInfo("tr")),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

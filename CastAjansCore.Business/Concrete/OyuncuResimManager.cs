@@ -24,17 +24,19 @@ namespace CastAjansCore.Business.Concrete
         public async Task SaveListAsync(List<OyuncuResim> oyuncuResimleri, UserHelper userHelper)
         {
             var liste = oyuncuResimleri.Where(i => i.Id == 0).ToList();
-
+            Task[] tasks = new Task[liste.Count];
             if (liste.Count > 0)
             {
-                Task[] tasks = new Task[liste.Count];
-
                 for (int i = 0; i < liste.Count; i++)
                 {
                     tasks[i] = base.AddAsync(liste[i], userHelper);
                 }
                 await Task.WhenAll(tasks);
             }
+
+
+            await Task.CompletedTask;
+
         }
     }
 }

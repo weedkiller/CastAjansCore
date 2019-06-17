@@ -3,7 +3,10 @@ using CastAjansCore.Business.Abstract;
 using CastAjansCore.Dto;
 using CastAjansCore.Entity;
 using CastAjansCore.WebUI.Filters;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -20,6 +23,12 @@ namespace CastAjansCore.WebUI.Controllers
         [HandleException]
         public async Task<IActionResult> Index()
         {
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture("tr-TR")),
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+            );
+
             ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
 
             //IKisiServis _kisiServis = new KisiManager(new EfKisiDal());

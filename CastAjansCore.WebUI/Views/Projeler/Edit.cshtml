@@ -99,8 +99,82 @@
 
             </div>
         </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+
+                    <button type="button" onclick="NewProjeKarakterleri();" class="btn btn-primary right">Yeni <i class="icon-paperplane ml-2"></i></button>
+
+                    <fieldset id="divProjeKarakterleri">
+                        <legend class="font-weight-semibold"><i class="icon-truck mr-2"></i> Proje Karakterleri</legend>
+
+                        @for (int i = 0; i < Model.ProjeKarakterleri.Count; i++)
+                        {
+                            <input type="hidden" asp-for="@Model.ProjeKarakterleri[i].ProjeId" />
+                            <div class="form-group row">
+                                <label asp-for="@Model.ProjeKarakterleri[i].Adi" class="col-lg-3 control-label"></label>
+                                <span asp-validation-for="@Model.ProjeKarakterleri[i].Adi" class="text-danger"></span>
+                                <div class="col-lg-9">
+                                    <input asp-for="@Model.ProjeKarakterleri[i].Adi" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="@Model.ProjeKarakterleri[i].KarakterSayisi" class="col-lg-3 control-label"></label>
+                                <span asp-validation-for="@Model.ProjeKarakterleri[i].KarakterSayisi" class="text-danger"></span>
+                                <div class="col-lg-9">
+                                    <input asp-for="@Model.ProjeKarakterleri[i].KarakterSayisi" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="@Model.ProjeKarakterleri[i].Aciklama" class="col-lg-3 control-label"></label>
+                                <span asp-validation-for="@Model.ProjeKarakterleri[i].Aciklama" class="text-danger"></span>
+                                <div class="col-lg-9">
+                                    <input asp-for="@Model.ProjeKarakterleri[i].Aciklama" class="form-control" />
+                                </div>
+                            </div>
+                        }
+                    </fieldset>
+                </div>
+
+            </div>
+        </div>
     </div>
 
     <a asp-action="Index" class="btn btn-danger left">Geri</a>
     <button type="submit" class="btn btn-primary right">Kaydet <i class="icon-paperplane ml-2"></i></button>
+
+    @section scripts {
+    <script>
+            var count_ProjeKarakterleri = @Model.ProjeKarakterleri.Count;
+            function NewProjeKarakterleri() {
+                var str = "";
+                str += "<input type='hidden' id='ProjeKarakterleri_" + count_ProjeKarakterleri + "__ProjeId' />";
+                str += "    <div class='form-group row'>";
+                str += "        <label class='col-lg-3 control-label'>Proje Adı</label>";
+                @*str += "        <span asp-validation-for='@Model.ProjeKarakterleri[i].Adi' class='text-danger'></span>";*@
+                str += "        <div class='col-lg-9'>";
+                str += "            <input id='ProjeKarakterleri_" + count_ProjeKarakterleri + "_Adi' class='form-control' />";
+                str += "        </div>";
+                str += "    </div>";
+                str += "    <div class='form-group row'>";
+                str += "        <label class='col-lg-3 control-label'>Karakter Sayısı</label>";
+                @*str += "        <span asp-validation-for='@Model.ProjeKarakterleri[i].KarakterSayisi' class='text-danger'></span>";*@
+                str += "        <div class='col-lg-9'>";
+                str += "            <input id='ProjeKarakterleri_" + count_ProjeKarakterleri + "_KarakterSayisi' class='form-control' />";
+                str += "        </div>";
+                str += "    </div>";
+                str += "    <div class='form-group row'>";
+                str += "        <label class='col-lg-3 control-label'>Açıklama</label>";
+                @*str += "        <span asp-validation-for='@Model.ProjeKarakterleri[i].Aciklama' class='text-danger'></span>";*@
+                str += "        <div class='col-lg-9'>";
+                str += "            <input id='ProjeKarakterleri_" + count_ProjeKarakterleri + "_Aciklama' class='form-control' />";
+                str += "        </div>";
+                str += "    </div>";
+                str += "<hr />";
+
+                $("#divProjeKarakterleri").append(str);
+                count_ProjeKarakterleri+=1;
+            }
+    </script>
+    }
 </form>

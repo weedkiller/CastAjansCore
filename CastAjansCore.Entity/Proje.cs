@@ -12,8 +12,11 @@ namespace CastAjansCore.Entity
         [Display(Name = "Müşteri")]
         public int MusteriId { get; set; }
 
-        [Display(Name ="Baş.Tarihi")]
+        [DataType(DataType.Date)]
+        [Display(Name = "Baş.Tarihi")]
         public DateTime TarihBas { get; set; }
+
+        [DataType(DataType.Date)]
         [Display(Name = "Bit.Tarihi")]
         public DateTime TarihBit { get; set; }
 
@@ -36,7 +39,7 @@ namespace CastAjansCore.Entity
 
         [Display(Name = "Teklif Açık.")]
         public string TeklifAciklama { get; set; }
-        
+
         [ForeignKey("MusteriId")]
         public virtual Musteri Musteri { get; set; }
 

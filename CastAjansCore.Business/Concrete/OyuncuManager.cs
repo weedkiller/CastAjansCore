@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace CastAjansCore.Business.Concrete
 {
@@ -103,34 +104,44 @@ namespace CastAjansCore.Business.Concrete
         }
 
         public override async Task UpdateAsync(Oyuncu entity, UserHelper userHelper)
-        {
-            if (entity.Kisi.ProfilFotoUrl == null)
-            {
-                if (entity.OyuncuResimleri != null && entity.OyuncuResimleri.Count > 0)
+        { 
+            //using (TransactionScope scope = new TransactionScope())
+            //{
+                Task[] tasks = new Task[4];
+                if (entity.Kisi.ProfilFotoUrl == null)
                 {
-                    entity.Kisi.ProfilFotoUrl = entity.OyuncuResimleri[0].DosyaYolu;
+                    if (entity.OyuncuResimleri != null && entity.OyuncuResimleri.Count > 0)
+                    {
+                        entity.Kisi.ProfilFotoUrl = entity.OyuncuResimleri[0].DosyaYolu;
+                    }
                 }
-            }
-
-            Task[] tasks = new Task[4];
-            tasks[0] = _kisiServis.UpdateAsync(entity.Kisi, userHelper);
 
 
-            tasks[1] = base.UpdateAsync(entity, userHelper);
+                tasks[0] = _kisiServis.UpdateAsync(entity.Kisi, userHelper);
 
-            foreach (var item in entity.OyuncuResimleri.Where(i => i.OyuncuId == 0))
-            {
-                item.OyuncuId = entity.Kisi.Id;
-            }
-            tasks[2] = _OyuncuResimServis.SaveListAsync(entity.OyuncuResimleri ?? new List<OyuncuResim>(), userHelper);
 
-            foreach (var item in entity.OyuncuVideolari.Where(i => i.OyuncuId == 0))
-            {
-                item.OyuncuId = entity.Kisi.Id;
-            }
-            tasks[3] = _OyuncuVideoServis.SaveListAsync(entity.OyuncuVideolari ?? new List<OyuncuVideo>(), userHelper);
+                tasks[1] = base.UpdateAsync(entity, userHelper);
+                if (entity.OyuncuResimleri == null)
+                    entity.OyuncuResimleri = new List<OyuncuResim>();
+                foreach (var item in entity.OyuncuResimleri.Where(i => i.OyuncuId == 0))
+                {
+                    item.OyuncuId = entity.Kisi.Id;
+                }
+                tasks[2] = _OyuncuResimServis.SaveListAsync(entity.OyuncuResimleri, userHelper);
 
-            await Task.WhenAll(tasks);
+                if (entity.OyuncuVideolari == null)
+                    entity.OyuncuVideolari = new List<OyuncuVideo>();
+                foreach (var item in entity.OyuncuVideolari.Where(i => i.OyuncuId == 0))
+                {
+                    item.OyuncuId = entity.Kisi.Id;
+                }
+                tasks[3] = _OyuncuVideoServis.SaveListAsync(entity.OyuncuVideolari, userHelper);
+
+
+
+                await Task.WhenAll(tasks);
+                //scope.Complete();
+            //}
         }
     }
 }
