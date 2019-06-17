@@ -16,12 +16,21 @@ namespace CastAjansCore.WebUI.Controllers
         private readonly IProjeServis _ProjeServis;
         private readonly IMusteriServis _MusteriServis;
         private readonly IKullaniciServis _KullaniciServis;
+        private readonly IProjeKarakterServis _ProjeKarakterServis;
+        private readonly IProjeKarakterOyuncuServis _ProjeKarakterOyuncuServis;
+        private readonly IOyuncuServis _OyuncuServis;
 
-        public ProjelerController(IProjeServis ProjeServis, IMusteriServis MusteriServis, IKullaniciServis KullaniciServis)
+        public ProjelerController(IProjeServis ProjeServis, 
+            IMusteriServis musteriServis, 
+            IKullaniciServis kullaniciServis,
+            IProjeKarakterServis projeKarakterServis,
+            IProjeKarakterOyuncuServis projeKarakterOyuncuServis)
         {
             _ProjeServis = ProjeServis;
-            _MusteriServis = MusteriServis;
-            _KullaniciServis = KullaniciServis;
+            _MusteriServis = musteriServis;
+            _KullaniciServis = kullaniciServis;
+            _ProjeKarakterServis = projeKarakterServis;
+            _ProjeKarakterOyuncuServis = projeKarakterOyuncuServis;
         }
 
         public async Task<IActionResult> Index(int? id)
@@ -48,14 +57,20 @@ namespace CastAjansCore.WebUI.Controllers
 
             if (id == null)
             {
-                projeEditDto.Proje = new Proje { Musteri = await _MusteriServis.GetByIdAsync(musteriId), MusteriId = musteriId };
+                projeEditDto.Proje = new Proje
+                {
+                    MusteriId = musteriId,
+                    Musteri = await _MusteriServis.GetByIdAsync(musteriId),
+                    ProjeKarakterleri = new List<ProjeKarakter>(),                    
+                };
 
                 return View(projeEditDto);
             }
             else
             {
                 projeEditDto.Proje = await _ProjeServis.GetByIdAsync(id.Value);
-                projeEditDto.Proje.Musteri = await _MusteriServis.GetByIdAsync(projeEditDto.Proje.MusteriId); ;
+                projeEditDto.Proje.Musteri = await _MusteriServis.GetByIdAsync(projeEditDto.Proje.MusteriId);
+                projeEditDto.Proje.Musteri = await _MusteriServis.GetByIdAsync(projeEditDto.Proje.MusteriId);
                 if (projeEditDto.Proje == null)
                 {
                     return NotFound();

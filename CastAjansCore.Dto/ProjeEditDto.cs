@@ -10,13 +10,13 @@ namespace CastAjansCore.Dto
     {
         public ProjeEditDto()
         {
+            Proje = new Proje();
             Kullanicilar = new List<SelectListItem>();
-            ProjeKarakterleri = new List<ProjeKarakter>();
+            Proje.ProjeKarakterleri = new List<ProjeKarakter>();
         }
         public Proje Proje { get; set; }
 
         public List<SelectListItem> Kullanicilar { get; set; }
 
-        public List<ProjeKarakter> ProjeKarakterleri { get; set; }
     }
 }

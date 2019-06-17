@@ -1,5 +1,6 @@
 ﻿using Calbay.Core.Entities;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -45,5 +46,7 @@ namespace CastAjansCore.Entity
 
         [ForeignKey("IsiTakipEdenId")]
         public virtual Kullanici IsiTakipEden { get; set; }
+
+        public IList<ProjeKarakter> ProjeKarakterleri { get; set; }
     }
 }
