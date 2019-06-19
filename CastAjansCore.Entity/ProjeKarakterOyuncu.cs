@@ -13,7 +13,7 @@ namespace CastAjansCore.Entity
         [Required]
         public int OyuncuId { get; set; }
 
-        public EnuKarakterDurumu  karakterDurumu { get; set; }
+        public EnuKarakterDurumu  KarakterDurumu { get; set; }
 
         [ForeignKey("ProjeKarakterId")]
         public virtual ProjeKarakter ProjeKarakter { get; set; }

@@ -99,18 +99,25 @@
 
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
+    </div>
 
-                    <button type="button" onclick="NewProjeKarakterleri();" class="btn btn-primary right">Yeni <i class="icon-paperplane ml-2"></i></button>
+    <div id="divProjeKarakterleri" class="row">
 
-                    <fieldset id="divProjeKarakterleri">
-                        <legend class="font-weight-semibold"><i class="icon-truck mr-2"></i> Proje Karakterleri</legend>
-
-                        @for (int i = 0; i < Model.Proje.ProjeKarakterleri.Count; i++)
-                        {
+        @for (int i = 0; i < Model.Proje.ProjeKarakterleri.Count; i++)
+        {
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <fieldset>
+                            <legend class="font-weight-semibold"><i class="icon-truck mr-2"></i> Proje Karakterleri</legend>
+                            <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].Id" />
                             <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeId" />
+                            <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].EkleyenId" />
+                            <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].EklemeZamani" />
+                            <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].GuncelleyenId" />
+                            <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].GuncellemeZamani" />
+                            <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].Aktif" />
+
                             <div class="form-group row">
                                 <label asp-for="@Model.Proje.ProjeKarakterleri[i].Adi" class="col-lg-3 control-label"></label>
                                 <span asp-validation-for="@Model.Proje.ProjeKarakterleri[i].Adi" class="text-danger"></span>
@@ -132,49 +139,98 @@
                                     <input asp-for="@Model.Proje.ProjeKarakterleri[i].Aciklama" class="form-control" />
                                 </div>
                             </div>
-                        }
-                    </fieldset>
-                </div>
+                            <div>
+                                <table class="table">
+                                    <tr>
+                                        <th></th>
+                                        <th>Ad</th>
+                                        <th>Soyad</th>
+                                        <th></th>
+                                    </tr>
+                                    @for (int j = 0; j < Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari.Count; j++)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <img width="50px" src="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].Oyuncu.Kisi.ProfilFotoUrl" />
+                                            </td>
+                                            <td>@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].Oyuncu.Kisi.Adi</td>
+                                            <td>@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].Oyuncu.Kisi.Soyadi</td>
+                                            <td>@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].KarakterDurumu</td>
+                                            <td>
+                                                <button class="btn btn-danger" onclick="ProjeKarakterOyunculariSil(i, j);">Sil</button>
+                                                <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].ProjeKarakterId" />
+                                                <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].OyuncuId" />
+                                                <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].Id" />
+                                                <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].EkleyenId" />
+                                                <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].EklemeZamani" />
+                                                <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].GuncelleyenId" />
+                                                <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].GuncellemeZamani" />
+                                                <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].Aktif" />
+                                            </td>
+                                        </tr>
+                                    }
+                                </table>
+                            </div>
 
+                        </fieldset>
+                    </div>
+
+                </div>
             </div>
+
+        }
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <button type="button" onclick="NewProjeKarakterleri();" class="btn btn-primary form-control">Yeni Karakter Ekle<i class="icon-paperplane ml-2"></i></button>
         </div>
     </div>
-
-    <a asp-action="Index" class="btn btn-danger left">Geri</a>
-    <button type="submit" class="btn btn-primary right">Kaydet <i class="icon-paperplane ml-2"></i></button>
-
+    <hr />
+    <div class="row">
+        <div class="col-md-12">
+            <a asp-action="Index" class="btn btn-danger left">Geri</a>
+            <button type="submit" class="btn btn-primary right">Kaydet <i class="icon-paperplane ml-2"></i></button>
+        </div>
+    </div>
     @section scripts {
-    <script>
-            var count_ProjeKarakterleri = @Model.Proje.ProjeKarakterleri.Count;
+        <script>
+            var _projeKarakterleriCount = @Model.Proje.ProjeKarakterleri.Count;
             function NewProjeKarakterleri() {
                 var str = "";
-                str += "<input type='hidden' id='Proje_ProjeKarakterleri_" + count_ProjeKarakterleri + "__ProjeId' />";
-                str += "    <div class='form-group row'>";
-                str += "        <label class='col-lg-3 control-label'>Proje Adı</label>";
-                @*str += "        <span asp-validation-for='@Model.ProjeKarakterleri[i].Adi' class='text-danger'></span>";*@
-                str += "        <div class='col-lg-9'>";
-                str += "            <input id='Proje_ProjeKarakterleri_" + count_ProjeKarakterleri + "_Adi' class='form-control' />";
+                str += "<div class='col-md-12'>";
+                str += "    <div class='card'>";
+                str += "        <div class='card-body'>";
+                str += "            <fieldset>";
+                str += "                <input type='hidden' id='Proje_ProjeKarakterleri_" + _projeKarakterleriCount + "__ProjeId' name='Proje.ProjeKarakterleri[" + _projeKarakterleriCount + "].ProjeId' />";
+                str += "                <div class='form-group row'>";
+                str += "                      <label class='col-lg-3 control-label'>Karakter Adı</label>";
+                @*str +=                 "      <span asp-validation-for='@Model.ProjeKarakterleri[i].Adi' class='text-danger'></span>";*@
+                str += "                      <div class='col-lg-9'>";
+                str += "                          <input id='Proje_ProjeKarakterleri_" + _projeKarakterleriCount + "__Adi' name='Proje.ProjeKarakterleri[" + _projeKarakterleriCount + "].Adi' class='form-control' />";
+                str += "                      </div>";
+                str += "                </div>";
+                str += "                <div class='form-group row'>";
+                str += "                      <label class='col-lg-3 control-label'>Karakter Sayısı</label>";
+                @*str +=                 "      <span asp-validation-for='@Model.ProjeKarakterleri[i].KarakterSayisi' class='text-danger'></span>";*@
+                str += "                      <div class='col-lg-9'>";
+                str += "                          <input id='Proje_ProjeKarakterleri_" + _projeKarakterleriCount + "__KarakterSayisi' name='Proje.ProjeKarakterleri[" + _projeKarakterleriCount + "].KarakterSayisi' class='form-control' />";
+                str += "                      </div>";
+                str += "                </div>";
+                str += "                <div class='form-group row'>";
+                str += "                      <label class='col-lg-3 control-label'>Açıklama</label>";
+                @*str +=                 "      <span asp-validation-for='@Model.ProjeKarakterleri[i].Aciklama' class='text-danger'></span>";*@
+                str += "                      <div class='col-lg-9'>";
+                str += "                          <input id='Proje_ProjeKarakterleri_" + _projeKarakterleriCount + "__Aciklama' name='Proje.ProjeKarakterleri[" + _projeKarakterleriCount + "].Aciklama' class='form-control' />";
+                str += "                      </div>";
+                str += "                </div>";
+                str += "            </fieldset>";
                 str += "        </div>";
                 str += "    </div>";
-                str += "    <div class='form-group row'>";
-                str += "        <label class='col-lg-3 control-label'>Karakter Sayısı</label>";
-                @*str += "        <span asp-validation-for='@Model.ProjeKarakterleri[i].KarakterSayisi' class='text-danger'></span>";*@
-                str += "        <div class='col-lg-9'>";
-                str += "            <input id='Proje_ProjeKarakterleri_" + count_ProjeKarakterleri + "_KarakterSayisi' class='form-control' />";
-                str += "        </div>";
-                str += "    </div>";
-                str += "    <div class='form-group row'>";
-                str += "        <label class='col-lg-3 control-label'>Açıklama</label>";
-                @*str += "        <span asp-validation-for='@Model.ProjeKarakterleri[i].Aciklama' class='text-danger'></span>";*@
-                str += "        <div class='col-lg-9'>";
-                str += "            <input id='Proje_ProjeKarakterleri_" + count_ProjeKarakterleri + "_Aciklama' class='form-control' />";
-                str += "        </div>";
-                str += "    </div>";
-                str += "<hr />";
+                str += "</div>";
 
                 $("#divProjeKarakterleri").append(str);
-                count_ProjeKarakterleri+=1;
+                _projeKarakterleriCount+=1;
             }
-    </script>
+        </script>
     }
 </form>

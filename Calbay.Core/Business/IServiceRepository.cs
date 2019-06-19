@@ -27,6 +27,8 @@ namespace Calbay.Core.Business
 
         Task UpdateAsync(TEntity entity, UserHelper userHelper);
 
+        Task SaveAsync(TEntity entity, UserHelper userHelper);
+
         Task DeleteAsync(int id, UserHelper userHelper);
 
         TEntity GetById(int id);

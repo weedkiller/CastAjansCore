@@ -20,8 +20,8 @@ namespace CastAjansCore.WebUI.Controllers
         private readonly IProjeKarakterOyuncuServis _ProjeKarakterOyuncuServis;
         private readonly IOyuncuServis _OyuncuServis;
 
-        public ProjelerController(IProjeServis ProjeServis, 
-            IMusteriServis musteriServis, 
+        public ProjelerController(IProjeServis ProjeServis,
+            IMusteriServis musteriServis,
             IKullaniciServis kullaniciServis,
             IProjeKarakterServis projeKarakterServis,
             IProjeKarakterOyuncuServis projeKarakterOyuncuServis)
@@ -61,7 +61,7 @@ namespace CastAjansCore.WebUI.Controllers
                 {
                     MusteriId = musteriId,
                     Musteri = await _MusteriServis.GetByIdAsync(musteriId),
-                    ProjeKarakterleri = new List<ProjeKarakter>(),                    
+                    ProjeKarakterleri = new List<ProjeKarakter>(),
                 };
 
                 return View(projeEditDto);
@@ -70,7 +70,24 @@ namespace CastAjansCore.WebUI.Controllers
             {
                 projeEditDto.Proje = await _ProjeServis.GetByIdAsync(id.Value);
                 projeEditDto.Proje.Musteri = await _MusteriServis.GetByIdAsync(projeEditDto.Proje.MusteriId);
-                projeEditDto.Proje.Musteri = await _MusteriServis.GetByIdAsync(projeEditDto.Proje.MusteriId);
+                projeEditDto.Proje.ProjeKarakterleri = await _ProjeKarakterServis.GetListByProjeIdAsync(id.Value);
+                foreach (var item in projeEditDto.Proje.ProjeKarakterleri)
+                {
+                    item.ProjeKarakterOyunculari = await _ProjeKarakterOyuncuServis.GetListByProjeKarakterIdAsync(item.Id);
+                }
+
+                //Task[] tProjeKarakterOyunculari = new Task[projeEditDto.Proje.ProjeKarakterleri.Count];
+                //foreach (var item in projeEditDto.Proje.ProjeKarakterleri)
+                //{
+                //    tProjeKarakterOyunculari[projeEditDto.Proje.ProjeKarakterleri.IndexOf(item)] = _ProjeKarakterOyuncuServis.GetListByProjeKarakterIdAsync(item.Id);
+                //}
+
+                //await Task.WhenAll(tProjeKarakterOyunculari);
+                //foreach (var item in projeEditDto.Proje.ProjeKarakterleri)
+                //{
+                //    item.ProjeKarakterOyunculari = (List<ProjeKarakterOyuncu>)(await tProjeKarakterOyunculari[projeEditDto.Proje.ProjeKarakterleri.IndexOf(item)]);
+                //}
+
                 if (projeEditDto.Proje == null)
                 {
                     return NotFound();

@@ -92,6 +92,18 @@ namespace Calbay.Core.Business
             return await _dal.GetListAsync(filter);
         }
 
+        public virtual async Task SaveAsync(TEntity entity, UserHelper userHelper)
+        {
+            if (entity.Id == 0)
+            {
+                await AddAsync(entity, userHelper);
+            }
+            else
+            {
+                await UpdateAsync(entity, userHelper);
+            }
+        }
+
         public virtual void Update(TEntity entity, UserHelper userHelper)
         {
             entity.GuncelleyenId = userHelper.Id;
