@@ -18,19 +18,21 @@ namespace CastAjansCore.WebUI.Controllers
         private readonly IKullaniciServis _KullaniciServis;
         private readonly IProjeKarakterServis _ProjeKarakterServis;
         private readonly IProjeKarakterOyuncuServis _ProjeKarakterOyuncuServis;
-        private readonly IOyuncuServis _OyuncuServis;
+        private readonly IUyrukServis _UyrukServis;
 
         public ProjelerController(IProjeServis ProjeServis,
             IMusteriServis musteriServis,
             IKullaniciServis kullaniciServis,
             IProjeKarakterServis projeKarakterServis,
-            IProjeKarakterOyuncuServis projeKarakterOyuncuServis)
+            IProjeKarakterOyuncuServis projeKarakterOyuncuServis,
+            IUyrukServis uyrukServis)
         {
             _ProjeServis = ProjeServis;
             _MusteriServis = musteriServis;
             _KullaniciServis = kullaniciServis;
             _ProjeKarakterServis = projeKarakterServis;
             _ProjeKarakterOyuncuServis = projeKarakterOyuncuServis;
+            _UyrukServis = uyrukServis;
         }
 
         public async Task<IActionResult> Index(int? id)
@@ -50,9 +52,12 @@ namespace CastAjansCore.WebUI.Controllers
         public async Task<IActionResult> Edit(int? id, int musteriId)
         {
             ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
-            var projeEditDto = new ProjeEditDto
+            var tKul = _KullaniciServis.GetSelectListAsync();
+            var tUyruk = _UyrukServis.GetSelectListAsync();
+            var projeEditDto = new ProjeEditDto()
             {
-                Kullanicilar = await _KullaniciServis.GetSelectListAsync()
+                Kullanicilar = await tKul,
+                Uyruklar = await tUyruk
             };
 
             if (id == null)

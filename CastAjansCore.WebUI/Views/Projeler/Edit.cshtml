@@ -107,9 +107,20 @@
         {
             <div class="col-md-12">
                 <div class="card">
+                    <div class="card-header header-elements-inline">
+                        <h5 class="card-title">Proje Karakterleri</h5>
+                        <div class="header-elements">
+                            <div class="list-icons">
+                                <a class="list-icons-item" href=@("javascript:ShowOyuncu('tblProjeKarakterOyuncu_" + i + "');")><i class="icon-plus3"></i></a>
+                            </div>
+                        </div>
+                    </div>
                     <div class="card-body">
                         <fieldset>
-                            <legend class="font-weight-semibold"><i class="icon-truck mr-2"></i> Proje Karakterleri</legend>
+                            @*<legend class="font-weight-semibold">
+                                    <i class="icon-truck mr-2"></i> Proje Karakterleri
+                                </legend>*@
+
                             <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].Id" />
                             <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeId" />
                             <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].EkleyenId" />
@@ -140,7 +151,7 @@
                                 </div>
                             </div>
                             <div>
-                                <table class="table">
+                                <table class="table" id=@("tblProjeKarakterOyuncu_" + i)>
                                     <tr>
                                         <th></th>
                                         <th>Ad</th>
@@ -185,15 +196,218 @@
             <button type="button" onclick="NewProjeKarakterleri();" class="btn btn-primary form-control">Yeni Karakter Ekle<i class="icon-paperplane ml-2"></i></button>
         </div>
     </div>
+    <button type="button" class="btn btn-light legitRipple" data-toggle="modal" data-target="#modal_large">Launch <i class="icon-play3 ml-2"></i></button>
+
     <hr />
     <div class="row">
         <div class="col-md-12">
-            <a asp-action="Index" class="btn btn-danger left">Geri</a>
+            <a asp-action="Index" asp-route-id="@Model.Proje.MusteriId" class="btn btn-danger left">Geri</a>
             <button type="submit" class="btn btn-primary right">Kaydet <i class="icon-paperplane ml-2"></i></button>
         </div>
     </div>
+
+    <div id="myModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog modal-full">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Oyuncular</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header header-elements-inline">
+                                    <h5 class="card-title"><i class="icon-reading mr-2"></i> Kisi Bilgileri</h5>
+                                </div>
+                                <div class="card-body">
+                                    <fieldset class="row">
+                                        <div class="form-group row">
+                                            <label class="col-lg-3 col-form-label">Ad Soyad</label>
+                                            <div class="col-lg-9">
+                                                <div class="form-row">
+                                                    <div class="col">
+                                                        <input id="filter-oyuncu-adi" class="form-control" />
+                                                    </div>
+                                                    <div class="col">
+                                                        <input id="filter-oyuncu-soyadi" class="form-control" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-lg-3 col-form-label">Yaş</label>
+                                            <div class="col-lg-9">
+                                                <div class="form-row">
+                                                    <div class="col">
+                                                        <input id="Filter-Oyuncu-Yas-Min" placeholder="Min" type="number" min="0" class="form-control" />
+                                                    </div>
+                                                    <div class="col">
+                                                        <input id="Filter-Oyuncu-Yas-Maks" placeholder="Maks" type="number" max="200" class="form-control" />
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-lg-3 col-form-label">Cinsiyet</label>
+                                            <div class="col-lg-9">
+                                                <div class="form-group">
+                                                    <select id="filter-oyuncu-cinsiyet" asp-items="Html.GetEnumSelectList<EnuCinsiyet>()" class="form-control"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-lg-3 col-form-label">Uyruk</label>
+                                            <div class="col-lg-9">
+                                                <div class="form-group">
+                                                    <select id="filter-oyuncu-uyruk" asp-items="Model.Uyruklar" class="form-control"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header header-elements-inline">
+                                    <h5 class="card-title"><i class="icon-reading mr-2"></i> Fiziki Bilgiler</h5>
+                                </div>
+                                <div class="card-body">
+                                    <fieldset>
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="form-group row">
+                                                    <label class="col-lg-3 col-form-label">Boy</label>
+                                                    <div class="col-lg-9">
+                                                        <div class="form-row">
+                                                            <div class="col">
+                                                                <input id="Filter-Oyuncu-Boy-Min" placeholder="Min" type="number" min="30" class="form-control" />
+                                                            </div>
+                                                            <div class="col">
+                                                                <input id="Filter-Oyuncu-Boy-Maks" placeholder="Maks" type="number" max="300" class="form-control" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-group row">
+                                                    <label class="col-lg-3 col-form-label">Kilo</label>
+                                                    <div class="col-lg-9">
+                                                        <div class="form-row">
+                                                            <div class="col">
+                                                                <input id="Filter-Oyuncu-Kilo-Min" placeholder="Min" type="number" min="1" class="form-control" />
+                                                            </div>
+                                                            <div class="col">
+                                                                <input id="Filter-Oyuncu-Kilo-Maks" placeholder="Maks" type="number" max="50000" class="form-control" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="form-group row">
+                                                    <label class="col-lg-3 col-form-label">Alt Beden</label>
+                                                    <div class="col-lg-9">
+                                                        <div class="form-row">
+                                                            <div class="col">
+                                                                <input id="Filter-Oyuncu-AltBeden-Min" placeholder="Min" type="number" min="1" class="form-control" />
+                                                            </div>
+                                                            <div class="col">
+                                                                <input id="Filter-Oyuncu-AltBeden-Maks" placeholder="Maks" type="number" max="50000" class="form-control" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-group row">
+                                                    <label class="col-lg-3 col-form-label">Üst Beden</label>
+                                                    <div class="col-lg-9">
+                                                        <div class="form-row">
+                                                            <div class="col">
+                                                                <input id="Filter-Oyuncu-UstBeden-Min" placeholder="Min" type="number" min="1" class="form-control" />
+                                                            </div>
+                                                            <div class="col">
+                                                                <input id="Filter-Oyuncu-UstBeden-Maks" placeholder="Maks" type="number" max="50000" class="form-control" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="form-group row">
+                                                    <label class="col-lg-3 col-form-label">Ayak No</label>
+                                                    <div class="col-lg-9">
+                                                        <div class="form-row">
+                                                            <div class="col">
+                                                                <input id="Filter-Oyuncu-AyakNumarasi-Min" placeholder="Min" type="number" min="1" class="form-control" />
+                                                            </div>
+                                                            <div class="col">
+                                                                <input id="Filter-Oyuncu-AyakNumarasi-Maks" placeholder="Maks" type="number" max="50000" class="form-control" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-group row">
+                                                    <label class="col-lg-3 col-form-label">Göz Rengi</label>
+                                                    <span asp-for="Oyuncu.GozRengi" class="text-danger"></span>
+                                                    <div class="col-lg-9">
+                                                        <select id="filter-oyuncu-GozRengi" asp-items="Html.GetEnumSelectList<EnuGozRengi>()" class="form-control"></select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="form-group row">
+                                                    <label class="col-lg-3 col-form-label">Ten Rengi</label>
+                                                    <span asp-for="Oyuncu.TenRengi" class="text-danger"></span>
+                                                    <div class="col-lg-9">
+                                                        <select id="filter-oyuncu-TenRengi" asp-items="Html.GetEnumSelectList<EnuTenRengi>()" class="form-control"></select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-group row">
+                                                    <label class="col-lg-3 col-form-label">Saç Rengi</label>
+                                                    <div class="col-lg-9">
+                                                        <select id="filter-oyuncu-SacRengi" asp-items="Html.GetEnumSelectList<EnuSacRengi>()" class="form-control"></select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn bg-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /full width modal -->
     @section scripts {
+
         <script>
+
+            var _tblProjeKarakterOyuncu = "tblProjeKarakterOyuncu_0";
             var _projeKarakterleriCount = @Model.Proje.ProjeKarakterleri.Count;
             function NewProjeKarakterleri() {
                 var str = "";
@@ -201,7 +415,7 @@
                 str += "    <div class='card'>";
                 str += "        <div class='card-body'>";
                 str += "            <fieldset>";
-                str += "                <input type='hidden' id='Proje_ProjeKarakterleri_" + _projeKarakterleriCount + "__ProjeId' name='Proje.ProjeKarakterleri[" + _projeKarakterleriCount + "].ProjeId' />";
+                str += "                <input type='hidden' id='Proje_ProjeKarakterleri_" + _projeKarakterleriCount + "__ProjeId' name='Proje.ProjeKarakterleri[" + _projeKarakterleriCount + "].ProjeId' Value='0' />";
                 str += "                <div class='form-group row'>";
                 str += "                      <label class='col-lg-3 control-label'>Karakter Adı</label>";
                 @*str +=                 "      <span asp-validation-for='@Model.ProjeKarakterleri[i].Adi' class='text-danger'></span>";*@
@@ -230,6 +444,12 @@
 
                 $("#divProjeKarakterleri").append(str);
                 _projeKarakterleriCount+=1;
+            }
+
+            function ShowOyuncu(tableName) {
+                _tblProjeKarakterOyuncu = tableName;
+                $('#myModal').modal('show');
+
             }
         </script>
     }

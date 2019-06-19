@@ -28,7 +28,6 @@
                 </div>
                 <div class="card-body">
                     <fieldset>
-
                         <div class="form-group row">
                             <label asp-for="Oyuncu.Boy" class="col-lg-3 col-form-label"></label>
                             <span asp-for="Oyuncu.Boy" class="text-danger"></span>
@@ -156,14 +155,11 @@
                             <span asp-for="Oyuncu.Aciklama" class="text-danger"></span>
                             <div class="col-lg-9">
                                 <input asp-for="OyuncuResimleriFile" type="file" class="file-input" multiple="multiple" data-fouc>
-
                             </div>
                         </div>
                         <div class="row">
                             @for (int i = 0; i < Model.Oyuncu.OyuncuResimleri.Count; i++)
                             {
-
-
                                 <div class="card">
                                     <div class="card-img-actions m-1">
                                         <img class="card-img img-fluid" src=@Model.Oyuncu.OyuncuResimleri[i].DosyaYolu alt="">

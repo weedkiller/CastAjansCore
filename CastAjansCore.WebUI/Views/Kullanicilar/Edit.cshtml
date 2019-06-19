@@ -37,11 +37,15 @@
                             </div>
                         </div>
 
+                       
                         <div class="form-group row">
                             <label asp-for="Kullanici.Sifre" class="col-lg-3 col-form-label"></label>
                             <span asp-validation-for="Kullanici.Sifre" class="text-danger"></span>
                             <div class="col-lg-9">
-                                <input asp-for="Kullanici.Sifre" class="form-control" />
+                                 <div class="badge-indicator-absolute">
+                                    <input asp-for="Kullanici.Sifre" class="form-control" />
+                                    <span class="badge password-indicator-badge-absolute"></span>
+                                </div>
                             </div>
                         </div>
                     </fieldset>

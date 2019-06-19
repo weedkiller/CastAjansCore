@@ -45,16 +45,16 @@ namespace CastAjansCore.Entity
         [Display(Name = "Uyruk")]
         public int? UyrukId { get; set; }
 
-        [MaxLength(13)]
+        [MaxLength(14)]
         [DataType(DataType.PhoneNumber)]
         [Display(Name = "Telefon 1")]
         public string Telefon { get; set; }
-        [MaxLength(13)]
+        [MaxLength(14)]
         [DataType(DataType.PhoneNumber)]
         [Display(Name = "Telefon 2")]
         public string Telefon2 { get; set; }
 
-        [MaxLength(13)]
+        [MaxLength(14)]
         [DataType(DataType.PhoneNumber)]
         public string Faks { get; set; }
 
