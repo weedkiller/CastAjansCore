@@ -80,8 +80,6 @@ namespace CastAjansCore.WebUI
             services.AddSingleton<IBankaServis, BankaManager>();
             services.AddSingleton<IBankaDal, EfBankaDal>();
 
-        
-
             services.AddSingleton<IProjeKarakterServis, ProjeKarakterManager>();
             services.AddSingleton<IProjeKarakterManagerDal, EfProjeKarakterDal>();
 
@@ -99,9 +97,7 @@ namespace CastAjansCore.WebUI
 
             services.AddSingleton<IKisiServis, KisiManager>();
             services.AddSingleton<IKisiDal, EfKisiDal>();
-
             
-
             services.AddSingleton<IKullaniciServis, KullaniciManager>();
             services.AddSingleton<IKullaniciDal, EfKullaniciDal>();
 
@@ -123,14 +119,8 @@ namespace CastAjansCore.WebUI
             services.AddSingleton<IProjeServis, ProjeManager>();
             services.AddSingleton<IProjeDal, EfProjeDal>();
 
- 
-
-          
-
             services.AddSingleton<IUyrukServis, UyrukManager>();
             services.AddSingleton<IUyrukDal, EfUyrukDal>();
-
- 
 
         }
 
@@ -152,7 +142,7 @@ namespace CastAjansCore.WebUI
 
             app.UseStaticFiles();
 
-            //env.EnvironmentName = EnvironmentName.Production;
+            env.EnvironmentName = EnvironmentName.Development;
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

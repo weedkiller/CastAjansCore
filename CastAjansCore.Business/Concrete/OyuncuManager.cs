@@ -33,6 +33,7 @@ namespace CastAjansCore.Business.Concrete
             if (id == null)
             {
                 OyuncuEditDto.KisiEditDto = await tKisiEditDto;
+                OyuncuEditDto.Oyuncu = new Oyuncu();
             }
             else
             {

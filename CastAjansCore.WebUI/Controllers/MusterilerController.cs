@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -54,8 +55,8 @@ namespace CastAjansCore.WebUI.Controllers
             else
             {
                 model.Musteri = await _MusteriServis.GetByIdAsync(id.Value);
-                var tIlce = _IlceServis.GetByIdAsync(model.Musteri.IlceId.Value);
-                var tIlceler = _IlceServis.GetSelectListAsync(i => i.IlId == model.Musteri.Ilce.IlId);
+                Task<Ilce> tIlce = _IlceServis.GetByIdAsync(model.Musteri.IlceId.Value);
+                Task<List<SelectListItem>> tIlceler = _IlceServis.GetSelectListAsync(i => i.IlId == model.Musteri.Ilce.IlId);
                 model.Musteri.Ilce = await tIlce;
                 model.Ilceler = await tIlceler;
 

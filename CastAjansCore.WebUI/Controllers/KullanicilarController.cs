@@ -78,6 +78,13 @@ namespace CastAjansCore.WebUI.Controllers
                     {
                         Kullanici kullanici = kullaniciEditDto.Kullanici;
                         kullanici.Kisi = kullaniciEditDto.KisiEditDto.Kisi;
+                        if (kullaniciEditDto.KisiEditDto.KimlikOnFile != null)
+                            kullaniciEditDto.KisiEditDto.Kisi.KimlikOnUrl = kullaniciEditDto.KisiEditDto.KimlikOnFile.SaveFile("Kimlikler");
+
+                        if (kullaniciEditDto.KisiEditDto.KimlikArkaFile != null)
+                            kullaniciEditDto.KisiEditDto.Kisi.KimlikArkaUrl = kullaniciEditDto.KisiEditDto.KimlikArkaFile.SaveFile("Kimlikler");
+
+
                         if (id == null)
                         {
                             await _kullaniciServis.AddAsync(kullanici, HttpContext.Session.GetUserHelper());

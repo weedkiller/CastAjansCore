@@ -1,0 +1,68 @@
+﻿@model CastAjansCore.Dto.KisiEditDto
+@using  CastAjansCore.Entity
+
+@{ Html.ViewData.TemplateInfo.HtmlFieldPrefix = "KisiEditDto"; }
+
+<div class="col-md-6">
+    <div class="card">
+        <div class="card-header header-elements-inline">
+            <h5 class="card-title"><i class="icon-reading mr-2"></i> Sosyal</h5>
+        </div>
+
+        <div class="card-body">
+            <fieldset>
+                <div class="form-group row">
+                    <label asp-for="Kisi.WebSitesi" class="col-lg-3 col-form-label"></label>
+                    <div class="col-lg-9">
+
+                        <div class="form-group">
+                            <input asp-for="Kisi.WebSitesi" class="form-control" />
+                            <span asp-validation-for="Kisi.WebSitesi" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Kisi.FaceBook" class="col-lg-3 col-form-label"></label>
+                    <div class="col-lg-9">
+
+                        <div class="form-group">
+                            <input asp-for="Kisi.FaceBook" class="form-control" />
+                            <span asp-validation-for="Kisi.FaceBook" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Kisi.Twitter" class="col-lg-3 col-form-label"></label>
+                    <div class="col-lg-9">
+
+                        <div class="form-group">
+                            <input asp-for="Kisi.Twitter" class="form-control" />
+                            <span asp-validation-for="Kisi.Twitter" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Kisi.Instagram" class="col-lg-3 col-form-label"></label>
+                    <div class="col-lg-9">
+
+                        <div class="form-group">
+                            <input asp-for="Kisi.Instagram" class="form-control" />
+                            <span asp-validation-for="Kisi.Instagram" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Kisi.Linkedin" class="col-lg-3 col-form-label"></label>
+                    <div class="col-lg-9">
+
+                        <div class="form-group">
+                            <input asp-for="Kisi.Linkedin" class="form-control" />
+                            <span asp-validation-for="Kisi.Linkedin" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+</div>
+

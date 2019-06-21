@@ -8,6 +8,11 @@ namespace CastAjansCore.Entity
     [Table("Oyuncular", Schema = "Cast")]
     public class Oyuncu : BaseEntity, IEntity
     {
+        public Oyuncu()
+        {
+            OyuncuResimleri = new List<OyuncuResim>();
+            OyuncuVideolari = new List<OyuncuVideo>();
+        }
         [Key]
         [ForeignKey("Kisi")]
         public override int Id { get; set; }

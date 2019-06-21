@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CastAjansCore.DataLayer.Migrations
 {
     [DbContext(typeof(CastAjansContext))]
-    [Migration("20190609211752_projeIsıTakipEden")]
-    partial class projeIsıTakipEden
+    [Migration("20190621131336_first")]
+    partial class first
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -167,6 +167,10 @@ namespace CastAjansCore.DataLayer.Migrations
 
                     b.Property<bool>("Aktif");
 
+                    b.Property<string>("AnneAdiSoyadi");
+
+                    b.Property<string>("BabaAdiSoyadi");
+
                     b.Property<int?>("BankaId");
 
                     b.Property<int>("Cinsiyet");
@@ -184,7 +188,7 @@ namespace CastAjansCore.DataLayer.Migrations
                         .HasMaxLength(200);
 
                     b.Property<string>("Faks")
-                        .HasMaxLength(13);
+                        .HasMaxLength(14);
 
                     b.Property<DateTime>("GuncellemeZamani");
 
@@ -203,8 +207,17 @@ namespace CastAjansCore.DataLayer.Migrations
 
                     b.Property<int>("KanGrubu");
 
+                    b.Property<string>("KimlikArkaUrl")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("KimlikOnUrl")
+                        .HasMaxLength(200);
+
                     b.Property<string>("Linkedin")
                         .HasMaxLength(200);
+
+                    b.Property<string>("ProfilFotoUrl")
+                        .HasMaxLength(100);
 
                     b.Property<string>("Soyadi")
                         .IsRequired()
@@ -217,10 +230,10 @@ namespace CastAjansCore.DataLayer.Migrations
                         .HasMaxLength(11);
 
                     b.Property<string>("Telefon")
-                        .HasMaxLength(13);
+                        .HasMaxLength(14);
 
                     b.Property<string>("Telefon2")
-                        .HasMaxLength(13);
+                        .HasMaxLength(14);
 
                     b.Property<string>("Twitter")
                         .HasMaxLength(200);
@@ -325,14 +338,9 @@ namespace CastAjansCore.DataLayer.Migrations
 
                     b.Property<bool>("Aktif");
 
-                    b.Property<int?>("AltBeden")
-                        .HasMaxLength(20);
-
-                    b.Property<string>("AnneAdiSoyadi");
+                    b.Property<int?>("AltBeden");
 
                     b.Property<int?>("AyakNumarasi");
-
-                    b.Property<string>("BabaAdiSoyadi");
 
                     b.Property<int?>("Boy");
 
@@ -353,6 +361,9 @@ namespace CastAjansCore.DataLayer.Migrations
 
                     b.Property<int?>("Kilo");
 
+                    b.Property<string>("Meslek")
+                        .HasMaxLength(200);
+
                     b.Property<string>("OyuculukEgitimi")
                         .HasMaxLength(4000);
 
@@ -363,8 +374,10 @@ namespace CastAjansCore.DataLayer.Migrations
 
                     b.Property<int>("TenRengi");
 
-                    b.Property<int?>("UstBeden")
-                        .HasMaxLength(20);
+                    b.Property<int?>("UstBeden");
+
+                    b.Property<string>("YabanciDil")
+                        .HasMaxLength(200);
 
                     b.Property<string>("Yetenekleri")
                         .HasMaxLength(4000);
@@ -381,8 +394,6 @@ namespace CastAjansCore.DataLayer.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("Aktif");
-
-                    b.Property<bool>("Default");
 
                     b.Property<string>("DosyaYolu");
 
@@ -528,11 +539,11 @@ namespace CastAjansCore.DataLayer.Migrations
 
                     b.Property<int?>("GuncelleyenId");
 
+                    b.Property<int>("KarakterDurumu");
+
                     b.Property<int>("OyuncuId");
 
                     b.Property<int>("ProjeKarakterId");
-
-                    b.Property<int>("karakterDurumu");
 
                     b.HasKey("Id");
 
@@ -642,11 +653,11 @@ namespace CastAjansCore.DataLayer.Migrations
             modelBuilder.Entity("CastAjansCore.Entity.ProjeKarakter", b =>
                 {
                     b.HasOne("CastAjansCore.Entity.Oyuncu")
-                        .WithMany("BolumKarakterleri")
+                        .WithMany("ProjeKarakterleri")
                         .HasForeignKey("OyuncuId");
 
                     b.HasOne("CastAjansCore.Entity.Proje", "Proje")
-                        .WithMany()
+                        .WithMany("ProjeKarakterleri")
                         .HasForeignKey("ProjeId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
@@ -659,7 +670,7 @@ namespace CastAjansCore.DataLayer.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("CastAjansCore.Entity.ProjeKarakter", "ProjeKarakter")
-                        .WithMany()
+                        .WithMany("ProjeKarakterOyunculari")
                         .HasForeignKey("ProjeKarakterId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });

@@ -4,7 +4,7 @@
     ViewData["Title"] = "Kullanıcılar";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<form asp-action="Edit">
+<form asp-action="Edit" enctype="multipart/form-data">
 
     <input type="hidden" asp-for="Kullanici.Id" />
     <input type="hidden" asp-for="Kullanici.EkleyenId" />
@@ -13,11 +13,12 @@
     <input type="hidden" asp-for="Kullanici.GuncellemeZamani" />
     <input type="hidden" asp-for="Kullanici.Aktif" />
 
-    @{ Html.ViewData.TemplateInfo.HtmlFieldPrefix = "Kullanici"; }
-    @await Html.PartialAsync("_BaseEdit", Model.Kullanici)
+    @*@{ Html.ViewData.TemplateInfo.HtmlFieldPrefix = "Kullanici"; }
+    @await Html.PartialAsync("_BaseEdit", Model.Kullanici)*@
 
     <div class="row">
         @await Html.PartialAsync("KisiEdit", Model.KisiEditDto)
+
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header header-elements-inline">
@@ -37,12 +38,12 @@
                             </div>
                         </div>
 
-                       
+
                         <div class="form-group row">
                             <label asp-for="Kullanici.Sifre" class="col-lg-3 col-form-label"></label>
                             <span asp-validation-for="Kullanici.Sifre" class="text-danger"></span>
                             <div class="col-lg-9">
-                                 <div class="badge-indicator-absolute">
+                                <div class="badge-indicator-absolute">
                                     <input asp-for="Kullanici.Sifre" class="form-control" />
                                     <span class="badge password-indicator-badge-absolute"></span>
                                 </div>
@@ -53,6 +54,10 @@
 
             </div>
         </div>
+        @await Html.PartialAsync("KisiEditKimlik", Model.KisiEditDto)
+        @await Html.PartialAsync("KisiEditIletisim", Model.KisiEditDto)
+        @await Html.PartialAsync("KisiEditSosyal", Model.KisiEditDto)
+
     </div>
 
     <div class="row">

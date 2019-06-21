@@ -1,0 +1,85 @@
+﻿@model CastAjansCore.Dto.KisiEditDto
+@using  CastAjansCore.Entity
+
+ 
+@{ Html.ViewData.TemplateInfo.HtmlFieldPrefix = "KisiEditDto"; }
+  
+<div class="col-md-6">
+    <div class="card">
+        <div class="card-header header-elements-inline">
+            <h5 class="card-title"><i class="icon-address-book3 mr-2"></i> İletişim</h5>
+        </div>
+
+        <div class="card-body">
+            <fieldset>
+                <div class="form-group row">
+                    <label asp-for="Kisi.EPosta" class="col-lg-3 col-form-label"></label>
+                    <div class="col-lg-9">
+
+                        <div class="form-group">
+                            <input asp-for="Kisi.EPosta" class="form-control" />
+                            <span asp-validation-for="Kisi.EPosta" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Kisi.Telefon" class="col-lg-3 col-form-label"></label>
+                    <div class="col-lg-9">
+
+                        <div class="form-group">
+                            <input asp-for="Kisi.Telefon" data-mask="0 999 999 9999" class="form-control" />
+                            <span asp-validation-for="Kisi.Telefon" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Kisi.Telefon2" class="col-lg-3 col-form-label"></label>
+                    <div class="col-lg-9">
+
+                        <div class="form-group">
+                            <input asp-for="Kisi.Telefon2" data-mask="0 999 999 9999" class="form-control" />
+                            <span asp-validation-for="Kisi.Telefon2" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Kisi.Faks" class="col-lg-3 col-form-label"></label>
+                    <div class="col-lg-9">
+
+                        <div class="form-group">
+                            <input asp-for="Kisi.Faks" data-mask="0 999 999 9999" class="form-control" />
+                            <span asp-validation-for="Kisi.Faks" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label asp-for="Kisi.Ilce.IlId" class="col-lg-3 col-form-label"></label>
+                    <span asp-validation-for="Kisi.Ilce.IlId" class="text-danger"></span>
+                    <div class="col-lg-9">
+                        <select asp-for="Kisi.Ilce.IlId" asp-items="@Model.Iller" onchange="GetIlceler($('#KisiEditDto_Kisi_Ilce_IlId'),$('#KisiEditDto_Kisi_IlceId'))" class="form-control">
+                            Seçiniz
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Kisi.IlceId" class="col-lg-3 col-form-label"></label>
+                    <span asp-validation-for="Kisi.IlceId" class="text-danger"></span>
+                    <div class="col-lg-9">
+                        <select asp-for="Kisi.IlceId" asp-items="@Model.Ilceler" class="form-control"></select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Kisi.Adres" class="col-lg-3 col-form-label"></label>
+                    <span asp-validation-for="Kisi.Adres" class="text-danger"></span>
+                    <div class="col-lg-9">
+                        <textarea asp-for="Kisi.Adres" rows="3" class="form-control"></textarea>
+                    </div>
+                </div>
+
+            </fieldset>
+        </div>
+    </div>
+</div>
+ 
+
