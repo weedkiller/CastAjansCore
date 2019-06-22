@@ -38,25 +38,25 @@
             <div class="collapse" id="user-nav">
                 <ul class="nav nav-sidebar">
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a asp-controller="Kullanicilar" asp-action="Edit" asp-route-Id="@Model.Id"  class="nav-link">
                             <i class="icon-user-plus"></i>
-                            <span>Hesap Ayarları</span>
+                            <span>Kullanıcı Bilgileri</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="/Kullanicilar/SifremiDegistir" class="nav-link">
                             <i class="icon-user-plus"></i>
                             <span>Şifremi değiştir</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="/Projeler/Projelerim" class="nav-link">
                             <i class="icon-coins"></i>
                             <span>Projelerim</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="/Kullanicilar/LogOut" class="nav-link">
                             <i class="icon-switch2"></i>
                             <span>Logout</span>
                         </a>

@@ -1,11 +1,13 @@
 ﻿using CastAjansCore.Business.Abstract;
 using CastAjansCore.Entity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 namespace CastAjansCore.WebUI.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class IllerController : Controller
     {
         private readonly IIlServis _IlServis;        

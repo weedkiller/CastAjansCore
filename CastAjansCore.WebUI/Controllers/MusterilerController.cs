@@ -1,6 +1,7 @@
 ﻿using CastAjansCore.Business.Abstract;
 using CastAjansCore.Dto;
 using CastAjansCore.Entity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace CastAjansCore.WebUI.Controllers
 {
+    [Authorize(Roles = "admin,calisan")]
     public class MusterilerController : Controller
     {
         private readonly IMusteriServis _MusteriServis;

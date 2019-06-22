@@ -1,7 +1,10 @@
-﻿using CastAjansCore.Business.Abstract;
+﻿using Calbay.Core.Business;
+using Calbay.Core.Entities;
+using CastAjansCore.Business.Abstract;
 using CastAjansCore.Business.Concrete;
 using CastAjansCore.DataLayer.Abstract;
 using CastAjansCore.DataLayer.Concrete.EntityFramework;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -52,6 +55,14 @@ namespace CastAjansCore.WebUI
                 })
                 .AddDataAnnotationsLocalization()
                 .AddViewLocalization();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(options =>
+            {
+                options.LoginPath = "/Kullanicilar/Login/";
+                options.AccessDeniedPath = "/Kullanicilar/AccessDenied/"; 
+            });
+
             services.Configure<RequestLocalizationOptions>(options =>
             {
                 var supportedCultures = new[] { new CultureInfo("en"), new CultureInfo("tr") };
@@ -61,6 +72,10 @@ namespace CastAjansCore.WebUI
             }); ;
             services.AddSession();
             services.AddMemoryCache();
+
+            services.Configure<EmailSettings>(_configuration.GetSection("EmailSettings"));
+
+
             AddScoped(services);
 
             var cultureInfo = new CultureInfo("tr-TR");
@@ -76,6 +91,7 @@ namespace CastAjansCore.WebUI
             //services.AddScoped<IAdresDal, EfAdresDal>();
             //services.AddSingleton<IHostingEnvironment>(new HostingEnvironment());
 
+            services.AddSingleton<IEmailServis, EmailServis>();
 
             services.AddSingleton<IBankaServis, BankaManager>();
             services.AddSingleton<IBankaDal, EfBankaDal>();
@@ -97,7 +113,7 @@ namespace CastAjansCore.WebUI
 
             services.AddSingleton<IKisiServis, KisiManager>();
             services.AddSingleton<IKisiDal, EfKisiDal>();
-            
+
             services.AddSingleton<IKullaniciServis, KullaniciManager>();
             services.AddSingleton<IKullaniciDal, EfKullaniciDal>();
 
@@ -159,12 +175,13 @@ namespace CastAjansCore.WebUI
                 app.UseExceptionHandler("/Error");
             }
 
+            app.UseAuthentication();
             app.UseSession();
             app.UseMvc(ConfigureRoutes);
         }
 
         private void ConfigureRoutes(IRouteBuilder routeBuilder)
-        {            
+        {
             routeBuilder.MapRoute(name: "default", template: "{controller=home}/{action=index}/{id?}");
 
             routeBuilder.MapRoute(name: "areas", template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");

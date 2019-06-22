@@ -4,11 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using CastAjansCore.Business.Abstract;
 using CastAjansCore.Entity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace CastAjansCore.WebUI.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class BankalarController : Controller
     {
         private readonly IBankaServis _BankaServis;
@@ -31,7 +33,7 @@ namespace CastAjansCore.WebUI.Controllers
             var Bankalar = await _BankaServis.GetListAsync();
             return View(Bankalar);
         }
-        
+
         // GET: Bankas/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {

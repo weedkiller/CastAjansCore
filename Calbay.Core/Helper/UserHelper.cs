@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using static Calbay.Core.Entities.Enums;
 
 namespace Calbay.Core.Helper
 {
@@ -14,8 +15,10 @@ namespace Calbay.Core.Helper
 
         public string KullaniciAdi { get; set; }
 
-        public string Rol { get; set; }
+        public EnuRol Rol { get; set; }
 
         public List<MenuDto> Menuler { get; set; }
+
+        public string Mesaj { get; set; }
     }
 }

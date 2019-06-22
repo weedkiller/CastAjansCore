@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using static Calbay.Core.Entities.Enums;
 
 namespace Calbay.Core.Helper
 {
@@ -14,6 +12,6 @@ namespace Calbay.Core.Helper
 
         string KullaniciAdi { get; set; }
 
-        string Rol { get; set; }
+        EnuRol Rol { get; set; }
     }
 }

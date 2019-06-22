@@ -1,6 +1,7 @@
 ﻿using CastAjansCore.Business.Abstract;
 using CastAjansCore.Dto;
 using CastAjansCore.Entity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace CastAjansCore.WebUI.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class IlcelerController : Controller
     {
         private readonly IIlceServis _IlceServis;

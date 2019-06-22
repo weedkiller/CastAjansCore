@@ -1,4 +1,5 @@
 ﻿using Calbay.Core.Entities;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -9,7 +10,7 @@ namespace CastAjansCore.Entity
     {
         [Key]
         [ForeignKey("Kisi")]
-        public int Id { get; set; }
+        public override int Id { get; set; }
 
         [Display(Name = "Kullanıcı Adı")]
         [MaxLength(20)]
@@ -23,6 +24,6 @@ namespace CastAjansCore.Entity
         public string Sifre { get; set; }
 
         public virtual Kisi Kisi { get; set; }
-
+        public string Token { get; set; }
     }
 }

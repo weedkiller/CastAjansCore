@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CastAjansCore.Business.Abstract;
+﻿using CastAjansCore.Business.Abstract;
+using CastAjansCore.Dto;
 using CastAjansCore.Entity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using CastAjansCore.Dto;
-using System.Linq.Expressions;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CastAjansCore.WebUI.Controllers
 {
+    [Authorize(Roles = "admin,calisan")]
     public class ProjelerController : Controller
     {
         private readonly IProjeServis _ProjeServis;

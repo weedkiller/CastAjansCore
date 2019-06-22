@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using static Calbay.Core.Entities.Enums;
 
 namespace CastAjansCore.Business.Concrete
 {
@@ -17,9 +18,11 @@ namespace CastAjansCore.Business.Concrete
     {
 
         private readonly IKisiServis _kisiServis;
-        public KullaniciManager(IKullaniciDal dal, IKisiServis kisiServis) : base(dal)
+        private readonly IEmailServis _emailServis;
+        public KullaniciManager(IKullaniciDal dal, IKisiServis kisiServis, IEmailServis emailServis) : base(dal)
         {
             _kisiServis = kisiServis;
+            _emailServis = emailServis;
         }
 
         public override async Task AddAsync(Kullanici entity, UserHelper userHelper)
@@ -36,6 +39,7 @@ namespace CastAjansCore.Business.Concrete
 
             await Task.WhenAll(tasks);
         }
+
 
         public async Task<Kullanici> GetWithKisi(int id)
         {
@@ -79,11 +83,93 @@ namespace CastAjansCore.Business.Concrete
         public override async Task DeleteAsync(int id, UserHelper userHelper)
         {
             var entity = await base._dal.GetAsync(new List<string> { "Kisi" }, i => i.Id == id);
-            
+
             entity.Aktif = false;
             entity.Kisi.Aktif = false;
 
             await UpdateAsync(entity, userHelper);
+        }
+
+        public async Task<UserHelper> LoginAsync(string kullaniciAdi, string sifre)
+        {
+            var kullanici = await _dal.GetAsync(new List<string> { "Kisi" }, i => i.KullaniciAdi == kullaniciAdi && i.Sifre == sifre);
+            if (kullanici == null)
+            {
+                return null;
+            }
+            else
+            {
+                UserHelper userHelper = new UserHelper
+                {
+                    Id = kullanici.Id,
+                    Adi = kullanici.Kisi.Adi,
+                    Soyadi = kullanici.Kisi.Soyadi,
+                    KullaniciAdi = kullanici.KullaniciAdi,
+                    Rol = EnuRol.admin,
+                    Menuler = GetMenu(EnuRol.admin)
+                };
+                return userHelper;
+            }
+
+
+        }
+
+        private List<MenuDto> GetMenu(EnuRol rol)
+        {
+            var Menuler = new List<MenuDto>();
+            switch (rol)
+            {
+                case EnuRol.admin:
+
+
+                    Menuler.Add(new MenuDto { Adi = "Müşteriler", Icon = "mi-local-play", Link = " /Musteriler" });
+                    Menuler.Add(new MenuDto { Adi = "Oyuncular", Icon = "mi-people", Link = "/Oyuncular" });
+                    Menuler.Add(new MenuDto { Adi = "Projelerim", Icon = "mi-shop", Link = " /Projeler" });
+                    Menuler.Add(new MenuDto
+                    {
+                        Adi = "Sistem",
+                        Icon = "mi-settings",
+                        Link = "#",
+                        AltMenuler = new List<MenuDto> {
+                                 new MenuDto { Adi = "Bankalar", Link = "/Bankalar" } ,
+                                 new MenuDto{ Adi="Firmalar", Link="/Firmalar" },
+                                 new MenuDto { Adi = "İller", Link = "/Iller" } ,
+                                 new MenuDto{ Adi="Kullanıcılar", Link="/Kullanicilar" },
+                                 new MenuDto{ Adi="Uyruklar", Link="/Uyruklar" }
+                            }
+                    });
+                    break;
+                case EnuRol.calisan:
+                    Menuler.Add(new MenuDto { Adi = "Müşteriler", Icon = "mi-local-play", Link = "/Musteriler" });
+                    Menuler.Add(new MenuDto { Adi = "Oyuncular", Icon = "mi-people", Link = "/Oyuncular" });
+                    Menuler.Add(new MenuDto { Adi = "Projelerim", Icon = "mi-shop", Link = " /Projeler" });
+                    break;
+                default:
+                    break;
+            }
+            return Menuler;
+        }
+
+        public Task<string> SifremiUnuttum(string ePosta, UserHelper userHelper)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<Kullanici> GetByEPostaAsync(string ePosta)
+        {
+            return await _dal.GetAsync(new List<string> { "Kisi" }, x => x.Kisi.EPosta == ePosta && x.Kisi.Aktif == true);
+        }
+
+        public async Task<string> GeneratePasswordResetTokenAsync(string url, int id, UserHelper userHelper)
+        {
+            var kullanici = await GetByIdAsync(id);
+            kullanici.Token = Guid.NewGuid().ToString(); ;
+
+            var tUpdate = UpdateAsync(kullanici, userHelper);
+            var callbackUrl = $"{url}/Kullanicilar/ResetPassword/{id}?code={kullanici.Token}";            
+            var tMail = _emailServis.SendEmailAsync(kullanici.Kisi.EPosta, "Şifre Sıfırlama", $"Şifrenizi sıfırlamak için <a href=\"{callbackUrl}\">here</a> tıklayınız.");
+
+            return "";
         }
     }
 }
