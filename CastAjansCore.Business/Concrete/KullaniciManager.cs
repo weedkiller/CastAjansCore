@@ -25,14 +25,33 @@ namespace CastAjansCore.Business.Concrete
             _emailServis = emailServis;
         }
 
+        private async Task Kontrol(Kullanici entity)
+        {
+            var tKullaniciAdi = GetAsync(i => (entity.Id == 0 || i.Id != entity.Id) && i.KullaniciAdi == entity.KullaniciAdi && i.Aktif == true);
+            
+            if (await tKullaniciAdi != null)
+            {
+                throw new Exception($"{entity.KullaniciAdi} kullanıcı adıyla kayıt mevcuttur.");
+            }
+        }
+
         public override async Task AddAsync(Kullanici entity, UserHelper userHelper)
         {
+            await Kontrol(entity);
+
+            entity.Token = Guid.NewGuid().ToString();
+
             await _kisiServis.AddAsync(entity.Kisi, userHelper);
             await base.AddAsync(entity, userHelper);
         }
 
         public override async Task UpdateAsync(Kullanici entity, UserHelper userHelper)
         {
+            await Kontrol(entity);
+            var kullanici = await GetByIdAsync(entity.Id);
+            entity.Sifre = kullanici.Sifre;
+            entity.Token = kullanici.Token;
+
             Task[] tasks = new Task[2];
             tasks[0] = _kisiServis.UpdateAsync(entity.Kisi, userHelper);
             tasks[1] = base.UpdateAsync(entity, userHelper);
@@ -157,6 +176,8 @@ namespace CastAjansCore.Business.Concrete
 
         public async Task<Kullanici> GetByEPostaAsync(string ePosta)
         {
+            var kisi = await _kisiServis.GetAsync(i => i.EPosta == ePosta);
+
             return await _dal.GetAsync(new List<string> { "Kisi" }, x => x.Kisi.EPosta == ePosta && x.Kisi.Aktif == true);
         }
 
@@ -165,9 +186,11 @@ namespace CastAjansCore.Business.Concrete
             var kullanici = await GetByIdAsync(id);
             kullanici.Token = Guid.NewGuid().ToString(); ;
 
-            var tUpdate = UpdateAsync(kullanici, userHelper);
-            var callbackUrl = $"{url}/Kullanicilar/ResetPassword/{id}?code={kullanici.Token}";            
-            var tMail = _emailServis.SendEmailAsync(kullanici.Kisi.EPosta, "Şifre Sıfırlama", $"Şifrenizi sıfırlamak için <a href=\"{callbackUrl}\">here</a> tıklayınız.");
+            Task tUpdate = UpdateAsync(kullanici, userHelper);
+            string callbackUrl = $"{url}/Kullanicilar/ResetPassword/{id}?code={kullanici.Token}";
+            Task tMail = _emailServis.SendEmailAsync(kullanici.Kisi.EPosta, "Şifre Sıfırlama", $"Şifrenizi sıfırlamak için <a href=\"{callbackUrl}\">here</a> tıklayınız.");
+
+            await Task.WhenAll(tUpdate, tMail);
 
             return "";
         }

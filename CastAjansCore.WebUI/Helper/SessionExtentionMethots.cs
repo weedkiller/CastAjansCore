@@ -17,28 +17,28 @@ namespace CastAjansCore.WebUI
             {
                 u = new UserHelper
                 {
-                    Id = 1,
-                    Adi = "Önder",
-                    Soyadi = "ÇALBAY",
-                    KullaniciAdi = "albay69s",
-                    Menuler = new List<MenuDto>
-                    {
-                        new MenuDto { Adi = "Müşteriler", Icon = "icon-clapboard-play", Link = "/Musteriler" } ,
-                        new MenuDto { Adi = "Oyuncular", Icon = "icon-accessibility", Link = "/Oyuncular" },
-                        new MenuDto
-                        {
-                            Adi = "Sistem",
-                            Icon = "icon-gear",
-                            Link = "#",
-                            AltMenuler = new List<MenuDto> {
-                                 new MenuDto { Adi = "Bankalar", Link = "/Bankalar" } ,
-                                 new MenuDto{ Adi="Firmalar", Link="/Firmalar" },
-                                 new MenuDto { Adi = "İller", Link = "/Iller" } ,
-                                 new MenuDto{ Adi="Kullanıcılar", Link="/Kullanicilar" },
-                                 new MenuDto{ Adi="Uyruklar", Link="/Uyruklar" }
-                            }
-                        }
-                    }
+                    Id = 0,
+                    Adi = "boş",
+                    Soyadi = "boş",
+                    KullaniciAdi = "boş",
+                    //Menuler = new List<MenuDto>
+                    //{
+                    //    new MenuDto { Adi = "Müşteriler", Icon = "icon-clapboard-play", Link = "/Musteriler" } ,
+                    //    new MenuDto { Adi = "Oyuncular", Icon = "icon-accessibility", Link = "/Oyuncular" },
+                    //    new MenuDto
+                    //    {
+                    //        Adi = "Sistem",
+                    //        Icon = "icon-gear",
+                    //        Link = "#",
+                    //        AltMenuler = new List<MenuDto> {
+                    //             new MenuDto { Adi = "Bankalar", Link = "/Bankalar" } ,
+                    //             new MenuDto{ Adi="Firmalar", Link="/Firmalar" },
+                    //             new MenuDto { Adi = "İller", Link = "/Iller" } ,
+                    //             new MenuDto{ Adi="Kullanıcılar", Link="/Kullanicilar" },
+                    //             new MenuDto{ Adi="Uyruklar", Link="/Uyruklar" }
+                    //        }
+                    //    }
+                    //}
                 };
                 session.SetUserHelper(u);
             }

@@ -19,7 +19,17 @@ namespace CastAjansCore.WebUI.Controllers
     public class KullanicilarController : Controller
     {
         private readonly IKullaniciServis _kullaniciServis;
-        public UserHelper _userHelper { get { return HttpContext.Session.GetUserHelper(); } set { HttpContext.Session.SetUserHelper(value); } }
+        public UserHelper _userHelper
+        {
+            get
+            {
+                return HttpContext.Session.GetUserHelper();
+            }
+            set
+            {
+                HttpContext.Session.SetUserHelper(value);
+            }
+        }
 
         public KullanicilarController(IKullaniciServis kullaniciServis)
         {
@@ -141,6 +151,7 @@ namespace CastAjansCore.WebUI.Controllers
                 ModelState.Remove("KisiEditDto.Kisi.Ilce.Id");
                 ModelState.Remove("KisiEditDto.Kisi.Ilce.IlId");
                 ModelState.Remove("KisiEditDto.Kisi.Ilce.Adi");
+                ModelState.Remove("KisiEditDto.Sifre");
 
                 if (ModelState.IsValid)
                 {
@@ -241,7 +252,7 @@ namespace CastAjansCore.WebUI.Controllers
             return View();
         }
 
-        
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -262,9 +273,41 @@ namespace CastAjansCore.WebUI.Controllers
 
                 // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
-                string code = await _kullaniciServis.GeneratePasswordResetTokenAsync("localhost:8090", user.Id, _userHelper);
-                
-                return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                await _kullaniciServis.GeneratePasswordResetTokenAsync("localhost:8090", user.Id, _userHelper);
+
+                MesajHelper.MesajEkle(ViewBag, "Mail adresinizden gelen maili onaylayınız.");
+
+                return RedirectToAction("Login", "Kullanicilar");
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(dto);
+        }
+
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword(LoginSifremiUnuttum dto)
+        {
+            //await _kullaniciServis.SifremiUnuttum(dto.EPosta, HttpContext.Session.GetUserHelper());
+            //return RedirectToAction(nameof(Index));
+
+            if (ModelState.IsValid)
+            {
+                Kullanici user = await _kullaniciServis.GetByEPostaAsync(dto.EPosta);
+
+                if (user == null)/* || !(await _kullaniciServis.IsEmailConfirmedAsync(user.Id)))*/
+                {
+                    // Don't reveal that the user does not exist or is not confirmed
+                    return View("ForgotPasswordConfirmation");
+                }
+
+                // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                // Send an email with this link
+                await _kullaniciServis.GeneratePasswordResetTokenAsync("localhost:8090", user.Id, _userHelper);
+
+                MesajHelper.MesajEkle(ViewBag, "Mail adresinizden gelen maili onaylayınız.");
+
+                return RedirectToAction("Login", "Kullanicilar");
             }
 
             // If we got this far, something failed, redisplay form

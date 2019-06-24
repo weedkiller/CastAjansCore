@@ -1,5 +1,7 @@
 ﻿using Calbay.Core.Entities;
+using Calbay.Core.Helper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -89,6 +91,9 @@ namespace Calbay.Core.DataAccess
                 {
                     query = query.Include(item);
                 }
+
+                var sql = query.Where(SetFilter(filter)).ToSql();
+
                 return await query.SingleOrDefaultAsync<TEntity>(SetFilter(filter));
             }
         }
