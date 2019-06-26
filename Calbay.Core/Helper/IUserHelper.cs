@@ -1,4 +1,4 @@
-﻿using static Calbay.Core.Entities.Enums;
+﻿using Calbay.Core.Entities;
 
 namespace Calbay.Core.Helper
 {

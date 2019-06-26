@@ -79,7 +79,7 @@ namespace CastAjansCore.WebUI.Controllers
             return RedirectToAction("Index");
         }
 
-        [Authorize(Roles = "asd")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Index()
         {
             ViewData["UserHelper"] = _userHelper;
@@ -111,7 +111,7 @@ namespace CastAjansCore.WebUI.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
 
-            if (_userHelper.Rol != Enums.EnuRol.admin)
+            if (_userHelper.Rol != EnuRol.admin)
             {
                 if (_userHelper.Id != id)
                 {
@@ -140,7 +140,7 @@ namespace CastAjansCore.WebUI.Controllers
         {
             try
             {
-                if (_userHelper.Rol != Enums.EnuRol.admin)
+                if (_userHelper.Rol != EnuRol.admin)
                 {
                     if (_userHelper.Id != id)
                     {
@@ -151,7 +151,7 @@ namespace CastAjansCore.WebUI.Controllers
                 ModelState.Remove("KisiEditDto.Kisi.Ilce.Id");
                 ModelState.Remove("KisiEditDto.Kisi.Ilce.IlId");
                 ModelState.Remove("KisiEditDto.Kisi.Ilce.Adi");
-                ModelState.Remove("KisiEditDto.Sifre");
+                ModelState.Remove("Kullanici.Sifre");
 
                 if (ModelState.IsValid)
                 {
@@ -256,62 +256,84 @@ namespace CastAjansCore.WebUI.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SifremiUnuttum(LoginSifremiUnuttum dto)
+        public async Task<IActionResult> SifremiUnuttum(LoginSifremiUnuttumDto dto)
         {
-            //await _kullaniciServis.SifremiUnuttum(dto.EPosta, HttpContext.Session.GetUserHelper());
-            //return RedirectToAction(nameof(Index));
-
-            if (ModelState.IsValid)
+            try
             {
-                Kullanici user = await _kullaniciServis.GetByEPostaAsync(dto.EPosta);
-
-                if (user == null)/* || !(await _kullaniciServis.IsEmailConfirmedAsync(user.Id)))*/
+                if (ModelState.IsValid)
                 {
-                    // Don't reveal that the user does not exist or is not confirmed
-                    return View("ForgotPasswordConfirmation");
+                    Kullanici user = await _kullaniciServis.GetByEPostaAsync(dto.EPosta);
+
+                    if (user == null)/* || !(await _kullaniciServis.IsEmailConfirmedAsync(user.Id)))*/
+                    {
+                        // Don't reveal that the user does not exist or is not confirmed
+                        return View("ForgotPasswordConfirmation");
+                    }
+
+                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                    // Send an email with this link
+                    await _kullaniciServis.SifreUretmeTokeniUret(user.Id, null);
+
+                    MesajHelper.MesajEkle(ViewBag, "Mail adresinizden gelen maili onaylayınız.");
+
+                    return RedirectToAction("Login", "Kullanicilar");
                 }
-
-                // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                // Send an email with this link
-                await _kullaniciServis.GeneratePasswordResetTokenAsync("localhost:8090", user.Id, _userHelper);
-
-                MesajHelper.MesajEkle(ViewBag, "Mail adresinizden gelen maili onaylayınız.");
-
-                return RedirectToAction("Login", "Kullanicilar");
+            }
+            catch (Exception ex)
+            {
+                MesajHelper.HataEkle(ViewBag, ex.Message);
             }
 
-            // If we got this far, something failed, redisplay form
             return View(dto);
         }
 
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ResetPassword(LoginSifremiUnuttum dto)
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword(int id, string code)
         {
-            //await _kullaniciServis.SifremiUnuttum(dto.EPosta, HttpContext.Session.GetUserHelper());
-            //return RedirectToAction(nameof(Index));
 
-            if (ModelState.IsValid)
+            Kullanici user = await _kullaniciServis.GetByIdAsync(id);
+
+            if (user == null && user.Token != code)
             {
-                Kullanici user = await _kullaniciServis.GetByEPostaAsync(dto.EPosta);
+                return View("ForgotPasswordConfirmation");
+            }
+            else
+            {
+                return View();
+            }
+        }
 
-                if (user == null)/* || !(await _kullaniciServis.IsEmailConfirmedAsync(user.Id)))*/
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ResetPassword(ResetPasswordDto model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
                 {
-                    // Don't reveal that the user does not exist or is not confirmed
-                    return View("ForgotPasswordConfirmation");
+                    return View(model);
                 }
-
-                // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                // Send an email with this link
-                await _kullaniciServis.GeneratePasswordResetTokenAsync("localhost:8090", user.Id, _userHelper);
-
-                MesajHelper.MesajEkle(ViewBag, "Mail adresinizden gelen maili onaylayınız.");
-
-                return RedirectToAction("Login", "Kullanicilar");
+                else
+                {
+                    var user = await _kullaniciServis.GetByTokenAsync(model.Code);
+                    if (user == null)
+                    {
+                        // Don't reveal that the user does not exist
+                        return RedirectToAction("ResetPasswordConfirmation", "Account");
+                    }
+                    await _kullaniciServis.SifreyiGuncelleAsync(user.Id, model.Sifre, null);
+                    MesajHelper.MesajEkle(ViewBag, "Şifreniz başrıyla güncellenmiştir.");
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            catch (Exception ex)
+            {
+                MesajHelper.HataEkle(ViewBag, ex.Message);
             }
 
-            // If we got this far, something failed, redisplay form
-            return View(dto);
+            return View();
         }
 
         private async Task<bool> KullaniciExistsAsync(int id)

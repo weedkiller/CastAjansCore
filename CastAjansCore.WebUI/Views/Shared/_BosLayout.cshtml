@@ -1,7 +1,7 @@
 ﻿@using Calbay.Core.Helper
-
 <!DOCTYPE html>
-<html lang="en">
+
+<html>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,7 +10,6 @@
     <!-- Global stylesheets -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
     <link href="/Limitless_2_2/css/icons/icomoon/styles.min.css" rel="stylesheet" type="text/css">
-    <link href="/Limitless_2_2/css/icons/material/styles.min.css" rel="stylesheet" type="text/css">
     <link href="/Limitless_2_2/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="/Limitless_2_2/css/bootstrap_limitless.min.css" rel="stylesheet" type="text/css">
     <link href="/Limitless_2_2/css/layout.min.css" rel="stylesheet" type="text/css">
@@ -24,64 +23,29 @@
     <script src="/Limitless_2_2/js/plugins/ui/ripple.min.js"></script>
     <!-- /core JS files -->
     <!-- Theme JS files -->
-    <script src="/Limitless_2_2/js/plugins/notifications/bootbox.min.js"></script>
-    <script src="/Limitless_2_2/js/plugins/forms/selects/select2.min.js"></script>
+    <script src="/Limitless_2_2/js/plugins/forms/styling/uniform.min.js"></script>
     <script src="/Limitless_2_2/js/app.js"></script>
-    <script src="/Limitless_2_2/js/demo_pages/uploader_bootstrap.js"></script>
-    <script src="/Limitless_2_2/js/demo_pages/components_modals.js"></script>
-    <script src="/Limitless_2_2/js/plugins/forms/inputs/inputmask.js"></script>
-
-    <script src="/Limitless_2_2/js/plugins/sliders/nouislider.min.js"></script>
-
-    <script src="/Js/core.js"></script>
-
+    <script src="/Limitless_2_2/js/demo_pages/login.js"></script>
+    <!-- /theme JS files -->
 </head>
 <body>
-   
     <!-- Page content -->
-    <div class="page-content">
-       
-      
+    <div class="page-content login-cover">
         <!-- Main content -->
-        <div class="content-wrapper">           
+        <div class="content-wrapper">
             <!-- Content area -->
-            <div class="content">
-                @if (ViewBag.Hatalar != null)
-                {
-                    foreach (var item in ViewBag.Hatalar as List<string>)
-                    {
-                        <div class="alert bg-danger text-white alert-styled-left alert-dismissible">
-                            <button type="button" class="close" data-dismiss="alert"><span>×</span></button>
-                            <span class="font-weight-semibold">Hata Oluştu.</span> @item
-                        </div>
-                    }
-                }
-
-                @if (ViewBag.Mesajlar != null)
-                {
-                    foreach (var item in ViewBag.Mesajlar as List<string>)
-                    {
-                        <div class="alert bg-primary text-white alert-styled-left alert-dismissible">
-                            <button type="button" class="close" data-dismiss="alert"><span>×</span></button>
-                            <span class="font-weight-semibold">Mesaj!</span> @item
-                        </div>
-                    }
-                }
-
-
+            <div class="content d-flex justify-content-center align-items-center">
                 @RenderBody()
-                <!-- /form layouts -->
             </div>
             <!-- /content area -->
-            @*<partial name="footer" />*@
         </div>
         <!-- /main content -->
     </div>
     <!-- /page content -->
+    @RenderSection("scripts", false)
+
 </body>
-
-
-@RenderSection("scripts", false)
-
 </html>
+ 
+
 

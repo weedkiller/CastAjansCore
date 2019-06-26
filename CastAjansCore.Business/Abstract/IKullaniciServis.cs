@@ -2,6 +2,7 @@
 using Calbay.Core.Helper;
 using CastAjansCore.Dto;
 using CastAjansCore.Entity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
@@ -16,8 +17,10 @@ namespace CastAjansCore.Business.Abstract
         Task<KullaniciEditDto> GetEditDtoAsync(int? id);
         Task<List<SelectListItem>> GetSelectListAsync(Expression<Func<Kullanici, bool>> filter = null);
         Task<UserHelper> LoginAsync(string kullaniciAdi, string sifre);
-        Task<string> SifremiUnuttum(string ePosta, UserHelper userHelper);        
+        Task<string> SifremiUnuttum(string ePosta, UserHelper userHelper);
         Task<Kullanici> GetByEPostaAsync(string ePosta);
-        Task<string> GeneratePasswordResetTokenAsync(string url, int id, UserHelper userHelper);
+        Task<string> SifreUretmeTokeniUret(int id, UserHelper userHelper);
+        Task<Kullanici> GetByTokenAsync(string code);
+        Task SifreyiGuncelleAsync(int id, string sifre, UserHelper userHelper);
     }
 }

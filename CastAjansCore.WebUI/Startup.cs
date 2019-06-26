@@ -4,6 +4,7 @@ using CastAjansCore.Business.Abstract;
 using CastAjansCore.Business.Concrete;
 using CastAjansCore.DataLayer.Abstract;
 using CastAjansCore.DataLayer.Concrete.EntityFramework;
+using CastAjansCore.Dto;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -74,6 +75,7 @@ namespace CastAjansCore.WebUI
             services.AddMemoryCache();
 
             services.Configure<EmailSettings>(_configuration.GetSection("EmailSettings"));
+            services.Configure<ParamereSettings>(_configuration.GetSection("ParamereSettings"));
 
 
             AddScoped(services);
@@ -155,7 +157,7 @@ namespace CastAjansCore.WebUI
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            
             app.UseStaticFiles();
 
             env.EnvironmentName = EnvironmentName.Development;

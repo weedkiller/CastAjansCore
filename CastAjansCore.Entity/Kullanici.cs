@@ -1,5 +1,4 @@
 ﻿using Calbay.Core.Entities;
-using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -16,6 +15,8 @@ namespace CastAjansCore.Entity
         [MaxLength(20)]
         [Required]
         public string KullaniciAdi { get; set; }
+
+        public EnuRol Rol { get; set; }
 
         [Display(Name = "Şifre")]
         [MaxLength(20)]

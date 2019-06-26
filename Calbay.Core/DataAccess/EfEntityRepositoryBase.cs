@@ -93,7 +93,7 @@ namespace Calbay.Core.DataAccess
                 }
 
                 var sql = query.Where(SetFilter(filter)).ToSql();
-
+                var test = query.Where(SetFilter(filter)).ToList();
                 return await query.SingleOrDefaultAsync<TEntity>(SetFilter(filter));
             }
         }
@@ -115,9 +115,9 @@ namespace Calbay.Core.DataAccess
                 filter = clientWhere;
             }
 
-            var prefix = filter.Compile();
-            Expression<Func<TEntity, bool>> defaultFilter = c => c.Aktif == true;
-            filter = filter = c => prefix(c) && c.Aktif == true;
+            //var prefix = filter.Compile();
+            //Expression<Func<TEntity, bool>> defaultFilter = c => c.Aktif == true;
+            //filter = filter = c => prefix(c) && c.Aktif == true;
 
             return filter;
         }

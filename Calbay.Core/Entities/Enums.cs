@@ -2,16 +2,12 @@
 
 namespace Calbay.Core.Entities
 {
-    public class Enums
+    public enum EnuRol
     {
-        public enum EnuRol
-        {
-            [Display(Name = "Admin")]
-            admin = 1,
+        [Display(Name = "Admin")]
+        admin = 1,
 
-            [Display(Name = "Calısan")]
-            calisan = 2
-        }
-
+        [Display(Name = "Calısan")]
+        calisan = 2
     }
 }

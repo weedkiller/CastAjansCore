@@ -2,7 +2,7 @@
 
 namespace CastAjansCore.Dto
 {
-    public class LoginSifremiUnuttum
+    public class LoginSifremiUnuttumDto
     {
         [MaxLength(200)]
         [Display(Name = "E-Posta")]

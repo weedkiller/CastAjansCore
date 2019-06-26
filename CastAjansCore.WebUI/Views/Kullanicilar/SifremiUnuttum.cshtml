@@ -1,31 +1,52 @@
-﻿@model CastAjansCore.Dto.LoginSifremiUnuttum
+﻿@model CastAjansCore.Dto.LoginSifremiUnuttumDto
 
 @{
-    ViewData["Title"] = "SifremiUnuttum";
+    ViewData["Title"] = "Sifremi Unuttum";
     Layout = "~/Views/Shared/_BosLayout.cshtml";
 }
+<!-- Login form -->
+<form class="login-form wmin-sm-400" asp-action="SifremiUnuttum">
+    <div class="card mb-0">
+        <div class="tab-content card-body">
+            <div class="tab-pane fade show active" id="login-tab1">
+                <div class="text-center mb-3">
+                    <i class="icon-reading icon-2x text-slate-300 border-slate-300 border-3 rounded-round p-3 mb-3 mt-1"></i>
+                    <h5 class="mb-0">Şifremi unuttum.</h5>
+                    <span class="d-block text-muted">Sıfırlama E-Postası gönder</span>
+                    @if (ViewBag.Hatalar != null)
+                    {
+                        foreach (var item in ViewBag.Hatalar as List<string>)
+                        {
+                            <div class="alert bg-danger text-white alert-styled-left alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert"><span>×</span></button>
+                                <span class="font-weight-semibold">Hata Oluştu.</span> @item
+                            </div>
+                        }
+                    }
 
-<h1>SifremiUnuttum</h1>
+                    @if (ViewBag.Mesajlar != null)
+                    {
+                        foreach (var item in ViewBag.Mesajlar as List<string>)
+                        {
+                            <div class="alert bg-primary text-white alert-styled-left alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert"><span>×</span></button>
+                                <span class="font-weight-semibold">Mesaj!</span> @item
+                            </div>
+                        }
+                    }
+                </div>
+                <div class="form-group form-group-feedback form-group-feedback-left">
+                    <input asp-for="EPosta" placeholder="E-Posta" class="form-control" />
+                    <div class="form-control-feedback">
+                        <i class="icon-user text-muted"></i>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block">Şifremi Sıfırla</button>
+                </div>
 
-<h4>LoginDto</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="SifremiUnuttum">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="EPosta" class="control-label"></label>
-                <input asp-for="EPosta" class="form-control" />
-                <span asp-validation-for="EPosta" class="text-danger"></span>
-            </div>  
-            <div class="form-group">
-                <input type="submit" value="Şifremi Sıfırla" class="btn btn-primary" />
             </div>
-        </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
+</form>
+<!-- /login form -->

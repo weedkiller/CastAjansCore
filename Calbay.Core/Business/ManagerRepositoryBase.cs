@@ -21,6 +21,10 @@ namespace Calbay.Core.Business
 
         public virtual void Add(TEntity entity, UserHelper userHelper)
         {
+            if (userHelper == null)
+            {
+                userHelper = new UserHelper();
+            }
             entity.EkleyenId = userHelper.Id;
             entity.EklemeZamani = DateTime.Now;
             entity.GuncelleyenId = userHelper.Id;
@@ -32,6 +36,11 @@ namespace Calbay.Core.Business
 
         public virtual async Task AddAsync(TEntity entity, UserHelper userHelper)
         {
+            if (userHelper == null)
+            {
+                userHelper = new UserHelper();
+            }
+
             entity.EkleyenId = userHelper.Id;
             entity.EklemeZamani = DateTime.Now;
             entity.GuncelleyenId = userHelper.Id;
@@ -106,6 +115,11 @@ namespace Calbay.Core.Business
 
         public virtual void Update(TEntity entity, UserHelper userHelper)
         {
+            if (userHelper == null)
+            {
+                userHelper = new UserHelper();
+            }
+
             entity.GuncelleyenId = userHelper.Id;
             entity.GuncellemeZamani = DateTime.Now;
 
@@ -114,6 +128,10 @@ namespace Calbay.Core.Business
 
         public virtual async Task UpdateAsync(TEntity entity, UserHelper userHelper)
         {
+            if (userHelper == null)
+            {
+                userHelper = new UserHelper();
+            }
             entity.GuncelleyenId = userHelper.Id;
             entity.GuncellemeZamani = DateTime.Now;
 

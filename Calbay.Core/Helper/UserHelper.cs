@@ -1,7 +1,5 @@
-﻿using System;
+﻿using Calbay.Core.Entities;
 using System.Collections.Generic;
-using System.Text;
-using static Calbay.Core.Entities.Enums;
 
 namespace Calbay.Core.Helper
 {

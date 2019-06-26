@@ -1,4 +1,5 @@
 ﻿@model CastAjansCore.Dto.KullaniciEditDto
+@using Calbay.Core.Entities
 
 @{
     ViewData["Title"] = "Kullanıcılar";
@@ -38,17 +39,25 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <label asp-for="Kullanici.Rol" class="col-lg-3 col-form-label"></label>
+                            <span asp-validation-for="Kullanici.Rol" class="text-danger"></span>
+                            <div class="col-lg-9">
+                                <select asp-items="Html.GetEnumSelectList<EnuRol>()" asp-for="Kullanici.Rol" class="form-control" />
+                            </div>
+                        </div>
+
 
                         @*<div class="form-group row">
-                            <label asp-for="Kullanici.Sifre" class="col-lg-3 col-form-label"></label>
-                            <span asp-validation-for="Kullanici.Sifre" class="text-danger"></span>
-                            <div class="col-lg-9">
-                                <div class="badge-indicator-absolute">
-                                    <input asp-for="Kullanici.Sifre" class="form-control" />
-                                    <span class="badge password-indicator-badge-absolute"></span>
-                                </div>
-                            </div>
-                        </div>*@
+            <label asp-for="Kullanici.Sifre" class="col-lg-3 col-form-label"></label>
+            <span asp-validation-for="Kullanici.Sifre" class="text-danger"></span>
+            <div class="col-lg-9">
+                <div class="badge-indicator-absolute">
+                    <input asp-for="Kullanici.Sifre" class="form-control" />
+                    <span class="badge password-indicator-badge-absolute"></span>
+                </div>
+            </div>
+        </div>*@
                     </fieldset>
                 </div>
 
