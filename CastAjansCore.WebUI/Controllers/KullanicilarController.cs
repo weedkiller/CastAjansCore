@@ -276,7 +276,7 @@ namespace CastAjansCore.WebUI.Controllers
 
                     MesajHelper.MesajEkle(ViewBag, "Mail adresinizden gelen maili onaylayınız.");
 
-                    return RedirectToAction("Login", "Kullanicilar");
+                    return RedirectToAction("ResetPassword", "Kullanicilar", new { id = user.Id });
                 }
             }
             catch (Exception ex)

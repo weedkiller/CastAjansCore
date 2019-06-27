@@ -41,8 +41,8 @@ namespace CastAjansCore.Business.Concrete
         public override async Task AddAsync(Kullanici entity, UserHelper userHelper)
         {
             await Kontrol(entity);
-
-            entity.Token = Guid.NewGuid().ToString();
+            Random rnd = new Random();
+            entity.Token = rnd.Next(1200, 9980).ToString();
 
             await _kisiServis.AddAsync(entity.Kisi, userHelper);
             await base.AddAsync(entity, userHelper);
@@ -181,10 +181,13 @@ namespace CastAjansCore.Business.Concrete
         private void ResetlemeMailiGonder(int id, string token, string ePosta)
         {
 
-            string callbackUrl = $"{_paramereSettings.Value.Url}/Kullanicilar/ResetPassword/{id}?code={token}";
+            //string callbackUrl = $"{_paramereSettings.Value.Url}/Kullanicilar/ResetPassword/{id}?code={token}";
             string mailstr = "<html>" +
-                "<head>Şifre Sıfırlama</head>" +
-                $"<body><div> Şifrenizi sıfırlamak için<a href=\"{callbackUrl}\">Buraya</a> tıklayınız.</div></body>" +
+                "   <head>Şifre Sıfırlama</head>" +
+                $"  <body>" +
+                $"      <div> Şifrenizi sıfırlamak aşağıdaki kodu giriniz.</div>" +
+                $"      <h2>{token}</h2>" +
+                $"  </body>" +
                 "</html>";
 
 

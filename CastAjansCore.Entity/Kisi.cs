@@ -104,7 +104,7 @@ namespace CastAjansCore.Entity
         [Display(Name = "Hesap Kodu")]
         public string HesapNumarasi { get; set; }
 
-        [MaxLength(30)]
+        [MaxLength(35)]
         [Display(Name = "İban")]
         public string Iban { get; set; }
 
