@@ -1,31 +1,28 @@
 ﻿using Calbay.Core.Entities;
 using Calbay.Core.Helper;
 //using MailKit.Net.Smtp;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Options;
 //using MimeKit;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Calbay.Core.Business
 {
     public class EmailServis : IEmailServis
     {
         private readonly EmailSettings _emailSettings;
-        private readonly IHostingEnvironment _env;
+        //private readonly IHostingEnvironment _env;
 
         public EmailServis(
-            IOptions<EmailSettings> emailSettings,
-            IHostingEnvironment env)
+            IOptions<EmailSettings> emailSettings
+            //,IHostingEnvironment env
+            )
         {
             _emailSettings = emailSettings.Value;
-            _env = env;            
+            //_env = env;            
         }
 
         //public async Task SendEmailAsync(string email, string subject, string message)

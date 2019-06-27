@@ -12,7 +12,7 @@ namespace CastAjansCore.Dto
         public string Sifre { get; set; }
 
         [Required]
-        [Compare("Password", ErrorMessage = "Şifreler uyuşmuyor, Lütfen tekrar giriniz!")]
+        [Compare("Sifre", ErrorMessage = "Şifreler uyuşmuyor, Lütfen tekrar giriniz!")]
         [Display(Name = "Şifre Kontrol")]
         public string SifreKontrol { get; set; }
 

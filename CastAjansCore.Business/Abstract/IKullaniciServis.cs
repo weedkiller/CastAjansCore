@@ -2,7 +2,6 @@
 using Calbay.Core.Helper;
 using CastAjansCore.Dto;
 using CastAjansCore.Entity;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;

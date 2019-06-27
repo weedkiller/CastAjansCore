@@ -46,18 +46,36 @@ namespace CastAjansCore.Business.Concrete
 
             await _kisiServis.AddAsync(entity.Kisi, userHelper);
             await base.AddAsync(entity, userHelper);
-            ResetlemeMailiGonder(entity.Id, entity.Token, entity.Kisi.EPosta);
+            //ResetlemeMailiGonder(entity.Id, entity.Token, entity.Kisi.EPosta);
         }
 
         public override async Task UpdateAsync(Kullanici entity, UserHelper userHelper)
         {
             await Kontrol(entity);
             var kullanici = await GetByIdAsync(entity.Id);
-            entity.Sifre = kullanici.Sifre;
-            entity.Token = kullanici.Token;
+            if (entity.Sifre.IsNull())
+            {
+                entity.Sifre = kullanici.Sifre;
+            }
+            if (entity.Token.IsNull())
+            {
+                entity.Token = kullanici.Token;
+            }
 
+            if (userHelper.IsNull())
+            {
+                userHelper = new UserHelper();
+            }
             Task[] tasks = new Task[2];
-            tasks[0] = _kisiServis.UpdateAsync(entity.Kisi, userHelper);
+            if (entity.Kisi.IsNull())
+            {
+                tasks[0] = Task.CompletedTask;
+            }
+            else
+            {
+                tasks[0] = _kisiServis.UpdateAsync(entity.Kisi, userHelper);                
+            }
+            
             tasks[1] = base.UpdateAsync(entity, userHelper);
 
             await Task.WhenAll(tasks);
@@ -183,10 +201,10 @@ namespace CastAjansCore.Business.Concrete
 
             //string callbackUrl = $"{_paramereSettings.Value.Url}/Kullanicilar/ResetPassword/{id}?code={token}";
             string mailstr = "<html>" +
-                "   <head>Şifre Sıfırlama</head>" +
+                "   <head></head>" +
                 $"  <body>" +
-                $"      <div> Şifrenizi sıfırlamak aşağıdaki kodu giriniz.</div>" +
-                $"      <h2>{token}</h2>" +
+                $"      <p><h3>Şifrenizi sıfırlamak için aşağıdaki kodu giriniz.</h3></p>" +
+                $"      <p><h2>{token}</h2></p>" +
                 $"  </body>" +
                 "</html>";
 
@@ -197,7 +215,8 @@ namespace CastAjansCore.Business.Concrete
         public async Task<string> SifreUretmeTokeniUret(int id, UserHelper userHelper)
         {
             var kullanici = await GetWithKisi(id);
-            kullanici.Token = Guid.NewGuid().ToString(); ;
+            Random rnd = new Random();
+            kullanici.Token = rnd.Next(123456, 987654).ToString();//Guid.NewGuid().ToString(); ;
 
             Task tUpdate = UpdateAsync(kullanici, userHelper);
 

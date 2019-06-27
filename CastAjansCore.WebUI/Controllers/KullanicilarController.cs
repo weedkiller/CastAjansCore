@@ -46,30 +46,34 @@ namespace CastAjansCore.WebUI.Controllers
         public async Task<IActionResult> Login(LoginDto loginModel)
         {
 
-            var kullanici = await _kullaniciServis.LoginAsync(loginModel.KullaniciAdi, loginModel.Sifre);
-            if (kullanici == null)
+            var userHelper = await _kullaniciServis.LoginAsync(loginModel.KullaniciAdi, loginModel.Sifre);
+            if (userHelper == null)
             {
                 MesajHelper.HataEkle(ViewBag, "Kullanıcı adı veya şifresi yanlış!");
                 return View(loginModel);
             }
             else
             {
-                HttpContext.Session.SetUserHelper(kullanici);
+                await Login(userHelper);
 
+                //Just redirect to our index after logging in. 
+                return RedirectToAction("Index", "Home");
+            }
+        }
 
-                var claims = new List<Claim>
+        private async Task Login(UserHelper kullanici)
+        {
+            HttpContext.Session.SetUserHelper(kullanici);
+
+            var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, kullanici.Adi),
                     new Claim(ClaimTypes.Surname, kullanici.Soyadi),
                     new Claim(ClaimTypes.Role,kullanici.Rol.ToString())
                 };
-                var userIdentity = new ClaimsIdentity(claims, "login");
-                ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
-                await HttpContext.SignInAsync(principal);
-
-                //Just redirect to our index after logging in. 
-                return RedirectToAction("Index", "Home");
-            }
+            var userIdentity = new ClaimsIdentity(claims, "login");
+            ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
+            await HttpContext.SignInAsync(principal);
         }
 
         public async Task<IActionResult> LogOut()
@@ -287,27 +291,28 @@ namespace CastAjansCore.WebUI.Controllers
             return View(dto);
         }
 
-        [AllowAnonymous]
+        //[AllowAnonymous]
         //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> ResetPassword(int id, string code)
+        public async Task<IActionResult> ResetPassword(int id)
         {
 
             Kullanici user = await _kullaniciServis.GetByIdAsync(id);
 
-            if (user == null && user.Token != code)
+            if (user == null)
             {
-                return View("ForgotPasswordConfirmation");
+                MesajHelper.HataEkle(ViewBag, "Kullanıcı bulunamadı.");
+                return RedirectToAction("SifremiUnuttum");
             }
             else
             {
-                return View();
+                return View(new ResetPasswordDto());
             }
         }
 
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ResetPassword(ResetPasswordDto model)
+        public async Task<ActionResult> ResetPassword(int id, ResetPasswordDto model)
         {
             try
             {
@@ -317,15 +322,21 @@ namespace CastAjansCore.WebUI.Controllers
                 }
                 else
                 {
-                    var user = await _kullaniciServis.GetByTokenAsync(model.Code);
-                    if (user == null)
+                    //var user = await _kullaniciServis.GetByTokenAsync(model.Code);
+                    var user = await _kullaniciServis.GetByIdAsync(id);
+                    if (user == null && model.Code != user.Token)
                     {
-                        // Don't reveal that the user does not exist
-                        return RedirectToAction("ResetPasswordConfirmation", "Account");
+                        MesajHelper.HataEkle(ViewBag, "Yanlış kod girdiniz.");
+                        return View();
                     }
-                    await _kullaniciServis.SifreyiGuncelleAsync(user.Id, model.Sifre, null);
-                    MesajHelper.MesajEkle(ViewBag, "Şifreniz başrıyla güncellenmiştir.");
-                    return RedirectToAction(nameof(Index));
+                    else
+                    {
+                        await _kullaniciServis.SifreyiGuncelleAsync(user.Id, model.Sifre, null);
+                        MesajHelper.MesajEkle(ViewBag, "Şifreniz başrıyla güncellenmiştir.");
+                        var userHelper = await _kullaniciServis.LoginAsync(user.KullaniciAdi, model.Sifre);
+                        await Login(userHelper);
+                        return RedirectToAction(nameof(Index));
+                    }
                 }
             }
             catch (Exception ex)

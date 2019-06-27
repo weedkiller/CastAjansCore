@@ -1,9 +1,9 @@
 ﻿@model CastAjansCore.Dto.KisiEditDto
 @using  CastAjansCore.Entity
 
- 
+
 @{ Html.ViewData.TemplateInfo.HtmlFieldPrefix = "KisiEditDto"; }
- 
+
 <div class="col-md-6">
     <div class="card">
         <div class="card-header header-elements-inline">
@@ -71,22 +71,22 @@
                     <div class="col">
                         @if (Model.Kisi.KimlikOnUrl != null)
                         {
-                        <div class="thumbnail">
-                            <a href=@Model.Kisi.KimlikOnUrl>
-                                <img src=@Model.Kisi.KimlikOnUrl alt="Lights" style="width:100%">
-                            </a>
-                        </div>
+                            <div class="thumbnail">
+                                <a href=@Model.Kisi.KimlikOnUrl>
+                                    <img src=@Model.Kisi.KimlikOnUrl alt="Lights" style="width:100%">
+                                </a>
+                            </div>
 
                         }
                     </div>
                     <div class="col">
                         @if (Model.Kisi.KimlikArkaUrl != null)
                         {
-                        <div class="thumbnail">
-                            <a href=@Model.Kisi.KimlikArkaUrl>
-                                <img src=@Model.Kisi.KimlikArkaUrl alt="Lights" style="width:100%">
-                            </a>
-                        </div>
+                            <div class="thumbnail">
+                                <a href=@Model.Kisi.KimlikArkaUrl>
+                                    <img src=@Model.Kisi.KimlikArkaUrl alt="Lights" style="width:100%">
+                                </a>
+                            </div>
 
                         }
                     </div>
@@ -97,7 +97,7 @@
                     <span asp-for="Kisi.KimlikOnUrl" class="text-danger"></span>
                     <div class="col-lg-9">
                         <input type="hidden" asp-for="Kisi.KimlikOnUrl" />
-                      
+
                         <input asp-for="KimlikOnFile" type="file" class="form-control" />
                     </div>
                 </div>
@@ -106,16 +106,12 @@
                     <label asp-for="Kisi.KimlikArkaUrl" class="col-lg-3 col-form-label"></label>
                     <span asp-for="Kisi.KimlikArkaUrl" class="text-danger"></span>
                     <div class="col-lg-9">
-                        <input type="hidden" asp-for="Kisi.KimlikArkaUrl" />                       
+                        <input type="hidden" asp-for="Kisi.KimlikArkaUrl" />
                         <input asp-for="KimlikArkaFile" type="file" class="form-control" />
                     </div>
                 </div>
-
-
-
 
             </fieldset>
         </div>
     </div>
 </div>
- 
