@@ -196,7 +196,6 @@
             <button type="button" onclick="NewProjeKarakterleri();" class="btn btn-primary form-control">Yeni Karakter Ekle<i class="icon-paperplane ml-2"></i></button>
         </div>
     </div>
-    <button type="button" class="btn btn-light legitRipple" data-toggle="modal" data-target="#modal_large">Launch <i class="icon-play3 ml-2"></i></button>
 
     <hr />
     <div class="row">
@@ -227,10 +226,10 @@
                                             <div class="col-lg-9">
                                                 <div class="form-row">
                                                     <div class="col">
-                                                        <input id="filter-oyuncu-adi" class="form-control" />
+                                                        <input id="Filter-Oyuncu-Adi" class="form-control" />
                                                     </div>
                                                     <div class="col">
-                                                        <input id="filter-oyuncu-soyadi" class="form-control" />
+                                                        <input id="Filter-Oyuncu-Soyadi" class="form-control" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -241,10 +240,10 @@
                                             <div class="col-lg-9">
                                                 <div class="form-row">
                                                     <div class="col">
-                                                        <input id="Filter-Oyuncu-Yas-Min" placeholder="Min" type="number" min="0" class="form-control" />
+                                                        <input id="Filter-Oyuncu-YasMin" placeholder="Min" type="number" min="0" class="form-control" />
                                                     </div>
                                                     <div class="col">
-                                                        <input id="Filter-Oyuncu-Yas-Maks" placeholder="Maks" type="number" max="200" class="form-control" />
+                                                        <input id="Filter-Oyuncu-YasMaks" placeholder="Maks" type="number" max="200" class="form-control" />
                                                     </div>
 
                                                 </div>
@@ -305,7 +304,7 @@
                                                                 <input id="Filter-Oyuncu-Kilo-Min" placeholder="Min" type="number" min="1" class="form-control" />
                                                             </div>
                                                             <div class="col">
-                                                                <input id="Filter-Oyuncu-Kilo-Maks" placeholder="Maks" type="number" max="50000" class="form-control" />
+                                                                <input id="Filter-Oyuncu-Kilo-Maks" placeholder="Maks" type="number" max="500" class="form-control" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -322,7 +321,7 @@
                                                                 <input id="Filter-Oyuncu-AltBeden-Min" placeholder="Min" type="number" min="1" class="form-control" />
                                                             </div>
                                                             <div class="col">
-                                                                <input id="Filter-Oyuncu-AltBeden-Maks" placeholder="Maks" type="number" max="50000" class="form-control" />
+                                                                <input id="Filter-Oyuncu-AltBeden-Maks" placeholder="Maks" type="number" max="200" class="form-control" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -337,7 +336,7 @@
                                                                 <input id="Filter-Oyuncu-UstBeden-Min" placeholder="Min" type="number" min="1" class="form-control" />
                                                             </div>
                                                             <div class="col">
-                                                                <input id="Filter-Oyuncu-UstBeden-Maks" placeholder="Maks" type="number" max="50000" class="form-control" />
+                                                                <input id="Filter-Oyuncu-UstBeden-Maks" placeholder="Maks" type="number" max="200" class="form-control" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -354,7 +353,7 @@
                                                                 <input id="Filter-Oyuncu-AyakNumarasi-Min" placeholder="Min" type="number" min="1" class="form-control" />
                                                             </div>
                                                             <div class="col">
-                                                                <input id="Filter-Oyuncu-AyakNumarasi-Maks" placeholder="Maks" type="number" max="50000" class="form-control" />
+                                                                <input id="Filter-Oyuncu-AyakNumarasi-Maks" placeholder="Maks" type="number" max="80" class="form-control" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -390,14 +389,27 @@
                                             </div>
                                         </div>
                                     </fieldset>
+
+
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table id="OyuncuGrid" class="table">
+                                <tr>
+                                    @*<th>Seç</th>*@
+                                    <th>Adı</th>
+                                    <th>Soyadı</th>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn bg-primary">Save changes</button>
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Kapat</button>
+                    <button type="button" onclick="GetOyuncuGrid()" class="btn bg-primary">Ara</button>
                 </div>
             </div>
         </div>
@@ -450,6 +462,36 @@
                 _tblProjeKarakterOyuncu = tableName;
                 $('#myModal').modal('show');
 
+            }
+
+
+            function GetOyuncuGrid() {
+                alert($("#Filter-Oyuncu-Adi").val());
+                $('#OyuncuGrid').DataTable({
+                    processing: true,
+                    //"serverSide": true,                    
+                    ajax:
+                    {
+                        url: "/Oyuncular/GetOyuncuGrid",
+                        contentType: "json",
+                        type: "GET",
+                        data: {
+                            Adi: $("#Filter-Oyuncu-Adi").val(),
+                            Soyadi: $("#Filter-Oyuncu-Soyadi").val(),
+                            YasMin: $("#Filter-Oyuncu-YasMin").val(),
+                            YasMax: $("#Filter-Oyuncu-YasMax").val()
+                            }
+                        }
+                    },
+                    columns: [
+                        { data: "Adi" },
+                        { data: "Soyadi" }//,
+                        //{ "data": "contact.0" },
+                        //{ "data": "contact.1" },
+                        //{ "data": "hr.start_date" },
+                        //{ "data": "hr.salary" }
+                    ]
+                });
             }
         </script>
     }

@@ -21,16 +21,20 @@ namespace CastAjansCore.WebUI.Controllers
     public class OyuncularController : Controller
     {
         private readonly IOyuncuServis _OyuncuServis;
+        private readonly LoginHelper _loginHelper;
+
         //private readonly IHostingEnvironment _HostingEnvironment;
-        public OyuncularController(IOyuncuServis OyuncuServis)
+        public OyuncularController(IOyuncuServis OyuncuServis, LoginHelper loginHelper)
         {
             _OyuncuServis = OyuncuServis;
             //_HostingEnvironment = environment;
+            _loginHelper = loginHelper;
+            ViewData["UserHelper"] = _loginHelper.UserHelper;
         }
 
         public async Task<IActionResult> Index()
         {
-            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
+            
             var Oyuncular = await _OyuncuServis.GetListDtoAsync();
             return View(Oyuncular);
         }
@@ -38,7 +42,7 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Oyuncus/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
+            
             if (id == null)
             {
                 return NotFound();
@@ -56,7 +60,7 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Oyuncus/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
+            
             OyuncuEditDto model = await _OyuncuServis.GetEditDtoAsync(id);
 
             if (id != null && model.Oyuncu == null)
@@ -121,7 +125,7 @@ namespace CastAjansCore.WebUI.Controllers
 
                         if (id == null)
                         {
-                            await _OyuncuServis.AddAsync(Oyuncu, HttpContext.Session.GetUserHelper());
+                            await _OyuncuServis.AddAsync(Oyuncu, _loginHelper.UserHelper);
                         }
                         else
                         {
@@ -129,7 +133,7 @@ namespace CastAjansCore.WebUI.Controllers
                             {
                                 return NotFound();
                             }
-                            await _OyuncuServis.UpdateAsync(Oyuncu, HttpContext.Session.GetUserHelper());
+                            await _OyuncuServis.UpdateAsync(Oyuncu, _loginHelper.UserHelper);
                         }
                     }
                     catch (DbUpdateConcurrencyException)
@@ -150,7 +154,7 @@ namespace CastAjansCore.WebUI.Controllers
             {
                 MesajHelper.HataEkle(ViewBag, ex.Message);
             }
-            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
+            
             var combolar = await _OyuncuServis.GetEditDtoAsync(id);
             oyuncuEditDto.KisiEditDto.Ilceler = combolar.KisiEditDto.Ilceler;
             oyuncuEditDto.KisiEditDto.Iller = combolar.KisiEditDto.Iller;
@@ -161,7 +165,7 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Oyuncus/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
+            
             if (id == null)
             {
                 return NotFound();
@@ -181,7 +185,7 @@ namespace CastAjansCore.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _OyuncuServis.DeleteAsync(id, HttpContext.Session.GetUserHelper());
+            await _OyuncuServis.DeleteAsync(id, _loginHelper.UserHelper);
             return RedirectToAction(nameof(Index));
         }
 
@@ -191,6 +195,29 @@ namespace CastAjansCore.WebUI.Controllers
             return entity != null;
         }
 
+        //private async Task<JsonResult> GetOyuncuGrid(OyuncuFilterDto filter)
+        //{
+        //    var oyuncular = await _OyuncuServis.GetListDtoAsync(i =>
+        //           (filter.Adi == null || i.Kisi.Adi.StartsWith(filter.Adi)) &&
+        //           (filter.Soyadi == null || i.Kisi.Soyadi.StartsWith(filter.Soyadi)) &&
+        //           (filter.YasMin == 0 || i.Kisi.DogumTarihi >= DateTime.Today.AddYears(-1 * filter.YasMin)) &&
+        //           (filter.YasMax == 0 || i.Kisi.DogumTarihi <= DateTime.Today.AddYears(-1 * filter.YasMax))
+        //       );
+
+        //    return Json(oyuncular);
+        //}
+
+        private JsonResult GetOyuncuGrid(OyuncuFilterDto filter)
+        {
+            var oyuncular = _OyuncuServis.GetList(i =>
+                   (filter.Adi == null || i.Kisi.Adi.StartsWith(filter.Adi)) &&
+                   (filter.Soyadi == null || i.Kisi.Soyadi.StartsWith(filter.Soyadi)) &&
+                   (filter.YasMin == 0 || i.Kisi.DogumTarihi >= DateTime.Today.AddYears(-1 * filter.YasMin)) &&
+                   (filter.YasMax == 0 || i.Kisi.DogumTarihi <= DateTime.Today.AddYears(-1 * filter.YasMax))
+               );
+
+            return Json(oyuncular);
+        }
 
         public IActionResult ExcelImport()
         {

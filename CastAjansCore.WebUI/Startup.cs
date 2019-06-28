@@ -1,13 +1,16 @@
 ﻿using Calbay.Core.Business;
 using Calbay.Core.Entities;
+using Calbay.Core.Helper;
 using CastAjansCore.Business.Abstract;
 using CastAjansCore.Business.Concrete;
 using CastAjansCore.DataLayer.Abstract;
 using CastAjansCore.DataLayer.Concrete.EntityFramework;
 using CastAjansCore.Dto;
+using CastAjansCore.WebUI.Helper;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
@@ -89,7 +92,8 @@ namespace CastAjansCore.WebUI
 
             //services.AddScoped<IAdresDal, EfAdresDal>();
             //services.AddSingleton<IHostingEnvironment>(new HostingEnvironment());
-
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<LoginHelper>();
             services.AddSingleton<IEmailServis, EmailServis>();
 
             services.AddSingleton<IBankaServis, BankaManager>();

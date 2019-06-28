@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CastAjansCore.Business.Abstract;
 using CastAjansCore.Entity;
+using CastAjansCore.WebUI.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,10 +15,13 @@ namespace CastAjansCore.WebUI.Controllers
     public class BankalarController : Controller
     {
         private readonly IBankaServis _BankaServis;
+        private readonly LoginHelper _loginHelper;
 
-        public BankalarController(IBankaServis BankaServis)
+        public BankalarController(IBankaServis BankaServis, LoginHelper loginHelper)
         {
             _BankaServis = BankaServis;
+            _loginHelper = loginHelper;
+            ViewData["UserHelper"] = _loginHelper.UserHelper;
         }
 
         // GET: Bankas
@@ -28,8 +32,7 @@ namespace CastAjansCore.WebUI.Controllers
         //}
 
         public async Task<IActionResult> Index()
-        {
-            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
+        {            
             var Bankalar = await _BankaServis.GetListAsync();
             return View(Bankalar);
         }
@@ -37,7 +40,7 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Bankas/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
+            
             if (id == null)
             {
                 return View(new Banka());
@@ -74,7 +77,7 @@ namespace CastAjansCore.WebUI.Controllers
                         //Banka.EkleyenId = 1;
                         //Banka.EklemeZamani = DateTime.Now;
 
-                        await _BankaServis.AddAsync(Banka, HttpContext.Session.GetUserHelper());
+                        await _BankaServis.AddAsync(Banka, _loginHelper.UserHelper);
                     }
                     else
                     {
@@ -82,7 +85,7 @@ namespace CastAjansCore.WebUI.Controllers
                         {
                             return NotFound();
                         }
-                        await _BankaServis.UpdateAsync(Banka, HttpContext.Session.GetUserHelper());
+                        await _BankaServis.UpdateAsync(Banka, _loginHelper.UserHelper);
                     }
                 }
                 catch (DbUpdateConcurrencyException)
@@ -105,7 +108,7 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Bankas/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
+            
             if (id == null)
             {
                 return NotFound();
@@ -125,7 +128,7 @@ namespace CastAjansCore.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _BankaServis.DeleteAsync(id, HttpContext.Session.GetUserHelper());
+            await _BankaServis.DeleteAsync(id, _loginHelper.UserHelper);
             return RedirectToAction(nameof(Index));
         }
 

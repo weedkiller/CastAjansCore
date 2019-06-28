@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,21 +20,13 @@ namespace CastAjansCore.WebUI.Controllers
     public class KullanicilarController : Controller
     {
         private readonly IKullaniciServis _kullaniciServis;
-        public UserHelper _userHelper
-        {
-            get
-            {
-                return HttpContext.Session.GetUserHelper();
-            }
-            set
-            {
-                HttpContext.Session.SetUserHelper(value);
-            }
-        }
+        private readonly LoginHelper _loginHelper;
 
-        public KullanicilarController(IKullaniciServis kullaniciServis)
+        public KullanicilarController(IKullaniciServis kullaniciServis,LoginHelper loginHelper)
         {
             _kullaniciServis = kullaniciServis;
+            _loginHelper = loginHelper;
+            ViewData["UserHelper"] = _loginHelper.UserHelper;
         }
 
         public IActionResult Login()
@@ -54,27 +47,14 @@ namespace CastAjansCore.WebUI.Controllers
             }
             else
             {
-                await Login(userHelper);
+                await _loginHelper.Login(userHelper);
 
                 //Just redirect to our index after logging in. 
                 return RedirectToAction("Index", "Home");
             }
         }
 
-        private async Task Login(UserHelper kullanici)
-        {
-            HttpContext.Session.SetUserHelper(kullanici);
 
-            var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, kullanici.Adi),
-                    new Claim(ClaimTypes.Surname, kullanici.Soyadi),
-                    new Claim(ClaimTypes.Role,kullanici.Rol.ToString())
-                };
-            var userIdentity = new ClaimsIdentity(claims, "login");
-            ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
-            await HttpContext.SignInAsync(principal);
-        }
 
         public async Task<IActionResult> LogOut()
         {
@@ -86,7 +66,7 @@ namespace CastAjansCore.WebUI.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> Index()
         {
-            ViewData["UserHelper"] = _userHelper;
+            
             var kullanicilar = await _kullaniciServis.GetListAsync(i => i.Aktif == true);
             return View(kullanicilar.OrderBy(i => i.Kisi.Adi).ThenBy(i => i.Kisi.Soyadi));
         }
@@ -95,7 +75,7 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Kullanicis/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            ViewData["UserHelper"] = _userHelper;
+            
             if (id == null)
             {
                 return NotFound();
@@ -115,15 +95,15 @@ namespace CastAjansCore.WebUI.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
 
-            if (_userHelper.Rol != EnuRol.admin)
+            if (_loginHelper.UserHelper.Rol != EnuRol.admin)
             {
-                if (_userHelper.Id != id)
+                if (_loginHelper.UserHelper.Id != id)
                 {
                     return NotFound();
                 }
             }
 
-            ViewData["UserHelper"] = _userHelper;
+            
             KullaniciEditDto model = await _kullaniciServis.GetEditDtoAsync(id);
 
             if (model.Kullanici == null)
@@ -144,9 +124,9 @@ namespace CastAjansCore.WebUI.Controllers
         {
             try
             {
-                if (_userHelper.Rol != EnuRol.admin)
+                if (_loginHelper.UserHelper.Rol != EnuRol.admin)
                 {
-                    if (_userHelper.Id != id)
+                    if (_loginHelper.UserHelper.Id != id)
                     {
                         return Forbid();
                     }
@@ -172,7 +152,7 @@ namespace CastAjansCore.WebUI.Controllers
 
                         if (id == null)
                         {
-                            await _kullaniciServis.AddAsync(kullanici, HttpContext.Session.GetUserHelper());
+                            await _kullaniciServis.AddAsync(kullanici, _loginHelper.UserHelper);
                         }
                         else
                         {
@@ -180,7 +160,7 @@ namespace CastAjansCore.WebUI.Controllers
                             {
                                 return Forbid();
                             }
-                            await _kullaniciServis.UpdateAsync(kullanici, HttpContext.Session.GetUserHelper());
+                            await _kullaniciServis.UpdateAsync(kullanici, _loginHelper.UserHelper);
                         }
                     }
                     catch (DbUpdateConcurrencyException)
@@ -212,7 +192,7 @@ namespace CastAjansCore.WebUI.Controllers
             {
                 MesajHelper.HataEkle(ViewBag, ex.Message);
             }
-            ViewData["UserHelper"] = _userHelper;
+            
             return View(kullaniciEditDto);
 
         }
@@ -220,7 +200,7 @@ namespace CastAjansCore.WebUI.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int? id)
         {
-            ViewData["UserHelper"] = _userHelper;
+            
             if (id == null)
             {
                 return NotFound();
@@ -240,7 +220,7 @@ namespace CastAjansCore.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _kullaniciServis.DeleteAsync(id, HttpContext.Session.GetUserHelper());
+            await _kullaniciServis.DeleteAsync(id, _loginHelper.UserHelper);
             return RedirectToAction(nameof(Index));
         }
 
@@ -295,7 +275,6 @@ namespace CastAjansCore.WebUI.Controllers
         //[ValidateAntiForgeryToken]
         public async Task<IActionResult> ResetPassword(int id)
         {
-
             Kullanici user = await _kullaniciServis.GetByIdAsync(id);
 
             if (user == null)
@@ -334,7 +313,7 @@ namespace CastAjansCore.WebUI.Controllers
                         await _kullaniciServis.SifreyiGuncelleAsync(user.Id, model.Sifre, null);
                         MesajHelper.MesajEkle(ViewBag, "Şifreniz başrıyla güncellenmiştir.");
                         var userHelper = await _kullaniciServis.LoginAsync(user.KullaniciAdi, model.Sifre);
-                        await Login(userHelper);
+                        await _loginHelper.Login(userHelper);
                         return RedirectToAction(nameof(Index));
                     }
                 }

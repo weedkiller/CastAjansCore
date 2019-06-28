@@ -1,6 +1,7 @@
 ﻿using CastAjansCore.Business.Abstract;
 using CastAjansCore.Dto;
 using CastAjansCore.Entity;
+using CastAjansCore.WebUI.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,11 +15,14 @@ namespace CastAjansCore.WebUI.Controllers
     {
         private readonly IIlceServis _IlceServis;
         private readonly IIlServis _IlServis;
+        private readonly LoginHelper _loginHelper;
 
-        public IlcelerController(IIlceServis IlceServis, IIlServis IlServis)
+        public IlcelerController(IIlceServis IlceServis, IIlServis IlServis, LoginHelper loginHelper)
         {
             _IlceServis = IlceServis;
             _IlServis = IlServis;
+            _loginHelper = loginHelper;
+            ViewData["UserHelper"] = _loginHelper.UserHelper;
         }
 
         // GET: Ilces
@@ -30,7 +34,7 @@ namespace CastAjansCore.WebUI.Controllers
 
         public async Task<IActionResult> Index(int id)
         {
-            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
+            
             IlceListDto ilceListDto = new IlceListDto();
             Task<Il> tIl = _IlServis.GetByIdAsync(id);
             Task<List<Ilce>> tIlce = _IlceServis.GetListAsync(i => i.IlId == id);
@@ -52,7 +56,7 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Ilces/DetaIlces/5
         public async Task<IActionResult> DetaIlces(int? id)
         {
-            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
+            
             if (id == null)
             {
                 return NotFound();
@@ -70,7 +74,7 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Ilces/Edit/5
         public async Task<IActionResult> Edit(int? id, int ilId)
         {
-            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
+            
 
             if (id == null)
             {
@@ -105,7 +109,7 @@ namespace CastAjansCore.WebUI.Controllers
                 { 
                     if (id == null || id == 0)
                     {                       
-                        await _IlceServis.AddAsync(Ilce, HttpContext.Session.GetUserHelper());
+                        await _IlceServis.AddAsync(Ilce, _loginHelper.UserHelper);
                     }
                     else
                     {
@@ -113,7 +117,7 @@ namespace CastAjansCore.WebUI.Controllers
                         {
                             return NotFound();
                         }
-                        await _IlceServis.UpdateAsync(Ilce, HttpContext.Session.GetUserHelper());
+                        await _IlceServis.UpdateAsync(Ilce, _loginHelper.UserHelper);
                     }
                 }
                 catch (DbUpdateConcurrencyException)
@@ -136,7 +140,7 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Ilces/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
+            
             if (id == null)
             {
                 return NotFound();
@@ -156,7 +160,7 @@ namespace CastAjansCore.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _IlceServis.DeleteAsync(id, HttpContext.Session.GetUserHelper());
+            await _IlceServis.DeleteAsync(id, _loginHelper.UserHelper);
             return RedirectToAction(nameof(Index));
         }
 

@@ -18,5 +18,7 @@ namespace Calbay.Core.Helper
         public List<MenuDto> Menuler { get; set; }
 
         public string Mesaj { get; set; }
+
+        
     }
 }

@@ -3,6 +3,7 @@ using CastAjansCore.Business.Abstract;
 using CastAjansCore.Dto;
 using CastAjansCore.Entity;
 using CastAjansCore.WebUI.Filters;
+using CastAjansCore.WebUI.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
@@ -13,25 +14,30 @@ using System.Threading.Tasks;
 
 namespace CastAjansCore.WebUI.Controllers
 {
-    [Authorize]
+    [Authorize]    
     public class HomeController : Controller
     {
         IKisiServis _kisiServis;
-        public HomeController(IKisiServis kisiServis)
+        private readonly LoginHelper _loginHelper;
+        
+        public HomeController(IKisiServis kisiServis, LoginHelper loginHelper)
         {
             _kisiServis = kisiServis;
+            _loginHelper = loginHelper;            
+            ViewBag.UserHelper = _loginHelper.UserHelper;
         }
-        
+
         [HandleException]
         public async Task<IActionResult> Index()
         {
+            ViewBag.UserHelper = _loginHelper.UserHelper;
             Response.Cookies.Append(
                 CookieRequestCultureProvider.DefaultCookieName,
                 CookieRequestCultureProvider.MakeCookieValue(new RequestCulture("tr-TR")),
                 new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
             );
 
-            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
+
 
             //IKisiServis _kisiServis = new KisiManager(new EfKisiDal());
             //Kisi kisi = new Kisi {

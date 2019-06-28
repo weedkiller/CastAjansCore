@@ -1,5 +1,6 @@
 ﻿using CastAjansCore.Business.Abstract;
 using CastAjansCore.Entity;
+using CastAjansCore.WebUI.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,15 +12,18 @@ namespace CastAjansCore.WebUI.Controllers
     public class UyruklarController : Controller
     {
         private readonly IUyrukServis _UyrukServis;
+        private readonly LoginHelper _loginHelper;
 
-        public UyruklarController(IUyrukServis UyrukServis)
+        public UyruklarController(IUyrukServis UyrukServis, LoginHelper loginHelper)
         {
             _UyrukServis = UyrukServis;
+            _loginHelper = loginHelper;
+            ViewData["UserHelper"] = _loginHelper.UserHelper;
         }
         
         public async Task<IActionResult> Index()
         {
-            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
+            
             var Uyruklar = await _UyrukServis.GetListAsync();
             return View(Uyruklar);
         }
@@ -27,7 +31,7 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Uyruks/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
+            
             if (id == null)
             {
                 return View(new Uyruk());
@@ -64,7 +68,7 @@ namespace CastAjansCore.WebUI.Controllers
                         //Uyruk.EkleyenId = 1;
                         //Uyruk.EklemeZamani = DateTime.Now;
 
-                        await _UyrukServis.AddAsync(Uyruk, HttpContext.Session.GetUserHelper());
+                        await _UyrukServis.AddAsync(Uyruk, _loginHelper.UserHelper);
                     }
                     else
                     {
@@ -72,7 +76,7 @@ namespace CastAjansCore.WebUI.Controllers
                         {
                             return NotFound();
                         }
-                        await _UyrukServis.UpdateAsync(Uyruk, HttpContext.Session.GetUserHelper());
+                        await _UyrukServis.UpdateAsync(Uyruk, _loginHelper.UserHelper);
                     }
                 }
                 catch (DbUpdateConcurrencyException)
@@ -95,7 +99,7 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Uyruks/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
+            
             if (id == null)
             {
                 return NotFound();
@@ -115,7 +119,7 @@ namespace CastAjansCore.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _UyrukServis.DeleteAsync(id, HttpContext.Session.GetUserHelper());
+            await _UyrukServis.DeleteAsync(id, _loginHelper.UserHelper);
             return RedirectToAction(nameof(Index));
         }
 

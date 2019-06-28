@@ -1,6 +1,7 @@
 ﻿using CastAjansCore.Business.Abstract;
 using CastAjansCore.Dto;
 using CastAjansCore.Entity;
+using CastAjansCore.WebUI.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,13 +19,15 @@ namespace CastAjansCore.WebUI.Controllers
         private readonly IProjeKarakterServis _ProjeKarakterServis;
         private readonly IProjeKarakterOyuncuServis _ProjeKarakterOyuncuServis;
         private readonly IUyrukServis _UyrukServis;
+        private readonly LoginHelper _loginHelper;
 
         public ProjelerController(IProjeServis ProjeServis,
             IMusteriServis musteriServis,
             IKullaniciServis kullaniciServis,
             IProjeKarakterServis projeKarakterServis,
             IProjeKarakterOyuncuServis projeKarakterOyuncuServis,
-            IUyrukServis uyrukServis)
+            IUyrukServis uyrukServis,
+            LoginHelper loginHelper)
         {
             _ProjeServis = ProjeServis;
             _MusteriServis = musteriServis;
@@ -32,11 +35,13 @@ namespace CastAjansCore.WebUI.Controllers
             _ProjeKarakterServis = projeKarakterServis;
             _ProjeKarakterOyuncuServis = projeKarakterOyuncuServis;
             _UyrukServis = uyrukServis;
+            _loginHelper = loginHelper;
+            ViewData["UserHelper"] = _loginHelper.UserHelper;
         }
 
         public async Task<IActionResult> Index(int? id)
         {
-            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
+            
             ProjeListDto ProjeListDto = new ProjeListDto();
             Task<Musteri> tMusteri = _MusteriServis.GetByIdAsync(id.Value);
             Task<List<Proje>> tProje = _ProjeServis.GetListAsync(i => (id == null || i.MusteriId == id));
@@ -50,7 +55,7 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Projes/Edit/5
         public async Task<IActionResult> Edit(int? id, int musteriId)
         {
-            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
+            
             var tKul = _KullaniciServis.GetSelectListAsync();
             var tUyruk = _UyrukServis.GetSelectListAsync();
             var projeEditDto = new ProjeEditDto()
@@ -114,7 +119,7 @@ namespace CastAjansCore.WebUI.Controllers
                 {
                     if (id == null || id == 0)
                     {
-                        await _ProjeServis.AddAsync(Proje, HttpContext.Session.GetUserHelper());
+                        await _ProjeServis.AddAsync(Proje, _loginHelper.UserHelper);
                     }
                     else
                     {
@@ -122,7 +127,7 @@ namespace CastAjansCore.WebUI.Controllers
                         {
                             return NotFound();
                         }
-                        await _ProjeServis.UpdateAsync(Proje, HttpContext.Session.GetUserHelper());
+                        await _ProjeServis.UpdateAsync(Proje, _loginHelper.UserHelper);
                     }
                 }
                 catch (DbUpdateConcurrencyException)
@@ -145,7 +150,7 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Projes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
+            
             if (id == null)
             {
                 return NotFound();
@@ -165,7 +170,7 @@ namespace CastAjansCore.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _ProjeServis.DeleteAsync(id, HttpContext.Session.GetUserHelper());
+            await _ProjeServis.DeleteAsync(id, _loginHelper.UserHelper);
             return RedirectToAction(nameof(Index));
         }
 

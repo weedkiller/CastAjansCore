@@ -1,4 +1,4 @@
-﻿@using Calbay.Core.Helper
+﻿@inject CastAjansCore.WebUI.Helper.LoginHelper LoginHelper
 <!-- Main sidebar -->
 <div class="sidebar sidebar-light sidebar-main sidebar-expand-md">
     <!-- Sidebar mobile toggler -->
@@ -13,7 +13,8 @@
         </a>
     </div>
     @{
-        var Model = (UserHelper)ViewData["UserHelper"];
+        //var Model = (UserHelper)ViewBag.UserHelper;
+        var Model = LoginHelper.UserHelper;
     }
     <!-- /sidebar mobile toggler -->
     <!-- Sidebar content -->
@@ -25,7 +26,7 @@
                     <a href="#">
                         @*<img src="/Limitless_2_2/images/image.png" class="img-fluid rounded-circle shadow-1 mb-3" width="80" height="80" alt="">*@
 
-                        <img src="~/Resimler/logo_small.png"  width="120"/>
+                        <img src="~/Resimler/logo_small.png" width="120" />
                     </a>
                     <h6 class="mb-0 text-white text-shadow-dark">@Model.Adi @Model.Soyadi</h6>
                     <span class="font-size-sm text-white text-shadow-dark">@Model.KullaniciAdi</span>
@@ -38,7 +39,7 @@
             <div class="collapse" id="user-nav">
                 <ul class="nav nav-sidebar">
                     <li class="nav-item">
-                        <a asp-controller="Kullanicilar" asp-action="Edit" asp-route-Id="@Model.Id"  class="nav-link">
+                        <a asp-controller="Kullanicilar" asp-action="Edit" asp-route-Id="@Model.Id" class="nav-link">
                             <i class="icon-user-plus"></i>
                             <span>Kullanıcı Bilgileri</span>
                         </a>
@@ -73,29 +74,29 @@
                 <li class="nav-item-header"><div class="text-uppercase font-size-xs line-height-xs">Menü</div> <i class="icon-menu" title="Menü"></i></li>
 
                 @foreach (var item in Model.Menuler)
+                {
+                    if (item.AltMenuler.Count == 0)
                     {
-                        if (item.AltMenuler.Count == 0)
-                        {
-                            <li class="nav-item">
-                                <a href=@item.Link class="nav-link"><i class=@item.Icon></i> <span>@item.Adi</span></a>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item nav-item-submenu">
-                                @*nav-item-expanded nav-item-open*@
-
-                                <a href="#" class="nav-link"><i class=@item.Icon></i> <span>@item.Adi</span></a>
-                                <ul class="nav nav-group-sub" data-submenu-title="Sistem">
-                                    @foreach (var altMenu in item.AltMenuler)
-                                    {
-                                        <li class="nav-item"><a href=@altMenu.Link class="nav-link">@altMenu.Adi</a></li>
-                                    }
-                                </ul>
-                            </li>
-                        }
-
+                        <li class="nav-item">
+                            <a href=@item.Link class="nav-link"><i class=@item.Icon></i> <span>@item.Adi</span></a>
+                        </li>
                     }
+                    else
+                    {
+                        <li class="nav-item nav-item-submenu">
+                            @*nav-item-expanded nav-item-open*@
+
+                            <a href="#" class="nav-link"><i class=@item.Icon></i> <span>@item.Adi</span></a>
+                            <ul class="nav nav-group-sub" data-submenu-title="Sistem">
+                                @foreach (var altMenu in item.AltMenuler)
+                                {
+                                    <li class="nav-item"><a href=@altMenu.Link class="nav-link">@altMenu.Adi</a></li>
+                                }
+                            </ul>
+                        </li>
+                    }
+
+                }
                 <!-- /main -->
             </ul>
         </div>

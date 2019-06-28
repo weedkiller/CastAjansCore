@@ -21,15 +21,19 @@ namespace CastAjansCore.Business.Concrete
         private readonly IKisiServis _kisiServis;
         private readonly IEmailServis _emailServis;
         private readonly IOptions<ParamereSettings> _paramereSettings;
+        private readonly UserHelper _userHelper;
         public KullaniciManager(IKullaniciDal dal, IKisiServis kisiServis, IEmailServis emailServis, IOptions<ParamereSettings> paramereSettings) : base(dal)
         {
             _kisiServis = kisiServis;
             _emailServis = emailServis;
             _paramereSettings = paramereSettings;
+
+            
         }
 
         private async Task Kontrol(Kullanici entity)
         {
+            
             var tKullaniciAdi = GetAsync(i => (entity.Id == 0 || i.Id != entity.Id) && i.KullaniciAdi == entity.KullaniciAdi && i.Aktif == true && i.Kisi.Aktif == true);
 
             if (await tKullaniciAdi != null)
@@ -73,9 +77,9 @@ namespace CastAjansCore.Business.Concrete
             }
             else
             {
-                tasks[0] = _kisiServis.UpdateAsync(entity.Kisi, userHelper);                
+                tasks[0] = _kisiServis.UpdateAsync(entity.Kisi, userHelper);
             }
-            
+
             tasks[1] = base.UpdateAsync(entity, userHelper);
 
             await Task.WhenAll(tasks);
@@ -140,20 +144,25 @@ namespace CastAjansCore.Business.Concrete
             }
             else
             {
-                UserHelper userHelper = new UserHelper
-                {
-                    Id = kullanici.Id,
-                    Adi = kullanici.Kisi.Adi,
-                    Soyadi = kullanici.Kisi.Soyadi,
-                    KullaniciAdi = kullanici.KullaniciAdi,
-                    Rol = kullanici.Rol,
-                    Menuler = GetMenu(kullanici.Rol)
-                };
-                return userHelper;
+                return GetUserHelper(kullanici);
             }
-
-
         }
+
+        public UserHelper GetUserHelper(Kullanici kullanici)
+        {
+            UserHelper userHelper = new UserHelper
+            {
+                Id = kullanici.Id,
+                Adi = kullanici.Kisi.Adi,
+                Soyadi = kullanici.Kisi.Soyadi,
+                KullaniciAdi = kullanici.KullaniciAdi,
+                Rol = kullanici.Rol,
+                Menuler = GetMenu(kullanici.Rol)
+            };
+            return userHelper;
+        }
+
+
 
         private List<MenuDto> GetMenu(EnuRol rol)
         {

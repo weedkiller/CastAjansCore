@@ -1,6 +1,7 @@
 ﻿using CastAjansCore.Business.Abstract;
 using CastAjansCore.Dto;
 using CastAjansCore.Entity;
+using CastAjansCore.WebUI.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -18,12 +19,15 @@ namespace CastAjansCore.WebUI.Controllers
         private readonly IMusteriServis _MusteriServis;
         private readonly IIlServis _IlServis;
         private readonly IIlceServis _IlceServis;
+        private readonly LoginHelper _loginHelper;
 
-        public MusterilerController(IMusteriServis MusteriServis, IIlServis IlServis, IIlceServis IlceServis)
+        public MusterilerController(IMusteriServis MusteriServis, IIlServis IlServis, IIlceServis IlceServis, LoginHelper loginHelper)
         {
             _MusteriServis = MusteriServis;
             _IlServis = IlServis;
             _IlceServis = IlceServis;
+            _loginHelper = loginHelper;
+            ViewData["UserHelper"] = _loginHelper.UserHelper;
         }
 
         // GET: Musteris
@@ -35,7 +39,7 @@ namespace CastAjansCore.WebUI.Controllers
 
         public async Task<IActionResult> Index()
         {
-            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
+            
             var Musterilar = await _MusteriServis.GetListAsync();
             return View(Musterilar);
         }
@@ -44,7 +48,7 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Musteris/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
+            
             var model = new MusteriEditDto
             {
                 Iller = (await _IlServis.GetSelectListAsync())
@@ -95,7 +99,7 @@ namespace CastAjansCore.WebUI.Controllers
                         musteriEditdto.Musteri.EkleyenId = 1;
                         musteriEditdto.Musteri.EklemeZamani = DateTime.Now;
 
-                        await _MusteriServis.AddAsync(musteriEditdto.Musteri, HttpContext.Session.GetUserHelper());
+                        await _MusteriServis.AddAsync(musteriEditdto.Musteri, _loginHelper.UserHelper);
                     }
                     else
                     {
@@ -103,7 +107,7 @@ namespace CastAjansCore.WebUI.Controllers
                         {
                             return NotFound();
                         }
-                        await _MusteriServis.UpdateAsync(musteriEditdto.Musteri, HttpContext.Session.GetUserHelper());
+                        await _MusteriServis.UpdateAsync(musteriEditdto.Musteri, _loginHelper.UserHelper);
                     }
                 }
                 catch (DbUpdateConcurrencyException)
@@ -127,7 +131,7 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Musteris/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            ViewData["UserHelper"] = HttpContext.Session.GetUserHelper();
+            
             if (id == null)
             {
                 return NotFound();
@@ -147,7 +151,7 @@ namespace CastAjansCore.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _MusteriServis.DeleteAsync(id, HttpContext.Session.GetUserHelper());
+            await _MusteriServis.DeleteAsync(id, _loginHelper.UserHelper);
             return RedirectToAction(nameof(Index));
         }
 
