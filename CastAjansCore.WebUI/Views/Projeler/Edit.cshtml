@@ -254,7 +254,7 @@
                                             <label class="col-lg-3 col-form-label">Cinsiyet</label>
                                             <div class="col-lg-9">
                                                 <div class="form-group">
-                                                    <select id="filter-oyuncu-cinsiyet" asp-items="Html.GetEnumSelectList<EnuCinsiyet>()" class="form-control"></select>
+                                                    <select id="Filter-Oyuncu-Cinsiyet" asp-items="Html.GetEnumSelectList<EnuCinsiyet>()" class="form-control"></select>
                                                 </div>
                                             </div>
                                         </div>
@@ -263,7 +263,7 @@
                                             <label class="col-lg-3 col-form-label">Uyruk</label>
                                             <div class="col-lg-9">
                                                 <div class="form-group">
-                                                    <select id="filter-oyuncu-uyruk" asp-items="Model.Uyruklar" class="form-control"></select>
+                                                    <select id="Filter-Oyuncu-Uyruk" asp-items="Model.Uyruklar" class="form-control"></select>
                                                 </div>
                                             </div>
                                         </div>
@@ -397,12 +397,8 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
-                            <table id="OyuncuGrid" class="table">
-                                <tr>
-                                    @*<th>Seç</th>*@
-                                    <th>Adı</th>
-                                    <th>Soyadı</th>
-                                </tr>
+                            <table id="OyuncuGrid" class="table table-striped table-bordered">
+                               
                             </table>
                         </div>
                     </div>
@@ -416,83 +412,8 @@
     </div>
     <!-- /full width modal -->
     @section scripts {
+        var _projeKarakterleriCount = @Model.Proje.ProjeKarakterleri.Count;
+        <script src="/Js/Projeler.js"></script>
 
-        <script>
-
-            var _tblProjeKarakterOyuncu = "tblProjeKarakterOyuncu_0";
-            var _projeKarakterleriCount = @Model.Proje.ProjeKarakterleri.Count;
-            function NewProjeKarakterleri() {
-                var str = "";
-                str += "<div class='col-md-12'>";
-                str += "    <div class='card'>";
-                str += "        <div class='card-body'>";
-                str += "            <fieldset>";
-                str += "                <input type='hidden' id='Proje_ProjeKarakterleri_" + _projeKarakterleriCount + "__ProjeId' name='Proje.ProjeKarakterleri[" + _projeKarakterleriCount + "].ProjeId' Value='0' />";
-                str += "                <div class='form-group row'>";
-                str += "                      <label class='col-lg-3 control-label'>Karakter Adı</label>";
-                @*str +=                 "      <span asp-validation-for='@Model.ProjeKarakterleri[i].Adi' class='text-danger'></span>";*@
-                str += "                      <div class='col-lg-9'>";
-                str += "                          <input id='Proje_ProjeKarakterleri_" + _projeKarakterleriCount + "__Adi' name='Proje.ProjeKarakterleri[" + _projeKarakterleriCount + "].Adi' class='form-control' />";
-                str += "                      </div>";
-                str += "                </div>";
-                str += "                <div class='form-group row'>";
-                str += "                      <label class='col-lg-3 control-label'>Karakter Sayısı</label>";
-                @*str +=                 "      <span asp-validation-for='@Model.ProjeKarakterleri[i].KarakterSayisi' class='text-danger'></span>";*@
-                str += "                      <div class='col-lg-9'>";
-                str += "                          <input id='Proje_ProjeKarakterleri_" + _projeKarakterleriCount + "__KarakterSayisi' name='Proje.ProjeKarakterleri[" + _projeKarakterleriCount + "].KarakterSayisi' class='form-control' />";
-                str += "                      </div>";
-                str += "                </div>";
-                str += "                <div class='form-group row'>";
-                str += "                      <label class='col-lg-3 control-label'>Açıklama</label>";
-                @*str +=                 "      <span asp-validation-for='@Model.ProjeKarakterleri[i].Aciklama' class='text-danger'></span>";*@
-                str += "                      <div class='col-lg-9'>";
-                str += "                          <input id='Proje_ProjeKarakterleri_" + _projeKarakterleriCount + "__Aciklama' name='Proje.ProjeKarakterleri[" + _projeKarakterleriCount + "].Aciklama' class='form-control' />";
-                str += "                      </div>";
-                str += "                </div>";
-                str += "            </fieldset>";
-                str += "        </div>";
-                str += "    </div>";
-                str += "</div>";
-
-                $("#divProjeKarakterleri").append(str);
-                _projeKarakterleriCount+=1;
-            }
-
-            function ShowOyuncu(tableName) {
-                _tblProjeKarakterOyuncu = tableName;
-                $('#myModal').modal('show');
-
-            }
-
-
-            function GetOyuncuGrid() {
-                alert($("#Filter-Oyuncu-Adi").val());
-                $('#OyuncuGrid').DataTable({
-                    processing: true,
-                    //"serverSide": true,                    
-                    ajax:
-                    {
-                        url: "/Oyuncular/GetOyuncuGrid",
-                        contentType: "json",
-                        type: "GET",
-                        data: {
-                            Adi: $("#Filter-Oyuncu-Adi").val(),
-                            Soyadi: $("#Filter-Oyuncu-Soyadi").val(),
-                            YasMin: $("#Filter-Oyuncu-YasMin").val(),
-                            YasMax: $("#Filter-Oyuncu-YasMax").val()
-                            }
-                        }
-                    },
-                    columns: [
-                        { data: "Adi" },
-                        { data: "Soyadi" }//,
-                        //{ "data": "contact.0" },
-                        //{ "data": "contact.1" },
-                        //{ "data": "hr.start_date" },
-                        //{ "data": "hr.salary" }
-                    ]
-                });
-            }
-        </script>
     }
 </form>

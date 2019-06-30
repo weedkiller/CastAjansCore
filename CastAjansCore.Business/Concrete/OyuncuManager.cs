@@ -64,7 +64,11 @@ namespace CastAjansCore.Business.Concrete
                     Adi = item.Kisi.Adi,
                     Soyadi = item.Kisi.Soyadi,
                     DogumTarihi = item.Kisi.DogumTarihi,
-                    ProfilFotoUrl = item.Kisi.ProfilFotoUrl
+                    ProfilFotoUrl = item.Kisi.ProfilFotoUrl,
+                    Boy= item.Boy,
+                    Kilo= item.Kilo,
+                    AltBeden = item.AltBeden,
+                    UstBeden = item.UstBeden,
                 }
                 );
             }

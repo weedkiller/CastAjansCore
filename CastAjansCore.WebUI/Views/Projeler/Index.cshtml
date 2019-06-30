@@ -12,7 +12,10 @@
         <h5 class="card-title"></h5>
         <div class="header-elements">
             <div class="list-icons">
-                <a class="list-icons-item" asp-action="Edit" asp-route-musteriId="@Model.Musteri.Id"><i class="icon-plus3"></i></a>
+                @if (Model.Musteri != null)
+                {
+                    <a class="list-icons-item" asp-action="Edit" asp-route-musteriId="@Model.Musteri.Id"><i class="icon-plus3"></i></a>
+                }
             </div>
         </div>
     </div>

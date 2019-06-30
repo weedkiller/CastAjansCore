@@ -34,7 +34,7 @@ namespace CastAjansCore.WebUI.Controllers
 
         public async Task<IActionResult> Index()
         {
-            
+
             var Oyuncular = await _OyuncuServis.GetListDtoAsync();
             return View(Oyuncular);
         }
@@ -42,7 +42,7 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Oyuncus/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            
+
             if (id == null)
             {
                 return NotFound();
@@ -60,7 +60,7 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Oyuncus/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            
+
             OyuncuEditDto model = await _OyuncuServis.GetEditDtoAsync(id);
 
             if (id != null && model.Oyuncu == null)
@@ -154,7 +154,7 @@ namespace CastAjansCore.WebUI.Controllers
             {
                 MesajHelper.HataEkle(ViewBag, ex.Message);
             }
-            
+
             var combolar = await _OyuncuServis.GetEditDtoAsync(id);
             oyuncuEditDto.KisiEditDto.Ilceler = combolar.KisiEditDto.Ilceler;
             oyuncuEditDto.KisiEditDto.Iller = combolar.KisiEditDto.Iller;
@@ -165,7 +165,7 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Oyuncus/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            
+
             if (id == null)
             {
                 return NotFound();
@@ -206,16 +206,40 @@ namespace CastAjansCore.WebUI.Controllers
 
         //    return Json(oyuncular);
         //}
-
-        private JsonResult GetOyuncuGrid(OyuncuFilterDto filter)
+        [AllowAnonymous]
+        public async Task<JsonResult> GetOyuncuGrid(OyuncuFilterDto filter)
         {
-            var oyuncular = _OyuncuServis.GetList(i =>
+            var oyuncular = await _OyuncuServis.GetListDtoAsync(i =>
                    (filter.Adi == null || i.Kisi.Adi.StartsWith(filter.Adi)) &&
                    (filter.Soyadi == null || i.Kisi.Soyadi.StartsWith(filter.Soyadi)) &&
-                   (filter.YasMin == 0 || i.Kisi.DogumTarihi >= DateTime.Today.AddYears(-1 * filter.YasMin)) &&
-                   (filter.YasMax == 0 || i.Kisi.DogumTarihi <= DateTime.Today.AddYears(-1 * filter.YasMax))
+                   (filter.YasMin == 0 || i.Kisi.DogumTarihi <= DateTime.Today.AddYears(-1 * filter.YasMin)) &&
+                   (filter.YasMaks == 0 || i.Kisi.DogumTarihi >= DateTime.Today.AddYears(-1 * filter.YasMaks)) &&
+                   (filter.Cinsiyet == 0 || i.Kisi.Cinsiyet == (EnuCinsiyet)filter.Cinsiyet) &&
+                   (filter.Uyruk == 0 || i.Kisi.UyrukId == filter.Uyruk) &&
+                   (filter.KaseMin == 0 || i.Kase <= filter.KaseMin) &&
+                   (filter.KaseMaks == 0 || i.Kase <= filter.KaseMaks) &&
+                   (filter.BoyMin == 0 || i.Boy <= filter.BoyMin) &&
+                   (filter.BoyMaks == 0 || i.Boy <= filter.BoyMaks) &&
+                   (filter.KiloMin == 0 || i.Kilo <= filter.KiloMin) &&
+                   (filter.KiloMaks == 0 || i.Kilo <= filter.KiloMaks) &&
+                   (filter.AltBedenMin == 0 || i.AltBeden <= filter.AltBedenMin) &&
+                   (filter.AltBedenMaks == 0 || i.AltBeden <= filter.AltBedenMaks) &&
+                   (filter.UstBedenMin == 0 || i.UstBeden <= filter.UstBedenMin) &&
+                   (filter.UstBedenMaks == 0 || i.UstBeden <= filter.UstBedenMaks) &&
+                   (filter.AyakNumarasiMin == 0 || i.AyakNumarasi <= filter.AyakNumarasiMin) &&
+                   (filter.AyakNumarasiMaks == 0 || i.AyakNumarasi <= filter.AyakNumarasiMaks) &&
+                   (filter.GozRengi == 0 || i.GozRengi == (EnuGozRengi)filter.GozRengi) &&
+                   (filter.TenRengi == 0 || i.TenRengi == (EnuTenRengi)filter.TenRengi) &&
+                   (filter.SacRengi == 0 || i.SacRengi == (EnuSacRengi)filter.SacRengi)
                );
 
+            return Json(
+                new
+                {
+                    oyuncular,
+                    iTotalRecords = oyuncular.Count,
+                    iTotalDisplayRecords = oyuncular.Count
+                });
             return Json(oyuncular);
         }
 

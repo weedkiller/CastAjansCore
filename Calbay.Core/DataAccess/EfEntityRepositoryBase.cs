@@ -151,6 +151,36 @@ namespace Calbay.Core.DataAccess
             }
         }
 
+        public async Task<GridDto<TEntity>> GetGridAsync(int page, int pageCount, List<string> includes = null, Expression<Func<TEntity, bool>> filter = null)
+        {
+            using (var context = new TContex())
+            {
+                var query = (filter == null
+                    ? context.Set<TEntity>()
+                    : context.Set<TEntity>().Where(SetFilter(filter)));
+
+                foreach (var item in includes)
+                {
+                    query = query.Include(item);
+                }
+                if (page == 0)
+                    page = 1;
+
+                //if (limit == 0)
+                //    limit = int.MaxValue;
+
+                //var skip = (page - 1) * limit;
+
+                GridDto<TEntity> result = new GridDto<TEntity>
+                {
+                    Grid = await query.ToListAsync<TEntity>()
+                };
+                //result.iTotalRecords = query.Count();
+
+                return result;
+            }
+        }
+
         public virtual void Update(TEntity entity)
         {
             using (var context = new TContex())
@@ -174,5 +204,7 @@ namespace Calbay.Core.DataAccess
                 //}
             }
         }
+
+        
     }
 }

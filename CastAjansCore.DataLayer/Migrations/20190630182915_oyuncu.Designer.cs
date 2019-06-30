@@ -4,14 +4,16 @@ using CastAjansCore.DataLayer.Concrete.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CastAjansCore.DataLayer.Migrations
 {
     [DbContext(typeof(CastAjansContext))]
-    partial class CastAjansContextModelSnapshot : ModelSnapshot
+    [Migration("20190630182915_oyuncu")]
+    partial class oyuncu
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -358,7 +360,7 @@ namespace CastAjansCore.DataLayer.Migrations
                     b.Property<string>("EngelDurumu")
                         .HasMaxLength(200);
 
-                    b.Property<int?>("GozRengi");
+                    b.Property<int>("GozRengi");
 
                     b.Property<DateTime>("GuncellemeZamani");
 
@@ -374,7 +376,7 @@ namespace CastAjansCore.DataLayer.Migrations
                     b.Property<string>("OyuculukEgitimi")
                         .HasMaxLength(4000);
 
-                    b.Property<int?>("SacRengi");
+                    b.Property<int>("SacRengi");
 
                     b.Property<string>("SskDurumu")
                         .HasMaxLength(200);
@@ -382,7 +384,7 @@ namespace CastAjansCore.DataLayer.Migrations
                     b.Property<string>("Tecrubeler")
                         .HasMaxLength(4000);
 
-                    b.Property<int?>("TenRengi");
+                    b.Property<int>("TenRengi");
 
                     b.Property<int?>("UstBeden");
 

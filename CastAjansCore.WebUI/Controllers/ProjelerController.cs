@@ -43,10 +43,12 @@ namespace CastAjansCore.WebUI.Controllers
         {
             
             ProjeListDto ProjeListDto = new ProjeListDto();
-            Task<Musteri> tMusteri = _MusteriServis.GetByIdAsync(id.Value);
             Task<List<Proje>> tProje = _ProjeServis.GetListAsync(i => (id == null || i.MusteriId == id));
-
-            ProjeListDto.Musteri = await tMusteri;
+            if (id != null)
+            {
+                ProjeListDto.Musteri = await _MusteriServis.GetByIdAsync(id.Value); ;
+            }
+            
             ProjeListDto.Projeler = await tProje;
 
             return View(ProjeListDto);

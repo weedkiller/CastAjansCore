@@ -28,7 +28,7 @@ namespace CastAjansCore.Entity
         [Display(Name = "Doğum Tarihi")]
         [DataType(DataType.Date)]
         //[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime DogumTarihi { get; set; }
+        public DateTime? DogumTarihi { get; set; }
 
         [Display(Name = "Cinsiyet")]
         public EnuCinsiyet Cinsiyet { get; set; }
@@ -37,9 +37,11 @@ namespace CastAjansCore.Entity
         public EnuKanGrubu KanGrubu { get; set; }
 
         [Display(Name = "Anne Ad Soyad")]
+        [MaxLength(200)]
         public string AnneAdiSoyadi { get; set; }
 
         [Display(Name = "Baba Ad Soyad")]
+        [MaxLength(200)]
         public string BabaAdiSoyadi { get; set; }
 
         [Display(Name = "Uyruk")]
@@ -58,7 +60,7 @@ namespace CastAjansCore.Entity
         [DataType(DataType.PhoneNumber)]
         public string Faks { get; set; }
 
-        [MaxLength(100)]
+        [MaxLength(250)]
         public string Adres { get; set; }
 
         [Display(Name = "İlçe")]

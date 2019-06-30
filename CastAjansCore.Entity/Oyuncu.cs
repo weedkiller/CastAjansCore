@@ -14,7 +14,7 @@ namespace CastAjansCore.Entity
             OyuncuVideolari = new List<OyuncuVideo>();
         }
         [Key]
-        [ForeignKey("Kisi")]
+        [ForeignKey("Kisi")]        
         public override int Id { get; set; }
 
         [Display(Name = "Boy(Cm)")]
@@ -33,13 +33,13 @@ namespace CastAjansCore.Entity
         public int? AyakNumarasi { get; set; }
 
         [Display(Name = "Göz Rengi")]
-        public EnuGozRengi GozRengi { get; set; }
+        public EnuGozRengi? GozRengi { get; set; }
 
         [Display(Name = "Ten Rengi")]
-        public EnuTenRengi TenRengi { get; set; }
+        public EnuTenRengi? TenRengi { get; set; }
 
         [Display(Name = "Saç Rengi")]
-        public EnuSacRengi SacRengi { get; set; }
+        public EnuSacRengi? SacRengi { get; set; }
 
         [MaxLength(200)]
         [Display(Name = "Meslek")]
@@ -76,6 +76,14 @@ namespace CastAjansCore.Entity
 
         [Display(Name = "Kaşe")]
         public decimal? Kase { get; set; }
+
+        [MaxLength(200)]
+        [Display(Name = "SSK Durumu")]
+        public string SskDurumu { get; set; }
+
+        [MaxLength(200)]
+        [Display(Name = "Ehliyet")]
+        public string Ehliyet { get; set; }
 
         [ForeignKey("Id")]
         public virtual Kisi Kisi { get; set; }
