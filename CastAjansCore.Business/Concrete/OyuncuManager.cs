@@ -54,7 +54,7 @@ namespace CastAjansCore.Business.Concrete
         public async Task<List<OyuncuListDto>> GetListDtoAsync(Expression<Func<Oyuncu, bool>> filter = null)
         {
             List<OyuncuListDto> listDto = new List<OyuncuListDto>();
-            var oyuncular = await base._dal.GetListAsync(filter);
+            var oyuncular = await base._dal.GetListAsync(new List<string> { "Kisi", "Kisi.Uyruk", "OyuncuResimleri", },filter);
 
             foreach (var item in oyuncular)
             {
@@ -64,11 +64,18 @@ namespace CastAjansCore.Business.Concrete
                     Adi = item.Kisi.Adi,
                     Soyadi = item.Kisi.Soyadi,
                     DogumTarihi = item.Kisi.DogumTarihi,
-                    ProfilFotoUrl = item.Kisi.ProfilFotoUrl,
+                    ProfilFotoUrl = item.Kisi.ProfilFotoUrl,      
+                    Kase = item.Kase,
+                    Uyruk = item.Kisi.Uyruk.Adi,
+                    Cinsiyet = item.Kisi.Cinsiyet.ToDisplay(),
                     Boy= item.Boy,
                     Kilo= item.Kilo,
                     AltBeden = item.AltBeden,
                     UstBeden = item.UstBeden,
+                    GozRengi = item.GozRengi.ToDisplay(),
+                    TenRengi = item.TenRengi.ToDisplay(),
+                    SacRengi = item.SacRengi.ToDisplay(),
+
                 }
                 );
             }

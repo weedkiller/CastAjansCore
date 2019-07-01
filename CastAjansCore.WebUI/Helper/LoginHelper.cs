@@ -1,8 +1,10 @@
 ﻿using Calbay.Core.Helper;
 using CastAjansCore.Business.Abstract;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -37,10 +39,28 @@ namespace CastAjansCore.WebUI.Helper
                     new Claim(ClaimTypes.UserData, JsonConvert.SerializeObject(kullanici)),
                     new Claim(ClaimTypes.Role,kullanici.Rol.ToString())
                 };
-            var userIdentity = new ClaimsIdentity(claims, "login");
+            //RemoveCookie("login");
+            var userIdentity = new ClaimsIdentity(claims, "login1");
             ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
+            var authProperties = new AuthenticationProperties
+            {
+                AllowRefresh = true,
+                ExpiresUtc = DateTimeOffset.Now.AddDays(1),
+                IsPersistent = true,
+            };
 
-            await _httpContextAccessor.HttpContext.SignInAsync(principal);
+            await _httpContextAccessor.HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                principal,
+                authProperties);
+        }
+
+        public void RemoveCookie(string cookieName)
+        {
+            _httpContextAccessor.HttpContext.Response.Cookies.Append(cookieName, "", new CookieOptions()
+            {
+                Expires = DateTime.Now.AddDays(-1)
+            });
         }
 
         public UserHelper UserHelper

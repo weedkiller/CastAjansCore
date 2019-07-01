@@ -16,5 +16,6 @@ namespace Calbay.Core.Helper
         public string Icon { get; set; }
 
         public List<MenuDto> AltMenuler { get; set; }
+        public string Renk { get; set; }
     }
 }

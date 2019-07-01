@@ -1,83 +1,89 @@
-﻿@model IEnumerable<CastAjansCore.Dto.OyuncuListDto>
+﻿@model CastAjansCore.Dto.OyuncuFilterDto
+
 
 @{
     ViewData["Title"] = "Oyuncular";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@await Html.PartialAsync("_Oyuncular", Model)
+
+@section scripts {
+
+    <script src="/Js/Oyuncular.js"></script>
+}
+
 <!-- Basic table -->
-<div class="card">
-    <div class="card-header header-elements-inline">
-        <h5 class="card-title"></h5>
-        <div class="header-elements">
-            <div class="list-icons">
-                <a class="list-icons-item" asp-action="ExcelImport"><i class="icon-file-excel"></i></a>
-                <a class="list-icons-item" asp-action="Edit"><i class="icon-plus3"></i></a>
+@*<div class="card">
+        <div class="card-header header-elements-inline">
+            <h5 class="card-title"></h5>
+            <div class="header-elements">
+                <div class="list-icons">
+                    <a class="list-icons-item" asp-action="ExcelImport"><i class="icon-file-excel"></i></a>
+                    <a class="list-icons-item" asp-action="Edit"><i class="icon-plus3"></i></a>
+                </div>
             </div>
         </div>
-    </div>
-    @*<div class="card-body">
 
-        </div>*@
-    <div class="table-responsive">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Id)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.ProfilFotoUrl)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Adi)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Soyadi)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.DogumTarihi)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Yas)
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Id)
-                        </td>
-
-                        <td>
-                            @if (item.ProfilFotoUrl != "")
-                            {
-                                <img src=@item.ProfilFotoUrl title=@($"{item.Adi} {item.Soyadi}") height="100" />
-                            }
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Adi)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Soyadi)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DogumTarihi)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Yas)
-                        </td>
-                        <td class="text-right">
-                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-primary"><i class="mi-mode-edit"></i></a> |
-                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger"><i class="mi-delete"></i></a>
-                        </td>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Id)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ProfilFotoUrl)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Adi)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Soyadi)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.DogumTarihi)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Yas)
+                        </th>
+                        <th></th>
                     </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-</div>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id)
+                            </td>
+
+                            <td>
+                                @if (item.ProfilFotoUrl != "")
+                                {
+                                    <img src=@item.ProfilFotoUrl title=@($"{item.Adi} {item.Soyadi}") height="100" />
+                                }
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Adi)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Soyadi)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DogumTarihi)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Yas)
+                            </td>
+                            <td class="text-right">
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-primary"><i class="mi-mode-edit"></i></a> |
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger"><i class="mi-delete"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>*@
 <!-- /basic table -->

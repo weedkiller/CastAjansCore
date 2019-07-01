@@ -39,14 +39,18 @@ namespace CastAjansCore.Dto
             }
         }
 
+        public decimal? Kase { get; set; }
+
         public string ProfilFotoUrl { get; set; }
 
         public int? Boy { get; set; }
         public int? Kilo { get; set; }
         public int? UstBeden { get; set; }
-        public int? AltBeden { get; set; }
-        public int? Kase { get; set; }
+        public int? AltBeden { get; set; }        
         public string SacRengi { get; set; }
+        public string TenRengi { get; set; }
         public string GozRengi { get; set; }
+        public string Uyruk { get; set; }
+        public string Cinsiyet { get; set; }
     }
 }

@@ -21,6 +21,7 @@ namespace CastAjansCore.DataLayer.Concrete.EntityFramework
                     : context.Oyuncular.Where(filter));
 
                 query = query.Include(i => i.Kisi);
+                query = query.Include(i => i.Kisi.Uyruk);
                 query = query.Include(i => i.OyuncuResimleri);
 
                 return await query.ToListAsync<Oyuncu>();

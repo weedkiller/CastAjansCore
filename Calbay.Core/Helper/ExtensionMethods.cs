@@ -681,19 +681,21 @@ namespace Calbay.Core.Helper
 
         public static string ToDisplay(this Enum value)
         {
-
-            Type enumType = value.GetType();
-            var enumValue = Enum.GetName(enumType, value);
-            MemberInfo member = enumType.GetMember(enumValue)[0];
-
-            var attrs = member.GetCustomAttributes(typeof(DisplayAttribute), false);
-            var outString = ((DisplayAttribute)attrs[0]).Name;
-
-            if (((DisplayAttribute)attrs[0]).ResourceType != null)
+            var outString = "";
+            if (value != null)
             {
-                outString = ((DisplayAttribute)attrs[0]).GetName();
-            }
+                Type enumType = value.GetType();
+                var enumValue = Enum.GetName(enumType, value);
+                MemberInfo member = enumType.GetMember(enumValue)[0];
 
+                var attrs = member.GetCustomAttributes(typeof(DisplayAttribute), false);
+                outString = ((DisplayAttribute)attrs[0]).Name;
+
+                if (((DisplayAttribute)attrs[0]).ResourceType != null)
+                {
+                    outString = ((DisplayAttribute)attrs[0]).GetName();
+                }
+            }
             return outString;
         }
 

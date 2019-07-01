@@ -28,12 +28,12 @@ namespace CastAjansCore.Business.Concrete
             _emailServis = emailServis;
             _paramereSettings = paramereSettings;
 
-            
+
         }
 
         private async Task Kontrol(Kullanici entity)
         {
-            
+
             var tKullaniciAdi = GetAsync(i => (entity.Id == 0 || i.Id != entity.Id) && i.KullaniciAdi == entity.KullaniciAdi && i.Aktif == true && i.Kisi.Aktif == true);
 
             if (await tKullaniciAdi != null)
@@ -168,9 +168,9 @@ namespace CastAjansCore.Business.Concrete
         {
             List<MenuDto> Menuler = new List<MenuDto>
             {
-                new MenuDto { Adi = "Müşteriler", Icon = "mi-local-play", Link = "/Musteriler" },
-                new MenuDto { Adi = "Oyuncular", Icon = "mi-people", Link = "/Oyuncular" },
-                new MenuDto { Adi = "Projelerim", Icon = "mi-shop", Link = " /Projeler" }
+                new MenuDto { Adi = "Müşteriler", Icon = "mi-local-play", Renk="success", Link = "/Musteriler" },
+                new MenuDto { Adi = "Oyuncular", Icon = "mi-people", Renk = "warning",Link = "/Oyuncular" },
+                new MenuDto { Adi = "Projelerim", Icon = "mi-shop", Renk = "blue", Link = " /Projeler" }
             };
 
             if (rol == EnuRol.admin)

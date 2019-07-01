@@ -22,21 +22,28 @@ namespace CastAjansCore.WebUI.Controllers
     {
         private readonly IOyuncuServis _OyuncuServis;
         private readonly LoginHelper _loginHelper;
+        private readonly IUyrukServis _uyrukServis;
 
         //private readonly IHostingEnvironment _HostingEnvironment;
-        public OyuncularController(IOyuncuServis OyuncuServis, LoginHelper loginHelper)
+        public OyuncularController(IOyuncuServis OyuncuServis, IUyrukServis uyrukServis, LoginHelper loginHelper)
         {
             _OyuncuServis = OyuncuServis;
             //_HostingEnvironment = environment;
             _loginHelper = loginHelper;
+            _uyrukServis = uyrukServis;
             ViewData["UserHelper"] = _loginHelper.UserHelper;
         }
 
         public async Task<IActionResult> Index()
         {
 
-            var Oyuncular = await _OyuncuServis.GetListDtoAsync();
-            return View(Oyuncular);
+            //var Oyuncular = await _OyuncuServis.GetListDtoAsync();
+            //return View(Oyuncular);
+
+            OyuncuFilterDto oyuncuFilterDto = new OyuncuFilterDto();
+            oyuncuFilterDto.Uyruklar = await _uyrukServis.GetSelectListAsync();
+
+            return View(oyuncuFilterDto);
         }
 
         // GET: Oyuncus/Details/5
@@ -216,17 +223,17 @@ namespace CastAjansCore.WebUI.Controllers
                    (filter.YasMaks == 0 || i.Kisi.DogumTarihi >= DateTime.Today.AddYears(-1 * filter.YasMaks)) &&
                    (filter.Cinsiyet == 0 || i.Kisi.Cinsiyet == (EnuCinsiyet)filter.Cinsiyet) &&
                    (filter.Uyruk == 0 || i.Kisi.UyrukId == filter.Uyruk) &&
-                   (filter.KaseMin == 0 || i.Kase <= filter.KaseMin) &&
+                   (filter.KaseMin == 0 || i.Kase >= filter.KaseMin) &&
                    (filter.KaseMaks == 0 || i.Kase <= filter.KaseMaks) &&
-                   (filter.BoyMin == 0 || i.Boy <= filter.BoyMin) &&
+                   (filter.BoyMin == 0 || i.Boy >= filter.BoyMin) &&
                    (filter.BoyMaks == 0 || i.Boy <= filter.BoyMaks) &&
-                   (filter.KiloMin == 0 || i.Kilo <= filter.KiloMin) &&
+                   (filter.KiloMin == 0 || i.Kilo >= filter.KiloMin) &&
                    (filter.KiloMaks == 0 || i.Kilo <= filter.KiloMaks) &&
-                   (filter.AltBedenMin == 0 || i.AltBeden <= filter.AltBedenMin) &&
+                   (filter.AltBedenMin == 0 || i.AltBeden >= filter.AltBedenMin) &&
                    (filter.AltBedenMaks == 0 || i.AltBeden <= filter.AltBedenMaks) &&
-                   (filter.UstBedenMin == 0 || i.UstBeden <= filter.UstBedenMin) &&
+                   (filter.UstBedenMin == 0 || i.UstBeden >= filter.UstBedenMin) &&
                    (filter.UstBedenMaks == 0 || i.UstBeden <= filter.UstBedenMaks) &&
-                   (filter.AyakNumarasiMin == 0 || i.AyakNumarasi <= filter.AyakNumarasiMin) &&
+                   (filter.AyakNumarasiMin == 0 || i.AyakNumarasi >= filter.AyakNumarasiMin) &&
                    (filter.AyakNumarasiMaks == 0 || i.AyakNumarasi <= filter.AyakNumarasiMaks) &&
                    (filter.GozRengi == 0 || i.GozRengi == (EnuGozRengi)filter.GozRengi) &&
                    (filter.TenRengi == 0 || i.TenRengi == (EnuTenRengi)filter.TenRengi) &&

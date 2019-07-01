@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,6 +7,8 @@ namespace CastAjansCore.Dto
 {
     public class OyuncuFilterDto
     {
+        public List<SelectListItem> Uyruklar { get; set; }
+
         public string Adi { get; set; }
         public string Soyadi { get; set; }
         public int YasMin { get; set; }

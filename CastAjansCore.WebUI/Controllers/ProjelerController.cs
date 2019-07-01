@@ -41,14 +41,14 @@ namespace CastAjansCore.WebUI.Controllers
 
         public async Task<IActionResult> Index(int? id)
         {
-            
+
             ProjeListDto ProjeListDto = new ProjeListDto();
             Task<List<Proje>> tProje = _ProjeServis.GetListAsync(i => (id == null || i.MusteriId == id));
             if (id != null)
             {
                 ProjeListDto.Musteri = await _MusteriServis.GetByIdAsync(id.Value); ;
             }
-            
+
             ProjeListDto.Projeler = await tProje;
 
             return View(ProjeListDto);
@@ -57,13 +57,13 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Projes/Edit/5
         public async Task<IActionResult> Edit(int? id, int musteriId)
         {
-            
+
             var tKul = _KullaniciServis.GetSelectListAsync();
             var tUyruk = _UyrukServis.GetSelectListAsync();
             var projeEditDto = new ProjeEditDto()
             {
                 Kullanicilar = await tKul,
-                Uyruklar = await tUyruk
+                OyuncuFilterDto = new OyuncuFilterDto { Uyruklar = await tUyruk }
             };
 
             if (id == null)
@@ -152,7 +152,7 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Projes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            
+
             if (id == null)
             {
                 return NotFound();

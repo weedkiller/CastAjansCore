@@ -15,7 +15,7 @@ namespace CastAjansCore.Dto
         }
         public Proje Proje { get; set; }
 
-        public List<SelectListItem> Uyruklar { get; set; }
+        public OyuncuFilterDto OyuncuFilterDto { get; set; }
 
         public List<SelectListItem> Kullanicilar { get; set; }
 

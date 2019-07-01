@@ -53,7 +53,7 @@ namespace CastAjansCore.WebUI.Controllers
             //_kisiServis.Add(kisi);
             //Kisi kisi = _kisiServis.Get(k => k.Adi == "Önder");
             //HttpContext.Session.SetObject("kisiListDto", kisi);
-            return View(await _kisiServis.GetListAsync());
+            return View();
         }
 
 

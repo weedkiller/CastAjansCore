@@ -1,114 +1,58 @@
-﻿@model IEnumerable<CastAjansCore.Entity.Kisi>
+﻿@*@model IEnumerable<CastAjansCore.Entity.Kisi>*@
+@inject CastAjansCore.WebUI.Helper.LoginHelper LoginHelper
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Ana Sayfa";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="row">
+    <!-- Info blocks -->
+    @foreach (var item in LoginHelper.UserHelper.Menuler)
+    {
+        @if (@item.Link != "#")
+        {
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <i class="@($"{item.Icon} icon-2x text-{item.Renk}-400 border-{item.Renk}-400 border-3 rounded-round p-3 mb-3 mt-1")"></i>
+                        <h5 class="card-title">@item.Adi</h5>
+                        <p class="mb-3">@item.Adi Bilgilerine giriş sağlarsınız.</p>
+                        <a href=@item.Link class="btn bg-success-400">Git</a>
+                    </div>
+                </div>
+            </div>
+        }
+    }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TC)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Adi)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Soyadi)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DogumTarihi)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cinsiyet)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.KanGrubu)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UyrukId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EPosta)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.WebSitesi)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FaceBook)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Twitter)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Instagram)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Linkedin)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TC)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Adi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Soyadi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DogumTarihi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cinsiyet)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.KanGrubu)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UyrukId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EPosta)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.WebSitesi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FaceBook)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Twitter)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Instagram)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Linkedin)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    @*<div class="col-lg-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <i class="icon-book icon-2x text-success-400 border-success-400 border-3 rounded-round p-3 mb-3 mt-1"></i>
+                <h5 class="card-title">Müşteriler</h5>
+                <p class="mb-3">Ouch found swore much dear conductively hid submissively hatchet vexed far inanimately alongside candidly much and jeez</p>
+                <a asp-controller="Musteriler" asp-action="Index" class="btn bg-success-400">Browse articles</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <i class="icon-lifebuoy icon-2x text-warning-400 border-warning-400 border-3 rounded-round p-3 mb-3 mt-1"></i>
+                <h5 class="card-title">Oyuncular</h5>
+                <p class="mb-3">Dear spryly growled much far jeepers vigilantly less and far hideous and some mannishly less jeepers less and and crud</p>
+                <a asp-controller="Oyuncular" asp-action="Index" class="btn bg-warning-400">Open a ticket</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <i class="icon-reading icon-2x text-blue border-blue border-3 rounded-round p-3 mb-3 mt-1"></i>
+                <h5 class="card-title">Projelerim</h5>
+                <p class="mb-3">Diabolically somberly astride crass one endearingly blatant depending peculiar antelope piquantly popularly adept much</p>
+                <a asp-controller="Projeler" asp-action="Index" class="btn bg-blue">Browse articles</a>
+            </div>
+        </div>
+    </div>
+</div>*@
+<!-- /info blocks -->
