@@ -25,7 +25,7 @@ namespace CastAjansCore.Entity
         [MaxLength(100)]
         public string ProfilFotoUrl { get; set; }
 
-        [Display(Name = "Doğum Tarihi")]
+        [Display(Name = "D.Tarihi")]
         [DataType(DataType.Date)]
         //[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? DogumTarihi { get; set; }
@@ -33,14 +33,14 @@ namespace CastAjansCore.Entity
         [Display(Name = "Cinsiyet")]
         public EnuCinsiyet Cinsiyet { get; set; }
 
-        [Display(Name = "Kan Grubu")]
+        [Display(Name = "Kan Gr")]
         public EnuKanGrubu KanGrubu { get; set; }
 
-        [Display(Name = "Anne Ad Soyad")]
+        [Display(Name = "Anne Ad")]
         [MaxLength(200)]
         public string AnneAdiSoyadi { get; set; }
 
-        [Display(Name = "Baba Ad Soyad")]
+        [Display(Name = "Baba Ad")]
         [MaxLength(200)]
         public string BabaAdiSoyadi { get; set; }
 
@@ -49,11 +49,16 @@ namespace CastAjansCore.Entity
 
         [MaxLength(14)]
         [DataType(DataType.PhoneNumber)]
-        [Display(Name = "Telefon 1")]
+        [Display(Name = "Cep")]
+        public string Cep { get; set; }
+
+        [MaxLength(14)]
+        [DataType(DataType.PhoneNumber)]
+        [Display(Name = "Tel 1")]
         public string Telefon { get; set; }
         [MaxLength(14)]
         [DataType(DataType.PhoneNumber)]
-        [Display(Name = "Telefon 2")]
+        [Display(Name = "Tel 2")]
         public string Telefon2 { get; set; }
 
         [MaxLength(14)]
@@ -96,6 +101,7 @@ namespace CastAjansCore.Entity
         [MaxLength(200)]
         public string Linkedin { get; set; }
 
+        [Display(Name = "Banka")]
         public int? BankaId { get; set; }
 
         [MaxLength(4)]

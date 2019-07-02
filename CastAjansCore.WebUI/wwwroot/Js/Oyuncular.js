@@ -1,5 +1,6 @@
 ﻿
 var _tableOyuncu;
+var _tblProjeKarakterOyuncu = "";
 //var _gridIni = false;
 function GetOyuncuGrid() {
     //alert($("#Filter-Oyuncu-Adi").val());
@@ -54,7 +55,47 @@ function GetOyuncuGrid() {
 
         },
         columns: [
-            { data: "profilFotoUrl" },
+            {
+                data: "id",
+                searchable: false,
+                bSortable: false,
+                visible: _tblProjeKarakterOyuncu === "",
+                sClass: "text-center",
+                render: function (data, type, row) {
+                    var link = "<a href='Oyuncular/Edit/" + data + "' class='btn btn-sm btn-primary'><i class='mi-mode-edit'></i></a>";
+
+                    return link;
+                }
+            },
+            {
+                data: "id",
+                searchable: false,
+                bSortable: false,
+                visible: _tblProjeKarakterOyuncu !== "",
+                sClass: "text-center",
+                render: function (data, type, row) {
+                    var link = "<a href='javascript(OyuncuEkle(" + data + ")' class='btn btn-sm btn-primary'><i class='mi-add'></i></a>";
+
+                    return link;
+                }
+            },
+            {
+                data: "profilFotoUrl",
+                searchable: false,
+                bSortable: false,
+                //visible: _isIhaleDetay == "True" ? true : false,
+                sClass: "text-center",
+                render: function (data, type, row) {
+                    if (data === null || data === '') {
+                        return "";
+                    }
+                    else {
+                        var link = "<img src='" + data + "' class='rounded-circle' style='max-width:75px;' />";
+                        return link;
+                    }
+
+                }
+            },
             { title: "Adı", data: "adi" },
             { title: "Soyadı", data: "soyadi" },
             { title: "Yaş", data: "yas" },
@@ -72,11 +113,10 @@ function GetOyuncuGrid() {
                 data: "id",
                 searchable: false,
                 bSortable: false,
-                //visible: _isIhaleDetay == "True" ? true : false,
+                visible: _tblProjeKarakterOyuncu === "",
                 sClass: "text-center",
                 render: function (data, type, row) {
-                    var link = "<a href='Oyuncular/Edit/" + data + "' class='btn btn-sm btn-primary'><i class='mi-mode-edit'></i></a> |"
-                    link += "<a href='Oyuncular/Delete/" + data + "' class='btn btn-sm btn-danger'><i class='mi-delete'></i></a>"
+                    var link = "<a href='Oyuncular/Delete/" + data + "' class='btn btn-sm btn-danger'><i class='mi-delete'></i></a>";
                     return link;
                 }
             }

@@ -16,6 +16,8 @@ namespace CastAjansCore.Dto
             Bankalar = new List<SelectListItem>();
         }
 
+        public IFormFile ProfilFotoFile { get; set; }
+
         public IFormFile KimlikOnFile { get; set; }
 
         public IFormFile KimlikArkaFile { get; set; }

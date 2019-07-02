@@ -1,4 +1,4 @@
-﻿var _tblProjeKarakterOyuncu = "tblProjeKarakterOyuncu_0";
+﻿//var _tblProjeKarakterOyuncu = "tblProjeKarakterOyuncu_0";
 
 
 function NewProjeKarakterleri() {
@@ -42,6 +42,10 @@ function ShowOyuncu(tableName) {
     _tblProjeKarakterOyuncu = tableName;
     $('#myModal').modal('show');
 
+}
+
+function OyuncuEkle(id) {
+    alert(id);
 }
 
 //class OyuncuFilterDto {

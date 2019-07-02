@@ -22,51 +22,75 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label asp-for="Kisi.Telefon" class="col-lg-3 col-form-label"></label>
-                    <div class="col-lg-9">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group row">
+                            <label asp-for="Kisi.Telefon" class="col-lg-4 col-form-label"></label>
+                            <div class="col-lg-8">
+                                <div class="form-group">
+                                    <input asp-for="Kisi.Telefon" data-mask="0 999 999 9999" class="form-control" />
+                                    <span asp-validation-for="Kisi.Telefon" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group row">
+                            <label asp-for="Kisi.Telefon2" class="col-lg-4 col-form-label"></label>
+                            <div class="col-lg-8">
 
-                        <div class="form-group">
-                            <input asp-for="Kisi.Telefon" data-mask="0 999 999 9999" class="form-control" />
-                            <span asp-validation-for="Kisi.Telefon" class="text-danger"></span>
+                                <div class="form-group">
+                                    <input asp-for="Kisi.Telefon2" data-mask="0 999 999 9999" class="form-control" />
+                                    <span asp-validation-for="Kisi.Telefon2" class="text-danger"></span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label asp-for="Kisi.Telefon2" class="col-lg-3 col-form-label"></label>
-                    <div class="col-lg-9">
-
-                        <div class="form-group">
-                            <input asp-for="Kisi.Telefon2" data-mask="0 999 999 9999" class="form-control" />
-                            <span asp-validation-for="Kisi.Telefon2" class="text-danger"></span>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group row">
+                            <label asp-for="Kisi.Cep" class="col-lg-4 col-form-label"></label>
+                            <div class="col-lg-8">
+                                <div class="form-group">
+                                    <input asp-for="Kisi.Cep" data-mask="0 999 999 9999" class="form-control" />
+                                    <span asp-validation-for="Kisi.Cep" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group row">
+                            <label asp-for="Kisi.Faks" class="col-lg-4 col-form-label"></label>
+                            <div class="col-lg-8">
+                                <div class="form-group">
+                                    <input asp-for="Kisi.Faks" data-mask="0 999 999 9999" class="form-control" />
+                                    <span asp-validation-for="Kisi.Faks" class="text-danger"></span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label asp-for="Kisi.Faks" class="col-lg-3 col-form-label"></label>
-                    <div class="col-lg-9">
-
-                        <div class="form-group">
-                            <input asp-for="Kisi.Faks" data-mask="0 999 999 9999" class="form-control" />
-                            <span asp-validation-for="Kisi.Faks" class="text-danger"></span>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group row">
+                            <label asp-for="Kisi.Ilce.IlId" class="col-lg-3 col-form-label"></label>
+                            <span asp-validation-for="Kisi.Ilce.IlId" class="text-danger"></span>
+                            <div class="col-lg-9">
+                                <select asp-for="Kisi.Ilce.IlId" asp-items="@Model.Iller" onchange="GetIlceler($('#KisiEditDto_Kisi_Ilce_IlId'),$('#KisiEditDto_Kisi_IlceId'))" class="form-control">
+                                    Seçiniz
+                                </select>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="form-group row">
-                    <label asp-for="Kisi.Ilce.IlId" class="col-lg-3 col-form-label"></label>
-                    <span asp-validation-for="Kisi.Ilce.IlId" class="text-danger"></span>
-                    <div class="col-lg-9">
-                        <select asp-for="Kisi.Ilce.IlId" asp-items="@Model.Iller" onchange="GetIlceler($('#KisiEditDto_Kisi_Ilce_IlId'),$('#KisiEditDto_Kisi_IlceId'))" class="form-control">
-                            Seçiniz
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label asp-for="Kisi.IlceId" class="col-lg-3 col-form-label"></label>
-                    <span asp-validation-for="Kisi.IlceId" class="text-danger"></span>
-                    <div class="col-lg-9">
-                        <select asp-for="Kisi.IlceId" asp-items="@Model.Ilceler" class="form-control"></select>
+                    <div class="col">
+                        <div class="form-group row">
+                            <label asp-for="Kisi.IlceId" class="col-lg-3 col-form-label"></label>
+                            <span asp-validation-for="Kisi.IlceId" class="text-danger"></span>
+                            <div class="col-lg-9">
+                                <select asp-for="Kisi.IlceId" asp-items="@Model.Ilceler" class="form-control"></select>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group row">

@@ -27,7 +27,7 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header header-elements-inline">
-                    <h5 class="card-title"><i class="icon-truck mr-2"></i> Özellikleri</h5>
+                    <h5 class="card-title"><i class="mi-content-paste mr-2"></i> Özellikleri</h5>
                 </div>
                 <div class="card-body">
                     <fieldset>
@@ -95,7 +95,7 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header header-elements-inline">
-                    <h5 class="card-title"><i class="icon-truck mr-2"></i> Oyuncu Açıklamaları</h5>
+                    <h5 class="card-title"><i class="mi-playlist-add-check mr-2"></i> Oyuncu Açıklamaları</h5>
                 </div>
                 <div class="card-body">
                     <fieldset>
@@ -148,7 +148,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header header-elements-inline">
-                    <h5 class="card-title"><i class="icon-truck mr-2"></i> Oyuncu Fotoğrafları</h5>
+                    <h5 class="card-title"><i class="mi-photo-camera mr-2"></i> Oyuncu Fotoğrafları</h5>
                 </div>
                 <div class="card-body">
                     <fieldset>
@@ -165,24 +165,26 @@
                             {
                                 <div class="card">
                                     <div class="card-img-actions m-1">
-                                        <img class="card-img img-fluid" src=@Model.Oyuncu.OyuncuResimleri[i].DosyaYolu alt="">
+                                        <img class="card-img img-fluid" src="@Model.Oyuncu.OyuncuResimleri[i].DosyaYolu" alt="" style="max-width:150px;">
                                         <div class="card-img-actions-overlay card-img">
-                                            <a href=@Model.Oyuncu.OyuncuResimleri[i].DosyaYolu
-                                               class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round legitRipple"
-                                               data-popup="lightbox" rel="group">
-                                                <i class="icon-plus3"></i>
+                                            @*<img src=@Model.Oyuncu.OyuncuResimleri[i].DosyaYolu alt="Lights" style="width:100%">*@
+                                            <a href="@Model.Oyuncu.OyuncuResimleri[i].DosyaYolu" class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round legitRipple" data-popup="lightbox" rel="group">
+                                                <i class="mi-zoom-in"></i>
                                             </a>
                                             @if (Model.Oyuncu.OyuncuResimleri[i].DosyaYolu != Model.KisiEditDto.Kisi.ProfilFotoUrl)
-                                            {
-                                                <a class="btn btn-xs btn-outline-success" href=@("/Oyuncular/AnaResimYap/"+Model.Oyuncu.OyuncuResimleri[i].Id+"?FotoId="+Model.Oyuncu.Id) data-toggle="tooltip" title="Ana Resim Yap"><i class="fas fa-bookmark"></i> Ana Resim Yap</a>
+                                            {                                                
+                                                <a class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round ml-2 legitRipple"                                                   
+                                                   href=@($"/Oyuncular/AnaResimYap/{Model.Oyuncu.OyuncuResimleri[i].Id}?FotoId={Model.Oyuncu.Id}")
+                                                   data-toggle="tooltip" title="Sil">
+                                                    <i class="mi-local-play"></i>
+                                                </a>
                                             }
                                             <a class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round ml-2 legitRipple"
-                                               href=@("/Oyuncular/FileDelete/"+Model.Oyuncu.Id+"?FotoId="+Model.Oyuncu.OyuncuResimleri[i].Id)
-                                               data-toggle="tooltip" title="Sil"><i class="fas fa-trash"></i></a>
-
-                                            <a href="#" class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round ml-2 legitRipple">
-                                                <i class="icon-link"></i>
+                                               href=@($"/Oyuncular/ResimDelete/{Model.Oyuncu.Id}?FotoId={Model.Oyuncu.OyuncuResimleri[i].Id}")
+                                               data-toggle="tooltip" title="Sil">
+                                                <i class="mi-close"></i>
                                             </a>
+
                                         </div>
                                     </div>
                                     <input type="hidden" asp-for="@Model.Oyuncu.OyuncuResimleri[i].Id" />
@@ -196,18 +198,18 @@
                                 </div>
 
                                 @*<div class="col-md-4">
-                                    <div class="thumbnail">
-                                        <a href=@Model.Oyuncu.OyuncuResimleri[i].DosyaYolu>
-                                            <img src=@Model.Oyuncu.OyuncuResimleri[i].DosyaYolu alt="Lights" style="width:100%">
-                                        </a>
-                                        <hr />
-                                        @if (Model.Oyuncu.OyuncuResimleri[i].DosyaYolu != Model.KisiEditDto.Kisi.ProfilFotoUrl)
-                                        {
-                                            <a class="btn btn-xs btn-outline-success" href=@("/Oyuncular/AnaResimYap/"+Model.Oyuncu.OyuncuResimleri[i].Id+"?FotoId="+Model.Oyuncu.Id) data-toggle="tooltip" title="Ana Resim Yap"><i class="fas fa-bookmark"></i> Ana Resim Yap</a>
-                                        }
-                                        <a class="btn btn-xs btn-outline-danger" href=@("/Oyuncular/FileDelete/"+Model.Oyuncu.Id+"?FotoId="+Model.Oyuncu.OyuncuResimleri[i].Id) data-toggle="tooltip" title="Sil"><i class="fas fa-trash"></i> Sil</a>
-                                    </div>
-                                </div>*@
+                                        <div class="thumbnail">
+                                            <a href=@Model.Oyuncu.OyuncuResimleri[i].DosyaYolu>
+                                                <img src=@Model.Oyuncu.OyuncuResimleri[i].DosyaYolu alt="Lights" style="width:100%">
+                                            </a>
+                                            <hr />
+                                            @if (Model.Oyuncu.OyuncuResimleri[i].DosyaYolu != Model.KisiEditDto.Kisi.ProfilFotoUrl)
+                                            {
+                                                <a class="btn btn-xs btn-outline-success" href=@("/Oyuncular/AnaResimYap/"+Model.Oyuncu.OyuncuResimleri[i].Id+"?FotoId="+Model.Oyuncu.Id) data-toggle="tooltip" title="Ana Resim Yap"><i class="fas fa-bookmark"></i> Ana Resim Yap</a>
+                                            }
+                                            <a class="btn btn-xs btn-outline-danger" href=@("/Oyuncular/FileDelete/"+Model.Oyuncu.Id+"?FotoId="+Model.Oyuncu.OyuncuResimleri[i].Id) data-toggle="tooltip" title="Sil"><i class="fas fa-trash"></i> Sil</a>
+                                        </div>
+                                    </div>*@
                             }
                         </div>
                     </fieldset>
@@ -218,7 +220,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header header-elements-inline">
-                    <h5 class="card-title"><i class="icon-truck mr-2"></i> Oyuncu Videoları</h5>
+                    <h5 class="card-title"><i class="mi-ondemand-video mr-2"></i> Oyuncu Videoları</h5>
                 </div>
                 <div class="card-body">
                     <fieldset>
@@ -241,7 +243,7 @@
                                                class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round legitRipple"
                                                data-popup="lightbox" rel="group">
                                                 <i class="icon-plus3"></i>
-                                            </a> 
+                                            </a>
                                             <a class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round ml-2 legitRipple"
                                                href=@("/Oyuncular/FileDelete/"+Model.Oyuncu.Id+"?VideoId="+Model.Oyuncu.OyuncuVideolari[i].Id)
                                                data-toggle="tooltip" title="Sil"><i class="fas fa-trash"></i></a>
@@ -262,18 +264,18 @@
                                 </div>
 
                                 @*<div class="col-md-4">
-                                    <div class="thumbnail">
-                                        <a href=@Model.Oyuncu.OyuncuVideolari[i].DosyaYolu>
-                                            <img src=@Model.Oyuncu.OyuncuVideolari[i].DosyaYolu alt="Lights" style="width:100%">
-                                        </a>
-                                        <hr />
-                                        @if (Model.Oyuncu.OyuncuVideolari[i].DosyaYolu != Model.KisiEditDto.Kisi.ProfilFotoUrl)
-                                        {
-                                            <a class="btn btn-xs btn-outline-success" href=@("/Oyuncular/AnaResimYap/"+Model.Oyuncu.OyuncuVideolari[i].Id+"?FotoId="+Model.Oyuncu.Id) data-toggle="tooltip" title="Ana Resim Yap"><i class="fas fa-bookmark"></i> Ana Resim Yap</a>
-                                        }
-                                        <a class="btn btn-xs btn-outline-danger" href=@("/Oyuncular/FileDelete/"+Model.Oyuncu.Id+"?FotoId="+Model.Oyuncu.OyuncuVideolari[i].Id) data-toggle="tooltip" title="Sil"><i class="fas fa-trash"></i> Sil</a>
-                                    </div>
-                                </div>*@
+                                        <div class="thumbnail">
+                                            <a href=@Model.Oyuncu.OyuncuVideolari[i].DosyaYolu>
+                                                <img src=@Model.Oyuncu.OyuncuVideolari[i].DosyaYolu alt="Lights" style="width:100%">
+                                            </a>
+                                            <hr />
+                                            @if (Model.Oyuncu.OyuncuVideolari[i].DosyaYolu != Model.KisiEditDto.Kisi.ProfilFotoUrl)
+                                            {
+                                                <a class="btn btn-xs btn-outline-success" href=@("/Oyuncular/AnaResimYap/"+Model.Oyuncu.OyuncuVideolari[i].Id+"?FotoId="+Model.Oyuncu.Id) data-toggle="tooltip" title="Ana Resim Yap"><i class="fas fa-bookmark"></i> Ana Resim Yap</a>
+                                            }
+                                            <a class="btn btn-xs btn-outline-danger" href=@("/Oyuncular/FileDelete/"+Model.Oyuncu.Id+"?FotoId="+Model.Oyuncu.OyuncuVideolari[i].Id) data-toggle="tooltip" title="Sil"><i class="fas fa-trash"></i> Sil</a>
+                                        </div>
+                                    </div>*@
                             }
                         </div>
                     </fieldset>

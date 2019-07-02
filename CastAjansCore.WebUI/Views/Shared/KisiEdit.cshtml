@@ -18,52 +18,72 @@
         </div>
         <div class="card-body">
             <fieldset>
-                <div class="form-group row">
-                    <label asp-for="Kisi.TC" class="col-lg-3 col-form-label"></label>
-                    <div class="col-lg-9">
-                        <div class="form-group">
-                            <input asp-for="Kisi.TC" class="form-control" />
-                            <span asp-validation-for="Kisi.TC" class="text-danger"></span>
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="row">
+                            <div class="card">
+                                <div class="card-img-actions m-1">
+                                    <img class="card-img img-fluid" src="@Model.Kisi.ProfilFotoUrl" alt="" style="width:100%;">
+                                    <div class="card-img-actions-overlay card-img">
+                                        @*<img src=@Model.Oyuncu.OyuncuResimleri[i].DosyaYolu alt="Lights" style="width:100%">*@
+                                        <a href="@Model.Kisi.ProfilFotoUrl" class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round legitRipple" data-popup="lightbox" rel="group">
+                                            <i class="mi-zoom-in"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <input type="hidden" asp-for="Kisi.ProfilFotoUrl" />
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="form-group row">
-                    <label asp-for="Kisi.Adi" class="col-lg-3 col-form-label"></label>
-                    <div class="col-lg-9">
-                        <div class="form-group">
-                            <input asp-for="Kisi.Adi" class="form-control" />
-                            <span asp-validation-for="Kisi.Adi" class="text-danger"></span>
+                    <div class="col-md-7">
+                        <div class="form-group row">
+                            <label asp-for="Kisi.TC" class="col-lg-3 col-form-label"></label>
+                            <div class="col-lg-9">
+                                <div class="form-group">
+                                    <input asp-for="Kisi.TC" class="form-control" />
+                                    <span asp-validation-for="Kisi.TC" class="text-danger"></span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
 
-                <div class="form-group row">
-                    <label asp-for="Kisi.Soyadi" class="col-lg-3 col-form-label"></label>
-                    <div class="col-lg-9">
-                        <div class="form-group">
-                            <input asp-for="Kisi.Soyadi" class="form-control" />
-                            <span asp-validation-for="Kisi.Soyadi" class="text-danger"></span>
+                        <div class="form-group row">
+                            <label asp-for="Kisi.Adi" class="col-lg-3 col-form-label"></label>
+                            <div class="col-lg-9">
+                                <div class="form-group">
+                                    <input asp-for="Kisi.Adi" class="form-control" />
+                                    <span asp-validation-for="Kisi.Adi" class="text-danger"></span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
 
-                <div class="form-group row">
-                    <label asp-for="Kisi.BankaId" class="col-lg-3 col-form-label"></label>
-                    <div class="col-lg-9">
-                        <div class="form-group">
-                            <select asp-for="Kisi.BankaId" asp-items="Model.Bankalar" class="form-control"></select>
-                            <span asp-validation-for="Kisi.BankaId" class="text-danger"></span>
+                        <div class="form-group row">
+                            <label asp-for="Kisi.Soyadi" class="col-lg-3 col-form-label"></label>
+                            <div class="col-lg-9">
+                                <div class="form-group">
+                                    <input asp-for="Kisi.Soyadi" class="form-control" />
+                                    <span asp-validation-for="Kisi.Soyadi" class="text-danger"></span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
 
-                <div class="form-group row">
-                    <label asp-for="Kisi.Iban" class="col-lg-3 col-form-label"></label>
-                    <div class="col-lg-9">
-                        <div class="form-group">
-                            <input asp-for="Kisi.Iban" data-mask="TR99 9999 9999 9999 9999 9999 99" class="form-control" />
-                            <span asp-validation-for="Kisi.Iban" class="text-danger"></span>
+                        <div class="form-group row">
+                            <label asp-for="Kisi.BankaId" class="col-lg-3 col-form-label"></label>
+                            <div class="col-lg-9">
+                                <div class="form-group">
+                                    <select asp-for="Kisi.BankaId" asp-items="Model.Bankalar" class="form-control"></select>
+                                    <span asp-validation-for="Kisi.BankaId" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label asp-for="Kisi.Iban" class="col-lg-3 col-form-label"></label>
+                            <div class="col-lg-9">
+                                <div class="form-group">
+                                    <input asp-for="Kisi.Iban" data-mask="TR99 9999 9999 9999 9999 9999 99" class="form-control" />
+                                    <span asp-validation-for="Kisi.Iban" class="text-danger"></span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

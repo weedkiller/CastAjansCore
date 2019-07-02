@@ -6,7 +6,8 @@
     <div class="card-header bg-transparent header-elements-inline">
         <span class="card-title font-weight-semibold">Filtre</span>
         <div class="header-elements">
-            <div class="list-icons">                
+            <div class="list-icons">
+                <a class="list-icons-item" asp-action="Edit"><i class="icon-plus3"></i></a>
                 <a class="list-icons-item" data-action="collapse"></a>
             </div>
         </div>
@@ -104,8 +105,8 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group row">
-                                        <label class="col-lg-3 col-form-label">Boy</label>
-                                        <div class="col-lg-9">
+                                        <label class="col-lg-4 col-form-label">Boy</label>
+                                        <div class="col-lg-8">
                                             <div class="form-row">
                                                 <div class="col">
                                                     <input id="Filter-Oyuncu-BoyMin" placeholder="Min" type="number" min="30" class="form-control" />
@@ -119,8 +120,8 @@
                                 </div>
                                 <div class="col">
                                     <div class="form-group row">
-                                        <label class="col-lg-3 col-form-label">Kilo</label>
-                                        <div class="col-lg-9">
+                                        <label class="col-lg-4 col-form-label">Kilo</label>
+                                        <div class="col-lg-8">
                                             <div class="form-row">
                                                 <div class="col">
                                                     <input id="Filter-Oyuncu-KiloMin" placeholder="Min" type="number" min="1" class="form-control" />
@@ -136,8 +137,8 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group row">
-                                        <label class="col-lg-3 col-form-label">Alt Beden</label>
-                                        <div class="col-lg-9">
+                                        <label class="col-lg-4 col-form-label">Alt Beden</label>
+                                        <div class="col-lg-8">
                                             <div class="form-row">
                                                 <div class="col">
                                                     <input id="Filter-Oyuncu-AltBedenMin" placeholder="Min" type="number" min="1" class="form-control" />
@@ -151,8 +152,8 @@
                                 </div>
                                 <div class="col">
                                     <div class="form-group row">
-                                        <label class="col-lg-3 col-form-label">Üst Beden</label>
-                                        <div class="col-lg-9">
+                                        <label class="col-lg-4 col-form-label">Üst Beden</label>
+                                        <div class="col-lg-8">
                                             <div class="form-row">
                                                 <div class="col">
                                                     <input id="Filter-Oyuncu-UstBedenMin" placeholder="Min" type="number" min="1" class="form-control" />
@@ -168,8 +169,8 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group row">
-                                        <label class="col-lg-3 col-form-label">Ayak No</label>
-                                        <div class="col-lg-9">
+                                        <label class="col-lg-4 col-form-label">Ayak No</label>
+                                        <div class="col-lg-8">
                                             <div class="form-row">
                                                 <div class="col">
                                                     <input id="Filter-Oyuncu-AyakNumarasiMin" placeholder="Min" type="number" min="1" class="form-control" />
@@ -183,9 +184,9 @@
                                 </div>
                                 <div class="col">
                                     <div class="form-group row">
-                                        <label class="col-lg-3 col-form-label">Göz Rengi</label>
+                                        <label class="col-lg-4 col-form-label">Göz Rengi</label>
                                         <span asp-for="Oyuncu.GozRengi" class="text-danger"></span>
-                                        <div class="col-lg-9">
+                                        <div class="col-lg-8">
                                             <select id="filter-oyuncu-GozRengi" asp-items="Html.GetEnumSelectList<EnuGozRengi>()" class="form-control"></select>
                                         </div>
                                     </div>
@@ -194,17 +195,17 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group row">
-                                        <label class="col-lg-3 col-form-label">Ten Rengi</label>
+                                        <label class="col-lg-4 col-form-label">Ten Rengi</label>
                                         <span asp-for="Oyuncu.TenRengi" class="text-danger"></span>
-                                        <div class="col-lg-9">
+                                        <div class="col-lg-8">
                                             <select id="filter-oyuncu-TenRengi" asp-items="Html.GetEnumSelectList<EnuTenRengi>()" class="form-control"></select>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-group row">
-                                        <label class="col-lg-3 col-form-label">Saç Rengi</label>
-                                        <div class="col-lg-9">
+                                        <label class="col-lg-4 col-form-label">Saç Rengi</label>
+                                        <div class="col-lg-8">
                                             <select id="filter-oyuncu-SacRengi" asp-items="Html.GetEnumSelectList<EnuSacRengi>()" class="form-control"></select>
                                         </div>
                                     </div>

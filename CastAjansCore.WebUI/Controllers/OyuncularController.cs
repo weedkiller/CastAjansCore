@@ -27,9 +27,9 @@ namespace CastAjansCore.WebUI.Controllers
 
         //private readonly IHostingEnvironment _HostingEnvironment;
         public OyuncularController(
-            IOyuncuServis OyuncuServis, 
+            IOyuncuServis OyuncuServis,
             IUyrukServis uyrukServis,
-            IOyuncuResimServis oyuncuResimServis, 
+            IOyuncuResimServis oyuncuResimServis,
             LoginHelper loginHelper
         )
         {
@@ -105,6 +105,18 @@ namespace CastAjansCore.WebUI.Controllers
                     {
                         Oyuncu Oyuncu = oyuncuEditDto.Oyuncu;
                         Oyuncu.Kisi = oyuncuEditDto.KisiEditDto.Kisi;
+
+                        if (oyuncuEditDto.KisiEditDto.ProfilFotoFile != null)
+                        {
+                            oyuncuEditDto.KisiEditDto.Kisi.ProfilFotoUrl = oyuncuEditDto.KisiEditDto.ProfilFotoFile.SaveFile("OyuncuResimleri");
+                            if (oyuncuEditDto.Oyuncu.OyuncuResimleri == null)
+                            {
+                                oyuncuEditDto.Oyuncu.OyuncuResimleri = new List<OyuncuResim>();
+                            }
+
+                            oyuncuEditDto.Oyuncu.OyuncuResimleri.Add(new OyuncuResim { DosyaYolu = oyuncuEditDto.KisiEditDto.Kisi.ProfilFotoUrl });
+                        }
+
                         if (oyuncuEditDto.KisiEditDto.KimlikOnFile != null)
                             oyuncuEditDto.KisiEditDto.Kisi.KimlikOnUrl = oyuncuEditDto.KisiEditDto.KimlikOnFile.SaveFile("Kimlikler");
 
@@ -184,15 +196,21 @@ namespace CastAjansCore.WebUI.Controllers
                 if (oyuncu.Kisi.DogumTarihi != null)
                 {
                     var files = Directory.EnumerateFiles(@"c:\\Resimler", $"{oyuncu.Kisi.DogumTarihi.Value.Year} - {oyuncu.Kisi.Adi}*", SearchOption.AllDirectories);
-
+                    List<OyuncuResim> resimler = new List<OyuncuResim>();
                     foreach (var resim in files)
                     {
-                        DirectoryInfo directory = new DirectoryInfo(resim);
-                        var test = directory.CreationTime;
-
-                        await _oyuncuResimServis.AddAsync(new OyuncuResim { OyuncuId = oyuncu.Id, DosyaYolu = "" })
-
+                        System.IO.FileInfo fi = new FileInfo(resim);
+                        //DirectoryInfo directory = new DirectoryInfo(resim);
+                        var test = fi.CreationTime;
+                        resimler.Add(new OyuncuResim { OyuncuId = oyuncu.Id, DosyaYolu = FileHelper.SaveFile(resim, "OyuncuResimleri"), EklemeZamani = test });
                     }
+                    if (resimler.Count > 0)
+                    {
+                        oyuncu.Kisi.ProfilFotoUrl = resimler[0].DosyaYolu;
+                        await _OyuncuServis.UpdateAsync(oyuncu, _loginHelper.UserHelper);
+                    }
+
+                    await _oyuncuResimServis.SaveListAsync(resimler, _loginHelper.UserHelper);
                 }
             }
 

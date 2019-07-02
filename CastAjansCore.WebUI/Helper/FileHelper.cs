@@ -10,7 +10,7 @@ namespace CastAjansCore.WebUI.Helper
 {
     public static class FileHelper
     {
-        public static string WebRootPath { get { return Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"); } }
+        public static string _WebRootPath { get { return Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"); } }
 
         public static string SaveFile(this IFormFile formFile, string yer)
         {
@@ -19,7 +19,7 @@ namespace CastAjansCore.WebUI.Helper
                 //string pic = Path.GetFileName(file.FileName);
 
                 yer = string.Format("Resimler/{0}/{1}/{2}", DateTime.Now.Year, DateTime.Now.Month, yer);
-                string path = Path.Combine(WebRootPath, yer.Replace("/", "\\"));
+                string path = Path.Combine(_WebRootPath, yer.Replace("/", "\\"));
 
                 // file is uploaded
                 if (!Directory.Exists(path))
@@ -31,6 +31,32 @@ namespace CastAjansCore.WebUI.Helper
                 formFile.CopyTo(new FileStream(path, FileMode.Create));
 
                 return String.Format("/{0}/{1}", yer, dosyaAdi);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public static string SaveFile(string kaynakyer, string tasinacakyer)
+        {
+            if (kaynakyer != null)
+            {
+                //string pic = Path.GetFileName(file.FileName);
+
+                tasinacakyer = $"Resimler/{tasinacakyer}/{DateTime.Now.Year}/{DateTime.Now.Month}";
+                string path = Path.Combine(_WebRootPath, tasinacakyer.Replace("/", "\\"));
+
+                // file is uploaded
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                string dosyaAdi = Path.GetFileName(kaynakyer);
+                path = Path.Combine(path, dosyaAdi);
+                File.Move(kaynakyer, path);
+
+                return String.Format("/{0}/{1}", tasinacakyer, dosyaAdi);
             }
             else
             {
