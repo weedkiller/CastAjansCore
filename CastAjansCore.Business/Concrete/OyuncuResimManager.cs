@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Calbay.Core.Business;
@@ -18,7 +19,25 @@ namespace CastAjansCore.Business.Concrete
 
         public async Task<List<OyuncuResim>> GetListByOyuncuIdAsync(int oyuncuId)
         {
-            return await base.GetListAsync(i => i.OyuncuId == oyuncuId);
+            return await base.GetListAsync(i => i.OyuncuId == oyuncuId && i.Aktif == true);
+        }
+
+        public override async Task AddAsync(OyuncuResim entity, UserHelper userHelper)
+        {
+            if (userHelper == null)
+            {
+                userHelper = new UserHelper();
+            }
+            if (entity.EklemeZamani == null)
+            {
+                entity.EklemeZamani = DateTime.Now;
+                entity.GuncellemeZamani = DateTime.Now;
+            }
+            entity.EkleyenId = userHelper.Id;
+            entity.GuncelleyenId = userHelper.Id;
+            entity.Aktif = true;
+
+            await _dal.AddAsync(entity);
         }
 
         public async Task SaveListAsync(List<OyuncuResim> oyuncuResimleri, UserHelper userHelper)

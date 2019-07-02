@@ -1,5 +1,4 @@
 ﻿using Calbay.Core.Entities;
-using Calbay.Core.Helper;
 using CastAjansCore.Business.Abstract;
 using CastAjansCore.Dto;
 using CastAjansCore.Entity;
@@ -8,11 +7,8 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace CastAjansCore.WebUI.Controllers
@@ -22,7 +18,7 @@ namespace CastAjansCore.WebUI.Controllers
         private readonly IKullaniciServis _kullaniciServis;
         private readonly LoginHelper _loginHelper;
 
-        public KullanicilarController(IKullaniciServis kullaniciServis,LoginHelper loginHelper)
+        public KullanicilarController(IKullaniciServis kullaniciServis, LoginHelper loginHelper)
         {
             _kullaniciServis = kullaniciServis;
             _loginHelper = loginHelper;
@@ -66,7 +62,7 @@ namespace CastAjansCore.WebUI.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> Index()
         {
-            
+
             var kullanicilar = await _kullaniciServis.GetListAsync(i => i.Aktif == true);
             return View(kullanicilar.OrderBy(i => i.Kisi.Adi).ThenBy(i => i.Kisi.Soyadi));
         }
@@ -75,7 +71,7 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Kullanicis/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            
+
             if (id == null)
             {
                 return NotFound();
@@ -103,7 +99,7 @@ namespace CastAjansCore.WebUI.Controllers
                 }
             }
 
-            
+
             KullaniciEditDto model = await _kullaniciServis.GetEditDtoAsync(id);
 
             if (model.Kullanici == null)
@@ -143,6 +139,9 @@ namespace CastAjansCore.WebUI.Controllers
                     {
                         Kullanici kullanici = kullaniciEditDto.Kullanici;
                         kullanici.Kisi = kullaniciEditDto.KisiEditDto.Kisi;
+                        if (kullaniciEditDto.KisiEditDto.ProfilFotoFile != null)
+                            kullaniciEditDto.KisiEditDto.Kisi.ProfilFotoUrl = kullaniciEditDto.KisiEditDto.ProfilFotoFile.SaveFile("OyuncuResimleri");
+
                         if (kullaniciEditDto.KisiEditDto.KimlikOnFile != null)
                             kullaniciEditDto.KisiEditDto.Kisi.KimlikOnUrl = kullaniciEditDto.KisiEditDto.KimlikOnFile.SaveFile("Kimlikler");
 
@@ -178,10 +177,7 @@ namespace CastAjansCore.WebUI.Controllers
                 }
                 else
                 {
-
-
                     MesajHelper.HataEkle(ViewBag, ModelState);
-
                 }
                 var combolar = await _kullaniciServis.GetEditDtoAsync(id);
                 kullaniciEditDto.KisiEditDto.Ilceler = combolar.KisiEditDto.Ilceler;
@@ -192,7 +188,7 @@ namespace CastAjansCore.WebUI.Controllers
             {
                 MesajHelper.HataEkle(ViewBag, ex.Message);
             }
-            
+
             return View(kullaniciEditDto);
 
         }
@@ -200,7 +196,7 @@ namespace CastAjansCore.WebUI.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int? id)
         {
-            
+
             if (id == null)
             {
                 return NotFound();

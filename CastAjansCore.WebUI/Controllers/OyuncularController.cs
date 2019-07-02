@@ -6,7 +6,6 @@ using CastAjansCore.WebUI.Helper;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -47,8 +46,10 @@ namespace CastAjansCore.WebUI.Controllers
             //var Oyuncular = await _OyuncuServis.GetListDtoAsync();
             //return View(Oyuncular);
 
-            OyuncuFilterDto oyuncuFilterDto = new OyuncuFilterDto();
-            oyuncuFilterDto.Uyruklar = await _uyrukServis.GetSelectListAsync();
+            OyuncuFilterDto oyuncuFilterDto = new OyuncuFilterDto
+            {
+                Uyruklar = await _uyrukServis.GetSelectListAsync()
+            };
 
             return View(oyuncuFilterDto);
         }
@@ -188,6 +189,12 @@ namespace CastAjansCore.WebUI.Controllers
             return View(oyuncuEditDto);
         }
 
+        public async Task<IActionResult> ResimDelete(int id, int resimId)
+        {
+            await _oyuncuResimServis.DeleteAsync(resimId, _loginHelper.UserHelper);
+            return RedirectToAction(nameof(Edit), new { id = id });
+        }
+
         public async Task<IActionResult> ResimBulAsync()
         {
             var oyuncular = await _OyuncuServis.GetListAsync(i => i.Aktif == true && i.Kisi.Aktif == true);
@@ -199,10 +206,14 @@ namespace CastAjansCore.WebUI.Controllers
                     List<OyuncuResim> resimler = new List<OyuncuResim>();
                     foreach (var resim in files)
                     {
-                        System.IO.FileInfo fi = new FileInfo(resim);
-                        //DirectoryInfo directory = new DirectoryInfo(resim);
-                        var test = fi.CreationTime;
-                        resimler.Add(new OyuncuResim { OyuncuId = oyuncu.Id, DosyaYolu = FileHelper.SaveFile(resim, "OyuncuResimleri"), EklemeZamani = test });
+                        FileInfo fi = new FileInfo(resim);
+                        resimler.Add(new OyuncuResim
+                        {
+                            OyuncuId = oyuncu.Id,
+                            DosyaYolu = FileHelper.SaveFile(resim, "OyuncuResimleri"),
+                            EklemeZamani = fi.CreationTime,
+                            GuncellemeZamani = fi.CreationTime
+                        });
                     }
                     if (resimler.Count > 0)
                     {
@@ -266,6 +277,7 @@ namespace CastAjansCore.WebUI.Controllers
         public async Task<JsonResult> GetOyuncuGrid(OyuncuFilterDto filter)
         {
             var oyuncular = await _OyuncuServis.GetListDtoAsync(i =>
+                    (filter.TC == null || i.Kisi.TC.StartsWith(filter.TC)) &&
                    (filter.Adi == null || i.Kisi.Adi.StartsWith(filter.Adi)) &&
                    (filter.Soyadi == null || i.Kisi.Soyadi.StartsWith(filter.Soyadi)) &&
                    (filter.YasMin == 0 || i.Kisi.DogumTarihi <= DateTime.Today.AddYears(-1 * filter.YasMin)) &&
@@ -299,93 +311,7 @@ namespace CastAjansCore.WebUI.Controllers
             //    });
             return Json(oyuncular);
         }
-
-        public IActionResult ExcelImport()
-        {
-            return View(new ExcelImport());
-        }
-        [HttpPost]
-        public IActionResult ExcelImport(ExcelImport dto)
-        {
-            using (Stream inputStream = dto.file.OpenReadStream())
-            {
-                DataTable dt = inputStream.ReadExcel();
-                //DataTable dt = GetDataTableFromSpreadsheet(inputStream, false);
-            }
-
-
-            return View();
-        }
-
-        //public static DataTable GetDataTableFromSpreadsheet(Stream MyExcelStream, bool ReadOnly)
-        //{
-        //    DataTable dt = MyExcelStream
-        //    using (SpreadsheetDocument sDoc = SpreadsheetDocument.Open(MyExcelStream, ReadOnly))
-        //    {
-        //        WorkbookPart workbookPart = sDoc.WorkbookPart;
-        //        IEnumerable<Sheet> sheets = sDoc.WorkbookPart.Workbook.GetFirstChild<Sheets>().Elements<Sheet>();
-        //        string relationshipId = sheets.First().Id.Value;
-        //        WorksheetPart worksheetPart = (WorksheetPart)sDoc.WorkbookPart.GetPartById(relationshipId);
-        //        Worksheet workSheet = worksheetPart.Worksheet;
-        //        SheetData sheetData = workSheet.GetFirstChild<SheetData>();
-        //        IEnumerable<Row> rows = sheetData.Descendants<Row>();
-
-        //        foreach (Cell cell in rows.ElementAt(0))
-        //        {
-        //            dt.Columns.Add(GetCellValue(sDoc, cell));
-        //        }
-
-        //        foreach (Row row in rows) //this will also include your header row...
-        //        {
-        //            DataRow tempRow = dt.NewRow();
-
-        //            for (int i = 0; i < row.Descendants<Cell>().Count(); i++)
-        //            {
-        //                tempRow[i] = GetCellValue(sDoc, row.Descendants<Cell>().ElementAt(i));
-        //            }
-
-        //            dt.Rows.Add(tempRow);
-        //        }
-        //    }
-        //    dt.Rows.RemoveAt(0);
-        //    return dt;
-        //}
-        public static string GetCellValue(SpreadsheetDocument document, Cell cell)
-        {
-            SharedStringTablePart stringTablePart = document.WorkbookPart.SharedStringTablePart;
-            string value = cell.CellValue.InnerXml;
-
-            if (cell.DataType != null && cell.DataType.Value == CellValues.SharedString)
-            {
-                return stringTablePart.SharedStringTable.ChildElements[Int32.Parse(value)].InnerText;
-            }
-            else
-            {
-                return value;
-            }
-        }
-        public static string ConvertDataTableToHTMLTable(DataTable dt)
-        {
-            string ret = "";
-            ret = "<table id=" + (char)34 + "tblExcel" + (char)34 + ">";
-            ret += "<tr>";
-            foreach (DataColumn col in dt.Columns)
-            {
-                ret += "<td class=" + (char)34 + "tdColumnHeader" + (char)34 + ">" + col.ColumnName + "</td>";
-            }
-            ret += "</tr>";
-            foreach (DataRow row in dt.Rows)
-            {
-                ret += "<tr>";
-                for (int i = 0; i < dt.Columns.Count; i++)
-                {
-                    ret += "<td class=" + (char)34 + "tdCellData" + (char)34 + ">" + row[i].ToString() + "</td>";
-                }
-                ret += "</tr>";
-            }
-            ret += "</table>";
-            return ret;
-        }
+         
     }
 
 }

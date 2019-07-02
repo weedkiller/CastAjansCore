@@ -13,6 +13,9 @@ namespace CastAjansCore.Entity
         [Display(Name = "Müşteri")]
         public int MusteriId { get; set; }
 
+        [Display(Name = "Proje Durumu")]
+        public EnuProjeDurumu ProjeDurumu { get; set; }
+
         [DataType(DataType.Date)]
         [Display(Name = "Baş.Tarihi")]
         public DateTime TarihBas { get; set; }

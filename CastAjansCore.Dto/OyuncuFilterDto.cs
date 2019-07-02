@@ -8,7 +8,7 @@ namespace CastAjansCore.Dto
     public class OyuncuFilterDto
     {
         public List<SelectListItem> Uyruklar { get; set; }
-
+        public string TC { get; set; }
         public string Adi { get; set; }
         public string Soyadi { get; set; }
         public int YasMin { get; set; }
@@ -30,6 +30,6 @@ namespace CastAjansCore.Dto
         public int GozRengi { get; set; }
         public int TenRengi { get; set; }
         public int SacRengi { get; set; }
-
+        
     }
 }

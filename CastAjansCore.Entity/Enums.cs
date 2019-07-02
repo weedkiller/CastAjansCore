@@ -193,6 +193,27 @@ namespace CastAjansCore.Entity
         Dergi = 3,
     }
 
+    public enum EnuProjeDurumu
+    {
+        [Display(Name = "Hazırlık Aşamasında")]
+        HazirlikAsamasinda = 1,
+
+        [Display(Name = "Teklif Atıldı")]
+        TeklifAtildi = 2,
+
+        [Display(Name = "Onaylandı")]
+        Onaylandi = 3,
+
+        [Display(Name = "Tamamlandı")]
+        Tamamlandi = 4,
+
+        [Display(Name = "Onaylanmadı")]
+        Onaylanmadi = 5,
+
+        [Display(Name = "İptal Oldu")]
+        IptalOldu = 6
+    }
+
     //public enum EnuTelefonTuru
     //{
     //    [Display(Name = "Cep")]

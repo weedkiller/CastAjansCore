@@ -44,7 +44,7 @@ namespace CastAjansCore.WebUI.Helper
             {
                 //string pic = Path.GetFileName(file.FileName);
 
-                tasinacakyer = $"Resimler/{tasinacakyer}/{DateTime.Now.Year}/{DateTime.Now.Month}";
+                tasinacakyer = $"Dosyalar/{DateTime.Now.Year}/{DateTime.Now.Month}/Resimler/{tasinacakyer}";
                 string path = Path.Combine(_WebRootPath, tasinacakyer.Replace("/", "\\"));
 
                 // file is uploaded

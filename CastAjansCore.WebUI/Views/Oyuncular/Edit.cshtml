@@ -12,10 +12,10 @@
     <div class="row">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        @await Html.PartialAsync("KisiEdit", Model.KisiEditDto)
-        @await Html.PartialAsync("KisiEditKimlik", Model.KisiEditDto)
-        @await Html.PartialAsync("KisiEditIletisim", Model.KisiEditDto)
-        @await Html.PartialAsync("KisiEditSosyal", Model.KisiEditDto)
+        @await Html.PartialAsync("_KisiEdit", Model.KisiEditDto)
+        @await Html.PartialAsync("_KisiEditKimlik", Model.KisiEditDto)
+        @await Html.PartialAsync("_KisiEditIletisim", Model.KisiEditDto)
+        @await Html.PartialAsync("_KisiEditSosyal", Model.KisiEditDto)
 
 
         <input type="hidden" asp-for="Oyuncu.Id" />
@@ -107,6 +107,34 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label asp-for="Oyuncu.Meslek" class="col-lg-3 col-form-label"></label>
+                            <span asp-for="Oyuncu.Meslek" class="text-danger"></span>
+                            <div class="col-lg-9">
+                                <input asp-for="Oyuncu.Meslek" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="Oyuncu.YabanciDil" class="col-lg-3 col-form-label"></label>
+                            <span asp-for="Oyuncu.YabanciDil" class="text-danger"></span>
+                            <div class="col-lg-9">
+                                <input asp-for="Oyuncu.YabanciDil" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="Oyuncu.SskDurumu" class="col-lg-3 col-form-label"></label>
+                            <span asp-for="Oyuncu.SskDurumu" class="text-danger"></span>
+                            <div class="col-lg-9">
+                                <input asp-for="Oyuncu.SskDurumu" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="Oyuncu.Ehliyet" class="col-lg-3 col-form-label"></label>
+                            <span asp-for="Oyuncu.Ehliyet" class="text-danger"></span>
+                            <div class="col-lg-9">
+                                <input asp-for="Oyuncu.Ehliyet" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label asp-for="Oyuncu.EngelDurumu" class="col-lg-3 col-form-label"></label>
                             <span asp-for="Oyuncu.EngelDurumu" class="text-danger"></span>
                             <div class="col-lg-9">
@@ -180,7 +208,7 @@
                                                 </a>
                                             }
                                             <a class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round ml-2 legitRipple"
-                                               href=@($"/Oyuncular/ResimDelete/{Model.Oyuncu.Id}?FotoId={Model.Oyuncu.OyuncuResimleri[i].Id}")
+                                               href=@($"/Oyuncular/ResimDelete/{Model.Oyuncu.Id}?resimId={Model.Oyuncu.OyuncuResimleri[i].Id}")
                                                data-toggle="tooltip" title="Sil">
                                                 <i class="mi-close"></i>
                                             </a>

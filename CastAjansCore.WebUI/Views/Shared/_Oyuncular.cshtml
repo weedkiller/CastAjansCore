@@ -8,6 +8,9 @@
         <div class="header-elements">
             <div class="list-icons">
                 <a class="list-icons-item" asp-action="Edit"><i class="icon-plus3"></i></a>
+                <a href="javascript:GetOyuncuGrid()" class="list-icons-item" >
+                    <i class="mi-search"></i>
+                </a>
                 <a class="list-icons-item" data-action="collapse"></a>
             </div>
         </div>
@@ -20,6 +23,14 @@
                         <h5 class="card-title"><i class="icon-reading mr-2"></i> Kisi Bilgileri</h5>
                     </div>
                     <div class="card-body">
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label">TC</label>
+                            <div class="col-lg-9">
+                                <div class="form-row">
+                                    <input id="Filter-Oyuncu-TC" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
                         <fieldset class="row">
                             <div class="form-group row">
                                 <label class="col-lg-3 col-form-label">Ad Soyad</label>
@@ -70,7 +81,7 @@
                                 </div>
                             </div>
 
-                           
+
 
 
 
@@ -89,7 +100,7 @@
                                 </div>
                             </div>
 
-                            
+
 
                         </fieldset>
                     </div>
@@ -216,14 +227,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="form-group row">
-
-                </div>
-            </div>
-        </div>
-        <a href="javascript:GetOyuncuGrid()" class="btn bg-teal btn-block">Ara <i class="icon-comment ml-2"></i></a>
+        
     </div>
 </div>
 

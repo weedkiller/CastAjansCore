@@ -13,10 +13,11 @@ function GetOyuncuGrid() {
         //function(d) {
         //    var a = $.extend({}, d,
         //        OyuncuFilterDto = {
+        TC: $("#Filter-Oyuncu-Tc").val(),
         Adi: $("#Filter-Oyuncu-Adi").val(),
         Soyadi: $("#Filter-Oyuncu-Soyadi").val(),
         YasMin: Number($("#Filter-Oyuncu-YasMin").val()),
-        YasMax: Number($("#Filter-Oyuncu-YasMaks").val()),
+        YasMaks: Number($("#Filter-Oyuncu-YasMaks").val()),
         Cinsiyet: Number($("#Filter-Oyuncu-Cinsiyet").val()),
         Uyruk: Number($("#Filter-Oyuncu-Uyruk").val()),
         KaseMin: Number($("#Filter-Oyuncu-KaseMin").val()),

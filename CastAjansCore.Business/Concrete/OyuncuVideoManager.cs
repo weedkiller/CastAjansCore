@@ -18,7 +18,7 @@ namespace CastAjansCore.Business.Concrete
 
         public async Task<List<OyuncuVideo>> GetListByOyuncuIdAsync(int oyuncuId)
         {
-            return await base.GetListAsync(i => i.OyuncuId == oyuncuId);
+            return await base.GetListAsync(i => i.OyuncuId == oyuncuId && i.Aktif == true);
         }
 
         public async Task SaveListAsync(List<OyuncuVideo> oyuncuVideolari, UserHelper userHelper)
