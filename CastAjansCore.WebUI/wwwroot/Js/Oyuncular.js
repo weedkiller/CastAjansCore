@@ -40,12 +40,15 @@ function GetOyuncuGrid() {
     };
     _tableOyuncu = $('#OyuncuGrid').DataTable({
         processing: true,
+        responsive: true,
+        scrollX: true,
+        language: { url: "//cdn.datatables.net/plug-ins/1.10.19/i18n/Turkish.json" },
         serverSide: false,
         ajax:
         {
             url: "/Oyuncular/GetOyuncuGrid",
             //contentType: "json",
-            dataSrc: "oyuncular",
+            dataSrc: "",
             //type: "GET",
             data: filter
 
@@ -64,7 +67,19 @@ function GetOyuncuGrid() {
             { title: "Saç Rengi", data: "sacRengi" },
             { title: "Ten Rengi", data: "tenRengi" },
             { title: "Göz Rengi", data: "gozRengi" },
-            { title: "Kaşe", data: "kase" }
+            { title: "Kaşe", data: "kase" },
+            {
+                data: "id",
+                searchable: false,
+                bSortable: false,
+                //visible: _isIhaleDetay == "True" ? true : false,
+                sClass: "text-center",
+                render: function (data, type, row) {
+                    var link = "<a href='Oyuncular/Edit/" + data + "' class='btn btn-sm btn-primary'><i class='mi-mode-edit'></i></a> |"
+                    link += "<a href='Oyuncular/Delete/" + data + "' class='btn btn-sm btn-danger'><i class='mi-delete'></i></a>"
+                    return link;
+                }
+            }
         ],
         options: {
             emptyTable: "Hiç bir kayıt yok"

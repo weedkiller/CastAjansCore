@@ -23,14 +23,21 @@ namespace CastAjansCore.WebUI.Controllers
         private readonly IOyuncuServis _OyuncuServis;
         private readonly LoginHelper _loginHelper;
         private readonly IUyrukServis _uyrukServis;
+        private readonly IOyuncuResimServis _oyuncuResimServis;
 
         //private readonly IHostingEnvironment _HostingEnvironment;
-        public OyuncularController(IOyuncuServis OyuncuServis, IUyrukServis uyrukServis, LoginHelper loginHelper)
+        public OyuncularController(
+            IOyuncuServis OyuncuServis, 
+            IUyrukServis uyrukServis,
+            IOyuncuResimServis oyuncuResimServis, 
+            LoginHelper loginHelper
+        )
         {
             _OyuncuServis = OyuncuServis;
             //_HostingEnvironment = environment;
             _loginHelper = loginHelper;
             _uyrukServis = uyrukServis;
+            _oyuncuResimServis = oyuncuResimServis;
             ViewData["UserHelper"] = _loginHelper.UserHelper;
         }
 
@@ -169,6 +176,30 @@ namespace CastAjansCore.WebUI.Controllers
             return View(oyuncuEditDto);
         }
 
+        public async Task<IActionResult> ResimBulAsync()
+        {
+            var oyuncular = await _OyuncuServis.GetListAsync(i => i.Aktif == true && i.Kisi.Aktif == true);
+            foreach (var oyuncu in oyuncular)
+            {
+                if (oyuncu.Kisi.DogumTarihi != null)
+                {
+                    var files = Directory.EnumerateFiles(@"c:\\Resimler", $"{oyuncu.Kisi.DogumTarihi.Value.Year} - {oyuncu.Kisi.Adi}*", SearchOption.AllDirectories);
+
+                    foreach (var resim in files)
+                    {
+                        DirectoryInfo directory = new DirectoryInfo(resim);
+                        var test = directory.CreationTime;
+
+                        await _oyuncuResimServis.AddAsync(new OyuncuResim { OyuncuId = oyuncu.Id, DosyaYolu = "" })
+
+                    }
+                }
+            }
+
+
+            return View("Index");
+        }
+
         // GET: Oyuncus/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -184,7 +215,7 @@ namespace CastAjansCore.WebUI.Controllers
                 return NotFound();
             }
 
-            return View(Oyuncu);
+            return View((object)$"{Oyuncu.Kisi.Adi} {Oyuncu.Kisi.Soyadi}");
         }
 
         // POST: Oyuncus/Delete/5
@@ -237,16 +268,17 @@ namespace CastAjansCore.WebUI.Controllers
                    (filter.AyakNumarasiMaks == 0 || i.AyakNumarasi <= filter.AyakNumarasiMaks) &&
                    (filter.GozRengi == 0 || i.GozRengi == (EnuGozRengi)filter.GozRengi) &&
                    (filter.TenRengi == 0 || i.TenRengi == (EnuTenRengi)filter.TenRengi) &&
-                   (filter.SacRengi == 0 || i.SacRengi == (EnuSacRengi)filter.SacRengi)
+                   (filter.SacRengi == 0 || i.SacRengi == (EnuSacRengi)filter.SacRengi) &&
+                   i.Aktif == true && i.Kisi.Aktif == true
                );
 
-            return Json(
-                new
-                {
-                    oyuncular,
-                    iTotalRecords = oyuncular.Count,
-                    iTotalDisplayRecords = oyuncular.Count
-                });
+            //return Json(
+            //    new
+            //    {
+            //        oyuncular,
+            //        iTotalRecords = oyuncular.Count,
+            //        iTotalDisplayRecords = oyuncular.Count
+            //    });
             return Json(oyuncular);
         }
 

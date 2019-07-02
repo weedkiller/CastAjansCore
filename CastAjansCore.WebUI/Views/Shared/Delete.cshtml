@@ -1,0 +1,20 @@
+﻿@model string
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@Model</h1>
+
+<h3>Silmek istediğinize emin misiniz?</h3>
+<div>
+    
+    <hr />
+    
+    <form asp-action="Delete">
+        @*<input type="hidden" asp-for="Id" />*@
+        <input type="submit" value="SİL" class="btn btn-danger" /> |
+        <a class="btn btn-primary" asp-action="Index">LİSTEYE GERİ DÖN</a>
+    </form>
+</div>

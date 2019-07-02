@@ -6,8 +6,8 @@
     <div class="card-header bg-transparent header-elements-inline">
         <span class="card-title font-weight-semibold">Filtre</span>
         <div class="header-elements">
-            <div class="list-icons">
-                <a href="#" class="list-icons-item"><i class="icon-cog3"></i></a>
+            <div class="list-icons">                
+                <a class="list-icons-item" data-action="collapse"></a>
             </div>
         </div>
     </div>
@@ -34,20 +34,42 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row">
-                                <label class="col-lg-3 col-form-label">Yaş</label>
-                                <div class="col-lg-9">
-                                    <div class="form-row">
-                                        <div class="col">
-                                            <input id="Filter-Oyuncu-YasMin" placeholder="Min" type="number" min="0" class="form-control" />
-                                        </div>
-                                        <div class="col">
-                                            <input id="Filter-Oyuncu-YasMaks" placeholder="Maks" type="number" max="200" class="form-control" />
-                                        </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label">Yaş</label>
+                                        <div class="col-lg-9">
+                                            <div class="form-row">
+                                                <div class="col">
+                                                    <input id="Filter-Oyuncu-YasMin" placeholder="Min" type="number" min="0" class="form-control" />
+                                                </div>
+                                                <div class="col">
+                                                    <input id="Filter-Oyuncu-YasMaks" placeholder="Maks" type="number" max="200" class="form-control" />
+                                                </div>
 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label">Kaşe</label>
+                                        <div class="col-lg-9">
+                                            <div class="form-row">
+                                                <div class="col">
+                                                    <input id="Filter-Oyuncu-KaseMin" placeholder="Min" type="number" min="0" class="form-control" />
+                                                </div>
+                                                <div class="col">
+                                                    <input id="Filter-Oyuncu-KaseMaks" placeholder="Maks" type="number" max="1000000000" class="form-control" />
+                                                </div>
+
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+
+                           
 
 
 
@@ -66,20 +88,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row">
-                                <label class="col-lg-3 col-form-label">Yaş</label>
-                                <div class="col-lg-9">
-                                    <div class="form-row">
-                                        <div class="col">
-                                            <input id="Filter-Oyuncu-KaseMin" placeholder="Min" type="number" min="0" class="form-control" />
-                                        </div>
-                                        <div class="col">
-                                            <input id="Filter-Oyuncu-KaseMaks" placeholder="Maks" type="number" max="1000000000" class="form-control" />
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
+                            
 
                         </fieldset>
                     </div>
