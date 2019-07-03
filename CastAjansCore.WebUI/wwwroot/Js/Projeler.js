@@ -47,18 +47,19 @@ function ShowOyuncu(projeKarakterIndex) {
 function OyuncuEkle(profilFotoUrl, adi, soyadi, oyuncuId) {
 
     var table = document.getElementById("tblProjeKarakterOyuncu_" + _projeKarakterIndex);
-    var rowCount = table.getElementsByTagName("tr").length;
+    var rowCount = table.getElementsByTagName("tr").length - 1;
     var row = table.insertRow(rowCount);
     var cell0 = row.insertCell(0);
     var cell1 = row.insertCell(1);
     var cell2 = row.insertCell(2);
     var cell3 = row.insertCell(3);
     var cell4 = row.insertCell(4);
-    cell0.innerHTML = "<img width='50px' src='" + ProfilFotoUrl + "' />";
+    cell0.innerHTML = "<img width='50px' src='" + profilFotoUrl + "' />";
     cell1.innerHTML = adi;
     cell2.innerHTML = soyadi;
     cell3.innerHTML = "";
-    cell4.innerHTML = "";
+    cell4.innerHTML = "<input type='hidden' id='Proje_ProjeKarakterleri_" + _projeKarakterIndex + "_ProjeKarakterOyunculari_" + rowCount + "__OyuncuId' name='Proje.ProjeKarakterleri[" + _projeKarakterIndex + "].ProjeKarakterOyunculari[" + rowCount + "].OyuncuId'  value='" + oyuncuId + "'/>";
+    cell4.innerHTML += "<input type='hidden' id='Proje_ProjeKarakterleri_" + _projeKarakterIndex + "_ProjeKarakterOyunculari_" + rowCount + "__Aktif' name='Proje.ProjeKarakterleri[" + _projeKarakterIndex + "].ProjeKarakterOyunculari[" + rowCount + "].Aktif'  value='True'/>";
 
     //var str = "";
     //str += "<tr>";

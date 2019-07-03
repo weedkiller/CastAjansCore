@@ -166,8 +166,8 @@
                                             </td>
                                             <td>@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].Oyuncu.Kisi.Adi</td>
                                             <td>@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].Oyuncu.Kisi.Soyadi</td>
-                                            <td>@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].KarakterDurumu</td>
-                                            <td>
+                                            <td><select asp-items="Html.GetEnumSelectList<EnuKarakterDurumu>()" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].KarakterDurumu" class="form-control"></select></td>
+                                            <td class="text-right">
                                                 <button class="btn btn-danger" onclick="ProjeKarakterOyunculariSil(i, j);">Sil</button>
                                                 <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].ProjeKarakterId" />
                                                 <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].OyuncuId" />

@@ -35,6 +35,10 @@ namespace CastAjansCore.Entity
         public EnuMecra Mecra { get; set; }
 
         [MaxLength(4000)]
+        [Display(Name = "E-Posta Adresleri")]
+        public string EPostaAdresleri { get; set; }
+
+        [MaxLength(4000)]
         [Display(Name = "Açıklama")]
         public string Aciklama { get; set; }
 
