@@ -1,6 +1,6 @@
 ﻿
 var _tableOyuncu;
-var _tblProjeKarakterOyuncu = "";
+var _projeKarakterIndex = -1;
 //var _gridIni = false;
 function GetOyuncuGrid() {
     //alert($("#Filter-Oyuncu-Adi").val());
@@ -60,7 +60,7 @@ function GetOyuncuGrid() {
                 data: "id",
                 searchable: false,
                 bSortable: false,
-                visible: _tblProjeKarakterOyuncu === "",
+                visible: _projeKarakterIndex < 0,
                 sClass: "text-center",
                 render: function (data, type, row) {
                     var link = "<a href='Oyuncular/Edit/" + data + "' class='btn btn-sm btn-primary'><i class='mi-mode-edit'></i></a>";
@@ -72,10 +72,10 @@ function GetOyuncuGrid() {
                 data: "id",
                 searchable: false,
                 bSortable: false,
-                visible: _tblProjeKarakterOyuncu !== "",
+                visible: _projeKarakterIndex >= 0,
                 sClass: "text-center",
                 render: function (data, type, row) {
-                    var link = "<a href='javascript(OyuncuEkle(" + data + ")' class='btn btn-sm btn-primary'><i class='mi-add'></i></a>";
+                    var link = "<a href='javascript:OyuncuEkle(\"" + row.profilFotoUrl + "\",\"" + row.adi + "\",\"" + row.soyadi + "\"," + data + ")' class='btn btn - sm btn - primary' > <i class='mi - add'></i></a > ";
 
                     return link;
                 }
@@ -114,7 +114,7 @@ function GetOyuncuGrid() {
                 data: "id",
                 searchable: false,
                 bSortable: false,
-                visible: _tblProjeKarakterOyuncu === "",
+                visible: _projeKarakterIndex < 0,
                 sClass: "text-center",
                 render: function (data, type, row) {
                     var link = "<a href='Oyuncular/Delete/" + data + "' class='btn btn-sm btn-danger'><i class='mi-delete'></i></a>";

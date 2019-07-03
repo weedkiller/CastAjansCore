@@ -129,6 +129,7 @@ namespace Calbay.Core.DataAccess
                 //var query = await (filter == null
                 //    ? context.Set<TEntity>().ToListAsync<TEntity>()
                 //    : context.Set<TEntity>().Where(filter).ToListAsync<TEntity>());
+                //var a = context.Set<TEntity>().Where(SetFilter(filter)).ToSql();
                 var query = await context.Set<TEntity>().Where(SetFilter(filter)).ToListAsync<TEntity>();
                 return query;
             }

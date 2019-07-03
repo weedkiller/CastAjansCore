@@ -111,7 +111,7 @@
                         <h5 class="card-title">Proje Karakterleri</h5>
                         <div class="header-elements">
                             <div class="list-icons">
-                                <a class="list-icons-item" href=@("javascript:ShowOyuncu('tblProjeKarakterOyuncu_" + i + "');")><i class="icon-plus3"></i></a>
+                                <a class="list-icons-item" href=@("javascript:ShowOyuncu(" + i + ");")><i class="icon-plus3"></i></a>
                             </div>
                         </div>
                     </div>
@@ -213,7 +213,7 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
-                    @await Html.PartialAsync("_Oyuncular", Model.OyuncuFilterDto) 
+                    @await Html.PartialAsync("_Oyuncular", Model.OyuncuFilterDto)
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-link" data-dismiss="modal">Kapat</button>

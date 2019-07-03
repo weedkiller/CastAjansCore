@@ -38,14 +38,43 @@ function NewProjeKarakterleri() {
     _projeKarakterleriCount += 1;
 }
 
-function ShowOyuncu(tableName) {
-    _tblProjeKarakterOyuncu = tableName;
+function ShowOyuncu(projeKarakterIndex) {
+    _projeKarakterIndex = projeKarakterIndex;
     $('#myModal').modal('show');
 
 }
 
-function OyuncuEkle(id) {
-    alert(id);
+function OyuncuEkle(profilFotoUrl, adi, soyadi, oyuncuId) {
+
+    var table = document.getElementById("tblProjeKarakterOyuncu_" + _projeKarakterIndex);
+    var rowCount = table.getElementsByTagName("tr").length;
+    var row = table.insertRow(rowCount);
+    var cell0 = row.insertCell(0);
+    var cell1 = row.insertCell(1);
+    var cell2 = row.insertCell(2);
+    var cell3 = row.insertCell(3);
+    var cell4 = row.insertCell(4);
+    cell0.innerHTML = "<img width='50px' src='" + ProfilFotoUrl + "' />";
+    cell1.innerHTML = adi;
+    cell2.innerHTML = soyadi;
+    cell3.innerHTML = "";
+    cell4.innerHTML = "";
+
+    //var str = "";
+    //str += "<tr>";
+    //str += "    <td>";
+    //str += "        <img width='50px' src='" + ProfilFotoUrl + "' />";
+    //str += "    </td>";
+    //str += "    <td>" +  + "</td>";
+    //str += "    <td>" + Soyadi + "</td>";
+    //str += "    <td></td>";
+    //str += "    <td>";
+    //str += "        <button class='btn btn-danger' onclick='ProjeKarakterOyunculariSil(" + _projeKarakterIndex + ", " + rowCount + ");'>Sil</button>";
+    //str += "        <input type='hidden' id='Proje_ProjeKarakterleri_" + _projeKarakterIndex + "_ProjeKarakterOyunculari_" + rowCount + "__OyuncuId'  value='" + OyuncuId + "'/>";
+    //str += "    </td>";
+    //str += "</tr>";
+
+    //table.append(str);
 }
 
 //class OyuncuFilterDto {
