@@ -36,7 +36,7 @@ namespace CastAjansCore.Business.Concrete
             {
                 var t = new Task[entity.ProjeKarakterleri.Count];
                 foreach (var item in entity.ProjeKarakterleri)
-                {
+                {                    
                     item.ProjeId = entity.Id;
                     t[entity.ProjeKarakterleri.IndexOf(item)] = _ProjeKarakterServis.SaveAsync(item, userHelper);
                 }

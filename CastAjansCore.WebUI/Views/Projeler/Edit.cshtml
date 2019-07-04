@@ -160,7 +160,7 @@
                                     </tr>
                                     @for (int j = 0; j < Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari.Count; j++)
                                     {
-                                        <tr>
+                                        <tr id="@($"Proje_ProjeKarakterleri_{i}__ProjeKarakterOyunculari_{j}__tr")">
                                             <td>
                                                 <img width="50px" src="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].Oyuncu.Kisi.ProfilFotoUrl" />
                                             </td>
@@ -168,7 +168,7 @@
                                             <td>@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].Oyuncu.Kisi.Soyadi</td>
                                             <td><select asp-items="Html.GetEnumSelectList<EnuKarakterDurumu>()" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].KarakterDurumu" class="form-control"></select></td>
                                             <td class="text-right">
-                                                <button class="btn btn-danger" onclick="ProjeKarakterOyunculariSil(i, j);">Sil</button>
+                                                <button class="btn btn-danger" type="button" onclick="@($"ProjeKarakterOyunculariSil({i}, {j});")">Sil</button>
                                                 <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].ProjeKarakterId" />
                                                 <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].OyuncuId" />
                                                 <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].Id" />
@@ -223,9 +223,12 @@
     </div>
     <!-- /full width modal -->
     @section scripts {
-        var _projeKarakterleriCount = @Model.Proje.ProjeKarakterleri.Count;
         <script src="/Js/Oyuncular.js"></script>
         <script src="/Js/Projeler.js"></script>
+        <script>
+            _projeKarakterIndex = @Model.Proje.ProjeKarakterleri.Count;
+        </script>
+        
         @*<script src="/Js/Oyuncular.js"></script>*@
     }
 </form>
