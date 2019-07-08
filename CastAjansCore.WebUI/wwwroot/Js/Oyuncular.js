@@ -1,5 +1,4 @@
-﻿
-var _tableOyuncu;
+﻿var _tableOyuncu;
 var _projeKarakterIndex = -1;
 //var _gridIni = false;
 function GetOyuncuGrid() {
