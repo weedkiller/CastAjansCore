@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CastAjansCore.DataLayer.Migrations
 {
     [DbContext(typeof(CastAjansContext))]
-    [Migration("20190630160052_kisi")]
-    partial class kisi
+    [Migration("20190708171435_first")]
+    partial class first
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -175,9 +175,12 @@ namespace CastAjansCore.DataLayer.Migrations
 
                     b.Property<int?>("BankaId");
 
-                    b.Property<int>("Cinsiyet");
+                    b.Property<string>("Cep")
+                        .HasMaxLength(14);
 
-                    b.Property<DateTime>("DogumTarihi");
+                    b.Property<int?>("Cinsiyet");
+
+                    b.Property<DateTime?>("DogumTarihi");
 
                     b.Property<string>("EPosta")
                         .HasMaxLength(200);
@@ -207,7 +210,7 @@ namespace CastAjansCore.DataLayer.Migrations
                     b.Property<string>("Instagram")
                         .HasMaxLength(200);
 
-                    b.Property<int>("KanGrubu");
+                    b.Property<int?>("KanGrubu");
 
                     b.Property<string>("KimlikArkaUrl")
                         .HasMaxLength(200);
@@ -252,6 +255,19 @@ namespace CastAjansCore.DataLayer.Migrations
                     b.HasIndex("UyrukId");
 
                     b.ToTable("Kisiler","Sistem");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Adi = "Admin",
+                            Aktif = true,
+                            EklemeZamani = new DateTime(2019, 7, 8, 0, 0, 0, 0, DateTimeKind.Local),
+                            EkleyenId = 1,
+                            GuncellemeZamani = new DateTime(2019, 7, 8, 0, 0, 0, 0, DateTimeKind.Local),
+                            GuncelleyenId = 1,
+                            Soyadi = "Soyadi"
+                        });
                 });
 
             modelBuilder.Entity("CastAjansCore.Entity.Kullanici", b =>
@@ -283,6 +299,20 @@ namespace CastAjansCore.DataLayer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Kullanicilar","Sistem");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Aktif = true,
+                            EklemeZamani = new DateTime(2019, 7, 8, 0, 0, 0, 0, DateTimeKind.Local),
+                            EkleyenId = 1,
+                            GuncellemeZamani = new DateTime(2019, 7, 8, 0, 0, 0, 0, DateTimeKind.Local),
+                            GuncelleyenId = 1,
+                            KullaniciAdi = "admin",
+                            Rol = 1,
+                            Sifre = "admin"
+                        });
                 });
 
             modelBuilder.Entity("CastAjansCore.Entity.Musteri", b =>
@@ -350,6 +380,9 @@ namespace CastAjansCore.DataLayer.Migrations
 
                     b.Property<int?>("Boy");
 
+                    b.Property<string>("Ehliyet")
+                        .HasMaxLength(200);
+
                     b.Property<DateTime>("EklemeZamani");
 
                     b.Property<int?>("EkleyenId");
@@ -357,7 +390,7 @@ namespace CastAjansCore.DataLayer.Migrations
                     b.Property<string>("EngelDurumu")
                         .HasMaxLength(200);
 
-                    b.Property<int>("GozRengi");
+                    b.Property<int?>("GozRengi");
 
                     b.Property<DateTime>("GuncellemeZamani");
 
@@ -373,12 +406,15 @@ namespace CastAjansCore.DataLayer.Migrations
                     b.Property<string>("OyuculukEgitimi")
                         .HasMaxLength(4000);
 
-                    b.Property<int>("SacRengi");
+                    b.Property<int?>("SacRengi");
+
+                    b.Property<string>("SskDurumu")
+                        .HasMaxLength(200);
 
                     b.Property<string>("Tecrubeler")
                         .HasMaxLength(4000);
 
-                    b.Property<int>("TenRengi");
+                    b.Property<int?>("TenRengi");
 
                     b.Property<int?>("UstBeden");
 
@@ -461,6 +497,9 @@ namespace CastAjansCore.DataLayer.Migrations
 
                     b.Property<bool>("Aktif");
 
+                    b.Property<string>("EPostaAdresleri")
+                        .HasMaxLength(4000);
+
                     b.Property<DateTime>("EklemeZamani");
 
                     b.Property<int?>("EkleyenId");
@@ -476,6 +515,8 @@ namespace CastAjansCore.DataLayer.Migrations
                     b.Property<int>("Mecra");
 
                     b.Property<int>("MusteriId");
+
+                    b.Property<int>("ProjeDurumu");
 
                     b.Property<DateTime>("TarihBas");
 

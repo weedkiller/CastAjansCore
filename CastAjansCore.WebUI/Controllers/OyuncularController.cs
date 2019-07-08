@@ -202,7 +202,7 @@ namespace CastAjansCore.WebUI.Controllers
             {
                 if (oyuncu.Kisi.DogumTarihi != null)
                 {
-                    var files = Directory.EnumerateFiles(@"c:\\Resimler", $"{oyuncu.Kisi.DogumTarihi.Value.Year} - {oyuncu.Kisi.Adi}*", SearchOption.AllDirectories);
+                    var files = Directory.EnumerateFiles(@"c:\\Resimler", $"{oyuncu.Kisi.DogumTarihi.Value.Year} - {oyuncu.Kisi.Adi} {oyuncu.Kisi.Soyadi}*", SearchOption.AllDirectories);
                     List<OyuncuResim> resimler = new List<OyuncuResim>();
                     foreach (var resim in files)
                     {
@@ -213,7 +213,7 @@ namespace CastAjansCore.WebUI.Controllers
                             DosyaYolu = FileHelper.SaveFile(resim, "OyuncuResimleri"),
                             EklemeZamani = fi.CreationTime,
                             GuncellemeZamani = fi.CreationTime
-                        });
+                        });                        
                     }
                     if (resimler.Count > 0)
                     {

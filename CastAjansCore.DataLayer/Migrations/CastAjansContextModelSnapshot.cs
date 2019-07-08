@@ -176,7 +176,7 @@ namespace CastAjansCore.DataLayer.Migrations
                     b.Property<string>("Cep")
                         .HasMaxLength(14);
 
-                    b.Property<int>("Cinsiyet");
+                    b.Property<int?>("Cinsiyet");
 
                     b.Property<DateTime?>("DogumTarihi");
 
@@ -208,7 +208,7 @@ namespace CastAjansCore.DataLayer.Migrations
                     b.Property<string>("Instagram")
                         .HasMaxLength(200);
 
-                    b.Property<int>("KanGrubu");
+                    b.Property<int?>("KanGrubu");
 
                     b.Property<string>("KimlikArkaUrl")
                         .HasMaxLength(200);
@@ -253,6 +253,19 @@ namespace CastAjansCore.DataLayer.Migrations
                     b.HasIndex("UyrukId");
 
                     b.ToTable("Kisiler","Sistem");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Adi = "Admin",
+                            Aktif = true,
+                            EklemeZamani = new DateTime(2019, 7, 8, 0, 0, 0, 0, DateTimeKind.Local),
+                            EkleyenId = 1,
+                            GuncellemeZamani = new DateTime(2019, 7, 8, 0, 0, 0, 0, DateTimeKind.Local),
+                            GuncelleyenId = 1,
+                            Soyadi = "Soyadi"
+                        });
                 });
 
             modelBuilder.Entity("CastAjansCore.Entity.Kullanici", b =>
@@ -284,6 +297,20 @@ namespace CastAjansCore.DataLayer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Kullanicilar","Sistem");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Aktif = true,
+                            EklemeZamani = new DateTime(2019, 7, 8, 0, 0, 0, 0, DateTimeKind.Local),
+                            EkleyenId = 1,
+                            GuncellemeZamani = new DateTime(2019, 7, 8, 0, 0, 0, 0, DateTimeKind.Local),
+                            GuncelleyenId = 1,
+                            KullaniciAdi = "admin",
+                            Rol = 1,
+                            Sifre = "admin"
+                        });
                 });
 
             modelBuilder.Entity("CastAjansCore.Entity.Musteri", b =>
@@ -595,6 +622,28 @@ namespace CastAjansCore.DataLayer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Uyruklar","Sistem");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Adi = "TC",
+                            Aktif = true,
+                            EklemeZamani = new DateTime(2019, 7, 8, 0, 0, 0, 0, DateTimeKind.Local),
+                            EkleyenId = 1,
+                            GuncellemeZamani = new DateTime(2019, 7, 8, 0, 0, 0, 0, DateTimeKind.Local),
+                            GuncelleyenId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Adi = "Diğer",
+                            Aktif = true,
+                            EklemeZamani = new DateTime(2019, 7, 8, 0, 0, 0, 0, DateTimeKind.Local),
+                            EkleyenId = 1,
+                            GuncellemeZamani = new DateTime(2019, 7, 8, 0, 0, 0, 0, DateTimeKind.Local),
+                            GuncelleyenId = 1
+                        });
                 });
 
             modelBuilder.Entity("CastAjansCore.Entity.Ilce", b =>

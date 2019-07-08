@@ -1,5 +1,6 @@
 ﻿using CastAjansCore.Entity;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 
 namespace CastAjansCore.DataLayer.Concrete.EntityFramework
@@ -9,11 +10,11 @@ namespace CastAjansCore.DataLayer.Concrete.EntityFramework
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             string cnnStr = "Data Source=94.73.146.4;Initial Catalog=u7506792_CastAja;Persist Security Info=True;User ID=u7506792_CastAja;Password=albay69sFENDER;MultipleActiveResultSets=True;";
-            optionsBuilder.UseSqlServer(cnnStr);            
+            optionsBuilder.UseSqlServer(cnnStr);
         }
 
         public DbSet<Banka> Bankalar { get; set; }
-        
+
         public DbSet<Firma> Firma { get; set; }
 
         public DbSet<Il> Iller { get; set; }
@@ -21,7 +22,7 @@ namespace CastAjansCore.DataLayer.Concrete.EntityFramework
         public DbSet<Ilce> Ilceler { get; set; }
 
         public DbSet<Kisi> Kisiler { get; set; }
-        
+
         public DbSet<Kullanici> Kullanicilar { get; set; }
 
         public DbSet<Musteri> Musteriler { get; set; }
@@ -40,7 +41,7 @@ namespace CastAjansCore.DataLayer.Concrete.EntityFramework
 
         public DbSet<Uyruk> Uyruklar { get; set; }
 
- 
+
 
         //protected override void OnModelCreating(DbModelBuilder modelBuilder)
         //{
@@ -49,6 +50,57 @@ namespace CastAjansCore.DataLayer.Concrete.EntityFramework
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Kisi>().HasData(
+                new Kisi
+                {
+                    Id = 1,
+                    Adi = "Admin",
+                    Soyadi = "Soyadi",
+                    EkleyenId = 1,
+                    EklemeZamani = DateTime.Today,
+                    GuncelleyenId = 1,
+                    GuncellemeZamani = DateTime.Today,
+                    Aktif = true
+                });
+
+            modelBuilder.Entity<Kullanici>().HasData(
+                new Kullanici
+                {
+                    Id = 1,
+                    KullaniciAdi = "admin",
+                    Sifre = "admin",
+                    Rol = Calbay.Core.Entities.EnuRol.admin,
+                    EkleyenId = 1,
+                    EklemeZamani = DateTime.Today,
+                    GuncelleyenId = 1,
+                    GuncellemeZamani = DateTime.Today,
+                    Aktif = true
+                });
+
+            modelBuilder.Entity<Uyruk>().HasData(
+                new Uyruk
+                {
+                    Id = 1,
+                    Adi = "TC",
+                    EkleyenId = 1,
+                    EklemeZamani = DateTime.Today,
+                    GuncelleyenId = 1,
+                    GuncellemeZamani = DateTime.Today,
+                    Aktif = true
+                });
+
+            modelBuilder.Entity<Uyruk>().HasData(
+                new Uyruk
+                {
+                    Id = 2,
+                    Adi = "Diğer",
+                    EkleyenId = 1,
+                    EklemeZamani = DateTime.Today,
+                    GuncelleyenId = 1,
+                    GuncellemeZamani = DateTime.Today,
+                    Aktif = true
+                });
+
             // equivalent of modelBuilder.Conventions.AddFromAssembly(Assembly.GetExecutingAssembly());
             // look at this answer: https://stackoverflow.com/a/43075152/3419825
 

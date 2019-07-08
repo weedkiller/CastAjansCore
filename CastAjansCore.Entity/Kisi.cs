@@ -31,10 +31,10 @@ namespace CastAjansCore.Entity
         public DateTime? DogumTarihi { get; set; }
 
         [Display(Name = "Cinsiyet")]
-        public EnuCinsiyet Cinsiyet { get; set; }
+        public EnuCinsiyet? Cinsiyet { get; set; }
 
         [Display(Name = "Kan Gr")]
-        public EnuKanGrubu KanGrubu { get; set; }
+        public EnuKanGrubu? KanGrubu { get; set; }
 
         [Display(Name = "Anne Ad")]
         [MaxLength(200)]
