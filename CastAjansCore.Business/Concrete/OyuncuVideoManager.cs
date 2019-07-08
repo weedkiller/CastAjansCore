@@ -33,8 +33,21 @@ namespace CastAjansCore.Business.Concrete
                 }
                 await Task.WhenAll(tasks);
             }
-            
+
             await Task.CompletedTask;
+        }
+
+        public void SaveList(List<OyuncuVideo> oyuncuVideolari, UserHelper userHelper)
+        {
+            var liste = oyuncuVideolari.Where(i => i.Id == 0).ToList();
+            
+            if (liste.Count > 0)
+            {
+                for (int i = 0; i < liste.Count; i++)
+                {
+                    base.Add(liste[i], userHelper);
+                }                
+            }
         }
     }
 }

@@ -13,9 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CastAjansCore.DataLayer", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonLibrary", "CommonLibrary\CommonLibrary.csproj", "{D4555C6B-86C8-48AB-9E9F-A5092542DAC4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calbay.Core", "Calbay.Core\Calbay.Core.csproj", "{D9DF5C83-9A82-4D0B-B1BE-03D24D430502}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calbay.Core", "Calbay.Core\Calbay.Core.csproj", "{D9DF5C83-9A82-4D0B-B1BE-03D24D430502}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CastAjansCore.Business", "CastAjansCore.Business\CastAjansCore.Business.csproj", "{C037F09C-B05F-4012-BFFB-EB3CB292CE4A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CastAjansCore.Business", "CastAjansCore.Business\CastAjansCore.Business.csproj", "{C037F09C-B05F-4012-BFFB-EB3CB292CE4A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CastAjansCore.ResimBulUI", "CastAjansCore.ResimBulUI\CastAjansCore.ResimBulUI.csproj", "{CC22C8A0-363F-4FD6-A37A-828798B785EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{C037F09C-B05F-4012-BFFB-EB3CB292CE4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C037F09C-B05F-4012-BFFB-EB3CB292CE4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C037F09C-B05F-4012-BFFB-EB3CB292CE4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC22C8A0-363F-4FD6-A37A-828798B785EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC22C8A0-363F-4FD6-A37A-828798B785EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC22C8A0-363F-4FD6-A37A-828798B785EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC22C8A0-363F-4FD6-A37A-828798B785EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

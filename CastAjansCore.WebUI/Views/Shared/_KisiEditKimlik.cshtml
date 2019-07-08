@@ -14,8 +14,8 @@
                 <div class="row">
                     <div class="col">
                         <div class="form-group row">
-                            <label asp-for="Kisi.DogumTarihi" class="col-lg-4 col-form-label"></label>
-                            <div class="col-lg-8">
+                            <label asp-for="Kisi.DogumTarihi" class="col-md-4 col-form-label"></label>
+                            <div class="col-md-8">
                                 <div class="form-group">
                                     <input asp-for="Kisi.DogumTarihi" class="form-control" />
                                     <span asp-validation-for="Kisi.DogumTarihi" class="text-danger"></span>
@@ -25,8 +25,8 @@
                     </div>
                     <div class="col">
                         <div class="form-group row">
-                            <label asp-for="Kisi.KanGrubu" class="col-lg-4 col-form-label"></label>
-                            <div class="col-lg-8">
+                            <label asp-for="Kisi.KanGrubu" class="col-md-4 col-form-label"></label>
+                            <div class="col-md-8">
                                 <div class="form-group">
                                     <select asp-for="Kisi.KanGrubu" asp-items="Html.GetEnumSelectList<EnuKanGrubu>()" class="form-control"></select>
                                     <span asp-validation-for="Kisi.KanGrubu" class="text-danger"></span>
@@ -40,8 +40,8 @@
                 <div class="row">
                     <div class="col">
                         <div class="form-group row">
-                            <label asp-for="Kisi.Cinsiyet" class="col-lg-4 col-form-label"></label>
-                            <div class="col-lg-8">
+                            <label asp-for="Kisi.Cinsiyet" class="col-md-4 col-form-label"></label>
+                            <div class="col-md-8">
                                 <div class="form-group">
                                     <select asp-for="Kisi.Cinsiyet" asp-items="Html.GetEnumSelectList<EnuCinsiyet>()" class="form-control"></select>
                                     <span asp-validation-for="Kisi.Cinsiyet" class="text-danger"></span>
@@ -53,8 +53,8 @@
                     <div class="col">
 
                         <div class="form-group row">
-                            <label asp-for="Kisi.UyrukId" class="col-lg-4 col-form-label"></label>
-                            <div class="col-lg-8">
+                            <label asp-for="Kisi.UyrukId" class="col-md-4 col-form-label"></label>
+                            <div class="col-md-8">
                                 <div class="form-group">
                                     <select asp-for="Kisi.UyrukId" asp-items="Model.Uyruklar" class="form-control"></select>
                                     <span asp-validation-for="Kisi.UyrukId" class="text-danger"></span>
@@ -66,18 +66,18 @@
                 <div class="row">
                     <div class="col">
                         <div class="form-group row">
-                            <label asp-for="Kisi.AnneAdiSoyadi" class="col-lg-4 col-form-label"></label>
+                            <label asp-for="Kisi.AnneAdiSoyadi" class="col-md-4 col-form-label"></label>
                             <span asp-for="Kisi.AnneAdiSoyadi" class="text-danger"></span>
-                            <div class="col-lg-8">
+                            <div class="col-md-8">
                                 <input asp-for="Kisi.AnneAdiSoyadi" class="form-control" />
                             </div>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group row">
-                            <label asp-for="Kisi.BabaAdiSoyadi" class="col-lg-4 col-form-label"></label>
+                            <label asp-for="Kisi.BabaAdiSoyadi" class="col-md-4 col-form-label"></label>
                             <span asp-for="Kisi.BabaAdiSoyadi" class="text-danger"></span>
-                            <div class="col-lg-8">
+                            <div class="col-md-8">
                                 <input asp-for="Kisi.BabaAdiSoyadi" class="form-control" />
                             </div>
                         </div>
@@ -109,9 +109,9 @@
                 </div>
 
                 <div class="form-group row">
-                    <label asp-for="Kisi.KimlikOnUrl" class="col-lg-3 col-form-label"></label>
+                    <label asp-for="Kisi.KimlikOnUrl" class="col-md-3 col-form-label"></label>
                     <span asp-for="Kisi.KimlikOnUrl" class="text-danger"></span>
-                    <div class="col-lg-9">
+                    <div class="col-md-9">
                         <input type="hidden" asp-for="Kisi.KimlikOnUrl" />
 
                         <input asp-for="KimlikOnFile" type="file" class="form-control" />
@@ -119,9 +119,9 @@
                 </div>
 
                 <div class="form-group row">
-                    <label asp-for="Kisi.KimlikArkaUrl" class="col-lg-3 col-form-label"></label>
+                    <label asp-for="Kisi.KimlikArkaUrl" class="col-md-3 col-form-label"></label>
                     <span asp-for="Kisi.KimlikArkaUrl" class="text-danger"></span>
-                    <div class="col-lg-9">
+                    <div class="col-md-9">
                         <input type="hidden" asp-for="Kisi.KimlikArkaUrl" />
                         <input asp-for="KimlikArkaFile" type="file" class="form-control" />
                     </div>

@@ -166,5 +166,41 @@ namespace CastAjansCore.Business.Concrete
             //scope.Complete();
             //}
         }
+
+        public override void Update(Oyuncu entity, UserHelper userHelper)
+        {
+            if (entity.Kisi.ProfilFotoUrl == null)
+            {
+                if (entity.OyuncuResimleri != null && entity.OyuncuResimleri.Count > 0)
+                {
+                    entity.Kisi.ProfilFotoUrl = entity.OyuncuResimleri[0].DosyaYolu;
+                }
+            }
+
+
+            _kisiServis.Update(entity.Kisi, userHelper);
+            base.Update(entity, userHelper);
+
+            if (entity.OyuncuResimleri == null)
+                entity.OyuncuResimleri = new List<OyuncuResim>();
+            foreach (var item in entity.OyuncuResimleri.Where(i => i.OyuncuId == 0))
+            {
+                item.OyuncuId = entity.Kisi.Id;
+            }
+            _OyuncuResimServis.SaveListAsync(entity.OyuncuResimleri, userHelper);
+
+            if (entity.OyuncuVideolari == null)
+                entity.OyuncuVideolari = new List<OyuncuVideo>();
+            foreach (var item in entity.OyuncuVideolari.Where(i => i.OyuncuId == 0))
+            {
+                item.OyuncuId = entity.Kisi.Id;
+            }
+            _OyuncuVideoServis.SaveListAsync(entity.OyuncuVideolari, userHelper);
+        }
+
+        public override List<Oyuncu> GetList(Expression<Func<Oyuncu, bool>> filter = null)
+        {
+            return _dal.GetList(new List<string> { "Kisi" }, filter);
+        }
     }
 }

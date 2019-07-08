@@ -1,16 +1,12 @@
-﻿using Calbay.Core.Helper;
-using CastAjansCore.Business.Abstract;
+﻿using CastAjansCore.Business.Abstract;
 using CastAjansCore.Dto;
 using CastAjansCore.Entity;
 using CastAjansCore.WebUI.Helper;
-using DocumentFormat.OpenXml.Packaging;
-using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -197,12 +193,124 @@ namespace CastAjansCore.WebUI.Controllers
 
         public async Task<IActionResult> ResimBulAsync()
         {
-            var oyuncular = await _OyuncuServis.GetListAsync(i => i.Aktif == true && i.Kisi.Aktif == true);
+            var oyuncular = await _OyuncuServis.GetListAsync(i =>i.Kisi.ProfilFotoUrl == null && i.Aktif == true && i.Kisi.Aktif == true);
             foreach (var oyuncu in oyuncular)
             {
                 if (oyuncu.Kisi.DogumTarihi != null)
                 {
-                    var files = Directory.EnumerateFiles(@"c:\\Resimler", $"{oyuncu.Kisi.DogumTarihi.Value.Year} - {oyuncu.Kisi.Adi} {oyuncu.Kisi.Soyadi}*", SearchOption.AllDirectories);
+                    
+
+                    List<string> str = new List<string>();
+                    str.Add($"{oyuncu.Kisi.DogumTarihi.Value.Year}-{oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*");
+                    str.Add($"{oyuncu.Kisi.DogumTarihi.Value.Year}- {oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*");
+                    str.Add($"{oyuncu.Kisi.DogumTarihi.Value.Year} -{oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*");
+                    str.Add($"{oyuncu.Kisi.DogumTarihi.Value.Year} - {oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*");
+
+                    if (oyuncu.Kisi.Adi.ToLower().Contains("ı") || oyuncu.Kisi.Soyadi.ToLower().Contains("ı"))
+                    {
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year}-{oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("ı", "i"));
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year}- {oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("ı", "i"));
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year} -{oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("ı", "i"));
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year} - {oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("ı", "i"));
+                    }
+
+                    if (oyuncu.Kisi.Adi.ToLower().Contains("i") || oyuncu.Kisi.Soyadi.ToLower().Contains("i"))
+                    {
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year}-{oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("i", "ı"));
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year}- {oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("i", "ı"));
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year} -{oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("i", "ı"));
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year} - {oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("i", "ı"));
+                    }
+
+                  
+
+                    if (oyuncu.Kisi.Adi.ToLower().Contains("o") || oyuncu.Kisi.Soyadi.ToLower().Contains("o"))
+                    {
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year}-{oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("o", "ö"));
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year}- {oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("o", "ö"));
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year} -{oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("o", "ö"));
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year} - {oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("o", "ö"));
+                    }
+
+                    if (oyuncu.Kisi.Adi.ToLower().Contains("ö") || oyuncu.Kisi.Soyadi.ToLower().Contains("ö"))
+                    {
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year}-{oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("ö", "o"));
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year}- {oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("ö", "o"));
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year} -{oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("ö", "o"));
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year} - {oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("ö", "o"));
+                    }
+
+                    if (oyuncu.Kisi.Adi.ToLower().Contains("u") || oyuncu.Kisi.Soyadi.ToLower().Contains("u"))
+                    {
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year}-{oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("u", "ü"));
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year}- {oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("u", "ü"));
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year} -{oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("u", "ü"));
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year} - {oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("u", "ü"));
+                    }
+
+                    if (oyuncu.Kisi.Adi.ToLower().Contains("ü") || oyuncu.Kisi.Soyadi.ToLower().Contains("ü"))
+                    {
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year}-{oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("ü", "u"));
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year}- {oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("ü", "u"));
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year} -{oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("ü", "u"));
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year} - {oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("ü", "u"));
+                    }
+
+                    if (oyuncu.Kisi.Adi.ToLower().Contains("c") || oyuncu.Kisi.Soyadi.ToLower().Contains("c"))
+                    {
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year}-{oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("c", "ç"));
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year}- {oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("c", "ç"));
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year} -{oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("c", "ç"));
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year} - {oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("c", "ç"));
+                    }
+
+                    if (oyuncu.Kisi.Adi.ToLower().Contains("ç") || oyuncu.Kisi.Soyadi.ToLower().Contains("ç"))
+                    {
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year}-{oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("ç", "c"));
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year}- {oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("ç", "c"));
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year} -{oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("ç", "c"));
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year} - {oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("ç", "c"));
+                    }
+
+                    if (oyuncu.Kisi.Adi.ToLower().Contains("g") || oyuncu.Kisi.Soyadi.ToLower().Contains("g"))
+                    {
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year}-{oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("g", "ğ"));
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year}- {oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("g", "ğ"));
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year} -{oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("g", "ğ"));
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year} - {oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("g", "ğ"));
+                    }
+
+                    if (oyuncu.Kisi.Adi.ToLower().Contains("ğ") || oyuncu.Kisi.Soyadi.ToLower().Contains("ğ"))
+                    {
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year}-{oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("ğ", "g"));
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year}- {oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("ğ", "g"));
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year} -{oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("ğ", "g"));
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year} - {oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("ğ", "g"));
+                    }
+
+                    if (oyuncu.Kisi.Adi.ToLower().Contains("s") || oyuncu.Kisi.Soyadi.ToLower().Contains("s"))
+                    {
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year}-{oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("s", "ş"));
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year}- {oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("s", "ş"));
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year} -{oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("s", "ş"));
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year} - {oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("s", "ş"));
+                    }
+
+                    if (oyuncu.Kisi.Adi.ToLower().Contains("ş") || oyuncu.Kisi.Soyadi.ToLower().Contains("ş"))
+                    {
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year}-{oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("ş", "s"));
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year}- {oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("ş", "s"));
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year} -{oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("ş", "s"));
+                        str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year} - {oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("ş", "s"));
+                    }
+
+
+                    List<string> files = new  List<string>();
+                    foreach (var item in str)
+                    {
+                        files.AddRange(Directory.EnumerateFiles(@"c:\\Resimler", item, SearchOption.AllDirectories));
+                    }
+                   
                     List<OyuncuResim> resimler = new List<OyuncuResim>();
                     foreach (var resim in files)
                     {
@@ -215,13 +323,17 @@ namespace CastAjansCore.WebUI.Controllers
                             GuncellemeZamani = fi.CreationTime
                         });                        
                     }
+
+                     
+
                     if (resimler.Count > 0)
                     {
                         oyuncu.Kisi.ProfilFotoUrl = resimler[0].DosyaYolu;
                         await _OyuncuServis.UpdateAsync(oyuncu, _loginHelper.UserHelper);
+                        await _oyuncuResimServis.SaveListAsync(resimler, _loginHelper.UserHelper);
                     }
 
-                    await _oyuncuResimServis.SaveListAsync(resimler, _loginHelper.UserHelper);
+                    
                 }
             }
 

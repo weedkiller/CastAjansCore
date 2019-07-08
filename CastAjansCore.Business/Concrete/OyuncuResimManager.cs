@@ -57,5 +57,18 @@ namespace CastAjansCore.Business.Concrete
             await Task.CompletedTask;
 
         }
+
+        public void SaveList(List<OyuncuResim> oyuncuResimleri, UserHelper userHelper)
+        {
+            var liste = oyuncuResimleri.Where(i => i.Id == 0).ToList();
+            
+            if (liste.Count > 0)
+            {
+                for (int i = 0; i < liste.Count; i++)
+                {
+                    base.Add(liste[i], userHelper);
+                }                
+            }
+        }
     }
 }

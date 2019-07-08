@@ -27,37 +27,37 @@
 
                     <fieldset>
                         <div class="form-group row">
-                            <label asp-for="@Model.Musteri.Adi" class="col-lg-3 col-form-label"></label>
+                            <label asp-for="@Model.Musteri.Adi" class="col-md-3 col-form-label"></label>
                             <span asp-validation-for="@Model.Musteri.Adi" class="text-danger"></span>
-                            <div class="col-lg-9">
+                            <div class="col-md-9">
                                 <input asp-for="@Model.Musteri.Adi" class="form-control" />
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label asp-for="@Model.Musteri.Telefon" class="col-lg-3 col-form-label"></label>
+                            <label asp-for="@Model.Musteri.Telefon" class="col-md-3 col-form-label"></label>
                             <span asp-validation-for="@Model.Musteri.Telefon" class="text-danger"></span>
-                            <div class="col-lg-9">
+                            <div class="col-md-9">
                                 <input asp-for="@Model.Musteri.Telefon" data-mask="0 999 999 9999" class="form-control" />
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label asp-for="@Model.Musteri.Telefon2" class="col-lg-3 col-form-label"></label>
+                            <label asp-for="@Model.Musteri.Telefon2" class="col-md-3 col-form-label"></label>
                             <span asp-validation-for="@Model.Musteri.Telefon2" class="text-danger"></span>
-                            <div class="col-lg-9">
+                            <div class="col-md-9">
                                 <input asp-for="@Model.Musteri.Telefon2"  class="form-control" />
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label asp-for="@Model.Musteri.Faks" class="col-lg-3 col-form-label"></label>
+                            <label asp-for="@Model.Musteri.Faks" class="col-md-3 col-form-label"></label>
                             <span asp-validation-for="@Model.Musteri.Faks" class="text-danger"></span>
-                            <div class="col-lg-9">
+                            <div class="col-md-9">
                                 <input asp-for="@Model.Musteri.Faks" data-mask="0 999 999 9999" class="form-control" />
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label asp-for="@Model.Musteri.EPosta" class="col-lg-3 col-form-label"></label>
+                            <label asp-for="@Model.Musteri.EPosta" class="col-md-3 col-form-label"></label>
                             <span asp-validation-for="@Model.Musteri.EPosta" class="text-danger"></span>
-                            <div class="col-lg-9">
+                            <div class="col-md-9">
                                 <input asp-for="@Model.Musteri.EPosta" data-mask="0 999 999 9999" class="form-control" />
                             </div>
                         </div>
@@ -78,25 +78,25 @@
                 <div class="card-body">
                     <fieldset>
                         <div class="form-group row">
-                            <label asp-for="@Model.Musteri.Ilce.IlId" class="col-lg-3 col-form-label"></label>
+                            <label asp-for="@Model.Musteri.Ilce.IlId" class="col-md-3 col-form-label"></label>
                             <span asp-validation-for="@Model.Musteri.Ilce.IlId" class="text-danger"></span>
-                            <div class="col-lg-9">
+                            <div class="col-md-9">
                                 <select asp-for="@Model.Musteri.Ilce.IlId" asp-items="@Model.Iller" onchange="GetIlceler($('#Musteri_Ilce_IlId'),$('#Musteri_IlceId'))" class="form-control">
                                     Seçiniz
                                 </select>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label asp-for="@Model.Musteri.IlceId" class="col-lg-3 col-form-label"></label>
+                            <label asp-for="@Model.Musteri.IlceId" class="col-md-3 col-form-label"></label>
                             <span asp-validation-for="@Model.Musteri.IlceId" class="text-danger"></span>
-                            <div class="col-lg-9">
+                            <div class="col-md-9">
                                 <select asp-for="@Model.Musteri.IlceId" asp-items="@Model.Ilceler" class="form-control"></select>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label asp-for="@Model.Musteri.Adres" class="col-lg-3 col-form-label"></label>
+                            <label asp-for="@Model.Musteri.Adres" class="col-md-3 col-form-label"></label>
                             <span asp-validation-for="@Model.Musteri.Adres" class="text-danger"></span>
-                            <div class="col-lg-9">
+                            <div class="col-md-9">
                                 <textarea asp-for="@Model.Musteri.Adres" rows="3" class="form-control"></textarea>
                             </div>
                         </div>

@@ -122,6 +122,23 @@ namespace Calbay.Core.DataAccess
             return filter;
         }
 
+        public List<TEntity> GetList(List<string> includes, Expression<Func<TEntity, bool>> filter = null)
+        {
+            using (var context = new TContex())
+            {
+                var query = (filter == null
+                    ? context.Set<TEntity>()
+                    : context.Set<TEntity>().Where(SetFilter(filter)));
+
+                foreach (var item in includes)
+                {
+                    query = query.Include(item);
+                }
+
+                return query.ToList<TEntity>();
+            }
+        }
+
         public virtual async Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> filter = null)
         {
             using (var context = new TContex())
@@ -206,6 +223,6 @@ namespace Calbay.Core.DataAccess
             }
         }
 
-        
+      
     }
 }

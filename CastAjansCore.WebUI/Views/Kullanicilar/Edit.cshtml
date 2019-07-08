@@ -32,16 +32,16 @@
 
                     <fieldset>
                         <div class="form-group row">
-                            <label asp-for="Kullanici.KullaniciAdi" class="col-lg-3 col-form-label"></label>
+                            <label asp-for="Kullanici.KullaniciAdi" class="col-md-3 col-form-label"></label>
                             <span asp-validation-for="Kullanici.KullaniciAdi" class="text-danger"></span>
-                            <div class="col-lg-9">
+                            <div class="col-md-9">
                                 <input asp-for="Kullanici.KullaniciAdi" class="form-control" />
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label asp-for="Kullanici.Rol" class="col-lg-3 col-form-label"></label>
-                            <div class="col-lg-9">
+                            <label asp-for="Kullanici.Rol" class="col-md-3 col-form-label"></label>
+                            <div class="col-md-9">
                                 <div class="form-group">
                                     <select asp-for="Kullanici.Rol" asp-items="Html.GetEnumSelectList<EnuRol>()" class="form-control"></select>
                                     <span asp-validation-for="Kullanici.Rol" class="text-danger"></span>
@@ -51,9 +51,9 @@
 
 
                         @*<div class="form-group row">
-                            <label asp-for="Kullanici.Sifre" class="col-lg-3 col-form-label"></label>
+                            <label asp-for="Kullanici.Sifre" class="col-md-3 col-form-label"></label>
                             <span asp-validation-for="Kullanici.Sifre" class="text-danger"></span>
-                            <div class="col-lg-9">
+                            <div class="col-md-9">
                                 <div class="badge-indicator-absolute">
                                     <input asp-for="Kullanici.Sifre" class="form-control" />
                                     <span class="badge password-indicator-badge-absolute"></span>
