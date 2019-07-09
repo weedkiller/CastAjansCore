@@ -136,7 +136,7 @@ namespace Calbay.Core.Business
             if (userHelper == null)
             {
                 userHelper = new UserHelper();
-            }
+            }            
             entity.GuncelleyenId = userHelper.Id;
             entity.GuncellemeZamani = DateTime.Now;
 
