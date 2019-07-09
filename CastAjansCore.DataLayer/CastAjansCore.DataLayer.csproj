@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CastAjansCore.Dto\CastAjansCore.Dto.csproj" />
     <ProjectReference Include="..\CastAjansCore.Entity\CastAjansCore.Entity.csproj" />
   </ItemGroup>
 

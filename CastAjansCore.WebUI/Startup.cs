@@ -1,6 +1,5 @@
 ﻿using Calbay.Core.Business;
 using Calbay.Core.Entities;
-using Calbay.Core.Helper;
 using CastAjansCore.Business.Abstract;
 using CastAjansCore.Business.Concrete;
 using CastAjansCore.DataLayer.Abstract;
@@ -74,6 +73,7 @@ namespace CastAjansCore.WebUI
             services.AddSession();
             services.AddMemoryCache();
 
+            services.Configure<ConnectionStrings>(_configuration.GetSection("ConnectionStrings"));
             services.Configure<EmailSettings>(_configuration.GetSection("EmailSettings"));
             services.Configure<ParamereSettings>(_configuration.GetSection("ParamereSettings"));
 

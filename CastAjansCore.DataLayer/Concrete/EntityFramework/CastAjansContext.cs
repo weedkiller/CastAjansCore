@@ -7,8 +7,15 @@ namespace CastAjansCore.DataLayer.Concrete.EntityFramework
 {
     public class CastAjansContext : DbContext
     {
+        //private readonly ConnectionStrings _connectionStrings;
+
+        //public CastAjansContext(IOptions<ConnectionStrings> connectionStrings)
+        //{
+        //    _connectionStrings = connectionStrings.Value;
+        //}
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            //optionsBuilder.UseSqlServer(_connectionStrings.DefaultConnection);
             string cnnStr = "Data Source=94.73.146.4;Initial Catalog=u7506792_CastAja;Persist Security Info=True;User ID=u7506792_CastAja;Password=albay69sFENDER;MultipleActiveResultSets=True;";
             optionsBuilder.UseSqlServer(cnnStr);
         }
