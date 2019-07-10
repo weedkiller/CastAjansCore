@@ -3,8 +3,12 @@ using CastAjansCore.Business.Abstract;
 using CastAjansCore.Business.Concrete;
 using CastAjansCore.DataLayer.Concrete.EntityFramework;
 using CastAjansCore.Entity;
+using MetadataExtractor;
+using MetadataExtractor.Formats.Exif;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 
@@ -19,50 +23,155 @@ namespace CastAjansCore.ResimBulUI
         {
             try
             {
+                Oriantetion("D:\\Önder\\Projeler\\CastAjansCore\\CastAjansCore.WebUI\\wwwroot\\Dosyalar\\2019\\7\\Resimler\\OyuncuResimleri\\1992-Abdullah Balcı (3).JPG");
+                //Yeni();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.ReadLine();
+            }
+            Console.WriteLine("Bitti {0}", DateTime.Now);
+            Console.ReadLine();
+        }
+
+        private static void Oriantetion(string pathToImageFile)
+        {
+            // Rotate the image according to EXIF data
+            var bmp = new Bitmap(pathToImageFile);
+
+            //    var directories = ImageMetadataReader.ReadMetadata(pathToImageFile);
+            //foreach (var directory in directories.Where(i => i.Name.Contains("Exif")))
+            //{
+            //    var tag = directory.Tags.Where(i => i.TagName.Contains("Orientation")).FirstOrDefault();                
+            //    Console.WriteLine($"{directory.Name} - {tag.Name} = {tag.Description}");
+            //}
+            //Console.ReadLine();
+
+            //if (exif["Orientation"] != null)
+            //{
+            bmp.PropertyItems.Where(i => i.Id == 0x112).FirstOrDefault().Value[0] = 1;
+            bmp.Save(pathToImageFile+"123", ImageFormat.Jpeg);
+
+            //if (flip != RotateFlipType.RotateNoneFlipNone) // don't flip of orientation is correct
+            //{
+            //    bmp.RotateFlip(flip);
+            //    //exif.setTag(0x112, "1"); // Optional: reset orientation tag
+
+            //}
+
+            //    // Match the orientation code to the correct rotation:
 
 
-                UserHelper userHelper = new UserHelper
+            //}
+
+        }
+
+        private static RotateFlipType OrientationToFlipType(string orientation)
+        {
+            switch (int.Parse(orientation))
+            {
+                case 1:
+                    return RotateFlipType.RotateNoneFlipNone;
+                    break;
+                case 2:
+                    return RotateFlipType.RotateNoneFlipX;
+                    break;
+                case 3:
+                    return RotateFlipType.Rotate180FlipNone;
+                    break;
+                case 4:
+                    return RotateFlipType.Rotate180FlipX;
+                    break;
+                case 5:
+                    return RotateFlipType.Rotate90FlipX;
+                    break;
+                case 6:
+                    return RotateFlipType.Rotate90FlipNone;
+                    break;
+                case 7:
+                    return RotateFlipType.Rotate270FlipX;
+                    break;
+                case 8:
+                    return RotateFlipType.Rotate270FlipNone;
+                    break;
+                default:
+                    return RotateFlipType.RotateNoneFlipNone;
+            }
+        }
+
+        private static void Yeni()
+        {
+            UserHelper userHelper = new UserHelper
+            {
+                Id = 1
+            };
+            webRootPath = Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot");
+
+
+            IOyuncuServis oyuncuServis = new OyuncuManager(
+                    new EfOyuncuDal(),
+                    new KisiManager(new EfKisiDal(),
+                                    new IlManager(new EfIlDal()),
+                                    new IlceManager(new EfIlceDal()),
+                                    new UyrukManager(new EfUyrukDal()),
+                                    new BankaManager(new EfBankaDal())
+                                    ),
+                    new OyuncuResimManager(new EfOyuncuResimDal()),
+                    new OyuncuVideoManager(new EfOyuncuVideoDal())
+                    );
+            IOyuncuResimServis oyuncuResimServis = new OyuncuResimManager(new EfOyuncuResimDal());
+            var dosyalar = System.IO.Directory.EnumerateFiles(@"c:\\Resimler", "*", SearchOption.AllDirectories);
+
+            List<Oyuncu> oyuncular = oyuncuServis.GetList(k => k.Kisi.ProfilFotoUrl == null && k.Aktif == true && k.Kisi.Aktif == true);
+            //List<Oyuncu> oyuncular = oyuncuServis.GetList(k => k.Kisi.Adi.StartsWith("OSMAN") && k.Kisi.Soyadi.StartsWith("KERİMOĞLU") && k.Aktif == true && k.Kisi.Aktif == true);
+            int i = 0;
+            foreach (var oyuncu in oyuncular)
+            {
+                if (i % 250 == 0)
+                    Console.WriteLine($"%{i - 100 / oyuncular.Count} ({i} / {oyuncular.Count})");
+                i++;
+
+                List<OyuncuResim> resimler = new List<OyuncuResim>();
+
+                string yil = "";
+                if (oyuncu.Kisi.DogumTarihi != null && oyuncu.Kisi.DogumTarihi.Value.Year != 1905)
                 {
-                    Id = 1
-                };
-                webRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+                    yil = oyuncu.Kisi.DogumTarihi.Value.Year.ToString();
+                }
 
+                List<string> files = dosyalar.Where(d =>
+                    (yil != "" || d.StartsWith(yil)) &&
+                    d.ToLower().TurkceKarakterdenDonustur()
+                     .Contains($"{oyuncu.Kisi.Adi} {oyuncu.Kisi.Soyadi}".ToLower().TurkceKarakterdenDonustur())
+                    ).ToList();
 
-                IOyuncuServis oyuncuServis = new OyuncuManager(
-                        new EfOyuncuDal(),
-                        new KisiManager(new EfKisiDal(),
-                                        new IlManager(new EfIlDal()),
-                                        new IlceManager(new EfIlceDal()),
-                                        new UyrukManager(new EfUyrukDal()),
-                                        new BankaManager(new EfBankaDal())
-                                        ),
-                        new OyuncuResimManager(new EfOyuncuResimDal()),
-                        new OyuncuVideoManager(new EfOyuncuVideoDal())
-                        );
-                IOyuncuResimServis oyuncuResimServis = new OyuncuResimManager(new EfOyuncuResimDal());
-
-                List<Oyuncu> oyuncular = oyuncuServis.GetList(k => k.Kisi.ProfilFotoUrl == null && k.Aktif == true && k.Kisi.Aktif == true);
-                int i = 0;
-                foreach (var oyuncu in oyuncular)
+                if (files.Count == 0)
                 {
+                    Console.WriteLine($"Bulunamadı {oyuncu.Kisi.Adi} {oyuncu.Kisi.Soyadi}");
+                }
+                else
+                {
+                    List<string> control = files.GroupBy(g => g.Substring(13, 4)).Select(g => g.Key).ToList();
 
-                    if (i % 250 == 0)
-                        Console.WriteLine($"{i} / {oyuncular.Count}");
-                    i++;
-
-                    if (oyuncu.Kisi.DogumTarihi != null)
-                    {     
-                        List<string> files = new List<string>();
-                        var str = GetFileNames(oyuncu);
-                        foreach (var item in str)
+                    if (control.Count > 1)
+                    {
+                        Console.WriteLine($"Çift Kayıt {oyuncu.Kisi.Adi} {oyuncu.Kisi.Soyadi}");
+                        foreach (var resim in files)
                         {
-                            files.AddRange(Directory.EnumerateFiles(@"c:\\Resimler", item, SearchOption.AllDirectories));
+                            SaveFile(resim, "CiftKayit");
                         }
-
-                        List<OyuncuResim> resimler = new List<OyuncuResim>();
-                        foreach (var resim in files.Distinct())
+                    }
+                    else
+                    {
+                        DateTime minDate = DateTime.Now;
+                        foreach (var resim in files)
                         {
                             FileInfo fi = new FileInfo(resim);
+                            if (minDate > fi.CreationTime)
+                                minDate = fi.CreationTime;
+
+
                             resimler.Add(new OyuncuResim
                             {
                                 OyuncuId = oyuncu.Id,
@@ -72,24 +181,93 @@ namespace CastAjansCore.ResimBulUI
                             });
                         }
 
-
-
                         if (resimler.Count > 0)
                         {
                             oyuncu.Kisi.ProfilFotoUrl = resimler[0].DosyaYolu;
+                            if (int.TryParse(control[0], out int n))
+                            {
+                                if (oyuncu.Kisi.DogumTarihi == null)
+                                    oyuncu.Kisi.DogumTarihi = new DateTime(control[0].ToInt(), 1, 1);
+                                else
+                                    oyuncu.Kisi.DogumTarihi = new DateTime(control[0].ToInt(), oyuncu.Kisi.DogumTarihi.Value.Month, oyuncu.Kisi.DogumTarihi.Value.Day);
+                            }
+                            if (oyuncu.EklemeZamani > minDate)
+                            {
+                                oyuncu.EklemeZamani = minDate;
+                                oyuncu.Kisi.EklemeZamani = minDate;
+                            }
                             oyuncuServis.UpdateAsync(oyuncu, userHelper);
                             oyuncuResimServis.SaveListAsync(resimler, userHelper);
                         }
                     }
                 }
             }
-            catch (Exception ex)
+        }
+
+        private static void Eski()
+        {
+            UserHelper userHelper = new UserHelper
             {
-                Console.WriteLine(ex.Message);
-                Console.ReadLine();
+                Id = 1
+            };
+            webRootPath = Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot");
+
+
+            IOyuncuServis oyuncuServis = new OyuncuManager(
+                    new EfOyuncuDal(),
+                    new KisiManager(new EfKisiDal(),
+                                    new IlManager(new EfIlDal()),
+                                    new IlceManager(new EfIlceDal()),
+                                    new UyrukManager(new EfUyrukDal()),
+                                    new BankaManager(new EfBankaDal())
+                                    ),
+                    new OyuncuResimManager(new EfOyuncuResimDal()),
+                    new OyuncuVideoManager(new EfOyuncuVideoDal())
+                    );
+            IOyuncuResimServis oyuncuResimServis = new OyuncuResimManager(new EfOyuncuResimDal());
+
+            List<Oyuncu> oyuncular = oyuncuServis.GetList(k => k.Kisi.ProfilFotoUrl == null && k.Aktif == true && k.Kisi.Aktif == true);
+            int i = 0;
+            foreach (var oyuncu in oyuncular)
+            {
+
+                if (i % 250 == 0)
+                    Console.WriteLine($"{i} / {oyuncular.Count}");
+                i++;
+
+                if (oyuncu.Kisi.DogumTarihi != null)
+                {
+                    List<string> files = new List<string>();
+                    var str = GetFileNames(oyuncu);
+                    foreach (var item in str)
+                    {
+                        files.AddRange(System.IO.Directory.EnumerateFiles(@"c:\\Resimler", item, SearchOption.AllDirectories));
+                    }
+
+                    List<OyuncuResim> resimler = new List<OyuncuResim>();
+                    foreach (var resim in files.Distinct())
+                    {
+                        FileInfo fi = new FileInfo(resim);
+                        resimler.Add(new OyuncuResim
+                        {
+                            OyuncuId = oyuncu.Id,
+                            DosyaYolu = SaveFile(resim, "OyuncuResimleri"),
+                            EklemeZamani = fi.CreationTime,
+                            GuncellemeZamani = fi.CreationTime
+                        });
+                    }
+
+
+
+                    if (resimler.Count > 0)
+                    {
+                        oyuncu.Kisi.ProfilFotoUrl = resimler[0].DosyaYolu;
+                        oyuncuServis.UpdateAsync(oyuncu, userHelper);
+                        oyuncuResimServis.SaveListAsync(resimler, userHelper);
+                    }
+                }
             }
-            Console.WriteLine("Bitti {0}", DateTime.Now);
-            Console.ReadLine();
+
         }
 
         private static List<string> GetFileNames(Oyuncu oyuncu)
@@ -321,9 +499,9 @@ namespace CastAjansCore.ResimBulUI
                 string path = Path.Combine(webRootPath, tasinacakyer.Replace("/", "\\"));
 
                 // file is uploaded
-                if (!Directory.Exists(path))
+                if (!System.IO.Directory.Exists(path))
                 {
-                    Directory.CreateDirectory(path);
+                    System.IO.Directory.CreateDirectory(path);
                 }
                 string dosyaAdi = Path.GetFileName(kaynakyer);
                 path = Path.Combine(path, dosyaAdi);
