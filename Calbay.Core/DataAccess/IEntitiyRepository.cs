@@ -22,7 +22,7 @@ namespace Calbay.Core.DataAccess
 
         Task<List<T>> GetListAsync(List<string> includes, Expression<Func<T, bool>> filter = null);
 
-        Task<GridDto<T>> GetGridAsync(int page, int pageCount, List<string> includes = null, Expression<Func<T, bool>> filter = null);
+        //Task<GridDto<T>> GetGridAsync(int start = 0, int pageSize = 0, List<string> includes = null, Expression<Func<T, bool>> filter = null);
 
         void Add(T entity);
 
@@ -35,7 +35,6 @@ namespace Calbay.Core.DataAccess
         Task UpdateAsync(T entity);
 
         Task DeleteAsync(T entity);
-
-
+        
     }
 }

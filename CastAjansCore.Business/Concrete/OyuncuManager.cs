@@ -1,4 +1,5 @@
 ﻿using Calbay.Core.Business;
+using Calbay.Core.Entities;
 using Calbay.Core.Helper;
 using CastAjansCore.Business.Abstract;
 using CastAjansCore.DataLayer.Abstract;
@@ -9,17 +10,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using System.Transactions;
 
 namespace CastAjansCore.Business.Concrete
 {
     public class OyuncuManager : ManagerRepositoryBase<Oyuncu>, IOyuncuServis
     {
+        private readonly IOyuncuDal _oyuncuDal;
         private readonly IKisiServis _kisiServis;
         private readonly IOyuncuResimServis _OyuncuResimServis;
         private readonly IOyuncuVideoServis _OyuncuVideoServis;
+
         public OyuncuManager(IOyuncuDal dal, IKisiServis kisiServis, IOyuncuResimServis oyuncuResimServis, IOyuncuVideoServis oyuncuVideoServis) : base(dal)
         {
+            _oyuncuDal = dal;
             _kisiServis = kisiServis;
             _OyuncuResimServis = oyuncuResimServis;
             _OyuncuVideoServis = oyuncuVideoServis;
@@ -60,38 +63,6 @@ namespace CastAjansCore.Business.Concrete
             var tKisi = _kisiServis.DeleteAsync(id, userHelper);
             var tOyuncu = base.DeleteAsync(id, userHelper);
             await Task.WhenAll(tKisi, tOyuncu);
-        }
-
-        public async Task<List<OyuncuListDto>> GetListDtoAsync(Expression<Func<Oyuncu, bool>> filter = null)
-        {
-            List<OyuncuListDto> listDto = new List<OyuncuListDto>();
-            var oyuncular = await base._dal.GetListAsync(new List<string> { "Kisi", "Kisi.Uyruk", "OyuncuResimleri", }, filter);
-
-            foreach (var item in oyuncular)
-            {
-                listDto.Add(new OyuncuListDto
-                {
-                    Id = item.Id,
-                    Adi = item.Kisi.Adi,
-                    Soyadi = item.Kisi.Soyadi,
-                    DogumTarihi = item.Kisi.DogumTarihi,
-                    ProfilFotoUrl = item.Kisi.ProfilFotoUrl,
-                    Kase = item.Kase,
-                    Uyruk = item.Kisi.Uyruk.Adi,
-                    Cinsiyet = item.Kisi.Cinsiyet.ToDisplay(),
-                    Boy = item.Boy,
-                    Kilo = item.Kilo,
-                    AltBeden = item.AltBeden,
-                    UstBeden = item.UstBeden,
-                    GozRengi = item.GozRengi.ToDisplay(),
-                    TenRengi = item.TenRengi.ToDisplay(),
-                    SacRengi = item.SacRengi.ToDisplay(),
-
-                }
-                );
-            }
-
-            return listDto;
         }
 
         public override async Task AddAsync(Oyuncu entity, UserHelper userHelper)
@@ -201,6 +172,81 @@ namespace CastAjansCore.Business.Concrete
         public override List<Oyuncu> GetList(Expression<Func<Oyuncu, bool>> filter = null)
         {
             return _dal.GetList(new List<string> { "Kisi" }, filter);
+        }
+
+        public Task<List<OyuncuListDto>> GetListDtoAsync(Expression<Func<Oyuncu, bool>> filter = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        //public Task<GridDto<OyuncuListDto>> GetGridAsync(OyuncuFilterDto filterDto)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public async Task<GridDto<OyuncuListDto>> GetGridAsync(OyuncuFilterDto filterDto)
+        //{
+        //    //List<OyuncuListDto> listDto = new List<OyuncuListDto>();
+        //    var grid = await base._dal.GetGridAsync(start, pageSize, filter);
+
+        //    //foreach (var item in grid.Data)
+        //    //{
+        //    //    listDto.Add(new OyuncuListDto
+        //    //    {
+        //    //        Id = item.Id,
+        //    //        Adi = item.Kisi.Adi,
+        //    //        Soyadi = item.Kisi.Soyadi,
+        //    //        DogumTarihi = item.Kisi.DogumTarihi,
+        //    //        ProfilFotoUrl = item.Kisi.ProfilFotoUrl,
+        //    //        Kase = item.Kase,
+        //    //        Uyruk = item.Kisi.Uyruk.Adi,
+        //    //        Cinsiyet = item.Kisi.Cinsiyet.ToDisplay(),
+        //    //        Boy = item.Boy,
+        //    //        Kilo = item.Kilo,
+        //    //        AltBeden = item.AltBeden,
+        //    //        UstBeden = item.UstBeden,
+        //    //        GozRengi = item.GozRengi.ToDisplay(),
+        //    //        TenRengi = item.TenRengi.ToDisplay(),
+        //    //        SacRengi = item.SacRengi.ToDisplay(),
+
+        //    //    }
+        //    //    );
+        //    //}
+
+        //    return grid;
+        //}
+        public async Task<GridDto<OyuncuListDto>> GetGridAsync(OyuncuFilterDto filter)
+        {
+            var data = await _oyuncuDal.GetGridAsync(filter.Start, filter.Length, i =>
+                     (filter.TC == null || i.Kisi.TC.StartsWith(filter.TC)) &&
+                    (filter.Adi == null || i.Kisi.Adi.StartsWith(filter.Adi)) &&
+                    (filter.Soyadi == null || i.Kisi.Soyadi.StartsWith(filter.Soyadi)) &&
+                    (filter.YasMin == 0 || i.Kisi.DogumTarihi <= DateTime.Today.AddYears(-1 * filter.YasMin)) &&
+                    (filter.YasMaks == 0 || i.Kisi.DogumTarihi >= DateTime.Today.AddYears(-1 * filter.YasMaks)) &&
+                    (filter.Cinsiyet == 0 || i.Kisi.Cinsiyet == (EnuCinsiyet)filter.Cinsiyet) &&
+                    (filter.Uyruk == 0 || i.Kisi.UyrukId == filter.Uyruk) &&
+                    (filter.KaseMin == 0 || i.Kase >= filter.KaseMin) &&
+                    (filter.KaseMaks == 0 || i.Kase <= filter.KaseMaks) &&
+                    (filter.BoyMin == 0 || i.Boy >= filter.BoyMin) &&
+                    (filter.BoyMaks == 0 || i.Boy <= filter.BoyMaks) &&
+                    (filter.KiloMin == 0 || i.Kilo >= filter.KiloMin) &&
+                    (filter.KiloMaks == 0 || i.Kilo <= filter.KiloMaks) &&
+                    (filter.AltBedenMin == 0 || i.AltBeden >= filter.AltBedenMin) &&
+                    (filter.AltBedenMaks == 0 || i.AltBeden <= filter.AltBedenMaks) &&
+                    (filter.UstBedenMin == 0 || i.UstBeden >= filter.UstBedenMin) &&
+                    (filter.UstBedenMaks == 0 || i.UstBeden <= filter.UstBedenMaks) &&
+                    (filter.AyakNumarasiMin == 0 || i.AyakNumarasi >= filter.AyakNumarasiMin) &&
+                    (filter.AyakNumarasiMaks == 0 || i.AyakNumarasi <= filter.AyakNumarasiMaks) &&
+                    (filter.GozRengi == 0 || i.GozRengi == (EnuGozRengi)filter.GozRengi) &&
+                    (filter.TenRengi == 0 || i.TenRengi == (EnuTenRengi)filter.TenRengi) &&
+                    (filter.SacRengi == 0 || i.SacRengi == (EnuSacRengi)filter.SacRengi) &&
+                    i.Aktif == true && i.Kisi.Aktif == true
+                );
+
+            data.Draw = filter.Draw;
+            data.length = filter.Length;
+
+            return data;
         }
     }
 }

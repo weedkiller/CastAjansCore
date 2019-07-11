@@ -30,6 +30,25 @@ namespace CastAjansCore.Dto
         public int GozRengi { get; set; }
         public int TenRengi { get; set; }
         public int SacRengi { get; set; }
-        
+        public int Draw { get; set; }
+        public int Start { get; set; }
+        public int Length { get; set; }        
+        public List<Column> Columns { get; set; }
+        public List<Orders> Order { get; set; }
+
+
+        public class Column
+        {
+            public string Name { get; set; }
+            public string Data { get; set; }
+        }
+
+        public class Orders
+        {
+            public int column { get; set; }            
+            public string dir { get; set; }
+        }
     }
+
+    
 }

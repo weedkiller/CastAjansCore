@@ -39,6 +39,8 @@ namespace CastAjansCore.Dto
             }
         }
 
+        public DateTime GuncellemeTarihi { get; set; }
+
         public decimal? Kase { get; set; }
 
         public string ProfilFotoUrl { get; set; }
@@ -46,7 +48,7 @@ namespace CastAjansCore.Dto
         public int? Boy { get; set; }
         public int? Kilo { get; set; }
         public int? UstBeden { get; set; }
-        public int? AltBeden { get; set; }        
+        public int? AltBeden { get; set; }
         public string SacRengi { get; set; }
         public string TenRengi { get; set; }
         public string GozRengi { get; set; }

@@ -1,58 +1,58 @@
 ﻿var _tableOyuncu;
 var _projeKarakterIndex = -1;
-//var _gridIni = false;
-function GetOyuncuGrid() {
-    //alert($("#Filter-Oyuncu-Adi").val());
-    //if (_gridIni == false) {
-    //    _gridIni = true;
-    if (_tableOyuncu != null) {
-        _tableOyuncu.destroy();
-    }
-    var filter = {
-        //function(d) {
-        //    var a = $.extend({}, d,
-        //        OyuncuFilterDto = {
-        TC: $("#Filter-Oyuncu-Tc").val(),
-        Adi: $("#Filter-Oyuncu-Adi").val(),
-        Soyadi: $("#Filter-Oyuncu-Soyadi").val(),
-        YasMin: Number($("#Filter-Oyuncu-YasMin").val()),
-        YasMaks: Number($("#Filter-Oyuncu-YasMaks").val()),
-        Cinsiyet: Number($("#Filter-Oyuncu-Cinsiyet").val()),
-        Uyruk: Number($("#Filter-Oyuncu-Uyruk").val()),
-        KaseMin: Number($("#Filter-Oyuncu-KaseMin").val()),
-        KaseMaks: Number($("#Filter-Oyuncu-KaseMaks").val()),
-        BoyMin: Number($("#Filter-Oyuncu-BoyMin").val()),
-        BoyMaks: Number($("#Filter-Oyuncu-BoyMaks").val()),
-        KiloMin: Number($("#Filter-Oyuncu-KiloMin").val()),
-        KiloMaks: Number($("#Filter-Oyuncu-KiloMaks").val()),
-        AltBedenMin: Number($("#Filter-Oyuncu-AltBedenMin").val()),
-        AltBedenMaks: Number($("#Filter-Oyuncu-AltBedenMaks").val()),
-        UstBedenMin: Number($("#Filter-Oyuncu-UstBedenMin").val()),
-        UstBedenMaks: Number($("#Filter-Oyuncu-UstBedenMaks").val()),
-        AyakNumarasiMin: Number($("#Filter-Oyuncu-AyakNumarasiMin").val()),
-        AyakNumarasiMaks: Number($("#Filter-Oyuncu-AyakNumarasiMaks").val()),
-        GozRengi: Number($("#Filter-Oyuncu-GozRengi").val()),
-        TenRengi: Number($("#Filter-Oyuncu-TenRengi").val()),
-        SacRengi: Number($("#Filter-Oyuncu-SacRengi").val())
-        //    });
-        //return a;
-        //}
 
-    };
+
+$(document).ready(function () {
+
+
     _tableOyuncu = $('#OyuncuGrid').DataTable({
         processing: true,
         responsive: true,
+        serverSide: true,
         scrollX: true,
         language: { url: "//cdn.datatables.net/plug-ins/1.10.19/i18n/Turkish.json" },
-        serverSide: false,
         ajax:
         {
             url: "/Oyuncular/GetOyuncuGrid",
             //contentType: "json",
-            dataSrc: "",
-            //type: "GET",
-            data: filter
+            dataSrc: "data",
+            //type: "Post",
+            data: function (data) {
+                //var json = jQuery.parseJSON(data)
 
+                var filter = {
+                    //function(d) {
+                    //    var a = $.extend({}, d,
+                    //        OyuncuFilterDto = {
+                    TC: $("#Filter-Oyuncu-Tc").val(),
+                    Adi: $("#Filter-Oyuncu-Adi").val(),
+                    Soyadi: $("#Filter-Oyuncu-Soyadi").val(),
+                    YasMin: Number($("#Filter-Oyuncu-YasMin").val()),
+                    YasMaks: Number($("#Filter-Oyuncu-YasMaks").val()),
+                    Cinsiyet: Number($("#Filter-Oyuncu-Cinsiyet").val()),
+                    Uyruk: Number($("#Filter-Oyuncu-Uyruk").val()),
+                    KaseMin: Number($("#Filter-Oyuncu-KaseMin").val()),
+                    KaseMaks: Number($("#Filter-Oyuncu-KaseMaks").val()),
+                    BoyMin: Number($("#Filter-Oyuncu-BoyMin").val()),
+                    BoyMaks: Number($("#Filter-Oyuncu-BoyMaks").val()),
+                    KiloMin: Number($("#Filter-Oyuncu-KiloMin").val()),
+                    KiloMaks: Number($("#Filter-Oyuncu-KiloMaks").val()),
+                    AltBedenMin: Number($("#Filter-Oyuncu-AltBedenMin").val()),
+                    AltBedenMaks: Number($("#Filter-Oyuncu-AltBedenMaks").val()),
+                    UstBedenMin: Number($("#Filter-Oyuncu-UstBedenMin").val()),
+                    UstBedenMaks: Number($("#Filter-Oyuncu-UstBedenMaks").val()),
+                    AyakNumarasiMin: Number($("#Filter-Oyuncu-AyakNumarasiMin").val()),
+                    AyakNumarasiMaks: Number($("#Filter-Oyuncu-AyakNumarasiMaks").val()),
+                    GozRengi: Number($("#Filter-Oyuncu-GozRengi").val()),
+                    TenRengi: Number($("#Filter-Oyuncu-TenRengi").val()),
+                    SacRengi: Number($("#Filter-Oyuncu-SacRengi").val()),
+                    draw: data.draw,                    
+                    order: data.order,
+                    start: data.start,
+                    length: data.length
+                }
+                return filter;
+            }
         },
         columns: [
             {
@@ -71,6 +71,7 @@ function GetOyuncuGrid() {
                 data: "id",
                 searchable: false,
                 bSortable: false,
+                autoWidth: true,
                 visible: _projeKarakterIndex >= 0,
                 sClass: "text-center",
                 render: function (data, type, row) {
@@ -83,6 +84,7 @@ function GetOyuncuGrid() {
                 data: "profilFotoUrl",
                 searchable: false,
                 bSortable: false,
+                autoWidth: true,
                 //visible: _isIhaleDetay == "True" ? true : false,
                 sClass: "text-center",
                 render: function (data, type, row) {
@@ -96,18 +98,27 @@ function GetOyuncuGrid() {
 
                 }
             },
-            { title: "Adı", data: "adi" },
-            { title: "Soyadı", data: "soyadi" },
-            { title: "Yaş", data: "yas" },
-            { title: "Uyruk", data: "uyruk" },
-            { title: "Cinsiyet", data: "cinsiyet" },
-            { title: "Boy", data: "boy" },
-            { title: "Kilo", data: "kilo" },
-            { title: "Alt Beden", data: "altBeden" },
-            { title: "Üst Beden", data: "ustBeden" },
-            { title: "Saç Rengi", data: "sacRengi" },
-            { title: "Ten Rengi", data: "tenRengi" },
-            { title: "Göz Rengi", data: "gozRengi" },
+            {
+                name: "adi",
+                title: "Adı",
+                data: "adi",
+                autoWidth: true
+            },
+            {
+                title: "Soyadı",
+                data: "soyadi",
+                autoWidth: true
+            },
+            { title: "Yaş", data: "yas", autoWidth: true },
+            { title: "Uyruk", data: "uyruk", autoWidth: true },
+            { title: "Cinsiyet", data: "cinsiyet", autoWidth: true },
+            { title: "Boy", data: "boy", autoWidth: true },
+            { title: "Kilo", data: "kilo", autoWidth: true },
+            { title: "Alt Beden", data: "altBeden", autoWidth: true },
+            { title: "Üst Beden", data: "ustBeden", autoWidth: true },
+            { title: "Saç Rengi", data: "sacRengi", autoWidth: true },
+            { title: "Ten Rengi", data: "tenRengi", autoWidth: true },
+            { title: "Göz Rengi", data: "gozRengi", autoWidth: true },
             { title: "Kaşe", data: "kase" },
             {
                 data: "id",
@@ -125,11 +136,14 @@ function GetOyuncuGrid() {
             emptyTable: "Hiç bir kayıt yok"
         }
     });
-    //}
-    //    else {
-    //    _table.draw();
-    //}
+
+    oTable = $('#OyuncuGrid').DataTable();
 
 
+    $("#btnSearch").click(function () {
 
-}
+        oTable.draw();
+    });
+});
+
+

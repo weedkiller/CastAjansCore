@@ -1,4 +1,5 @@
 ﻿using Calbay.Core.Business;
+using Calbay.Core.Entities;
 using CastAjansCore.Dto;
 using CastAjansCore.Entity;
 using System;
@@ -13,5 +14,7 @@ namespace CastAjansCore.Business.Abstract
         Task<OyuncuEditDto> GetEditDtoAsync(int? id);
 
         Task<List<OyuncuListDto>> GetListDtoAsync(Expression<Func<Oyuncu, bool>> filter = null);
+
+        Task<GridDto<OyuncuListDto>> GetGridAsync(OyuncuFilterDto filterDto);
     }
 }

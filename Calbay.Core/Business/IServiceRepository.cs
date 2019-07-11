@@ -17,8 +17,6 @@ namespace Calbay.Core.Business
 
         Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> filter = null);
 
-        Task<GridDto<TEntity>> GetGridAsync(int page, int pageCount, Expression<Func<TEntity, bool>> filter = null);
-
         void Add(TEntity entity, UserHelper userHelper);
 
         void Update(TEntity entity, UserHelper userHelper);

@@ -91,10 +91,7 @@ namespace Calbay.Core.Business
             return await _dal.GetAsync(x => x.Id == id);
         }
 
-        public async Task<GridDto<TEntity>> GetGridAsync(int page, int pageCount, Expression<Func<TEntity, bool>> filter = null)
-        {
-            return await _dal.GetGridAsync(page, pageCount, null, filter);
-        }
+         
 
         public virtual List<TEntity> GetList(Expression<Func<TEntity, bool>> filter = null)
         {

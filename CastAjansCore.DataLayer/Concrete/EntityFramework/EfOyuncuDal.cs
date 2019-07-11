@@ -4,7 +4,10 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Calbay.Core.DataAccess;
+using Calbay.Core.Entities;
+using Calbay.Core.Helper;
 using CastAjansCore.DataLayer.Abstract;
+using CastAjansCore.Dto;
 using CastAjansCore.Entity;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +15,49 @@ namespace CastAjansCore.DataLayer.Concrete.EntityFramework
 {
     public class EfOyuncuDal : EfEntityRepositoryBase<Oyuncu, CastAjansContext>, IOyuncuDal
     {
+        public async Task<GridDto<OyuncuListDto>> GetGridAsync(int start, int pageSize, Expression<Func<Oyuncu, bool>> filter = null)
+        {
+            GridDto<OyuncuListDto> gridDto = new GridDto<OyuncuListDto>();
+            using (var context = new CastAjansContext())
+            {
+                var query = (filter == null
+                    ? context.Oyuncular
+                    : context.Oyuncular.Where(filter));
+
+                query = query.Include(i => i.Kisi);
+                query = query.Include(i => i.Kisi.Uyruk);
+                query = query.Include(i => i.OyuncuResimleri);
+
+                var data = query.Select(i =>
+                    new OyuncuListDto
+                    {
+                        Id = i.Id,
+                        Adi = i.Kisi.Adi,
+                        Soyadi = i.Kisi.Soyadi,
+                        AltBeden = i.AltBeden,
+                        Boy = i.Boy,
+                        Cinsiyet = i.Kisi.Cinsiyet.ToDisplay(),
+                        DogumTarihi = i.Kisi.DogumTarihi,
+                        GozRengi = i.GozRengi.ToDisplay(),
+                        Kase = i.Kase,
+                        Kilo = i.Kilo,
+                        ProfilFotoUrl = i.Kisi.ProfilFotoUrl,
+                        SacRengi = i.SacRengi.ToDisplay(),
+                        TenRengi = i.TenRengi.ToDisplay(),
+                        UstBeden = i.UstBeden,
+                        Uyruk = i.Kisi.Uyruk.Adi
+                    }
+                    ).OrderByDescending(i => i.GuncellemeTarihi);
+
+
+                gridDto.RecordsFiltered = data.Count();
+                gridDto.Data = await data.Skip(start).Take(pageSize).ToListAsync<OyuncuListDto>();
+                gridDto.RecordsTotal = gridDto.Data.Count;
+            }
+
+            return gridDto;
+        }
+
         public override async Task<List<Oyuncu>> GetListAsync(Expression<Func<Oyuncu, bool>> filter = null)
         {
             using (var context = new CastAjansContext())

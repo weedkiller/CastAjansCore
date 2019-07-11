@@ -1,4 +1,5 @@
-﻿using CastAjansCore.Business.Abstract;
+﻿using Calbay.Core.Helper;
+using CastAjansCore.Business.Abstract;
 using CastAjansCore.Dto;
 using CastAjansCore.Entity;
 using CastAjansCore.WebUI.Helper;
@@ -8,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CastAjansCore.WebUI.Controllers
@@ -188,17 +190,17 @@ namespace CastAjansCore.WebUI.Controllers
         public async Task<IActionResult> ResimDelete(int id, int resimId)
         {
             await _oyuncuResimServis.DeleteAsync(resimId, _loginHelper.UserHelper);
-            return RedirectToAction(nameof(Edit), new { id = id });
+            return RedirectToAction(nameof(Edit), new { id });
         }
 
         public async Task<IActionResult> ResimBulAsync()
         {
-            var oyuncular = await _OyuncuServis.GetListAsync(i =>i.Kisi.ProfilFotoUrl == null && i.Aktif == true && i.Kisi.Aktif == true);
+            var oyuncular = await _OyuncuServis.GetListAsync(i => i.Kisi.ProfilFotoUrl == null && i.Aktif == true && i.Kisi.Aktif == true);
             foreach (var oyuncu in oyuncular)
             {
                 if (oyuncu.Kisi.DogumTarihi != null)
                 {
-                    
+
 
                     List<string> str = new List<string>();
                     str.Add($"{oyuncu.Kisi.DogumTarihi.Value.Year}-{oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*");
@@ -222,7 +224,7 @@ namespace CastAjansCore.WebUI.Controllers
                         str.Add(($"{oyuncu.Kisi.DogumTarihi.Value.Year} - {oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*").Replace("i", "ı"));
                     }
 
-                  
+
 
                     if (oyuncu.Kisi.Adi.ToLower().Contains("o") || oyuncu.Kisi.Soyadi.ToLower().Contains("o"))
                     {
@@ -305,12 +307,12 @@ namespace CastAjansCore.WebUI.Controllers
                     }
 
 
-                    List<string> files = new  List<string>();
+                    List<string> files = new List<string>();
                     foreach (var item in str)
                     {
                         files.AddRange(Directory.EnumerateFiles(@"c:\\Resimler", item, SearchOption.AllDirectories));
                     }
-                   
+
                     List<OyuncuResim> resimler = new List<OyuncuResim>();
                     foreach (var resim in files)
                     {
@@ -321,10 +323,10 @@ namespace CastAjansCore.WebUI.Controllers
                             DosyaYolu = FileHelper.SaveFile(resim, "OyuncuResimleri"),
                             EklemeZamani = fi.CreationTime,
                             GuncellemeZamani = fi.CreationTime
-                        });                        
+                        });
                     }
 
-                     
+
 
                     if (resimler.Count > 0)
                     {
@@ -333,7 +335,7 @@ namespace CastAjansCore.WebUI.Controllers
                         await _oyuncuResimServis.SaveListAsync(resimler, _loginHelper.UserHelper);
                     }
 
-                    
+
                 }
             }
 
@@ -388,6 +390,28 @@ namespace CastAjansCore.WebUI.Controllers
         [AllowAnonymous]
         public async Task<JsonResult> GetOyuncuGrid(OyuncuFilterDto filter)
         {
+            var oyuncular = await _OyuncuServis.GetGridAsync(filter);
+
+            return Json(oyuncular);
+            //return Json(oyuncular);
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<JsonResult> GetOyuncuGrid()
+        {
+            int draw = Request.Query["draw"].ToInt(0);
+            int start = Request.Query["start"].ToInt(0);
+            int length = Request.Query["length"].ToInt(0);
+            int pageSize = length;
+            int skip = start.ToInt(0);
+
+            var filter = new OyuncuFilterDto
+            {
+                Adi = Request.Query["adi"],
+                Soyadi = Request.Query["soyadi"]
+            };
+
             var oyuncular = await _OyuncuServis.GetListDtoAsync(i =>
                     (filter.TC == null || i.Kisi.TC.StartsWith(filter.TC)) &&
                    (filter.Adi == null || i.Kisi.Adi.StartsWith(filter.Adi)) &&
@@ -414,16 +438,18 @@ namespace CastAjansCore.WebUI.Controllers
                    i.Aktif == true && i.Kisi.Aktif == true
                );
 
-            //return Json(
-            //    new
-            //    {
-            //        oyuncular,
-            //        iTotalRecords = oyuncular.Count,
-            //        iTotalDisplayRecords = oyuncular.Count
-            //    });
-            return Json(oyuncular);
+            var data = oyuncular.Skip(skip).Take(pageSize).ToList();
+            return Json(
+                new
+                {
+                    draw = filter.Draw,
+                    recordsFiltered = data.Count,
+                    recordsTotal = oyuncular.Count,
+                    data = oyuncular
+                });
+            //return Json(oyuncular);
         }
-         
+
     }
 
 }
