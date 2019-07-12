@@ -76,7 +76,7 @@ namespace Calbay.Core.DataAccess
         {
             using (var context = new TContex())
             {
-                var task = await context.Set<TEntity>().SingleOrDefaultAsync(SetFilter(filter));
+                var task = await context.Set<TEntity>().FirstOrDefaultAsync(SetFilter(filter));
 
                 return task;
             }

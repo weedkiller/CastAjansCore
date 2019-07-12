@@ -16,16 +16,16 @@ namespace CastAjansCore.Entity
         [Display(Name = "Logo")]
         public string LogoUrl { get; set; }
 
-        [MaxLength(13)]
+        [MaxLength(14)]
         [DataType(DataType.PhoneNumber)]
         [Display(Name = "Telefon 1")]
         public string Telefon { get; set; }
-        [MaxLength(13)]
+        [MaxLength(14)]
         [DataType(DataType.PhoneNumber)]
         [Display(Name = "Telefon 2")]
         public string Telefon2 { get; set; }
 
-        [MaxLength(13)]
+        [MaxLength(14)]
         [DataType(DataType.PhoneNumber)]
         public string Faks { get; set; }
 

@@ -44,7 +44,7 @@
                             <label asp-for="@Model.Musteri.Telefon2" class="col-md-3 col-form-label"></label>
                             <span asp-validation-for="@Model.Musteri.Telefon2" class="text-danger"></span>
                             <div class="col-md-9">
-                                <input asp-for="@Model.Musteri.Telefon2"  class="form-control" />
+                                <input asp-for="@Model.Musteri.Telefon2" data-mask="0 999 999 9999"  class="form-control" />
                             </div>
                         </div>
                         <div class="form-group row">
@@ -58,7 +58,7 @@
                             <label asp-for="@Model.Musteri.EPosta" class="col-md-3 col-form-label"></label>
                             <span asp-validation-for="@Model.Musteri.EPosta" class="text-danger"></span>
                             <div class="col-md-9">
-                                <input asp-for="@Model.Musteri.EPosta" data-mask="0 999 999 9999" class="form-control" />
+                                <input asp-for="@Model.Musteri.EPosta" class="form-control" />
                             </div>
                         </div>
                     </fieldset>
@@ -107,8 +107,8 @@
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <a asp-action="Index" class="btn btn-danger left">Geri <i class="icon-cross3"></i></a>
-            <button type="submit" class="btn btn-primary right">Kaydet <i class="icon-checkmark ml-2"></i></button>
+            <a asp-action="Index" class="btn btn-danger left"><i class="mi-arrow-back"></i> Geri</a>
+            <button type="submit" class="btn btn-primary right"><i class="mi-check"></i> Kaydet</button>
         </div>
     </div>
 </form>
