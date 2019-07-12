@@ -23,8 +23,8 @@ namespace CastAjansCore.ResimBulUI
         {
             try
             {
-                Oriantetion("D:\\Önder\\Projeler\\CastAjansCore\\CastAjansCore.WebUI\\wwwroot\\Dosyalar\\2019\\7\\Resimler\\OyuncuResimleri\\1992-Abdullah Balcı (3).JPG");
-                //Yeni();
+                //Oriantetion("D:\\Önder\\Projeler\\CastAjansCore\\CastAjansCore.WebUI\\wwwroot\\Dosyalar\\2019\\7\\Resimler\\OyuncuResimleri\\1992-Abdullah Balcı (3).JPG");
+                Yeni();
             }
             catch (Exception ex)
             {
