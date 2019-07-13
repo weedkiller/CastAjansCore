@@ -46,11 +46,11 @@ $(document).ready(function () {
                     GozRengi: Number($("#Filter-Oyuncu-GozRengi").val()),
                     TenRengi: Number($("#Filter-Oyuncu-TenRengi").val()),
                     SacRengi: Number($("#Filter-Oyuncu-SacRengi").val()),
-                    draw: data.draw,                    
+                    draw: data.draw,
                     order: data.order,
                     start: data.start,
                     length: data.length
-                }
+                };
                 return filter;
             }
         },
@@ -62,20 +62,13 @@ $(document).ready(function () {
                 visible: _projeKarakterIndex < 0,
                 sClass: "text-center",
                 render: function (data, type, row) {
-                    var link = "<a href='Oyuncular/Edit/" + data + "' class='btn btn-sm btn-primary'><i class='mi-mode-edit'></i></a>";
-
-                    return link;
-                }
-            },
-            {
-                data: "id",
-                searchable: false,
-                bSortable: false,
-                autoWidth: true,
-                visible: _projeKarakterIndex >= 0,
-                sClass: "text-center",
-                render: function (data, type, row) {
-                    var link = "<a href='javascript:OyuncuEkle(\"" + row.profilFotoUrl + "\",\"" + row.adi + "\",\"" + row.soyadi + "\"," + data + ")' class='btn btn - sm btn - primary' > <i class='mi - add'></i></a > ";
+                    var link = "";
+                    if (_projeKarakterIndex >= 0) {
+                        link = "<a href='javascript:OyuncuEkle(\"" + row.profilFotoUrl + "\",\"" + row.adi + "\",\"" + row.soyadi + "\"," + data + ")' class='btn btn-sm btn-primary' > <i class='mi-add'></i></a > ";
+                    }
+                    else {
+                        link = "<a href='Oyuncular/Edit/" + data + "' class='btn btn-sm btn-primary'><i class='mi-mode-edit'></i></a>";
+                    }
 
                     return link;
                 }
@@ -88,32 +81,46 @@ $(document).ready(function () {
                 //visible: _isIhaleDetay == "True" ? true : false,
                 sClass: "text-center",
                 render: function (data, type, row) {
+                    var link = "";
                     if (data === null || data === '') {
-                        return "";
+                        link = "<img src='/Resimler/yok.png' class='rounded-circle' style='max-width:75px;' />";
                     }
                     else {
-                        var link = "<img src='" + data + "' class='rounded-circle' style='max-width:75px;' />";
-                        return link;
+                        link = "<img src='" + data + "' style='max-width:75px;' />";
                     }
-
+                    return link;
                 }
             },
             {
-                name: "adi",
-                title: "Adı",
-                data: "adi",
-                autoWidth: true
-            },
-            {
-                title: "Soyadı",
-                data: "soyadi",
-                autoWidth: true
-            },
-            { title: "Yaş", data: "yas", autoWidth: true },
-            { title: "Uyruk", data: "uyruk", autoWidth: true },
+                name: "adsoyad",
+                title: "Ad Soyad",
+                data: "id",
+                bSortable: false,
+                autoWidth: true,
+                render: function (data, type, row) {
+                    var str = "";
+                    
+                    str += "<div class='media-title font-weight-semibold'>" + row["adi"] + " " + row["soyadi"] + "</div>";
+                    str += "<div class='row'>";
+                    str += "    <div class='col-md-6'>";
+                    str += "        <ul class='list-inline list-inline-dotted mb-0'>";
+                    str += "            <li class='list-inline-item'><i class='icon-users mr-2'></i> 382</li>";
+                    str += "            <li class='list-inline-item'><i class='icon-alarm mr-2'></i> 60 hours</li>";
+                    str += "        </ul>";
+                    str += "        <div class='form-group row'><label class='col-sm-6'>Yaş</label><div class='col-sm-6'>: " + row["yas"] + "</div></div>";
+                    str += "        <div class='form-group row'><label class='col-sm-6'>Uyruk</label><div class='col-sm-6'>: " + row["uyruk"] + "</div></div>";                    
+                    str += "    </div>";
+                    str += "    <div class='col-md-6'>";
+                    str += "        <div><b>Boy:</b>" + row["boy"] + "</div>";
+                    str += "        <div><b>Kilo:</b>" + row["kilo"] + "</div>";
+                    str += "    </div>";
+                    str += "</div'>";
+
+                    return str;
+                }
+            },            
             { title: "Cinsiyet", data: "cinsiyet", autoWidth: true },
-            { title: "Boy", data: "boy", autoWidth: true },
-            { title: "Kilo", data: "kilo", autoWidth: true },
+            
             { title: "Alt Beden", data: "altBeden", autoWidth: true },
             { title: "Üst Beden", data: "ustBeden", autoWidth: true },
             { title: "Saç Rengi", data: "sacRengi", autoWidth: true },

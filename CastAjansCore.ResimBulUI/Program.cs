@@ -23,8 +23,39 @@ namespace CastAjansCore.ResimBulUI
         {
             try
             {
-                //Oriantetion("D:\\Önder\\Projeler\\CastAjansCore\\CastAjansCore.WebUI\\wwwroot\\Dosyalar\\2019\\7\\Resimler\\OyuncuResimleri\\1992-Abdullah Balcı (3).JPG");
-                Yeni();
+                //Oriantetion("C:\\inetpub\\wwwroot\\CastAjans\\wwwroot\\Dosyalar\\2019\\7\\Resimler\\OyuncuResimleri\\1992-Abdullah Balcı (3).JPG");
+
+                var directoriesBozuk = ImageMetadataReader.ReadMetadata(@"C:\Projeler\CastAjansCore\CastAjansCore.WebUI\wwwroot\Dosyalar\2019\7\Resimler\OyuncuResimleri\1992-Abdullah Balcı (3).JPG");
+                var directories = ImageMetadataReader.ReadMetadata(@"C:\Projeler\CastAjansCore\CastAjansCore.WebUI\wwwroot\Dosyalar\2019\7\Resimler\OyuncuResimleri1\1992-Abdullah Balcı (3).JPG");
+
+
+                foreach (var directory in directoriesBozuk)
+                {
+                    var dDuzgun = directories.Where(i => i.Name == directory.Name).FirstOrDefault();
+                    if (dDuzgun == null)
+                    {
+                        Console.WriteLine($"Bulunamadı {directory.Name}");
+                        foreach (var tag in directory.Tags)
+                        {
+                            Console.WriteLine($"Bulunamadı {tag.TagName}:{tag.Description}");
+                        }
+                    }
+                    foreach (var tag in directory.Tags)
+                    {
+                        var tDuzgun = dDuzgun.Tags.Where(t => t.TagName == tag.TagName).FirstOrDefault();
+                        if (tDuzgun == null)
+                        {
+                            Console.WriteLine($"Bulunamadı {tag.TagName}");
+                        }
+                        if (tDuzgun.Description != tag.Description)
+                        {
+                            Console.WriteLine($"{directory.Name} - {tag.TagName}:{tag.Description} olması gereken:{tDuzgun.Description}");
+                        }
+
+                    }
+
+                    //Yeni();
+                }
             }
             catch (Exception ex)
             {
@@ -38,20 +69,24 @@ namespace CastAjansCore.ResimBulUI
         private static void Oriantetion(string pathToImageFile)
         {
             // Rotate the image according to EXIF data
-            var bmp = new Bitmap(pathToImageFile);
+            //var bmp = new Bitmap(pathToImageFile);
 
-            //    var directories = ImageMetadataReader.ReadMetadata(pathToImageFile);
-            //foreach (var directory in directories.Where(i => i.Name.Contains("Exif")))
-            //{
-            //    var tag = directory.Tags.Where(i => i.TagName.Contains("Orientation")).FirstOrDefault();                
-            //    Console.WriteLine($"{directory.Name} - {tag.Name} = {tag.Description}");
-            //}
-            //Console.ReadLine();
+            var directories = ImageMetadataReader.ReadMetadata(pathToImageFile);
+            foreach (var directory in directories.Where(i => i.Name.Contains("Exif")))
+            {
+                //var tag = directory.Tags.Where(t => t.TagName.Contains("Orientation")).FirstOrDefault();
+                foreach (var tag in directory.Tags)
+                {
+                    Console.WriteLine($"{directory.Name} - {tag.Name} = {tag.Description}");
+                }
+
+            }
+            Console.ReadLine();
 
             //if (exif["Orientation"] != null)
             //{
-            bmp.PropertyItems.Where(i => i.Id == 0x112).FirstOrDefault().Value[0] = 1;
-            bmp.Save(pathToImageFile+"123", ImageFormat.Jpeg);
+            //bmp.PropertyItems.Where(i => i.Id == 0x112).FirstOrDefault().Value[0] = 1;
+            //bmp.Save(pathToImageFile+"123", ImageFormat.Jpeg);
 
             //if (flip != RotateFlipType.RotateNoneFlipNone) // don't flip of orientation is correct
             //{
