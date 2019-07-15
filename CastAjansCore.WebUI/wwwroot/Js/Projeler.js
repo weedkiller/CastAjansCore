@@ -84,7 +84,7 @@ function OyuncuEkle(profilFotoUrl, adi, soyadi, oyuncuId) {
     str += "</select>";
 
     if (profilFotoUrl !== "") {
-        cell0.innerHTML = "<img width='50px' src='" + profilFotoUrl + "' />";
+        cell0.innerHTML = "<img style='width: 100px' src='" + profilFotoUrl + "' />";
     }
     cell1.innerHTML = adi;
 

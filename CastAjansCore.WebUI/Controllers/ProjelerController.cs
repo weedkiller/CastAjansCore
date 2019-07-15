@@ -5,6 +5,7 @@ using CastAjansCore.WebUI.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -57,55 +58,23 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Projes/Edit/5
         public async Task<IActionResult> Edit(int? id, int musteriId)
         {
-
-            var tKul = _KullaniciServis.GetSelectListAsync();
-            var tUyruk = _UyrukServis.GetSelectListAsync();
-            var projeEditDto = new ProjeEditDto()
+            ProjeEditDto projeEditDto = await _ProjeServis.GetEditDtoAsync(id, musteriId);
+            if (projeEditDto.Proje == null)
             {
-                Kullanicilar = await tKul,
-                OyuncuFilterDto = new OyuncuFilterDto { Uyruklar = await tUyruk }
-            };
-
-            if (id == null)
-            {
-                projeEditDto.Proje = new Proje
-                {
-                    MusteriId = musteriId,
-                    Musteri = await _MusteriServis.GetByIdAsync(musteriId),
-                    ProjeKarakterleri = new List<ProjeKarakter>(),
-                };
-
-                return View(projeEditDto);
+                return NotFound();
             }
-            else
+            if (projeEditDto.Proje.IsiTakipEdenId == 0)
             {
-                projeEditDto.Proje = await _ProjeServis.GetByIdAsync(id.Value);
-                projeEditDto.Proje.Musteri = await _MusteriServis.GetByIdAsync(projeEditDto.Proje.MusteriId);
-                projeEditDto.Proje.ProjeKarakterleri = await _ProjeKarakterServis.GetListByProjeIdAsync(id.Value);
-                foreach (var item in projeEditDto.Proje.ProjeKarakterleri)
-                {
-                    item.ProjeKarakterOyunculari = await _ProjeKarakterOyuncuServis.GetListByProjeKarakterIdAsync(item.Id);
-                }
-
-                //Task[] tProjeKarakterOyunculari = new Task[projeEditDto.Proje.ProjeKarakterleri.Count];
-                //foreach (var item in projeEditDto.Proje.ProjeKarakterleri)
-                //{
-                //    tProjeKarakterOyunculari[projeEditDto.Proje.ProjeKarakterleri.IndexOf(item)] = _ProjeKarakterOyuncuServis.GetListByProjeKarakterIdAsync(item.Id);
-                //}
-
-                //await Task.WhenAll(tProjeKarakterOyunculari);
-                //foreach (var item in projeEditDto.Proje.ProjeKarakterleri)
-                //{
-                //    item.ProjeKarakterOyunculari = (List<ProjeKarakterOyuncu>)(await tProjeKarakterOyunculari[projeEditDto.Proje.ProjeKarakterleri.IndexOf(item)]);
-                //}
-
-                if (projeEditDto.Proje == null)
-                {
-                    return NotFound();
-                }
-
-                return View(projeEditDto);
+                projeEditDto.Proje.IsiTakipEdenId = _loginHelper.UserHelper.Id;
             }
+            return View(projeEditDto);
+        }
+
+        public async Task<IActionResult> Detail(int id)
+        {
+            Proje model = await _ProjeServis.GetAllDetailByIdAsync(id);
+           
+            return View(model);
         }
 
         // POST: Projes/Edit/5
@@ -130,6 +99,11 @@ namespace CastAjansCore.WebUI.Controllers
                             return NotFound();
                         }
                         await _ProjeServis.UpdateAsync(Proje, _loginHelper.UserHelper);
+                    }
+
+                    if (Proje.ProjeDurumu == EnuProjeDurumu.MailGonder)
+                    {
+                        
                     }
                 }
                 catch (DbUpdateConcurrencyException)

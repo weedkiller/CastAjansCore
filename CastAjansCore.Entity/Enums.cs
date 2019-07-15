@@ -198,20 +198,20 @@ namespace CastAjansCore.Entity
         [Display(Name = "Hazırlık Aşamasında")]
         HazirlikAsamasinda = 1,
 
+        [Display(Name = "Mail Gönder")]
+        MailGonder = 2,
+
         [Display(Name = "Teklif Atıldı")]
-        TeklifAtildi = 2,
+        TeklifAtildi = 3,
 
         [Display(Name = "Onaylandı")]
-        Onaylandi = 3,
+        Onaylandi = 4,
 
         [Display(Name = "Tamamlandı")]
-        Tamamlandi = 4,
+        Tamamlandi = 5,
 
         [Display(Name = "Onaylanmadı")]
-        Onaylanmadi = 5,
-
-        [Display(Name = "İptal Oldu")]
-        IptalOldu = 6
+        Onaylanmadi = 6
     }
 
     //public enum EnuTelefonTuru

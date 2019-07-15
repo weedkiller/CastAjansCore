@@ -58,8 +58,7 @@ $(document).ready(function () {
             {
                 data: "id",
                 searchable: false,
-                bSortable: false,
-                visible: _projeKarakterIndex < 0,
+                bSortable: false,                
                 sClass: "text-center",
                 render: function (data, type, row) {
                     var link = "";
@@ -77,16 +76,17 @@ $(document).ready(function () {
                 data: "profilFotoUrl",
                 searchable: false,
                 bSortable: false,
-                autoWidth: true,
+                autoWidth: false,
+                width:100,
                 //visible: _isIhaleDetay == "True" ? true : false,
                 sClass: "text-center",
                 render: function (data, type, row) {
                     var link = "";
                     if (data === null || data === '') {
-                        link = "<img src='/Resimler/yok.png' class='rounded-circle' style='max-width:75px;' />";
+                        link = "<img src='/Resimler/yok.png' class='rounded-circle' style='max-width:100px;' />";
                     }
                     else {
-                        link = "<img src='" + data + "' style='max-width:75px;' />";
+                        link = "<img src='" + data + "' style='max-width:100px;' />";
                     }
                     return link;
                 }
@@ -102,30 +102,25 @@ $(document).ready(function () {
                     
                     str += "<div class='media-title font-weight-semibold'>" + row["adi"] + " " + row["soyadi"] + "</div>";
                     str += "<div class='row'>";
-                    str += "    <div class='col-md-6'>";
-                    str += "        <ul class='list-inline list-inline-dotted mb-0'>";
-                    str += "            <li class='list-inline-item'><i class='icon-users mr-2'></i> 382</li>";
-                    str += "            <li class='list-inline-item'><i class='icon-alarm mr-2'></i> 60 hours</li>";
-                    str += "        </ul>";
-                    str += "        <div class='form-group row'><label class='col-sm-6'>Yaş</label><div class='col-sm-6'>: " + row["yas"] + "</div></div>";
-                    str += "        <div class='form-group row'><label class='col-sm-6'>Uyruk</label><div class='col-sm-6'>: " + row["uyruk"] + "</div></div>";                    
+                    str += "    <div class='col-md-6'>";                    
+                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Cinsiyet</b></label><div class='col-sm-6 nopadding'>: " + row["cinsiyet"] + "</div></div>";
+                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Uyruk</b></label><div class='col-sm-6 nopadding'>: " + row["uyruk"] + "</div></div>";
+                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Saç</b></label><div class='col-sm-6 nopadding'>: " + row["sacRengi"] + "</div></div>";
+                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Ten</b></label><div class='col-sm-6 nopadding'>: " + row["tenRengi"] + "</div></div>";
+                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Göz</b></label><div class='col-sm-6 nopadding'>: " + row["gozRengi"] + "</div></div>";
                     str += "    </div>";
                     str += "    <div class='col-md-6'>";
-                    str += "        <div><b>Boy:</b>" + row["boy"] + "</div>";
-                    str += "        <div><b>Kilo:</b>" + row["kilo"] + "</div>";
-                    str += "    </div>";
+                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Yaş</b></label><div class='col-sm-6 nopadding text-right'> " + row["yas"] + "</div></div>";
+                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Boy</b></label><div class='col-sm-6 nopadding text-right'> " + row["boy"] + "</div></div>";
+                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Kilo</b></label><div class='col-sm-6 nopadding text-right'> " + row["kilo"] + "</div></div>";
+                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Alt B.</b></label><div class='col-sm-6 nopadding text-right'> " + row["altBeden"] + "</div></div>";
+                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Üst B.</b></label><div class='col-sm-6 nopadding text-right'> " + row["ustBeden"] + "</div></div>";                    
+                    str += "    </div>";                    
                     str += "</div'>";
 
                     return str;
                 }
             },            
-            { title: "Cinsiyet", data: "cinsiyet", autoWidth: true },
-            
-            { title: "Alt Beden", data: "altBeden", autoWidth: true },
-            { title: "Üst Beden", data: "ustBeden", autoWidth: true },
-            { title: "Saç Rengi", data: "sacRengi", autoWidth: true },
-            { title: "Ten Rengi", data: "tenRengi", autoWidth: true },
-            { title: "Göz Rengi", data: "gozRengi", autoWidth: true },
             { title: "Kaşe", data: "kase" },
             {
                 data: "id",
