@@ -85,6 +85,8 @@ namespace CastAjansCore.Entity
         [Display(Name = "Ehliyet")]
         public string Ehliyet { get; set; }
 
+        public EnuOyuncuDurumu Durumu { get; set; }
+
         [ForeignKey("Id")]
         public virtual Kisi Kisi { get; set; }
 

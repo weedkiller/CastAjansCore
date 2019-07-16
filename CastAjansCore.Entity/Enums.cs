@@ -238,6 +238,16 @@ namespace CastAjansCore.Entity
         Oynadi = 3
     }
 
+    public enum EnuOyuncuDurumu
+    {
+        [Display(Name = "Teklif Atıldı")]
+        Aktif = 1,
+
+        [Display(Name = "Kabul Edildi")]
+        Pasif = 2
+    }
+
+    
 
 
 
