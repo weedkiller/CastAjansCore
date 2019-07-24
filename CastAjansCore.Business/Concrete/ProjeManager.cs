@@ -1,24 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Calbay.Core.Business;
-using Calbay.Core.DataAccess;
+﻿using Calbay.Core.Business;
 using Calbay.Core.Helper;
 using CastAjansCore.Business.Abstract;
 using CastAjansCore.DataLayer.Abstract;
 using CastAjansCore.Dto;
 using CastAjansCore.Entity;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CastAjansCore.Business.Concrete
 {
     public class ProjeManager : ManagerRepositoryBase<Proje>, IProjeServis
     {
+        private readonly IProjeDal _projeDal;
         private readonly IProjeKarakterServis _ProjeKarakterServis;
         private readonly IKullaniciServis _KullaniciServis;
-        private readonly IUyrukServis _UyrukServis;
+        private readonly IUyrukServis _UyrukServis;        
         private readonly IMusteriServis _MusteriServis;
         private readonly IProjeKarakterOyuncuServis _ProjeKarakterOyuncuServis;
+
         public ProjeManager(IProjeDal dal,
                             IMusteriServis musteriServis,
                             IKullaniciServis kullaniciServis,
@@ -27,6 +27,7 @@ namespace CastAjansCore.Business.Concrete
                             IProjeKarakterOyuncuServis projeKarakterOyuncuServis
                             ) : base(dal)
         {
+            _projeDal = dal;
             _MusteriServis = musteriServis;
             _KullaniciServis = kullaniciServis;
             _ProjeKarakterServis = projeKarakterServis;
@@ -66,6 +67,22 @@ namespace CastAjansCore.Business.Concrete
             }
 
             return entity;
+        }
+
+        public async Task<ProjeDetailDto> GetDetailAsync(string guidId)
+        {
+            ProjeDetailDto projeDetailDto = await _projeDal.GetDetailByGuidIdAsync(guidId);
+            //Proje proje = await _dal.GetAsync(new List<string> { "Musteri", "IsiTakipEden" }, i => i.GuidId.Equals(guidId) && i.Aktif == true);
+            //List<ProjeKarakter> projeKarakterleri = await _ProjeKarakterServis.GetListByProjeIdAsync(proje.Id);
+            //Parallel.ForEach(projeKarakterleri, async karakter =>
+            //{
+            //    karakter.ProjeKarakterOyunculari = await _ProjeKarakterOyuncuServis.GetListByProjeKarakterIdAsync(karakter.Id);
+            //});
+
+            //proje
+
+            return projeDetailDto;
+
         }
 
         public async Task<ProjeEditDto> GetEditDtoAsync(int? id, int? musteriId)

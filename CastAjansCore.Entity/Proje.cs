@@ -9,6 +9,8 @@ namespace CastAjansCore.Entity
     [Table("Projeler", Schema = "Cast")]
     public class Proje : BaseEntity, IEntity
     {
+        public Guid GuidId { get; set; }
+
         [Required]
         [Display(Name = "Müşteri")]
         public int MusteriId { get; set; }

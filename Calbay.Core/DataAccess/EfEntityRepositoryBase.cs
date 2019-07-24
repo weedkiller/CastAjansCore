@@ -68,7 +68,7 @@ namespace Calbay.Core.DataAccess
         {
             using (var context = new TContex())
             {
-                return context.Set<TEntity>().SingleOrDefault(SetFilter(filter));
+                return context.Set<TEntity>().FirstOrDefault(SetFilter(filter));
             }
         }
 

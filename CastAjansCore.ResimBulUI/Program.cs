@@ -307,16 +307,18 @@ namespace CastAjansCore.ResimBulUI
 
         private static List<string> GetFileNames(Oyuncu oyuncu)
         {
-            List<string> str = new List<string>();
-            str.Add($"{oyuncu.Kisi.DogumTarihi.Value.Year}-{oyuncu.Kisi.Adi} {oyuncu.Kisi.Soyadi}*");
-            str.Add($"{oyuncu.Kisi.DogumTarihi.Value.Year}- {oyuncu.Kisi.Adi} {oyuncu.Kisi.Soyadi}*");
-            str.Add($"{oyuncu.Kisi.DogumTarihi.Value.Year} -{oyuncu.Kisi.Adi} {oyuncu.Kisi.Soyadi}*");
-            str.Add($"{oyuncu.Kisi.DogumTarihi.Value.Year} - {oyuncu.Kisi.Adi} {oyuncu.Kisi.Soyadi}*");
+            List<string> str = new List<string>
+            {
+                $"{oyuncu.Kisi.DogumTarihi.Value.Year}-{oyuncu.Kisi.Adi} {oyuncu.Kisi.Soyadi}*",
+                $"{oyuncu.Kisi.DogumTarihi.Value.Year}- {oyuncu.Kisi.Adi} {oyuncu.Kisi.Soyadi}*",
+                $"{oyuncu.Kisi.DogumTarihi.Value.Year} -{oyuncu.Kisi.Adi} {oyuncu.Kisi.Soyadi}*",
+                $"{oyuncu.Kisi.DogumTarihi.Value.Year} - {oyuncu.Kisi.Adi} {oyuncu.Kisi.Soyadi}*",
 
-            str.Add($"{oyuncu.Kisi.DogumTarihi.Value.Year}-{oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*");
-            str.Add($"{oyuncu.Kisi.DogumTarihi.Value.Year}- {oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*");
-            str.Add($"{oyuncu.Kisi.DogumTarihi.Value.Year} -{oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*");
-            str.Add($"{oyuncu.Kisi.DogumTarihi.Value.Year} - {oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*");
+                $"{oyuncu.Kisi.DogumTarihi.Value.Year}-{oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*",
+                $"{oyuncu.Kisi.DogumTarihi.Value.Year}- {oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*",
+                $"{oyuncu.Kisi.DogumTarihi.Value.Year} -{oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*",
+                $"{oyuncu.Kisi.DogumTarihi.Value.Year} - {oyuncu.Kisi.Adi.ToLower()} {oyuncu.Kisi.Soyadi.ToLower()}*"
+            };
 
             if (oyuncu.Kisi.Adi.ToLower().Contains("ı") || oyuncu.Kisi.Soyadi.ToLower().Contains("ı"))
             {

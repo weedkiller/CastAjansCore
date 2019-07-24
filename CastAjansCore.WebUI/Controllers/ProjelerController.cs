@@ -59,6 +59,10 @@ namespace CastAjansCore.WebUI.Controllers
         public async Task<IActionResult> Edit(int? id, int musteriId)
         {
             ProjeEditDto projeEditDto = await _ProjeServis.GetEditDtoAsync(id, musteriId);
+            if(projeEditDto.Proje.GuidId == null)
+            {
+                projeEditDto.Proje.GuidId = Guid.NewGuid();
+            }
             if (projeEditDto.Proje == null)
             {
                 return NotFound();
@@ -70,9 +74,9 @@ namespace CastAjansCore.WebUI.Controllers
             return View(projeEditDto);
         }
 
-        public async Task<IActionResult> Detail(int id)
+        public async Task<IActionResult> Detail(string id)
         {
-            Proje model = await _ProjeServis.GetAllDetailByIdAsync(id);
+            ProjeDetailDto model = await _ProjeServis.GetDetailAsync(id);
            
             return View(model);
         }

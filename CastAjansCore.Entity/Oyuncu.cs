@@ -13,6 +13,7 @@ namespace CastAjansCore.Entity
             OyuncuResimleri = new List<OyuncuResim>();
             OyuncuVideolari = new List<OyuncuVideo>();
         }
+
         [Key]
         [ForeignKey("Kisi")]        
         public override int Id { get; set; }
