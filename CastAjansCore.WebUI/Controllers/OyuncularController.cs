@@ -73,7 +73,6 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Oyuncus/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-
             OyuncuEditDto model = await _OyuncuServis.GetEditDtoAsync(id);
 
             if (id != null && model.Oyuncu == null)

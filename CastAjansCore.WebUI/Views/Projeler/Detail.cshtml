@@ -1,0 +1,110 @@
+﻿@model CastAjansCore.Dto.ProjeDetailDto
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+
+    <title>Detail</title>
+
+    <!-- Global stylesheets -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+    <link href="/Limitless_2_2/css/icons/icomoon/styles.min.css" rel="stylesheet" type="text/css">
+    <link href="/Limitless_2_2/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/Limitless_2_2/css/bootstrap_limitless.min.css" rel="stylesheet" type="text/css">
+    <link href="/Limitless_2_2/css/layout.min.css" rel="stylesheet" type="text/css">
+    <link href="/Limitless_2_2/css/components.min.css" rel="stylesheet" type="text/css">
+    <link href="/Limitless_2_2/css/colors.min.css" rel="stylesheet" type="text/css">
+    <!-- /global stylesheets -->
+    <!-- Core JS files -->
+    <script src="/Limitless_2_2/js/main/jquery.min.js"></script>
+    <script src="/Limitless_2_2/js/main/bootstrap.bundle.min.js"></script>
+    <script src="/Limitless_2_2/js/plugins/loaders/blockui.min.js"></script>
+    <script src="/Limitless_2_2/js/plugins/ui/ripple.min.js"></script>
+    <!-- /core JS files -->
+    <!-- Theme JS files -->
+    <script src="/Limitless_2_2/js/plugins/forms/styling/uniform.min.js"></script>
+    <script src="/Limitless_2_2/js/app.js"></script>
+    <script src="/Limitless_2_2/js/demo_pages/login.js"></script>
+    <!-- /theme JS files -->
+</head>
+<body>
+
+    <div class="container">
+        <h4>ProjeDetailDto</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Id)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Id)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.IlgiliKisi)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.IlgiliKisi)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.IlgiliTelefon)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.IlgiliTelefon)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.IlgiliEPosta)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.IlgiliEPosta)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ProjeAdi)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.ProjeAdi)
+            </dd>
+            <dt class="col-sm-2">
+                Proje Tarihi
+            </dt>
+            <dd class="col-sm-10">
+                @Model.ProjeTarihBas.ToShortDateString()-@Model.ProjeTarihBit.ToShortDateString()
+            </dd>
+            
+        </dl>
+
+
+        @foreach (var projeKarakter in Model.ProjeKarakterleri)
+        {
+            <div class="row">
+                <div class="col-sm-12">
+                    <h2>@projeKarakter.Adi</h2>
+                </div>
+                <div class="col-12">
+                    @foreach (var oyuncu in projeKarakter.Oyuncular)
+                    {
+                        <div class="row">
+                            <div class="col-4">Adı</div>
+                            <div class="col-8">@oyuncu.Adi @oyuncu.Soyadi</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">Boy</div>
+                            <div class="col-8">@oyuncu.Boy</div>
+                        </div>
+                        <hr />
+                    }
+
+                </div>
+            </div>
+        }foreach
+
+    </div>
+
+
+</body>
+</html>

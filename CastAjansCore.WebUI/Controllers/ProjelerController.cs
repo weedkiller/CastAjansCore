@@ -59,7 +59,7 @@ namespace CastAjansCore.WebUI.Controllers
         public async Task<IActionResult> Edit(int? id, int musteriId)
         {
             ProjeEditDto projeEditDto = await _ProjeServis.GetEditDtoAsync(id, musteriId);
-            if(projeEditDto.Proje.GuidId == null)
+            if(projeEditDto.Proje.GuidId == Guid.Empty)
             {
                 projeEditDto.Proje.GuidId = Guid.NewGuid();
             }

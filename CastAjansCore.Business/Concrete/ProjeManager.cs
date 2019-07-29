@@ -6,6 +6,7 @@ using CastAjansCore.Dto;
 using CastAjansCore.Entity;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CastAjansCore.Business.Concrete
@@ -15,7 +16,9 @@ namespace CastAjansCore.Business.Concrete
         private readonly IProjeDal _projeDal;
         private readonly IProjeKarakterServis _ProjeKarakterServis;
         private readonly IKullaniciServis _KullaniciServis;
-        private readonly IUyrukServis _UyrukServis;        
+        private readonly IUyrukServis _UyrukServis;
+        private readonly IOyuncuResimServis _oyuncuResimServis;
+        private readonly IOyuncuVideoServis _oyuncuVideoServis;
         private readonly IMusteriServis _MusteriServis;
         private readonly IProjeKarakterOyuncuServis _ProjeKarakterOyuncuServis;
 
@@ -24,7 +27,9 @@ namespace CastAjansCore.Business.Concrete
                             IKullaniciServis kullaniciServis,
                             IUyrukServis uyrukServis,
                             IProjeKarakterServis projeKarakterServis,
-                            IProjeKarakterOyuncuServis projeKarakterOyuncuServis
+                            IProjeKarakterOyuncuServis projeKarakterOyuncuServis,
+                            IOyuncuResimServis oyuncuResimServis,
+                            IOyuncuVideoServis oyuncuVideoServis
                             ) : base(dal)
         {
             _projeDal = dal;
@@ -33,6 +38,8 @@ namespace CastAjansCore.Business.Concrete
             _ProjeKarakterServis = projeKarakterServis;
             _ProjeKarakterOyuncuServis = projeKarakterOyuncuServis;
             _UyrukServis = uyrukServis;
+            _oyuncuResimServis = oyuncuResimServis;
+            _oyuncuVideoServis = oyuncuVideoServis;
         }
 
         public override async Task AddAsync(Proje entity, UserHelper userHelper)
@@ -71,15 +78,76 @@ namespace CastAjansCore.Business.Concrete
 
         public async Task<ProjeDetailDto> GetDetailAsync(string guidId)
         {
-            ProjeDetailDto projeDetailDto = await _projeDal.GetDetailByGuidIdAsync(guidId);
-            //Proje proje = await _dal.GetAsync(new List<string> { "Musteri", "IsiTakipEden" }, i => i.GuidId.Equals(guidId) && i.Aktif == true);
-            //List<ProjeKarakter> projeKarakterleri = await _ProjeKarakterServis.GetListByProjeIdAsync(proje.Id);
-            //Parallel.ForEach(projeKarakterleri, async karakter =>
-            //{
-            //    karakter.ProjeKarakterOyunculari = await _ProjeKarakterOyuncuServis.GetListByProjeKarakterIdAsync(karakter.Id);
-            //});
+            //ProjeDetailDto projeDetailDto = await _projeDal.GetDetailByGuidIdAsync(guidId);
+            Proje proje = await _dal.GetAsync(new List<string> { "Musteri", "IsiTakipEden", "IsiTakipEden.Kisi" }, i => i.GuidId == new Guid(guidId) && i.Aktif == true);
+            List<ProjeKarakter> projeKarakterleri = await _ProjeKarakterServis.GetListByProjeIdAsync(proje.Id);
+            //proje = await _dal.GetAsync(i => i.GuidId.Equals(guidId));
 
-            //proje
+
+            var tasks = projeKarakterleri.Select(async karakter =>
+            {
+                karakter.ProjeKarakterOyunculari = await _ProjeKarakterOyuncuServis.GetListByProjeKarakterIdAsync(karakter.Id);
+                foreach (var oyuncu in karakter.ProjeKarakterOyunculari)
+                {
+                    var tResim = _oyuncuResimServis.GetListAsync(i => i.OyuncuId == oyuncu.OyuncuId && i.Aktif);
+                    var tVideo = _oyuncuVideoServis.GetListAsync(i => i.OyuncuId == oyuncu.OyuncuId && i.Aktif);
+
+                    oyuncu.Oyuncu.OyuncuResimleri = await tResim;
+                    oyuncu.Oyuncu.OyuncuVideolari = await tVideo;
+                }
+            });
+
+            await Task.WhenAll(tasks);
+            
+
+            ProjeDetailDto projeDetailDto = new ProjeDetailDto();
+            projeDetailDto.Id = proje.Id;
+            projeDetailDto.ProjeAdi = proje.Adi;
+            projeDetailDto.ProjeTarihBas = proje.TarihBas;
+            projeDetailDto.ProjeTarihBit = proje.TarihBit;
+            projeDetailDto.IlgiliKisi = $"{proje.IsiTakipEden.Kisi.Adi} {proje.IsiTakipEden.Kisi.Soyadi}";
+            projeDetailDto.IlgiliTelefon = proje.IsiTakipEden.Kisi.Telefon;
+            projeDetailDto.IlgiliEPosta = proje.IsiTakipEden.Kisi.EPosta;
+            projeDetailDto.ProjeKarakterleri = new List<ProjeKarakterDetailDto>();
+            foreach (var karakter in projeKarakterleri)
+            {
+                var karakterDetay = new ProjeKarakterDetailDto
+                {
+                    Id = karakter.Id,
+                    Adi = karakter.Adi,
+                    KarakterSayisi = karakter.KarakterSayisi,
+                    Oyuncular = new List<OyuncuDetailDto>()
+                };
+
+                foreach (var oyuncu in karakter.ProjeKarakterOyunculari)
+                {
+                    karakterDetay.Oyuncular.Add(new OyuncuDetailDto
+                    {
+                        Id = oyuncu.Oyuncu.Id,
+                        Adi = oyuncu.Oyuncu.Kisi.Adi,
+                        Soyadi = oyuncu.Oyuncu.Kisi.Soyadi,
+                        UstBeden = oyuncu.Oyuncu.UstBeden,
+                        AltBeden = oyuncu.Oyuncu.AltBeden,
+                        AyakNumarasi = oyuncu.Oyuncu.AltBeden,
+                        Boy = oyuncu.Oyuncu.AltBeden,
+                        Kilo = oyuncu.Oyuncu.AltBeden,
+                        GozRengi = oyuncu.Oyuncu.GozRengi,
+                        SacRengi = oyuncu.Oyuncu.SacRengi,
+                        TenRengi = oyuncu.Oyuncu.TenRengi,
+                        OyuculukEgitimi = oyuncu.Oyuncu.OyuculukEgitimi,
+                        Tecrubeler = oyuncu.Oyuncu.Tecrubeler,
+                        YabanciDil = oyuncu.Oyuncu.YabanciDil,
+                        Yetenekleri = oyuncu.Oyuncu.Yetenekleri,
+                        OyuncuResimleri = oyuncu.Oyuncu.OyuncuResimleri.Take(3).Select(i => i.DosyaYolu).ToList(),
+                        OyuncuVideolari = oyuncu.Oyuncu.OyuncuVideolari.Take(3).Select(i => i.DosyaYolu).ToList()
+                    });
+                }
+
+
+                projeDetailDto.ProjeKarakterleri.Add(karakterDetay);
+            }
+
+
 
             return projeDetailDto;
 

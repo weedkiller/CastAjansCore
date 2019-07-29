@@ -15,7 +15,7 @@ namespace CastAjansCore.DataLayer.Concrete.EntityFramework
         {
             using (var context = new CastAjansContext())
             {
-                return await context.Projeler
+                var a = context.Projeler
                     .Where(p => p.GuidId.Equals(guidId))
                     .Include(k => k.ProjeKarakterleri)
                     .Select(p => new ProjeDetailDto
@@ -61,7 +61,9 @@ namespace CastAjansCore.DataLayer.Concrete.EntityFramework
                                                                                     .ToList()
                                                             }).ToList()
                                             }).ToList()
-                    }).FirstOrDefaultAsync();
+                    });
+                //var sql=a.
+                return await a.FirstOrDefaultAsync();
             }
         }
 

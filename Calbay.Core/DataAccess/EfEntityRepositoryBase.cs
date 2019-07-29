@@ -92,9 +92,9 @@ namespace Calbay.Core.DataAccess
                     query = query.Include(item);
                 }
 
-                var sql = query.Where(SetFilter(filter)).ToSql();
-                var test = query.Where(SetFilter(filter)).ToList();
-                return await query.SingleOrDefaultAsync<TEntity>(SetFilter(filter));
+                //var sql = query.Where(SetFilter(filter)).ToSql();
+                //var test = query.Where(SetFilter(filter)).ToList();
+                return await query.FirstOrDefaultAsync(SetFilter(filter));
             }
         }
 
