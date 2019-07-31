@@ -1,17 +1,19 @@
 ﻿@model CastAjansCore.Dto.OyuncuFilterDto
 @using CastAjansCore.Entity
 
-<div class="card">
+<div class="card card-collapsed">
 
-    <div class="card-header bg-transparent header-elements-inline">
+    <div class="card-header bg-transparent header-elements-inline" >
         <span class="card-title font-weight-semibold">Filtre</span>
         <div class="header-elements">
             <div class="list-icons">
                 <a class="list-icons-item" asp-action="Edit"><i class="icon-plus3"></i></a>
-                <button type="button" id="btnSearch" class="list-icons-item">
-                    @*href="javascript:GetOyuncuGrid()"*@
-                    <i class="mi-search"></i>
-                </button>
+                &nbsp;
+                &nbsp;
+                <a id="btnSearch" href="javascript:GetOyuncuGrid();" class="list-icons-item">
+                    <i class="icon-search4"></i>
+                </a>
+                &nbsp;&nbsp;
                 <a class="list-icons-item" data-action="collapse"></a>
             </div>
         </div>
@@ -20,19 +22,19 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="card">
-                    <div class="card-header header-elements-inline">
-                        <h5 class="card-title"><i class="icon-reading mr-2"></i> Kisi Bilgileri</h5>
-                    </div>
+                    @*<div class="card-header header-elements-inline">
+                            <h5 class="card-title"><i class="icon-reading mr-2"></i> Kisi Bilgileri</h5>
+                        </div>*@
                     <div class="card-body">
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">TC</label>
-                            <div class="col-md-9">
-                                <div class="form-row">
-                                    <input id="Filter-Oyuncu-TC" class="form-control" />
+                        <fieldset class="row">
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">TC</label>
+                                <div class="col-md-9">
+                                    <div class="form-row">
+                                        <input id="Filter-Oyuncu-TC" class="form-control" />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <fieldset class="row">
                             <div class="form-group row">
                                 <label class="col-md-3 col-form-label">Ad Soyad</label>
                                 <div class="col-md-9">
@@ -109,9 +111,9 @@
             </div>
             <div class="col-md-6">
                 <div class="card">
-                    <div class="card-header header-elements-inline">
-                        <h5 class="card-title"><i class="icon-reading mr-2"></i> Fiziki Bilgiler</h5>
-                    </div>
+                    @*<div class="card-header header-elements-inline">
+                            <h5 class="card-title"><i class="icon-reading mr-2"></i> Fiziki Bilgiler</h5>
+                        </div>*@
                     <div class="card-body">
                         <fieldset>
                             <div class="row">
@@ -228,12 +230,12 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
 </div>
 
 <div class="card">
     <div class="card-body">
-        <table id="OyuncuGrid" class="table datatable-basic table-hover dataTable no-footer"></table>
+        <table id="OyuncuGrid" class="table datatable-basic table-hover dataTable no-footer" style="100%"></table>
     </div>
 </div>

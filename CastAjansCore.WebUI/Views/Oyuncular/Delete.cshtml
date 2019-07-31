@@ -1,4 +1,4 @@
-﻿@model CastAjansCore.Entity.Banka
+﻿@model CastAjansCore.Entity.Oyuncu
 
 @{
     ViewData["Title"] = "Banka Silme";
@@ -27,11 +27,24 @@
                     <legend class="font-weight-semibold"><i class="icon-truck mr-2"></i> Silinecek Kayıt</legend>
 
                     <div class="form-group row">
-                        <label asp-for="Adi" class="col-md-3 col-form-label"></label>
+                        <label asp-for="Kisi.TC" class="col-md-3 col-form-label"></label>
 
                         <div class="col-md-9">
-                            <input asp-for="Adi" readonly class="form-control" />
+                            <input asp-for="Kisi.TC" readonly class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="Kisi.Adi" class="col-md-3 col-form-label"></label>
 
+                        <div class="col-md-9">
+                            <input asp-for="Kisi.Adi" readonly class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="Kisi.Soyadi" class="col-md-3 col-form-label"></label>
+
+                        <div class="col-md-9">
+                            <input asp-for="Kisi.Soyadi" readonly class="form-control" />
                         </div>
                     </div>
                 </fieldset>

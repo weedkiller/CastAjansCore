@@ -8,10 +8,15 @@ namespace CastAjansCore.Dto
     {
         public int Id { get; set; }
 
+        [Display(Name = "Adı")]
         public string Adi { get; set; }
 
+        [Display(Name = "Soyadı")]
         public string Soyadi { get; set; }
-         
+
+        [Display(Name = "Ad Soyad")]
+        public string TamAdi { get { return $"{Adi} {Soyadi}"; } }
+
         [Display(Name = "Boy(Cm)")]
         public int? Boy { get; set; }
 

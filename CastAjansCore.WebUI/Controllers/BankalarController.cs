@@ -39,8 +39,7 @@ namespace CastAjansCore.WebUI.Controllers
 
         // GET: Bankas/Edit/5
         public async Task<IActionResult> Edit(int? id)
-        {
-            
+        {            
             if (id == null)
             {
                 return View(new Banka());

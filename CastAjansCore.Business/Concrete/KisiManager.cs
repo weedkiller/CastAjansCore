@@ -39,8 +39,8 @@ namespace CastAjansCore.Business.Concrete
 
         private async Task Kontrol(Kisi entity)
         {
-            var tTC = GetAsync(i => (entity.Id == 0 || i.Id != entity.Id) && i.TC == entity.TC && i.Aktif == true);
-            var tEPosta = GetAsync(i => (entity.Id == 0 || i.Id != entity.Id) && i.TC == entity.EPosta && i.Aktif == true);
+            var tTC = GetAsync(i => (entity.Id == 0 || i.Id != entity.Id) && entity.TC.IsNotNull() && i.TC == entity.TC && i.Aktif == true);
+            var tEPosta = GetAsync(i => (entity.Id == 0 || i.Id != entity.Id) && entity.EPosta.IsNotNull() && i.EPosta == entity.EPosta && i.Aktif == true);
 
             if (await tTC != null)
             {

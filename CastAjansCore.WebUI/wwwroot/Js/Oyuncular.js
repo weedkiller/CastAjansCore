@@ -7,9 +7,11 @@ $(document).ready(function () {
 
     _tableOyuncu = $('#OyuncuGrid').DataTable({
         processing: true,
-        responsive: true,
+        //responsive: true,
+        searching: false,
+        lengthChange: false,
         serverSide: true,
-        scrollX: true,
+        //scrollX: true,
         language: { url: "//cdn.datatables.net/plug-ins/1.10.19/i18n/Turkish.json" },
         ajax:
         {
@@ -100,7 +102,7 @@ $(document).ready(function () {
                 render: function (data, type, row) {
                     var str = "";
                     
-                    str += "<div class='media-title font-weight-semibold'>" + row["adi"] + " " + row["soyadi"] + "</div>";
+                    str += "<div class='row media-title font-weight-semibold'>" + row["adi"] + " " + row["soyadi"] + "</div>";
                     str += "<div class='row'>";
                     str += "    <div class='col-md-6'>";                    
                     str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Cinsiyet</b></label><div class='col-sm-6 nopadding'>: " + row["cinsiyet"] + "</div></div>";
