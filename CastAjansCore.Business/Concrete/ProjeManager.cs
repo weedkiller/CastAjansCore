@@ -98,17 +98,20 @@ namespace CastAjansCore.Business.Concrete
             });
 
             await Task.WhenAll(tasks);
-            
 
-            ProjeDetailDto projeDetailDto = new ProjeDetailDto();
-            projeDetailDto.Id = proje.Id;
-            projeDetailDto.ProjeAdi = proje.Adi;
-            projeDetailDto.ProjeTarihBas = proje.TarihBas;
-            projeDetailDto.ProjeTarihBit = proje.TarihBit;
-            projeDetailDto.IlgiliKisi = $"{proje.IsiTakipEden.Kisi.Adi} {proje.IsiTakipEden.Kisi.Soyadi}";
-            projeDetailDto.IlgiliTelefon = proje.IsiTakipEden.Kisi.Telefon;
-            projeDetailDto.IlgiliEPosta = proje.IsiTakipEden.Kisi.EPosta;
-            projeDetailDto.ProjeKarakterleri = new List<ProjeKarakterDetailDto>();
+
+            ProjeDetailDto projeDetailDto = new ProjeDetailDto
+            {
+                Id = proje.Id,
+                ProjeAdi = proje.Adi,
+                ProjeTarihBas = proje.TarihBas,
+                ProjeTarihBit = proje.TarihBit,
+                IlgiliKisi = $"{proje.IsiTakipEden.Kisi.Adi} {proje.IsiTakipEden.Kisi.Soyadi}",
+                IlgiliCep = proje.IsiTakipEden.Kisi.Cep,
+                IlgiliTelefon = proje.IsiTakipEden.Kisi.Telefon,
+                IlgiliEPosta = proje.IsiTakipEden.Kisi.EPosta,
+                ProjeKarakterleri = new List<ProjeKarakterDetailDto>()
+            };
             foreach (var karakter in projeKarakterleri)
             {
                 var karakterDetay = new ProjeKarakterDetailDto
@@ -124,8 +127,10 @@ namespace CastAjansCore.Business.Concrete
                     karakterDetay.Oyuncular.Add(new OyuncuDetailDto
                     {
                         Id = oyuncu.Oyuncu.Id,
+                        ProfilUrl = oyuncu.Oyuncu.Kisi.ProfilFotoUrl,
                         Adi = oyuncu.Oyuncu.Kisi.Adi,
                         Soyadi = oyuncu.Oyuncu.Kisi.Soyadi,
+                        Yas = (DateTime.Today.Year - oyuncu.Oyuncu.Kisi.DogumTarihi.Value.Year) - (oyuncu.Oyuncu.Kisi.DogumTarihi.Value > DateTime.Today.AddYears(-1 * (DateTime.Today.Year - oyuncu.Oyuncu.Kisi.DogumTarihi.Value.Year)) ? -1 : 0),
                         UstBeden = oyuncu.Oyuncu.UstBeden,
                         AltBeden = oyuncu.Oyuncu.AltBeden,
                         AyakNumarasi = oyuncu.Oyuncu.AltBeden,

@@ -8,6 +8,8 @@ namespace CastAjansCore.Dto
     {
         public int Id { get; set; }
 
+        public string ProfilUrl { get; set; }
+
         [Display(Name = "Adı")]
         public string Adi { get; set; }
 
@@ -16,6 +18,9 @@ namespace CastAjansCore.Dto
 
         [Display(Name = "Ad Soyad")]
         public string TamAdi { get { return $"{Adi} {Soyadi}"; } }
+
+        [Display(Name = "Yaş")]
+        public int Yas { get; set; }
 
         [Display(Name = "Boy(Cm)")]
         public int? Boy { get; set; }

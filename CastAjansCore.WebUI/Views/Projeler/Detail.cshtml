@@ -1,5 +1,5 @@
 ﻿@model CastAjansCore.Dto.ProjeDetailDto
-
+@using Calbay.Core.Helper
 @{
     Layout = null;
 }
@@ -63,6 +63,12 @@
                                 </div>
                             </div>
                             <div class="form-group row">
+                                <label asp-for="IlgiliCep" class="col-md-3 col-form-label"></label>
+                                <div class="col-md-9">
+                                    <input asp-for="IlgiliCep" readonly class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group row">
                                 <label asp-for="IlgiliTelefon" class="col-md-3 col-form-label"></label>
                                 <div class="col-md-9">
                                     <input asp-for="IlgiliTelefon" readonly class="form-control" />
@@ -109,56 +115,146 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card">
-                    <div class="card-header header-elements-inline">
-                        <h5 class="card-title"><i class="mi-content-paste mr-2"></i> Proje Karakterleri</h5>
-                    </div>
-                    <div class="card-body">
-                        @foreach (var karakter in Model.ProjeKarakterleri)
-                        {
-                            <fieldset>
-                                <div class="form-group row">
-                                    <label asp-for="@karakter.Adi" class="col-md-3 col-form-label"></label>
-                                    <div class="col-md-9">
+        @foreach (var karakter in Model.ProjeKarakterleri)
+        {
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header bg-white header-elements-inline">
+                            <h6 class="card-title">@karakter.Adi</h6>
+                            <div class="header-elements">
+                                <div class="list-icons">
+                                    <a class="list-icons-item" data-action="collapse"></a>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="media-list">
+                            @foreach (var oyuncu in karakter.Oyuncular)
+                            {
+
+                                <li class="media card-body flex-column flex-sm-row">
+                                    <div class="col-md-4">
                                         <div class="row">
-                                            <input value="@karakter.Adi" readonly class="form-control" />
+                                            <div class="col">
+                                                <div class="card">
+                                                    <div class="card-img-actions m-1">
+                                                        <img class="card-img img-fluid" src="@oyuncu.ProfilUrl" alt="">
+                                                        <div class="card-img-actions-overlay card-img">
+                                                            <a href="@oyuncu.ProfilUrl" class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round legitRipple" data-popup="lightbox" rel="group">
+                                                                <i class="icon-plus3"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <h6 class="media-title font-weight-semibold">
+                                            <a href="#">@oyuncu.Adi @oyuncu.Soyadi</a>
+                                        </h6>
+                                        <div class="row">
+                                            <div class="col">
+                                                <table>
+                                                    <tr>
+                                                        <th>Yaşı</th>
+                                                        <td>: @oyuncu.Yas</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Boy</th>
+                                                        <td>: @oyuncu.Boy Cm</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Kilo</th>
+                                                        <td>: @oyuncu.Kilo Kg</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label asp-for="@karakter.KarakterSayisi" class="col-md-3 col-form-label"></label>
-                                    <div class="col-md-9">
-                                        <input asp-for="@karakter.KarakterSayisi" readonly class="form-control text-right" />
+                                    <div class="col-md-8">
+                                        <div class="row">
+
+                                            @foreach (string resim in oyuncu.OyuncuResimleri)
+                                            {
+                                                <div class="col-sm-6 col-lg-3">
+                                                    <div class="card">
+                                                        <div class="card-img-actions m-1">
+                                                            <img class="card-img img-fluid" src="@resim" alt="">
+                                                            <div class="card-img-actions-overlay card-img">
+                                                                <a href="@resim" class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round legitRipple" data-popup="lightbox" rel="group">
+                                                                    <i class="icon-plus3"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                      
+                                        <div>
+                                            <hr />
+                                            <div class="row">
+                                                <table>
+                                                    <tr>
+                                                        <th>Göz Rengi</th>
+                                                        <td>: @oyuncu.GozRengi.ToDisplay()</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Saç Rengi</th>
+                                                        <td>: @oyuncu.SacRengi.ToDisplay()</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Ten Rengi</th>
+                                                        <td>: @oyuncu.TenRengi.ToDisplay()</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Üst Beden</th>
+                                                        <td>: @oyuncu.UstBeden</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Alt Beden</th>
+                                                        <td>: @oyuncu.AltBeden</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Yabancı Dil</th>
+                                                        <td>: @oyuncu.YabanciDil</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th style="vertical-align:top">Yetenekleri</th>
+                                                        <td>:@oyuncu.Yetenekleri</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Tecrübeler</th>
+                                                        <td>: @oyuncu.Tecrubeler</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                @foreach (var oyuncu in karakter.Oyuncular)
-                                {
-                                    <div class="row">
-                                        <div class="col-4">Adı</div>
-                                        <div class="col-8">@oyuncu.Adi @oyuncu.Soyadi</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-4">Boy</div>
-                                        <div class="col-8">@oyuncu.Boy</div>
-                                    </div>
-                                    <hr />
-                                }
-                                
-                            </fieldset>
-                        }
+
+                                    @*<fieldset>
+
+                                            <div class="row">
+                                                <div class="col-4">Boy</div>
+                                                <div class="col-8">@oyuncu.Boy</div>
+                                            </div>
+                                        </fieldset>*@
+                                    @*<div class="mr-sm-3 mb-2 mb-sm-0">
+                                            <a href="#">
+                                                <img src="../../../../global_assets/images/placeholders/placeholder.jpg" class="rounded" width="44" height="44" alt="">
+                                            </a>
+                                        </div>*@
+
+                                </li>
+                            }
+                        </ul>
+
+
 
                     </div>
                 </div>
             </div>
-        </div>
-
-
+        }
     </div>
-
-
-
-
 </body>
 </html>

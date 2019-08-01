@@ -11,8 +11,10 @@ namespace CastAjansCore.WebUI.Filters
         {
             var result = new ViewResult { ViewName = "Error" };
             var modelDataProvider = new EmptyModelMetadataProvider();
-            result.ViewData = new ViewDataDictionary(modelDataProvider, context.ModelState);
-            result.ViewData.Add("HandleException", context.Exception);
+            result.ViewData = new ViewDataDictionary(modelDataProvider, context.ModelState)
+            {
+                { "HandleException", context.Exception }
+            };
             context.Result = result;
             context.ExceptionHandled = true;
 

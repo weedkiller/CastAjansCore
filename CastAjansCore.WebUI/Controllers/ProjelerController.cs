@@ -59,7 +59,7 @@ namespace CastAjansCore.WebUI.Controllers
         public async Task<IActionResult> Edit(int? id, int musteriId)
         {
             ProjeEditDto projeEditDto = await _ProjeServis.GetEditDtoAsync(id, musteriId);
-            if(projeEditDto.Proje.GuidId == Guid.Empty)
+            if (projeEditDto.Proje.GuidId == Guid.Empty)
             {
                 projeEditDto.Proje.GuidId = Guid.NewGuid();
             }
@@ -77,9 +77,23 @@ namespace CastAjansCore.WebUI.Controllers
         public async Task<IActionResult> Detail(string id)
         {
             ProjeDetailDto model = await _ProjeServis.GetDetailAsync(id);
-           
+
             return View(model);
         }
+
+        //public ViewAsPdf Pdf(string id)
+        //{
+        //    ViewAsPdf pdf = new ViewAsPdf("Detail", id)
+        //    {
+        //        FileName = "File.pdf",
+        //        PageSize = Rotativa.Options.Size.A4,
+        //        PageMargins = { Left = 0, Right = 0 }
+        //    };
+            
+        //    return pdf;
+        //}
+
+ 
 
         // POST: Projes/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -107,7 +121,7 @@ namespace CastAjansCore.WebUI.Controllers
 
                     if (Proje.ProjeDurumu == EnuProjeDurumu.MailGonder)
                     {
-                        
+
                     }
                 }
                 catch (DbUpdateConcurrencyException)
