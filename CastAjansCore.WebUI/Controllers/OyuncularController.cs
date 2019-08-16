@@ -413,7 +413,7 @@ namespace CastAjansCore.WebUI.Controllers
                 Soyadi = Request.Query["soyadi"]
             };
 
-            var oyuncular = await _OyuncuServis.GetListDtoAsync(i =>
+            List<OyuncuListDto> oyuncular = await _OyuncuServis.GetListDtoAsync(i =>
                     (filter.TC == null || i.Kisi.TC.StartsWith(filter.TC)) &&
                    (filter.Adi == null || i.Kisi.Adi.StartsWith(filter.Adi)) &&
                    (filter.Soyadi == null || i.Kisi.Soyadi.StartsWith(filter.Soyadi)) &&

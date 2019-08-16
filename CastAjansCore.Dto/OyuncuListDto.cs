@@ -1,5 +1,7 @@
 ﻿using Calbay.Core.Helper;
+using CastAjansCore.Entity;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace CastAjansCore.Dto
@@ -38,6 +40,7 @@ namespace CastAjansCore.Dto
 
             }
         }
+        public List<Proje> Projeler { get; set; }
 
         public DateTime GuncellemeTarihi { get; set; }
 

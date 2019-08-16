@@ -60,7 +60,7 @@ $(document).ready(function () {
             {
                 data: "id",
                 searchable: false,
-                bSortable: false,                
+                bSortable: false,
                 sClass: "text-center",
                 render: function (data, type, row) {
                     var link = "";
@@ -79,7 +79,7 @@ $(document).ready(function () {
                 searchable: false,
                 bSortable: false,
                 autoWidth: false,
-                width:100,
+                width: 100,
                 //visible: _isIhaleDetay == "True" ? true : false,
                 sClass: "text-center",
                 render: function (data, type, row) {
@@ -101,10 +101,10 @@ $(document).ready(function () {
                 autoWidth: true,
                 render: function (data, type, row) {
                     var str = "";
-                    
+
                     str += "<div class='row media-title font-weight-semibold'>" + row["adi"] + " " + row["soyadi"] + "</div>";
                     str += "<div class='row'>";
-                    str += "    <div class='col-md-6'>";                    
+                    str += "    <div class='col-md-6'>";
                     str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Cinsiyet</b></label><div class='col-sm-6 nopadding'>: " + row["cinsiyet"] + "</div></div>";
                     str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Uyruk</b></label><div class='col-sm-6 nopadding'>: " + row["uyruk"] + "</div></div>";
                     str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Saç</b></label><div class='col-sm-6 nopadding'>: " + row["sacRengi"] + "</div></div>";
@@ -116,13 +116,29 @@ $(document).ready(function () {
                     str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Boy</b></label><div class='col-sm-6 nopadding text-right'> " + row["boy"] + "</div></div>";
                     str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Kilo</b></label><div class='col-sm-6 nopadding text-right'> " + row["kilo"] + "</div></div>";
                     str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Alt B.</b></label><div class='col-sm-6 nopadding text-right'> " + row["altBeden"] + "</div></div>";
-                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Üst B.</b></label><div class='col-sm-6 nopadding text-right'> " + row["ustBeden"] + "</div></div>";                    
-                    str += "    </div>";                    
+                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Üst B.</b></label><div class='col-sm-6 nopadding text-right'> " + row["ustBeden"] + "</div></div>";
+                    str += "    </div>";
                     str += "</div'>";
 
                     return str;
                 }
-            },            
+            },
+            {
+                name: "projeler",
+                title: "Projeler",
+                data: "id",
+                bSortable: false,
+                autoWidth: true,
+                render: function (data, type, row) {
+                    var str = "";
+                    for (var i = 0; i < row["projeler"].length; i++) {
+                        str += "<div class='row media-title font-weight-semibold'>" + row["projeler"][i].tarihBas + "</div>";
+                        str += "<div class='row media-title font-weight-semibold'>" + row["projeler"][i].tarihBit + "</div>";
+                    }
+
+                    return str;
+                }
+            },
             { title: "Kaşe", data: "kase" },
             {
                 data: "id",

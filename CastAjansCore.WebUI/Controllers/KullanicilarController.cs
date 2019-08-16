@@ -1,4 +1,5 @@
 ﻿using Calbay.Core.Entities;
+using Calbay.Core.Helper;
 using CastAjansCore.Business.Abstract;
 using CastAjansCore.Dto;
 using CastAjansCore.Entity;
@@ -246,15 +247,13 @@ namespace CastAjansCore.WebUI.Controllers
 
                     if (user == null)/* || !(await _kullaniciServis.IsEmailConfirmedAsync(user.Id)))*/
                     {
-                        // Don't reveal that the user does not exist or is not confirmed
-                        return View("ForgotPasswordConfirmation");
+                        MesajHelper.HataEkle(ViewBag, "Kullanıcı adı bulunamadı.");
+                        return View(new LoginSifremiUnuttumDto { EPosta = dto.EPosta });
                     }
-
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
+   
                     await _kullaniciServis.SifreUretmeTokeniUret(user.Id, null);
 
-                    MesajHelper.MesajEkle(ViewBag, "Mail adresinizden gelen maili onaylayınız.");
+                    MesajHelper.MesajEkle(ViewBag, "E-Posta adresinize gelen maili onaylayınız.");
 
                     return RedirectToAction("ResetPassword", "Kullanicilar", new { id = user.Id });
                 }
@@ -267,23 +266,27 @@ namespace CastAjansCore.WebUI.Controllers
             return View(dto);
         }
 
-        //[AllowAnonymous]
-        //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> ResetPassword(int id)
+        [AllowAnonymous]
+        public async Task<IActionResult> ResetPassword(int id,string code)
         {
             Kullanici user = await _kullaniciServis.GetByIdAsync(id);
 
-            if (user == null)
-            {
+            if (user == null && (code.IsNull() || user.Token.Equals(code)))
+            {                
                 MesajHelper.HataEkle(ViewBag, "Kullanıcı bulunamadı.");
                 return RedirectToAction("SifremiUnuttum");
             }
-            else
+            else if (!user.Token.Equals(code))
             {
-                return View(new ResetPasswordDto());
+                MesajHelper.HataEkle(ViewBag, "Kod geçersiz.");
+                return RedirectToAction("SifremiUnuttum");
+            }
+            else
+            {                
+                return View(new ResetPasswordDto { Code = code });
             }
         }
-
+         
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]

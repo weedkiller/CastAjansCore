@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace CastAjansCore.Business.Concrete
@@ -208,17 +209,19 @@ namespace CastAjansCore.Business.Concrete
         private void ResetlemeMailiGonder(int id, string token, string ePosta)
         {
 
-            //string callbackUrl = $"{_paramereSettings.Value.Url}/Kullanicilar/ResetPassword/{id}?code={token}";
-            string mailstr = "<html>" +
-                "   <head></head>" +
-                $"  <body>" +
-                $"      <p><h3>Şifrenizi sıfırlamak için aşağıdaki kodu giriniz.</h3></p>" +
-                $"      <p><h2>{token}</h2></p>" +
-                $"  </body>" +
-                "</html>";
+            string callbackUrl = $"{_paramereSettings.Value.Url}/Kullanicilar/ResetPassword/{id}?code={token}";
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("<html>");
+            sb.AppendLine("   <head></head>");
+            sb.AppendLine("  <body>");
+            sb.AppendLine("      <p><h3>Şifrenizi sıfırlamak için aşağıdaki kodu giriniz.</h3></p>");
+            sb.AppendLine($"      <p><h2>{token}</h2></p>");
+            sb.AppendLine($"      <p>veya şifrenizi sıfırlamak için <a href='{callbackUrl}'>tıklayınız.</a></p>");
+            sb.AppendLine("  </body>");
+            sb.AppendLine("</html>");
 
 
-            _emailServis.SendEmail(ePosta, "Şifre Sıfırlama", mailstr);
+            _emailServis.SendEmail(ePosta, "Şifre Sıfırlama", sb.ToString());
         }
 
         public async Task<string> SifreUretmeTokeniUret(int id, UserHelper userHelper)
