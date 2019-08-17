@@ -130,10 +130,9 @@ $(document).ready(function () {
                 bSortable: false,
                 autoWidth: true,
                 render: function (data, type, row) {
-                    var str = "";
+                    var str = "";                    
                     for (var i = 0; i < row["projeler"].length; i++) {
-                        str += "<div class='row media-title font-weight-semibold'>" + row["projeler"][i].tarihBas + "</div>";
-                        str += "<div class='row media-title font-weight-semibold'>" + row["projeler"][i].tarihBit + "</div>";
+                        str += "<a href='#'><span class='badge badge-primary'>" + moment(row["projeler"][i].tarihBas).format('DD MMM') + '-' + moment(row["projeler"][i].tarihBit).format('DD MMM') +"</span></a>";
                     }
 
                     return str;
@@ -167,3 +166,14 @@ $(document).ready(function () {
 });
 
 
+function ToDateStr(data) {
+    if (data !== null) {
+        //var dtStart = new Date(parseInt(data.substr(6)));
+        var dtStartWrapper = moment(data);
+        return dtStartWrapper.format('DD/MM/YYYY');
+    }
+    else {
+        return "";
+    }
+}
+ 

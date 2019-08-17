@@ -55,7 +55,27 @@ namespace CastAjansCore.WebUI.Controllers
             return View(ProjeListDto);
         }
 
-        // GET: Projes/Edit/5
+
+        public async Task<IActionResult> Detail(string id)
+        {
+            ProjeDetailDto model = await _ProjeServis.GetDetailAsync(id);
+
+            return View(model);
+        }
+
+        //public ViewAsPdf Pdf(string id)
+        //{
+        //    ViewAsPdf pdf = new ViewAsPdf("Detail", id)
+        //    {
+        //        FileName = "File.pdf",
+        //        PageSize = Rotativa.Options.Size.A4,
+        //        PageMargins = { Left = 0, Right = 0 }
+        //    };
+
+        //    return pdf;
+        //}
+
+
         public async Task<IActionResult> Edit(int? id, int musteriId)
         {
             ProjeEditDto projeEditDto = await _ProjeServis.GetEditDtoAsync(id, musteriId);
@@ -74,74 +94,40 @@ namespace CastAjansCore.WebUI.Controllers
             return View(projeEditDto);
         }
 
-        public async Task<IActionResult> Detail(string id)
+        private async Task Save(int? id, Proje Proje)
         {
-            ProjeDetailDto model = await _ProjeServis.GetDetailAsync(id);
-
-            return View(model);
+            if (id == null || id == 0)
+            {
+                await _ProjeServis.AddAsync(Proje, _loginHelper.UserHelper);
+            }
+            else
+            {
+                await _ProjeServis.UpdateAsync(Proje, _loginHelper.UserHelper);
+            }
         }
 
-        //public ViewAsPdf Pdf(string id)
-        //{
-        //    ViewAsPdf pdf = new ViewAsPdf("Detail", id)
-        //    {
-        //        FileName = "File.pdf",
-        //        PageSize = Rotativa.Options.Size.A4,
-        //        PageMargins = { Left = 0, Right = 0 }
-        //    };
-            
-        //    return pdf;
-        //}
 
- 
 
-        // POST: Projes/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more detaProjes see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int? id, Proje Proje)
         {
             if (ModelState.IsValid)
             {
-                try
-                {
-                    if (id == null || id == 0)
-                    {
-                        await _ProjeServis.AddAsync(Proje, _loginHelper.UserHelper);
-                    }
-                    else
-                    {
-                        if (id != Proje.Id)
-                        {
-                            return NotFound();
-                        }
-                        await _ProjeServis.UpdateAsync(Proje, _loginHelper.UserHelper);
-                    }
-
-                    if (Proje.ProjeDurumu == EnuProjeDurumu.MailGonder)
-                    {
-
-                    }
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!await ProjeExistsAsync(Proje.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                await Save(id, Proje);
                 return RedirectToAction(nameof(Index), new { id = Proje.MusteriId });
             }
-
             return View(Proje);
         }
 
-        // GET: Projes/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SaveAndDetail(int? id, Proje Proje)
+        {
+            await Save(id, Proje);
+            return RedirectToAction(nameof(Detail), new { id = Proje.GuidId});
+        }
+
         public async Task<IActionResult> Delete(int? id)
         {
 

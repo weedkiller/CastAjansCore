@@ -51,8 +51,6 @@
                             </div>
                         </div>
 
-
-
                         <div class="form-group row">
                             <label class="col-md-3 control-label">Proje Tarihi</label>
                             <span asp-validation-for="Proje.TarihBas" class="text-danger"></span>
@@ -211,9 +209,9 @@
     <div class="row">
         <div class="col-md-12">
             <a asp-action="Index" asp-route-id="@Model.Proje.MusteriId" class="btn btn-danger left"><i class="mi-arrow-back"></i> Geri</a>
-            <input type="checkbox" id="mailGonder" /> <label>E-Posta Gönder</label>
             <button type="submit" class="btn btn-primary right"><i class="mi-check"></i> Kaydet</button>
-            <a asp-action="Detail" asp-route-id="@Model.Proje.GuidId" class="btn btn-danger left"><i class="mi-arrow-back"></i> Detay</a>
+            <button type="submit" asp-action="SaveAndDetail" asp-route-id="@Model.Proje.Id" class="btn btn-secondary right"><i class="mi-check"></i> Detay</button>
+            @*<a asp-action="Detail" asp-route-id="@Model.Proje.GuidId" class="btn btn-danger left"><i class="mi-arrow-back"></i> Detay</a>*@
         </div>
     </div>
 
