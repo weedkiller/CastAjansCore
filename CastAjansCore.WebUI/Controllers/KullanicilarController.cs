@@ -276,7 +276,7 @@ namespace CastAjansCore.WebUI.Controllers
                 MesajHelper.HataEkle(ViewBag, "Kullanıcı bulunamadı.");
                 return RedirectToAction("SifremiUnuttum");
             }
-            else if (!user.Token.Equals(code))
+            else if (code.IsNotNull() && !user.Token.Equals(code))
             {
                 MesajHelper.HataEkle(ViewBag, "Kod geçersiz.");
                 return RedirectToAction("SifremiUnuttum");

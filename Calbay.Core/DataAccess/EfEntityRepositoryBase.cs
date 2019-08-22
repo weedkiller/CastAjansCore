@@ -1,13 +1,10 @@
 ﻿using Calbay.Core.Entities;
-using Calbay.Core.Helper;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using System.Transactions;
 
 namespace Calbay.Core.DataAccess
 {
@@ -27,15 +24,11 @@ namespace Calbay.Core.DataAccess
 
         public virtual async Task AddAsync(TEntity entity)
         {
-            //using (TransactionScope scope = new TransactionScope())
-            //{
             using (var context = new TContex())
             {
                 var addedEntity = context.Entry(entity);
                 addedEntity.State = EntityState.Added;
-                await context.SaveChangesAsync();
-                //    scope.Complete();
-                //}
+                await context.SaveChangesAsync();                
             }
         }
 

@@ -7,11 +7,11 @@ $(document).ready(function () {
 
     _tableOyuncu = $('#OyuncuGrid').DataTable({
         processing: true,
-        //responsive: true,
+        responsive: false,
         searching: false,
         lengthChange: false,
         serverSide: true,
-        //scrollX: true,
+        scrollX: true,
         language: { url: "//cdn.datatables.net/plug-ins/1.10.19/i18n/Turkish.json" },
         ajax:
         {
@@ -102,23 +102,35 @@ $(document).ready(function () {
                 render: function (data, type, row) {
                     var str = "";
 
-                    str += "<div class='row media-title font-weight-semibold'>" + row["adi"] + " " + row["soyadi"] + "</div>";
-                    str += "<div class='row'>";
-                    str += "    <div class='col-md-6'>";
-                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Cinsiyet</b></label><div class='col-sm-6 nopadding'>: " + row["cinsiyet"] + "</div></div>";
-                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Uyruk</b></label><div class='col-sm-6 nopadding'>: " + row["uyruk"] + "</div></div>";
-                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Saç</b></label><div class='col-sm-6 nopadding'>: " + row["sacRengi"] + "</div></div>";
-                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Ten</b></label><div class='col-sm-6 nopadding'>: " + row["tenRengi"] + "</div></div>";
-                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Göz</b></label><div class='col-sm-6 nopadding'>: " + row["gozRengi"] + "</div></div>";
-                    str += "    </div>";
-                    str += "    <div class='col-md-6'>";
-                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Yaş</b></label><div class='col-sm-6 nopadding text-right'> " + row["yas"] + "</div></div>";
-                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Boy</b></label><div class='col-sm-6 nopadding text-right'> " + row["boy"] + "</div></div>";
-                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Kilo</b></label><div class='col-sm-6 nopadding text-right'> " + row["kilo"] + "</div></div>";
-                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Alt B.</b></label><div class='col-sm-6 nopadding text-right'> " + row["altBeden"] + "</div></div>";
-                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Üst B.</b></label><div class='col-sm-6 nopadding text-right'> " + row["ustBeden"] + "</div></div>";
-                    str += "    </div>";
+                    str += "<div class='row media-title font-weight-semibold'>" + row["adi"] + " " + row["soyadi"] + "</div>";                    
+                    str += "    <div class='text-nowrap'>";
+                    str += "        <div class='row'><label class='col nopadding'><b>Cinsiyet</b></label><div class='col nopadding'>: " + row["cinsiyet"] + "</div></div>";
+                    str += "        <div class='row'><label class='col nopadding'><b>Uyruk</b></label><div class='col nopadding'>: " + row["uyruk"] + "</div></div>";
+                    str += "        <div class='row'><label class='col nopadding'><b>Saç</b></label><div class='col nopadding'>: " + row["sacRengi"] + "</div></div>";
+                    str += "        <div class='row'><label class='col nopadding'><b>Ten</b></label><div class='col nopadding'>: " + row["tenRengi"] + "</div></div>";
+                    str += "        <div class='row'><label class='col nopadding'><b>Göz</b></label><div class='col nopadding'>: " + row["gozRengi"] + "</div></div>";                    
                     str += "</div'>";
+
+                    return str;
+                }
+            },
+            {
+                name: "Ozellik",
+                title: "Özellik",
+                data: "id",
+                bSortable: false,
+                autoWidth: true,
+                render: function (data, type, row) {
+                    var str = "";
+                                        
+                    str += "<br />";
+                    str += "    <div class='text-nowrap'>";
+                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Yaş</b></label><div class='col-sm-6 nopadding text-right'>: " + row["yas"] + "</div></div>";
+                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Boy</b></label><div class='col-sm-6 nopadding text-right'>: " + row["boy"] + "</div></div>";
+                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Kilo</b></label><div class='col-sm-6 nopadding text-right'>: " + row["kilo"] + "</div></div>";
+                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Alt B.</b></label><div class='col-sm-6 nopadding text-right'>: " + row["altBeden"] + "</div></div>";
+                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Üst B.</b></label><div class='col-sm-6 nopadding text-right'>: " + row["ustBeden"] + "</div></div>";
+                    str += "    </div>";
 
                     return str;
                 }

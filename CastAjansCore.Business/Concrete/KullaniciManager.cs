@@ -47,7 +47,9 @@ namespace CastAjansCore.Business.Concrete
         {
             await Kontrol(entity);
             Random rnd = new Random();
-            entity.Token = rnd.Next(1200, 9980).ToString();
+            entity.Sifre = rnd.Next(1200, 9980).ToString();
+            entity.Token = entity.Sifre;
+
 
             await _kisiServis.AddAsync(entity.Kisi, userHelper);
             await base.AddAsync(entity, userHelper);
