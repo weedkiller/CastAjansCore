@@ -224,7 +224,10 @@ namespace CastAjansCore.Business.Concrete
                     (filter.YasMin == 0 || i.Kisi.DogumTarihi <= DateTime.Today.AddYears(-1 * filter.YasMin)) &&
                     (filter.YasMaks == 0 || i.Kisi.DogumTarihi >= DateTime.Today.AddYears(-1 * filter.YasMaks)) &&
                     (filter.Cinsiyet == 0 || i.Kisi.Cinsiyet == (EnuCinsiyet)filter.Cinsiyet) &&
+                    (filter.CastTipi == 0 || i.CastTipi == (EnuCastTipi)filter.CastTipi) &&
                     (filter.Uyruk == 0 || i.Kisi.UyrukId == filter.Uyruk) &&
+                    (filter.Il == 0 || i.Kisi.Ilce.IlId == filter.Il) &&
+                    (filter.Ilce == 0 || i.Kisi.IlceId == filter.Ilce) &&
                     (filter.KaseMin == 0 || i.Kase >= filter.KaseMin) &&
                     (filter.KaseMaks == 0 || i.Kase <= filter.KaseMaks) &&
                     (filter.BoyMin == 0 || i.Boy >= filter.BoyMin) &&

@@ -1,7 +1,4 @@
-﻿using Calbay.Core.Helper;
-using CastAjansCore.Business.Abstract;
-using CastAjansCore.Dto;
-using CastAjansCore.Entity;
+﻿using CastAjansCore.Business.Abstract;
 using CastAjansCore.WebUI.Filters;
 using CastAjansCore.WebUI.Helper;
 using Microsoft.AspNetCore.Authorization;
@@ -9,8 +6,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace CastAjansCore.WebUI.Controllers
 {
@@ -28,7 +23,7 @@ namespace CastAjansCore.WebUI.Controllers
         }
 
         [HandleException]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             ViewBag.UserHelper = _loginHelper.UserHelper;
             Response.Cookies.Append(

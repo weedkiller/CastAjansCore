@@ -3,7 +3,7 @@
 
 <div class="card card-collapsed">
 
-    <div class="card-header bg-transparent header-elements-inline" >
+    <div class="card-header bg-transparent header-elements-inline">
         <span class="card-title font-weight-semibold">Filtre</span>
         <div class="header-elements">
             <div class="list-icons">
@@ -84,10 +84,6 @@
                                 </div>
                             </div>
 
-
-
-
-
                             <div class="form-group row">
                                 <label class="col-md-3 col-form-label">Cinsiyet / Uyruk</label>
                                 <div class="col-md-9">
@@ -98,11 +94,34 @@
                                         <div class="col">
                                             <select id="Filter-Oyuncu-Uyruk" asp-items="Model.Uyruklar" class="form-control"></select>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
 
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Cast Tipi</label>
+                                <div class="col-md-9">
+                                    <div class="form-row">
+                                        <select id="Filter-Oyuncu-CastTipi" asp-items="Html.GetEnumSelectList<EnuCastTipi>()" class="form-control"></select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">İl / İlçe</label>
+                                <div class="col-md-9">
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <select id="Filter-Oyuncu-Il" asp-items="Model.Iller" class="form-control" onchange="GetIlceler($('#Filter-Oyuncu-Il'),$('#Filter-Oyuncu-Ilce'))"></select>
+                                        </div>
+                                        <div class="col">
+                                            <select id="Filter-Oyuncu-Ilce" class="form-control">
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
 
 
                         </fieldset>

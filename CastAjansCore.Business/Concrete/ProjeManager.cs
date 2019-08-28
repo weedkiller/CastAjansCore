@@ -17,6 +17,7 @@ namespace CastAjansCore.Business.Concrete
         private readonly IProjeKarakterServis _ProjeKarakterServis;
         private readonly IKullaniciServis _KullaniciServis;
         private readonly IUyrukServis _UyrukServis;
+        private readonly IIlServis _IlServis;
         private readonly IOyuncuResimServis _oyuncuResimServis;
         private readonly IOyuncuVideoServis _oyuncuVideoServis;
         private readonly IMusteriServis _MusteriServis;
@@ -26,6 +27,7 @@ namespace CastAjansCore.Business.Concrete
                             IMusteriServis musteriServis,
                             IKullaniciServis kullaniciServis,
                             IUyrukServis uyrukServis,
+                            IIlServis ilServis,
                             IProjeKarakterServis projeKarakterServis,
                             IProjeKarakterOyuncuServis projeKarakterOyuncuServis,
                             IOyuncuResimServis oyuncuResimServis,
@@ -38,6 +40,7 @@ namespace CastAjansCore.Business.Concrete
             _ProjeKarakterServis = projeKarakterServis;
             _ProjeKarakterOyuncuServis = projeKarakterOyuncuServis;
             _UyrukServis = uyrukServis;
+            _IlServis = ilServis;
             _oyuncuResimServis = oyuncuResimServis;
             _oyuncuVideoServis = oyuncuVideoServis;
         }
@@ -103,6 +106,7 @@ namespace CastAjansCore.Business.Concrete
             ProjeDetailDto projeDetailDto = new ProjeDetailDto
             {
                 Id = proje.Id,
+                GuidId = proje.GuidId,
                 ProjeAdi = proje.Adi,
                 ProjeTarihBas = proje.TarihBas,
                 ProjeTarihBit = proje.TarihBit,
@@ -162,10 +166,12 @@ namespace CastAjansCore.Business.Concrete
         {
             var tKul = _KullaniciServis.GetSelectListAsync();
             var tUyruk = _UyrukServis.GetSelectListAsync();
+            var tIl = _IlServis.GetSelectListAsync();
+
             var projeEditDto = new ProjeEditDto()
             {
                 Kullanicilar = await tKul,
-                OyuncuFilterDto = new OyuncuFilterDto { Uyruklar = await tUyruk }
+                OyuncuFilterDto = new OyuncuFilterDto { Uyruklar = await tUyruk, Iller = await tIl }
             };
 
             if (id == null)
@@ -216,6 +222,18 @@ namespace CastAjansCore.Business.Concrete
             {
                 await Task.CompletedTask;
             }
+        }
+
+        public void Pdf()
+        {
+            //string linki = Link;
+            var Renderer = new IronPdf.HtmlToPdf();
+            var Link = "http://localhost:51264/Projeler/Detail/867b2994-1078-4e1b-90f9-be9a67a58193";
+            var PDF = Renderer.RenderUrlAsPdf(Link);
+            PDF.SaveAs(@"C:\Test\isimkoy.pdf");
+            // This neat trick opens our PDF file so we can see the result
+            //System.Diagnostics.Process.Start(@"C:\Test\isimkoy.pdf");            
+
         }
 
         //public override async Task<Proje> GetByIdAsync(int id)

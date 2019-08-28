@@ -32,6 +32,13 @@
                 <div class="card-body">
                     <fieldset>
                         <div class="form-group row">
+                            <label asp-for="Oyuncu.CastTipi" class="col-md-3 col-form-label"></label>
+                            <span asp-for="Oyuncu.CastTipi" class="text-danger"></span>
+                            <div class="col-md-9">
+                                <select asp-for="Oyuncu.CastTipi" asp-items="Html.GetEnumSelectList<EnuCastTipi>()" class="form-control"></select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label asp-for="Oyuncu.Boy" class="col-md-3 col-form-label"></label>
                             <span asp-for="Oyuncu.Boy" class="text-danger"></span>
                             <div class="col-md-9">

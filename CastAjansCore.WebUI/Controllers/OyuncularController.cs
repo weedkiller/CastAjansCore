@@ -20,12 +20,14 @@ namespace CastAjansCore.WebUI.Controllers
         private readonly IOyuncuServis _OyuncuServis;
         private readonly LoginHelper _loginHelper;
         private readonly IUyrukServis _uyrukServis;
+        private readonly IIlServis _ilServis;
         private readonly IOyuncuResimServis _oyuncuResimServis;
 
         //private readonly IHostingEnvironment _HostingEnvironment;
         public OyuncularController(
             IOyuncuServis OyuncuServis,
             IUyrukServis uyrukServis,
+            IIlServis ilServis,
             IOyuncuResimServis oyuncuResimServis,
             LoginHelper loginHelper
         )
@@ -34,6 +36,7 @@ namespace CastAjansCore.WebUI.Controllers
             //_HostingEnvironment = environment;
             _loginHelper = loginHelper;
             _uyrukServis = uyrukServis;
+            _ilServis = ilServis;
             _oyuncuResimServis = oyuncuResimServis;
             ViewData["UserHelper"] = _loginHelper.UserHelper;
         }
@@ -46,7 +49,8 @@ namespace CastAjansCore.WebUI.Controllers
 
             OyuncuFilterDto oyuncuFilterDto = new OyuncuFilterDto
             {
-                Uyruklar = await _uyrukServis.GetSelectListAsync()
+                Uyruklar = await _uyrukServis.GetSelectListAsync(),
+                Iller = await _ilServis.GetSelectListAsync()
             };
 
             return View(oyuncuFilterDto);

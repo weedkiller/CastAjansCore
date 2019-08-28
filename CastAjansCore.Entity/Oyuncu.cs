@@ -18,6 +18,9 @@ namespace CastAjansCore.Entity
         [ForeignKey("Kisi")]        
         public override int Id { get; set; }
 
+        [Display(Name = "Cast Tipi")]
+        public EnuCastTipi? CastTipi { get; set; }
+
         [Display(Name = "Boy(Cm)")]
         public int? Boy { get; set; }
 

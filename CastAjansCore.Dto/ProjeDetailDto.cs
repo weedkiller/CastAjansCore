@@ -9,6 +9,8 @@ namespace CastAjansCore.Dto
     {
         public int Id { get; set; }
 
+        public Guid GuidId { get; set; }
+
         [Display(Name ="İlgili Kişi")]
         public string IlgiliKisi { get; set; }
 

@@ -178,7 +178,7 @@
                                             <td class="text-right">
                                                 <button class="btn btn-danger" type="button" onclick="@($"ProjeKarakterOyunculariSil({i}, {j});")">Sil</button>
                                                 <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].ProjeKarakterId" />
-                                                <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].OyuncuId" />
+                                                <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].OyuncuId" class="OyuncuProje" />
                                                 <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].Id" />
                                                 <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].EkleyenId" />
                                                 <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].EklemeZamani" />
