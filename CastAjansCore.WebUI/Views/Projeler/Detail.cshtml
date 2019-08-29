@@ -1,4 +1,5 @@
 ﻿@model CastAjansCore.Dto.ProjeDetailDto
+@inject CastAjansCore.WebUI.Helper.LoginHelper LoginHelper
 @using Calbay.Core.Helper
 @{
     Layout = null;
@@ -48,7 +49,13 @@
                 <div class="card">
                     <div class="card-header header-elements-inline">
                         <h5 class="card-title"><i class="mi-content-paste mr-2"></i> İletişim Bilgileri</h5>
+                        @if (LoginHelper.UserHelper != null)
+                        {
+                            <div class="right"><a asp-action="MailGonder" asp-route-Id="@Model.GuidId" class="btn btn-outline-primary">Mail Gonder</a></div>
+                        }
                         <div class="right"><a asp-action="zip" asp-route-Id="@Model.GuidId" class="btn btn-secondary">Dosyaları İndir</a></div>
+
+
                     </div>
                     <div class="card-body">
                         <fieldset>

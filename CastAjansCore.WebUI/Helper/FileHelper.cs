@@ -63,5 +63,10 @@ namespace CastAjansCore.WebUI.Helper
                 return null;
             }
         }
+
+        public static string ReadFile(string path)
+        {
+            return File.ReadAllText($"{_WebRootPath}\\{path}");
+        }
     }
 }

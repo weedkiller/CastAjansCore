@@ -10,6 +10,6 @@ namespace CastAjansCore.Business.Abstract
         Task<ProjeEditDto> GetEditDtoAsync(int? id,int? musteriId);
         Task<Proje> GetAllDetailByIdAsync(int id);
         Task<ProjeDetailDto> GetDetailAsync(string guidId);
-        void Pdf();
+        void Pdf();        
     }
 }

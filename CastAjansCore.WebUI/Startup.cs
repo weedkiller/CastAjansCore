@@ -181,6 +181,7 @@ namespace CastAjansCore.WebUI
             app.UseAuthentication();
             app.UseSession();
             app.UseMvc(ConfigureRoutes);
+            app.UseCookiePolicy();
         }
 
         private void ConfigureRoutes(IRouteBuilder routeBuilder)

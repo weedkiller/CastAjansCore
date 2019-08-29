@@ -1,5 +1,4 @@
 ﻿using Calbay.Core.Helper;
-using CastAjansCore.Business.Abstract;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
@@ -17,12 +16,11 @@ namespace CastAjansCore.WebUI.Helper
     {
 
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IKullaniciServis _kullaniciServis;
 
-        public LoginHelper(IHttpContextAccessor httpContextAccessor, IKullaniciServis kullaniciServis)
+
+        public LoginHelper(IHttpContextAccessor httpContextAccessor)
         {
-            _httpContextAccessor = httpContextAccessor;
-            _kullaniciServis = kullaniciServis;
+            _httpContextAccessor = httpContextAccessor;            
         }
 
         public async Task Login(UserHelper kullanici)
@@ -110,8 +108,5 @@ namespace CastAjansCore.WebUI.Helper
             var userdata = _httpContextAccessor.HttpContext.User.Claims.Where(c => c.Type == ClaimTypes.UserData).Select(c => c.Value).FirstOrDefault();
             return userdata;
         }
-
-
-
     }
 }

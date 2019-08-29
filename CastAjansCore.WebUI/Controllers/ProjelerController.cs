@@ -1,4 +1,5 @@
-﻿using CastAjansCore.Business.Abstract;
+﻿using Calbay.Core.Business;
+using CastAjansCore.Business.Abstract;
 using CastAjansCore.Dto;
 using CastAjansCore.Entity;
 using CastAjansCore.WebUI.Helper;
@@ -8,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace CastAjansCore.WebUI.Controllers
@@ -21,6 +23,7 @@ namespace CastAjansCore.WebUI.Controllers
         private readonly IProjeKarakterServis _ProjeKarakterServis;
         private readonly IProjeKarakterOyuncuServis _ProjeKarakterOyuncuServis;
         private readonly IUyrukServis _UyrukServis;
+        private readonly IEmailServis _emailServis;
         private readonly LoginHelper _loginHelper;
 
         public ProjelerController(IProjeServis ProjeServis,
@@ -29,6 +32,7 @@ namespace CastAjansCore.WebUI.Controllers
             IProjeKarakterServis projeKarakterServis,
             IProjeKarakterOyuncuServis projeKarakterOyuncuServis,
             IUyrukServis uyrukServis,
+            IEmailServis emailServis,
             LoginHelper loginHelper)
         {
             _ProjeServis = ProjeServis;
@@ -37,6 +41,7 @@ namespace CastAjansCore.WebUI.Controllers
             _ProjeKarakterServis = projeKarakterServis;
             _ProjeKarakterOyuncuServis = projeKarakterOyuncuServis;
             _UyrukServis = uyrukServis;
+            _emailServis = emailServis;
             _loginHelper = loginHelper;
             ViewData["UserHelper"] = _loginHelper.UserHelper;
         }
@@ -76,7 +81,6 @@ namespace CastAjansCore.WebUI.Controllers
         //    return pdf;
         //}
 
-
         public async Task<IActionResult> Edit(int? id, int musteriId)
         {
             ProjeEditDto projeEditDto = await _ProjeServis.GetEditDtoAsync(id, musteriId);
@@ -106,8 +110,6 @@ namespace CastAjansCore.WebUI.Controllers
                 await _ProjeServis.UpdateAsync(Proje, _loginHelper.UserHelper);
             }
         }
-
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -161,6 +163,7 @@ namespace CastAjansCore.WebUI.Controllers
             return entity != null;
         }
 
+        [AllowAnonymous]
         public async Task<FileResult> Zip(string id)
         {
             ProjeDetailDto model = await _ProjeServis.GetDetailAsync(id);
@@ -183,7 +186,6 @@ namespace CastAjansCore.WebUI.Controllers
                             };
                             files.Add(file);
                         }
-
                     }
                 }
             }
@@ -216,5 +218,23 @@ namespace CastAjansCore.WebUI.Controllers
             public string FileName { get; set; }
             public byte[] Content { get; set; }
         }
+
+        public async Task<IActionResult> MailGonder(string id)
+        {
+            ProjeDetailDto model = await _ProjeServis.GetDetailAsync(id);
+
+            StringBuilder sb = new StringBuilder(FileHelper.ReadFile("\\MailTema\\ProjeTeklif.html"));
+            sb.Replace("{ProjeAdi}", model.ProjeAdi);
+            sb.Replace("{Ilgili}", model.IlgiliKisi);
+            sb.Replace("{IlgiliTelefon}", model.IlgiliTelefon + " - " + model.IlgiliCep);
+            sb.Replace("{IlgiliEPosta}", model.IlgiliEPosta);
+            sb.Replace("{SunumLink}", $"{Request.Scheme}://{Request.Host}{Request.PathBase}/Projeler/Detail/{id}");
+
+            _emailServis.SendEmail(model.EPostaAdresleri, $"Life Ajans {model.ProjeAdi} sunum.", sb.ToString(), model.IlgiliEPosta);
+
+            MesajHelper.MesajEkle(ViewBag, "E-Posta gönderildi.");
+            return RedirectToAction(nameof(Detail), new { id });
+        }
+
     }
 }

@@ -7,6 +7,7 @@ using CastAjansCore.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace CastAjansCore.Business.Concrete
@@ -114,6 +115,7 @@ namespace CastAjansCore.Business.Concrete
                 IlgiliCep = proje.IsiTakipEden.Kisi.Cep,
                 IlgiliTelefon = proje.IsiTakipEden.Kisi.Telefon,
                 IlgiliEPosta = proje.IsiTakipEden.Kisi.EPosta,
+                EPostaAdresleri = proje.EPostaAdresleri,
                 ProjeKarakterleri = new List<ProjeKarakterDetailDto>()
             };
             foreach (var karakter in projeKarakterleri)
@@ -235,6 +237,8 @@ namespace CastAjansCore.Business.Concrete
             //System.Diagnostics.Process.Start(@"C:\Test\isimkoy.pdf");            
 
         }
+
+        
 
         //public override async Task<Proje> GetByIdAsync(int id)
         //{

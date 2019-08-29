@@ -32,6 +32,8 @@ namespace CastAjansCore.Dto
         [Display(Name = "Proje Tarihi Bit.")]
         public DateTime ProjeTarihBit { get; set; }
 
+        public string EPostaAdresleri { get; set; }
+
         public List<ProjeKarakterDetailDto> ProjeKarakterleri { get; set; }
        
     }
