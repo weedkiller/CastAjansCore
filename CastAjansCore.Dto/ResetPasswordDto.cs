@@ -7,6 +7,7 @@ namespace CastAjansCore.Dto
 {
     public class ResetPasswordDto
     {
+        public bool Kendim { get; set; }
         [Required]
         [Display(Name = "Şifre Kontrol")]
         public string Sifre { get; set; }
