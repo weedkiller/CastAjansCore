@@ -1,12 +1,15 @@
-﻿using CastAjansCore.Business.Abstract;
+﻿using Calbay.Core.Business;
+using CastAjansCore.Business.Abstract;
 using CastAjansCore.Dto;
 using CastAjansCore.Entity;
 using CastAjansCore.WebUI.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace CastAjansCore.WebUI.Controllers
@@ -20,6 +23,7 @@ namespace CastAjansCore.WebUI.Controllers
         private readonly IProjeKarakterServis _ProjeKarakterServis;
         private readonly IProjeKarakterOyuncuServis _ProjeKarakterOyuncuServis;
         private readonly IUyrukServis _UyrukServis;
+        private readonly IEmailServis _emailServis;
         private readonly LoginHelper _loginHelper;
 
         public ProjelerController(IProjeServis ProjeServis,
@@ -28,6 +32,7 @@ namespace CastAjansCore.WebUI.Controllers
             IProjeKarakterServis projeKarakterServis,
             IProjeKarakterOyuncuServis projeKarakterOyuncuServis,
             IUyrukServis uyrukServis,
+            IEmailServis emailServis,
             LoginHelper loginHelper)
         {
             _ProjeServis = ProjeServis;
@@ -36,6 +41,7 @@ namespace CastAjansCore.WebUI.Controllers
             _ProjeKarakterServis = projeKarakterServis;
             _ProjeKarakterOyuncuServis = projeKarakterOyuncuServis;
             _UyrukServis = uyrukServis;
+            _emailServis = emailServis;
             _loginHelper = loginHelper;
             ViewData["UserHelper"] = _loginHelper.UserHelper;
         }
@@ -55,7 +61,26 @@ namespace CastAjansCore.WebUI.Controllers
             return View(ProjeListDto);
         }
 
-        // GET: Projes/Edit/5
+        [AllowAnonymous]
+        public async Task<IActionResult> Detail(string id)
+        {
+            ProjeDetailDto model = await _ProjeServis.GetDetailAsync(id);
+            //_ProjeServis.Pdf();
+            return View(model);
+        }
+
+        //public ViewAsPdf Pdf(string id)
+        //{
+        //    ViewAsPdf pdf = new ViewAsPdf("Detail", id)
+        //    {
+        //        FileName = "File.pdf",
+        //        PageSize = Rotativa.Options.Size.A4,
+        //        PageMargins = { Left = 0, Right = 0 }
+        //    };
+
+        //    return pdf;
+        //}
+
         public async Task<IActionResult> Edit(int? id, int musteriId)
         {
             ProjeEditDto projeEditDto = await _ProjeServis.GetEditDtoAsync(id, musteriId);
@@ -74,74 +99,38 @@ namespace CastAjansCore.WebUI.Controllers
             return View(projeEditDto);
         }
 
-        public async Task<IActionResult> Detail(string id)
+        private async Task Save(int? id, Proje Proje)
         {
-            ProjeDetailDto model = await _ProjeServis.GetDetailAsync(id);
-
-            return View(model);
+            if (id == null || id == 0)
+            {
+                await _ProjeServis.AddAsync(Proje, _loginHelper.UserHelper);
+            }
+            else
+            {
+                await _ProjeServis.UpdateAsync(Proje, _loginHelper.UserHelper);
+            }
         }
 
-        //public ViewAsPdf Pdf(string id)
-        //{
-        //    ViewAsPdf pdf = new ViewAsPdf("Detail", id)
-        //    {
-        //        FileName = "File.pdf",
-        //        PageSize = Rotativa.Options.Size.A4,
-        //        PageMargins = { Left = 0, Right = 0 }
-        //    };
-            
-        //    return pdf;
-        //}
-
- 
-
-        // POST: Projes/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more detaProjes see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int? id, Proje Proje)
         {
             if (ModelState.IsValid)
             {
-                try
-                {
-                    if (id == null || id == 0)
-                    {
-                        await _ProjeServis.AddAsync(Proje, _loginHelper.UserHelper);
-                    }
-                    else
-                    {
-                        if (id != Proje.Id)
-                        {
-                            return NotFound();
-                        }
-                        await _ProjeServis.UpdateAsync(Proje, _loginHelper.UserHelper);
-                    }
-
-                    if (Proje.ProjeDurumu == EnuProjeDurumu.MailGonder)
-                    {
-
-                    }
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!await ProjeExistsAsync(Proje.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                await Save(id, Proje);
                 return RedirectToAction(nameof(Index), new { id = Proje.MusteriId });
             }
-
             return View(Proje);
         }
 
-        // GET: Projes/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SaveAndDetail(int? id, Proje Proje)
+        {
+            await Save(id, Proje);
+            return RedirectToAction(nameof(Detail), new { id = Proje.GuidId });
+        }
+
         public async Task<IActionResult> Delete(int? id)
         {
 
@@ -173,5 +162,79 @@ namespace CastAjansCore.WebUI.Controllers
             Proje entity = await _ProjeServis.GetByIdAsync(id);
             return entity != null;
         }
+
+        [AllowAnonymous]
+        public async Task<FileResult> Zip(string id)
+        {
+            ProjeDetailDto model = await _ProjeServis.GetDetailAsync(id);
+            List<InMemoryFile> files = new List<InMemoryFile>();
+            foreach (var karakter in model.ProjeKarakterleri)
+            {
+                foreach (var oyuncu in karakter.Oyuncular)
+                {
+                    foreach (var resim in oyuncu.OyuncuResimleri)
+                    {
+                        string dosyaYeri = FileHelper._WebRootPath + resim.Replace("/", "\\");
+                        if (System.IO.File.Exists(dosyaYeri))
+                        {
+                            string filename = $"{oyuncu.Adi} {oyuncu.Soyadi}_{oyuncu.OyuncuResimleri.IndexOf(resim) + 1}{Path.GetExtension(resim)}";
+
+                            InMemoryFile file = new InMemoryFile
+                            {
+                                FileName = filename,
+                                Content = System.IO.File.ReadAllBytes(dosyaYeri)
+                            };
+                            files.Add(file);
+                        }
+                    }
+                }
+            }
+            return File(GetZipArchive(files), System.Net.Mime.MediaTypeNames.Application.Zip, "test.zip");
+        }
+
+        private static byte[] GetZipArchive(List<InMemoryFile> files)
+        {
+            byte[] archiveFile;
+            using (var archiveStream = new MemoryStream())
+            {
+                using (var archive = new ZipArchive(archiveStream, ZipArchiveMode.Create, true))
+                {
+                    foreach (var file in files)
+                    {
+                        var zipArchiveEntry = archive.CreateEntry(file.FileName, CompressionLevel.Fastest);
+                        using (var zipStream = zipArchiveEntry.Open())
+                            zipStream.Write(file.Content, 0, file.Content.Length);
+                    }
+                }
+
+                archiveFile = archiveStream.ToArray();
+            }
+
+            return archiveFile;
+        }
+
+        public class InMemoryFile
+        {
+            public string FileName { get; set; }
+            public byte[] Content { get; set; }
+        }
+
+        public async Task<IActionResult> MailGonder(string id)
+        {
+            ProjeDetailDto model = await _ProjeServis.GetDetailAsync(id);
+
+            StringBuilder sb = new StringBuilder(FileHelper.ReadFile("\\MailTema\\ProjeTeklif.html"));
+            sb.Replace("{ProjeAdi}", model.ProjeAdi);
+            sb.Replace("{Ilgili}", model.IlgiliKisi);
+            sb.Replace("{IlgiliTelefon}", model.IlgiliTelefon + " - " + model.IlgiliCep);
+            sb.Replace("{IlgiliEPosta}", model.IlgiliEPosta);
+            sb.Replace("{SunumLink}", $"{Request.Scheme}://{Request.Host}{Request.PathBase}/Projeler/Detail/{id}");
+
+            _emailServis.SendEmail(model.EPostaAdresleri, $"Life Ajans {model.ProjeAdi} sunum.", sb.ToString(), model.IlgiliEPosta);
+
+            MesajHelper.MesajEkle(ViewBag, "E-Posta gönderildi.");
+            return RedirectToAction(nameof(Detail), new { id });
+        }
+
     }
 }

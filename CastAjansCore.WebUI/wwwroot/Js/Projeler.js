@@ -64,7 +64,9 @@ function ShowOyuncu(projeKarakterIndex) {
 
 }
 
-function OyuncuEkle(profilFotoUrl, adi, soyadi, oyuncuId) {
+function OyuncuEkle(btn, profilFotoUrl, adi, soyadi, oyuncuId) {
+
+    $("#" + btn).addClass('disabled');
 
     var table = document.getElementById("tblProjeKarakterOyuncu_" + _projeKarakterIndex);
     var rowCount = table.getElementsByTagName("tr").length - 1;

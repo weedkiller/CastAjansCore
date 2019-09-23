@@ -1,4 +1,5 @@
 ﻿@model CastAjansCore.Dto.ProjeDetailDto
+@inject CastAjansCore.WebUI.Helper.LoginHelper LoginHelper
 @using Calbay.Core.Helper
 @{
     Layout = null;
@@ -37,16 +38,24 @@
 
     <div class="container" style="width: 800px;">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12 text-center">
+                <hr />
                 <img src="/Resimler/logo_small.png">
+                <hr />
             </div>
         </div>
-        <hr />
         <div class="row">
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header header-elements-inline">
                         <h5 class="card-title"><i class="mi-content-paste mr-2"></i> İletişim Bilgileri</h5>
+                        @if (LoginHelper.UserHelper != null)
+                        {
+                            <div class="right"><a asp-action="MailGonder" asp-route-Id="@Model.GuidId" class="btn btn-outline-primary">Mail Gonder</a></div>
+                        }
+                        <div class="right"><a asp-action="zip" asp-route-Id="@Model.GuidId" class="btn btn-secondary">Dosyaları İndir</a></div>
+
+
                     </div>
                     <div class="card-body">
                         <fieldset>
@@ -190,7 +199,7 @@
                                                 </div>
                                             }
                                         </div>
-                                      
+
                                         <div>
                                             <hr />
                                             <div class="row">
@@ -231,26 +240,9 @@
                                             </div>
                                         </div>
                                     </div>
-
-                                    @*<fieldset>
-
-                                            <div class="row">
-                                                <div class="col-4">Boy</div>
-                                                <div class="col-8">@oyuncu.Boy</div>
-                                            </div>
-                                        </fieldset>*@
-                                    @*<div class="mr-sm-3 mb-2 mb-sm-0">
-                                            <a href="#">
-                                                <img src="../../../../global_assets/images/placeholders/placeholder.jpg" class="rounded" width="44" height="44" alt="">
-                                            </a>
-                                        </div>*@
-
                                 </li>
                             }
                         </ul>
-
-
-
                     </div>
                 </div>
             </div>

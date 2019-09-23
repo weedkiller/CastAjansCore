@@ -54,6 +54,19 @@ namespace CastAjansCore.DataLayer.Concrete.EntityFramework
                 gridDto.RecordsFiltered = data.Count();
                 gridDto.Data = await data.Skip(start).Take(pageSize).ToListAsync<OyuncuListDto>();
                 gridDto.RecordsTotal = gridDto.Data.Count;
+
+                foreach (var item in gridDto.Data)
+                {
+                    item.Projeler = (from proje in context.Projeler
+                                     join pkararakter in context.ProjeKarakterleri on proje.Id equals pkararakter.ProjeId
+                                     join projeOyuncu in context.ProjeKarakterOyunculari on pkararakter.Id equals projeOyuncu.ProjeKarakterId
+                                     where projeOyuncu.OyuncuId == item.Id && 
+                                            proje.TarihBas >= DateTime.Today && 
+                                            projeOyuncu.Aktif && 
+                                            pkararakter.Aktif && 
+                                            proje.Aktif
+                                     select proje).ToList();
+                }
             }
 
             return gridDto;

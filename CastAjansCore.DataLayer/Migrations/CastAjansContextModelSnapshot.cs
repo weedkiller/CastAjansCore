@@ -15,7 +15,7 @@ namespace CastAjansCore.DataLayer.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
+                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -260,9 +260,9 @@ namespace CastAjansCore.DataLayer.Migrations
                             Id = 1,
                             Adi = "Admin",
                             Aktif = true,
-                            EklemeZamani = new DateTime(2019, 7, 27, 0, 0, 0, 0, DateTimeKind.Local),
+                            EklemeZamani = new DateTime(2019, 8, 28, 0, 0, 0, 0, DateTimeKind.Local),
                             EkleyenId = 1,
-                            GuncellemeZamani = new DateTime(2019, 7, 27, 0, 0, 0, 0, DateTimeKind.Local),
+                            GuncellemeZamani = new DateTime(2019, 8, 28, 0, 0, 0, 0, DateTimeKind.Local),
                             GuncelleyenId = 1,
                             Soyadi = "Soyadi"
                         });
@@ -303,9 +303,9 @@ namespace CastAjansCore.DataLayer.Migrations
                         {
                             Id = 1,
                             Aktif = true,
-                            EklemeZamani = new DateTime(2019, 7, 27, 0, 0, 0, 0, DateTimeKind.Local),
+                            EklemeZamani = new DateTime(2019, 8, 28, 0, 0, 0, 0, DateTimeKind.Local),
                             EkleyenId = 1,
-                            GuncellemeZamani = new DateTime(2019, 7, 27, 0, 0, 0, 0, DateTimeKind.Local),
+                            GuncellemeZamani = new DateTime(2019, 8, 28, 0, 0, 0, 0, DateTimeKind.Local),
                             GuncelleyenId = 1,
                             KullaniciAdi = "admin",
                             Rol = 1,
@@ -377,6 +377,8 @@ namespace CastAjansCore.DataLayer.Migrations
                     b.Property<int?>("AyakNumarasi");
 
                     b.Property<int?>("Boy");
+
+                    b.Property<int?>("CastTipi");
 
                     b.Property<int>("Durumu");
 
@@ -504,8 +506,7 @@ namespace CastAjansCore.DataLayer.Migrations
 
                     b.Property<int?>("EkleyenId");
 
-                    b.Property<Guid>("GuidId")
-                        .ValueGeneratedOnAdd();
+                    b.Property<Guid>("GuidId");
 
                     b.Property<DateTime>("GuncellemeZamani");
 
@@ -634,9 +635,9 @@ namespace CastAjansCore.DataLayer.Migrations
                             Id = 1,
                             Adi = "TC",
                             Aktif = true,
-                            EklemeZamani = new DateTime(2019, 7, 27, 0, 0, 0, 0, DateTimeKind.Local),
+                            EklemeZamani = new DateTime(2019, 8, 28, 0, 0, 0, 0, DateTimeKind.Local),
                             EkleyenId = 1,
-                            GuncellemeZamani = new DateTime(2019, 7, 27, 0, 0, 0, 0, DateTimeKind.Local),
+                            GuncellemeZamani = new DateTime(2019, 8, 28, 0, 0, 0, 0, DateTimeKind.Local),
                             GuncelleyenId = 1
                         },
                         new
@@ -644,9 +645,9 @@ namespace CastAjansCore.DataLayer.Migrations
                             Id = 2,
                             Adi = "Diğer",
                             Aktif = true,
-                            EklemeZamani = new DateTime(2019, 7, 27, 0, 0, 0, 0, DateTimeKind.Local),
+                            EklemeZamani = new DateTime(2019, 8, 28, 0, 0, 0, 0, DateTimeKind.Local),
                             EkleyenId = 1,
-                            GuncellemeZamani = new DateTime(2019, 7, 27, 0, 0, 0, 0, DateTimeKind.Local),
+                            GuncellemeZamani = new DateTime(2019, 8, 28, 0, 0, 0, 0, DateTimeKind.Local),
                             GuncelleyenId = 1
                         });
                 });

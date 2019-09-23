@@ -247,7 +247,22 @@ namespace CastAjansCore.Entity
         Pasif = 2
     }
 
-    
+    public enum EnuCastTipi
+    {
+        [Display(Name = "Seçiniz")]
+        Seciniz = 0,
+
+        [Display(Name = "Yardımcı Oyuncu")]
+        YardımciOyuncu = 1,
+
+        [Display(Name = "Ön SGV")]
+        OnSgv = 2,
+
+        [Display(Name = "Ana Cast")]
+        AnaCast = 3
+    }
+
+
 
 
 

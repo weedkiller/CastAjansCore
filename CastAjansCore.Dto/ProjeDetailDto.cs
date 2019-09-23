@@ -9,6 +9,8 @@ namespace CastAjansCore.Dto
     {
         public int Id { get; set; }
 
+        public Guid GuidId { get; set; }
+
         [Display(Name ="İlgili Kişi")]
         public string IlgiliKisi { get; set; }
 
@@ -29,6 +31,8 @@ namespace CastAjansCore.Dto
 
         [Display(Name = "Proje Tarihi Bit.")]
         public DateTime ProjeTarihBit { get; set; }
+
+        public string EPostaAdresleri { get; set; }
 
         public List<ProjeKarakterDetailDto> ProjeKarakterleri { get; set; }
        

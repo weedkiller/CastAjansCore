@@ -10,11 +10,13 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
+using System;
 using System.Globalization;
 
 namespace CastAjansCore.WebUI
@@ -60,7 +62,7 @@ namespace CastAjansCore.WebUI
             .AddCookie(options =>
             {
                 options.LoginPath = "/Kullanicilar/Login/";
-                options.AccessDeniedPath = "/Kullanicilar/AccessDenied/"; 
+                options.AccessDeniedPath = "/Kullanicilar/AccessDenied/";
             });
 
             services.Configure<RequestLocalizationOptions>(options =>
@@ -89,6 +91,10 @@ namespace CastAjansCore.WebUI
 
         private void AddScoped(IServiceCollection services)
         {
+
+            services.Configure<SecurityStampValidatorOptions>(options =>
+            options.ValidationInterval = TimeSpan.FromDays(1));
+
 
             //services.AddScoped<IAdresDal, EfAdresDal>();
             //services.AddSingleton<IHostingEnvironment>(new HostingEnvironment());
@@ -146,19 +152,19 @@ namespace CastAjansCore.WebUI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            var supportedCultures = new[] { new CultureInfo("en"), new CultureInfo("tr") };
-            app.UseRequestLocalization(new RequestLocalizationOptions()
-            {
-                DefaultRequestCulture = new RequestCulture(new CultureInfo("tr")),
-                SupportedCultures = supportedCultures,
-                SupportedUICultures = supportedCultures
-            });
+            //var supportedCultures = new[] { new CultureInfo("en"), new CultureInfo("tr") };
+            //app.UseRequestLocalization(new RequestLocalizationOptions()
+            //{
+            //    DefaultRequestCulture = new RequestCulture(new CultureInfo("tr")),
+            //    SupportedCultures = supportedCultures,
+            //    SupportedUICultures = supportedCultures
+            //});
 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-            
+
             app.UseStaticFiles();
 
             env.EnvironmentName = EnvironmentName.Development;
@@ -181,6 +187,7 @@ namespace CastAjansCore.WebUI
             app.UseAuthentication();
             app.UseSession();
             app.UseMvc(ConfigureRoutes);
+            app.UseCookiePolicy();
         }
 
         private void ConfigureRoutes(IRouteBuilder routeBuilder)

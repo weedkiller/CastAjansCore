@@ -1,9 +1,6 @@
-﻿
-
-//$(document).ready(function () {
-//    $('.datepicker').datepicker();
-
-//});
+﻿$(document).ready(function () {
+    moment.locale('tr');
+});
 
 //$.validator.methods.date = function (value, element) {
 //    return this.optional(element) || moment(value, "DD.MM.YYYY", true).isValid();

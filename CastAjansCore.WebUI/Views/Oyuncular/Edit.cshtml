@@ -32,6 +32,13 @@
                 <div class="card-body">
                     <fieldset>
                         <div class="form-group row">
+                            <label asp-for="Oyuncu.CastTipi" class="col-md-3 col-form-label"></label>
+                            <span asp-for="Oyuncu.CastTipi" class="text-danger"></span>
+                            <div class="col-md-9">
+                                <select asp-for="Oyuncu.CastTipi" asp-items="Html.GetEnumSelectList<EnuCastTipi>()" class="form-control"></select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label asp-for="Oyuncu.Boy" class="col-md-3 col-form-label"></label>
                             <span asp-for="Oyuncu.Boy" class="text-danger"></span>
                             <div class="col-md-9">
@@ -200,8 +207,8 @@
                                                 <i class="mi-zoom-in"></i>
                                             </a>
                                             @if (Model.Oyuncu.OyuncuResimleri[i].DosyaYolu != Model.KisiEditDto.Kisi.ProfilFotoUrl)
-                                            {                                                
-                                                <a class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round ml-2 legitRipple"                                                   
+                                            {
+                                                <a class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round ml-2 legitRipple"
                                                    href=@($"/Oyuncular/AnaResimYap/{Model.Oyuncu.OyuncuResimleri[i].Id}?FotoId={Model.Oyuncu.Id}")
                                                    data-toggle="tooltip" title="Sil">
                                                     <i class="mi-local-play"></i>
@@ -263,47 +270,37 @@
                         <div class="row">
                             @for (int i = 0; i < Model.Oyuncu.OyuncuVideolari.Count; i++)
                             {
-                                <div class="card">
-                                    <div class="card-img-actions m-1">
-                                        <img class="card-img img-fluid" src=@Model.Oyuncu.OyuncuVideolari[i].DosyaYolu alt="">
-                                        <div class="card-img-actions-overlay card-img">
-                                            <a href=@Model.Oyuncu.OyuncuVideolari[i].DosyaYolu
-                                               class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round legitRipple"
-                                               data-popup="lightbox" rel="group">
-                                                <i class="icon-plus3"></i>
-                                            </a>
-                                            <a class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round ml-2 legitRipple"
-                                               href=@("/Oyuncular/FileDelete/"+Model.Oyuncu.Id+"?VideoId="+Model.Oyuncu.OyuncuVideolari[i].Id)
-                                               data-toggle="tooltip" title="Sil"><i class="fas fa-trash"></i></a>
-
-                                            <a href="#" class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round ml-2 legitRipple">
-                                                <i class="icon-link"></i>
-                                            </a>
+                                <div class="col-sm-6 col-xl-3">
+                                    <div class="card">
+                                        <div class="card-img-actions mx-1 mt-1">
+                                            <div class="card-img embed-responsive embed-responsive-16by9">
+                                                <iframe allowfullscreen="" frameborder="0" mozallowfullscreen="" src="@Model.Oyuncu.OyuncuVideolari[i].DosyaYolu" webkitallowfullscreen=""></iframe>
+                                            </div>
                                         </div>
+
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-start flex-nowrap">
+                                                <div>
+                                                    <div class="font-weight-semibold mr-2">Video</div>
+                                                    <span class="font-size-sm text-muted">1</span>
+                                                </div>
+
+                                                <div class="list-icons list-icons-extended ml-auto">
+                                                    @*<a href="#" class="list-icons-item"><i class="icon-download top-0"></i></a>*@
+                                                    <a href="@("/Oyuncular/FileDelete/"+Model.Oyuncu.Id+"?VideoId="+Model.Oyuncu.OyuncuVideolari[i].Id)" class="list-icons-item"><i class="icon-bin top-0"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" asp-for="@Model.Oyuncu.OyuncuVideolari[i].Id" />
+                                        <input type="hidden" asp-for="@Model.Oyuncu.OyuncuVideolari[i].OyuncuId" />
+                                        <input type="hidden" asp-for="@Model.Oyuncu.OyuncuVideolari[i].DosyaYolu" />
+                                        <input type="hidden" asp-for="@Model.Oyuncu.OyuncuVideolari[i].EkleyenId" />
+                                        <input type="hidden" asp-for="@Model.Oyuncu.OyuncuVideolari[i].EklemeZamani" />
+                                        <input type="hidden" asp-for="@Model.Oyuncu.OyuncuVideolari[i].GuncelleyenId" />
+                                        <input type="hidden" asp-for="@Model.Oyuncu.OyuncuVideolari[i].GuncellemeZamani" />
+                                        <input type="hidden" asp-for="@Model.Oyuncu.OyuncuVideolari[i].Aktif" />
                                     </div>
-                                    <input type="hidden" asp-for="@Model.Oyuncu.OyuncuVideolari[i].Id" />
-                                    <input type="hidden" asp-for="@Model.Oyuncu.OyuncuVideolari[i].OyuncuId" />
-                                    <input type="hidden" asp-for="@Model.Oyuncu.OyuncuVideolari[i].DosyaYolu" />
-                                    <input type="hidden" asp-for="@Model.Oyuncu.OyuncuVideolari[i].EkleyenId" />
-                                    <input type="hidden" asp-for="@Model.Oyuncu.OyuncuVideolari[i].EklemeZamani" />
-                                    <input type="hidden" asp-for="@Model.Oyuncu.OyuncuVideolari[i].GuncelleyenId" />
-                                    <input type="hidden" asp-for="@Model.Oyuncu.OyuncuVideolari[i].GuncellemeZamani" />
-                                    <input type="hidden" asp-for="@Model.Oyuncu.OyuncuVideolari[i].Aktif" />
                                 </div>
-
-                                @*<div class="col-md-4">
-                                        <div class="thumbnail">
-                                            <a href=@Model.Oyuncu.OyuncuVideolari[i].DosyaYolu>
-                                                <img src=@Model.Oyuncu.OyuncuVideolari[i].DosyaYolu alt="Lights" style="width:100%">
-                                            </a>
-                                            <hr />
-                                            @if (Model.Oyuncu.OyuncuVideolari[i].DosyaYolu != Model.KisiEditDto.Kisi.ProfilFotoUrl)
-                                            {
-                                                <a class="btn btn-xs btn-outline-success" href=@("/Oyuncular/AnaResimYap/"+Model.Oyuncu.OyuncuVideolari[i].Id+"?FotoId="+Model.Oyuncu.Id) data-toggle="tooltip" title="Ana Resim Yap"><i class="fas fa-bookmark"></i> Ana Resim Yap</a>
-                                            }
-                                            <a class="btn btn-xs btn-outline-danger" href=@("/Oyuncular/FileDelete/"+Model.Oyuncu.Id+"?FotoId="+Model.Oyuncu.OyuncuVideolari[i].Id) data-toggle="tooltip" title="Sil"><i class="fas fa-trash"></i> Sil</a>
-                                        </div>
-                                    </div>*@
                             }
                         </div>
                     </fieldset>

@@ -18,7 +18,7 @@ namespace CastAjansCore.WebUI.Helper
             {
                 //string pic = Path.GetFileName(file.FileName);
 
-                yer = string.Format("Resimler/{0}/{1}/{2}", DateTime.Now.Year, DateTime.Now.Month, yer);
+                yer = $"Dosyalar/{DateTime.Now.Year}/{DateTime.Now.Month}/{yer}";
                 string path = Path.Combine(_WebRootPath, yer.Replace("/", "\\"));
 
                 // file is uploaded
@@ -30,7 +30,7 @@ namespace CastAjansCore.WebUI.Helper
                 path = Path.Combine(path, dosyaAdi);
                 formFile.CopyTo(new FileStream(path, FileMode.Create));
 
-                return String.Format("/{0}/{1}", yer, dosyaAdi);
+                return $"/{yer}/{dosyaAdi}";
             }
             else
             {
@@ -38,30 +38,35 @@ namespace CastAjansCore.WebUI.Helper
             }
         }
 
-        public static string SaveFile(string kaynakyer, string tasinacakyer)
+        //public static string SaveFile(string kaynakyer, string tasinacakyer)
+        //{
+        //    if (kaynakyer != null)
+        //    {
+        //        //string pic = Path.GetFileName(file.FileName);
+
+        //        tasinacakyer = $"Dosyalar/{DateTime.Now.Year}/{DateTime.Now.Month}/Resimler/{tasinacakyer}";
+        //        string path = Path.Combine(_WebRootPath, tasinacakyer.Replace("/", "\\"));
+
+        //        // file is uploaded
+        //        if (!Directory.Exists(path))
+        //        {
+        //            Directory.CreateDirectory(path);
+        //        }
+        //        string dosyaAdi = Path.GetFileName(kaynakyer);
+        //        path = Path.Combine(path, dosyaAdi);
+        //        File.Move(kaynakyer, path);
+
+        //        return String.Format("/{0}/{1}", tasinacakyer, dosyaAdi);
+        //    }
+        //    else
+        //    {
+        //        return null;
+        //    }
+        //}
+
+        public static string ReadFile(string path)
         {
-            if (kaynakyer != null)
-            {
-                //string pic = Path.GetFileName(file.FileName);
-
-                tasinacakyer = $"Dosyalar/{DateTime.Now.Year}/{DateTime.Now.Month}/Resimler/{tasinacakyer}";
-                string path = Path.Combine(_WebRootPath, tasinacakyer.Replace("/", "\\"));
-
-                // file is uploaded
-                if (!Directory.Exists(path))
-                {
-                    Directory.CreateDirectory(path);
-                }
-                string dosyaAdi = Path.GetFileName(kaynakyer);
-                path = Path.Combine(path, dosyaAdi);
-                File.Move(kaynakyer, path);
-
-                return String.Format("/{0}/{1}", tasinacakyer, dosyaAdi);
-            }
-            else
-            {
-                return null;
-            }
+            return File.ReadAllText($"{_WebRootPath}\\{path}");
         }
     }
 }

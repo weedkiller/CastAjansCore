@@ -7,11 +7,11 @@ $(document).ready(function () {
 
     _tableOyuncu = $('#OyuncuGrid').DataTable({
         processing: true,
-        //responsive: true,
+        responsive: false,
         searching: false,
         lengthChange: false,
         serverSide: true,
-        //scrollX: true,
+        scrollX: true,
         language: { url: "//cdn.datatables.net/plug-ins/1.10.19/i18n/Turkish.json" },
         ajax:
         {
@@ -33,6 +33,9 @@ $(document).ready(function () {
                     YasMaks: Number($("#Filter-Oyuncu-YasMaks").val()),
                     Cinsiyet: Number($("#Filter-Oyuncu-Cinsiyet").val()),
                     Uyruk: Number($("#Filter-Oyuncu-Uyruk").val()),
+                    Il: Number($("#Filter-Oyuncu-Il").val()),
+                    Ilce: Number($("#Filter-Oyuncu-Ilce").val()),
+                    CastTipi: Number($("#Filter-Oyuncu-CastTipi").val()),
                     KaseMin: Number($("#Filter-Oyuncu-KaseMin").val()),
                     KaseMaks: Number($("#Filter-Oyuncu-KaseMaks").val()),
                     BoyMin: Number($("#Filter-Oyuncu-BoyMin").val()),
@@ -63,10 +66,17 @@ $(document).ready(function () {
                 searchable: false,
                 bSortable: false,
                 sClass: "text-center",
+                width: "25px",
                 render: function (data, type, row) {
                     var link = "";
                     if (_projeKarakterIndex >= 0) {
-                        link = "<a href='javascript:OyuncuEkle(\"" + row.profilFotoUrl + "\",\"" + row.adi + "\",\"" + row.soyadi + "\"," + data + ")' class='btn btn-sm btn-primary' > <i class='mi-add'></i></a > ";
+                        var disable = "";
+                        if (ProjeyeEkliMi(data)) {
+                            disable = "disabled";
+                        }
+
+                        link = "<a href='javascript:OyuncuEkle(\"btnOyuncuEkle_" + data + "\",\"" + row.profilFotoUrl + "\",\"" + row.adi + "\",\"" + row.soyadi + "\"," + data + ")' class='btn btn-sm btn-primary " + disable + "' id='btnOyuncuEkle_" + data + "' > <i class='mi-add'></i></a > ";
+
                     }
                     else {
                         link = "<a href='Oyuncular/Edit/" + data + "' class='btn btn-sm btn-primary'><i class='mi-mode-edit'></i></a>";
@@ -103,23 +113,50 @@ $(document).ready(function () {
                 render: function (data, type, row) {
                     var str = "";
 
-                    str += "<div class='row media-title font-weight-semibold'>" + row["adi"] + " " + row["soyadi"] + "<span style='color:red;'>" + row["guncellemeTarihi"] + "</span></div>";
-                    str += "<div class='row'>";
-                    str += "    <div class='col-md-6'>";
-                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Cinsiyet</b></label><div class='col-sm-6 nopadding'>: " + row["cinsiyet"] + "</div></div>";
-                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Uyruk</b></label><div class='col-sm-6 nopadding'>: " + row["uyruk"] + "</div></div>";
-                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Saç</b></label><div class='col-sm-6 nopadding'>: " + row["sacRengi"] + "</div></div>";
-                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Ten</b></label><div class='col-sm-6 nopadding'>: " + row["tenRengi"] + "</div></div>";
-                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Göz</b></label><div class='col-sm-6 nopadding'>: " + row["gozRengi"] + "</div></div>";
-                    str += "    </div>";
-                    str += "    <div class='col-md-6'>";
-                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Yaş</b></label><div class='col-sm-6 nopadding text-right'> " + row["yas"] + "</div></div>";
-                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Boy</b></label><div class='col-sm-6 nopadding text-right'> " + row["boy"] + "</div></div>";
-                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Kilo</b></label><div class='col-sm-6 nopadding text-right'> " + row["kilo"] + "</div></div>";
-                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Alt B.</b></label><div class='col-sm-6 nopadding text-right'> " + row["altBeden"] + "</div></div>";
-                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Üst B.</b></label><div class='col-sm-6 nopadding text-right'> " + row["ustBeden"] + "</div></div>";
-                    str += "    </div>";
+                    str += "<div class='row media-title font-weight-semibold'>" + row["adi"] + " " + row["soyadi"] + "</div>";
+                    str += "    <div class='text-nowrap'>";
+                    str += "        <div class='row'><label class='col nopadding'><b>Cinsiyet</b></label><div class='col nopadding'>: " + row["cinsiyet"] + "</div></div>";
+                    str += "        <div class='row'><label class='col nopadding'><b>Uyruk</b></label><div class='col nopadding'>: " + row["uyruk"] + "</div></div>";
+                    str += "        <div class='row'><label class='col nopadding'><b>Saç</b></label><div class='col nopadding'>: " + row["sacRengi"] + "</div></div>";
+                    str += "        <div class='row'><label class='col nopadding'><b>Ten</b></label><div class='col nopadding'>: " + row["tenRengi"] + "</div></div>";
+                    str += "        <div class='row'><label class='col nopadding'><b>Göz</b></label><div class='col nopadding'>: " + row["gozRengi"] + "</div></div>";
                     str += "</div'>";
+
+                    return str;
+                }
+            },
+            {
+                name: "Ozellik",
+                title: "Özellik",
+                data: "id",
+                bSortable: false,
+                autoWidth: true,
+                render: function (data, type, row) {
+                    var str = "";
+
+                    str += "<br />";
+                    str += "    <div class='text-nowrap'>";
+                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Yaş</b></label><div class='col-sm-6 nopadding text-right'>: " + row["yas"] + "</div></div>";
+                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Boy</b></label><div class='col-sm-6 nopadding text-right'>: " + row["boy"] + "</div></div>";
+                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Kilo</b></label><div class='col-sm-6 nopadding text-right'>: " + row["kilo"] + "</div></div>";
+                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Alt B.</b></label><div class='col-sm-6 nopadding text-right'>: " + row["altBeden"] + "</div></div>";
+                    str += "        <div class='row'><label class='col-sm-6 nopadding'><b>Üst B.</b></label><div class='col-sm-6 nopadding text-right'>: " + row["ustBeden"] + "</div></div>";
+                    str += "    </div>";
+
+                    return str;
+                }
+            },
+            {
+                name: "projeler",
+                title: "Projeler",
+                data: "id",
+                bSortable: false,
+                autoWidth: true,
+                render: function (data, type, row) {
+                    var str = "";
+                    for (var i = 0; i < row["projeler"].length; i++) {
+                        str += "<a href='#'><span class='badge badge-primary'>" + moment(row["projeler"][i].tarihBas).format('DD MMM') + '-' + moment(row["projeler"][i].tarihBit).format('DD MMM') + "</span></a>";
+                    }
 
                     return str;
                 }
@@ -151,4 +188,28 @@ $(document).ready(function () {
     });
 });
 
+function ProjeyeEkliMi(oyuncuId) {
+    var result = false;
+    var inputs = $(".OyuncuProje");
+
+    for (var i = 0; i < inputs.length; i++) {
+        if (inputs[i].value == oyuncuId) {
+            result = true;
+            break;
+        }
+    }
+
+    return result;
+}
+
+function ToDateStr(data) {
+    if (data !== null) {
+        //var dtStart = new Date(parseInt(data.substr(6)));
+        var dtStartWrapper = moment(data);
+        return dtStartWrapper.format('DD/MM/YYYY');
+    }
+    else {
+        return "";
+    }
+}
 

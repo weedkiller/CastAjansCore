@@ -1,4 +1,5 @@
 ﻿using Calbay.Core.Entities;
+using Calbay.Core.Helper;
 using CastAjansCore.Business.Abstract;
 using CastAjansCore.Dto;
 using CastAjansCore.Entity;
@@ -34,7 +35,6 @@ namespace CastAjansCore.WebUI.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginDto loginModel)
         {
-
             var userHelper = await _kullaniciServis.LoginAsync(loginModel.KullaniciAdi, loginModel.Sifre);
             if (userHelper == null)
             {
@@ -44,7 +44,6 @@ namespace CastAjansCore.WebUI.Controllers
             else
             {
                 await _loginHelper.Login(userHelper);
-
                 //Just redirect to our index after logging in. 
                 return RedirectToAction("Index", "Home");
             }
@@ -132,6 +131,10 @@ namespace CastAjansCore.WebUI.Controllers
                 ModelState.Remove("KisiEditDto.Kisi.Ilce.IlId");
                 ModelState.Remove("KisiEditDto.Kisi.Ilce.Adi");
                 ModelState.Remove("Kullanici.Sifre");
+                if (kullaniciEditDto.KisiEditDto.Kisi.EPosta == null || kullaniciEditDto.KisiEditDto.Kisi.EPosta == "")
+                {
+                    ModelState.AddModelError("KisiEditDto.Kisi.EPosta", "E-Posta Alanı Zorunludur.");
+                }
 
                 if (ModelState.IsValid)
                 {
@@ -190,7 +193,6 @@ namespace CastAjansCore.WebUI.Controllers
             }
 
             return View(kullaniciEditDto);
-
         }
 
         [Authorize(Roles = "admin")]
@@ -246,15 +248,13 @@ namespace CastAjansCore.WebUI.Controllers
 
                     if (user == null)/* || !(await _kullaniciServis.IsEmailConfirmedAsync(user.Id)))*/
                     {
-                        // Don't reveal that the user does not exist or is not confirmed
-                        return View("ForgotPasswordConfirmation");
+                        MesajHelper.HataEkle(ViewBag, "Kullanıcı adı bulunamadı.");
+                        return View(new LoginSifremiUnuttumDto { EPosta = dto.EPosta });
                     }
 
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
                     await _kullaniciServis.SifreUretmeTokeniUret(user.Id, null);
 
-                    MesajHelper.MesajEkle(ViewBag, "Mail adresinizden gelen maili onaylayınız.");
+                    MesajHelper.MesajEkle(ViewBag, "E-Posta adresinize gelen maili onaylayınız.");
 
                     return RedirectToAction("ResetPassword", "Kullanicilar", new { id = user.Id });
                 }
@@ -267,51 +267,81 @@ namespace CastAjansCore.WebUI.Controllers
             return View(dto);
         }
 
-        //[AllowAnonymous]
-        //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> ResetPassword(int id)
+        [AllowAnonymous]
+        public async Task<IActionResult> ResetPassword(int id, string code)
         {
+            if (id == 0)
+            {
+                return View(new ResetPasswordDto { Kendim = true }); ;
+            }
+
             Kullanici user = await _kullaniciServis.GetByIdAsync(id);
 
-            if (user == null)
+            if (user == null && (code.IsNull() || user.Token.Equals(code)))
             {
                 MesajHelper.HataEkle(ViewBag, "Kullanıcı bulunamadı.");
                 return RedirectToAction("SifremiUnuttum");
             }
+            else if (code.IsNotNull() && !user.Token.Equals(code))
+            {
+                MesajHelper.HataEkle(ViewBag, "Kod geçersiz.");
+                return RedirectToAction("SifremiUnuttum");
+            }
             else
             {
-                return View(new ResetPasswordDto());
+                return View(new ResetPasswordDto { Code = code, Kendim = false });
             }
         }
+
+        //[Authorize(Roles = "admin,calisan")]
+        //public IActionResult ResetPassword()
+        //{
+        //    return View(new ResetPasswordDto());
+        //}
 
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ResetPassword(int id, ResetPasswordDto model)
+        public async Task<ActionResult> ResetPassword(int? id, ResetPasswordDto model)
         {
             try
             {
+                if (id == null)
+                {
+                    ModelState.Remove("Code");
+                }
                 if (!ModelState.IsValid)
                 {
                     return View(model);
                 }
                 else
                 {
+
                     //var user = await _kullaniciServis.GetByTokenAsync(model.Code);
-                    var user = await _kullaniciServis.GetByIdAsync(id);
-                    if (user == null && model.Code != user.Token)
+                    int userId;
+                    if (id != null)
+                    {
+                        userId = id.Value;
+                    }
+                    else
+                    {
+                        userId = _loginHelper.UserHelper.Id;
+                    }
+
+                    var user = await _kullaniciServis.GetByIdAsync(userId);
+                    if (id != null && user == null && model.Code != user.Token)
                     {
                         MesajHelper.HataEkle(ViewBag, "Yanlış kod girdiniz.");
                         return View();
                     }
-                    else
-                    {
-                        await _kullaniciServis.SifreyiGuncelleAsync(user.Id, model.Sifre, null);
-                        MesajHelper.MesajEkle(ViewBag, "Şifreniz başrıyla güncellenmiştir.");
-                        var userHelper = await _kullaniciServis.LoginAsync(user.KullaniciAdi, model.Sifre);
-                        await _loginHelper.Login(userHelper);
-                        return RedirectToAction(nameof(Index));
-                    }
+
+
+                    await _kullaniciServis.SifreyiGuncelleAsync(userId, model.Sifre, null);
+                    MesajHelper.MesajEkle(ViewBag, "Şifreniz başrıyla güncellenmiştir.");
+                    var userHelper = await _kullaniciServis.LoginAsync(user.KullaniciAdi, model.Sifre);
+                    await _loginHelper.Login(userHelper);
+                    return RedirectToAction(nameof(Index));
+
                 }
             }
             catch (Exception ex)
