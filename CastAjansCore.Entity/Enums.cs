@@ -65,16 +65,16 @@ namespace CastAjansCore.Entity
         Beyaz = 1,
 
         [Display(Name = "Sarışın")]
-        Sarışın = 2,
+        Sarısın = 2,
 
         [Display(Name = "Esmer")]
-        Esmer = 2,
+        Esmer = 3,
 
         [Display(Name = "Kumral")]
-        Kumral = 3,
+        Kumral = 4,
 
         [Display(Name = "Siyahi")]
-        Siyahi = 4
+        Siyahi = 5
     }
 
     public enum EnuSacRengi

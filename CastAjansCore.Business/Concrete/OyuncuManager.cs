@@ -240,6 +240,7 @@ namespace CastAjansCore.Business.Concrete
                     (filter.GozRengi == 0 || i.GozRengi == (EnuGozRengi)filter.GozRengi) &&
                     (filter.TenRengi == 0 || i.TenRengi == (EnuTenRengi)filter.TenRengi) &&
                     (filter.SacRengi == 0 || i.SacRengi == (EnuSacRengi)filter.SacRengi) &&
+                    (filter.Ehliyet == null || i.Ehliyet.Contains(filter.Ehliyet)) &&
                     i.Aktif == true && i.Kisi.Aktif == true
                 );
 

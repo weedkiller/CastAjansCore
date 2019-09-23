@@ -47,9 +47,20 @@ namespace CastAjansCore.Business.Concrete
             await Kontrol(entity);
             Random rnd = new Random();
             entity.Token = rnd.Next(1200, 9980).ToString();
+            try
+            {
+                await _kisiServis.AddAsync(entity.Kisi, userHelper);
+                await base.AddAsync(entity, userHelper);
 
-            await _kisiServis.AddAsync(entity.Kisi, userHelper);
-            await base.AddAsync(entity, userHelper);
+            }
+            catch (Exception ex)
+            {
+                if (entity.Kisi.Id > 0)
+                {
+                    await _kisiServis.DeleteAsync(entity.Kisi.Id, userHelper);
+                }
+                throw ex;
+            }
             //ResetlemeMailiGonder(entity.Id, entity.Token, entity.Kisi.EPosta);
         }
 

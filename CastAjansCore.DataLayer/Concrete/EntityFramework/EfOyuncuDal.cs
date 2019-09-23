@@ -45,7 +45,8 @@ namespace CastAjansCore.DataLayer.Concrete.EntityFramework
                         SacRengi = i.SacRengi.ToDisplay(),
                         TenRengi = i.TenRengi.ToDisplay(),
                         UstBeden = i.UstBeden,
-                        Uyruk = i.Kisi.Uyruk.Adi
+                        Uyruk = i.Kisi.Uyruk.Adi,
+                        GuncellemeTarihi = i.GuncellemeZamani
                     }
                     ).OrderByDescending(i => i.GuncellemeTarihi);
 
