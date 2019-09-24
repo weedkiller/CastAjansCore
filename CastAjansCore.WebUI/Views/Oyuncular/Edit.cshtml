@@ -274,10 +274,12 @@
                                     <div class="card">
                                         <div class="card-img-actions mx-1 mt-1">
                                             <div class="card-img embed-responsive embed-responsive-16by9">
-                                                <iframe allowfullscreen="" frameborder="0" mozallowfullscreen="" src="@Model.Oyuncu.OyuncuVideolari[i].DosyaYolu" webkitallowfullscreen=""></iframe>
+                                                @*<iframe allowfullscreen="" frameborder="0" mozallowfullscreen="" src="@Model.Oyuncu.OyuncuVideolari[i].DosyaYolu" webkitallowfullscreen=""></iframe>*@
+                                                <video class="embed-responsive-item" controls preload="none" width="640" height="480" >
+                                                    <source src="@Model.Oyuncu.OyuncuVideolari[i].DosyaYolu">                                                    
+                                                </video>
                                             </div>
                                         </div>
-
                                         <div class="card-body">
                                             <div class="d-flex align-items-start flex-nowrap">
                                                 <div>
