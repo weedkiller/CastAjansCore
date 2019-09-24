@@ -1,5 +1,6 @@
 ﻿using Calbay.Core.Business;
 using Calbay.Core.Entities;
+using Calbay.Core.Helper;
 using CastAjansCore.Dto;
 using CastAjansCore.Entity;
 using System;
@@ -16,5 +17,6 @@ namespace CastAjansCore.Business.Abstract
         Task<List<OyuncuListDto>> GetListDtoAsync(Expression<Func<Oyuncu, bool>> filter = null);
 
         Task<GridDto<OyuncuListDto>> GetGridAsync(OyuncuFilterDto filterDto);
+        Task AnaResimYap(int id, int resimId, UserHelper userHelper);
     }
 }

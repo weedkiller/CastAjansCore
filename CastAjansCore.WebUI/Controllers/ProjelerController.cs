@@ -11,6 +11,8 @@ using System.IO;
 using System.IO.Compression;
 using System.Text;
 using System.Threading.Tasks;
+using Calbay.Core;
+using Calbay.Core.Helper;
 
 namespace CastAjansCore.WebUI.Controllers
 {
@@ -65,6 +67,23 @@ namespace CastAjansCore.WebUI.Controllers
         public async Task<IActionResult> Detail(string id)
         {
             ProjeDetailDto model = await _ProjeServis.GetDetailAsync(id);
+            //_ProjeServis.Pdf();
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SaveAndCastList(int? id, Proje Proje)
+        {
+            await Save(id, Proje);
+            return RedirectToAction(nameof(CastList), new { id = Proje.GuidId });
+        }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> CastList(string id)
+        {
+            ProjeDetailDto model = await _ProjeServis.GetDetailAsync(id);
+
             //_ProjeServis.Pdf();
             return View(model);
         }
@@ -189,7 +208,7 @@ namespace CastAjansCore.WebUI.Controllers
                     }
                 }
             }
-            return File(GetZipArchive(files), System.Net.Mime.MediaTypeNames.Application.Zip, "test.zip");
+            return File(GetZipArchive(files), System.Net.Mime.MediaTypeNames.Application.Zip, $"{model.ProjeAdi.Replace(" ","")}.zip");
         }
 
         private static byte[] GetZipArchive(List<InMemoryFile> files)

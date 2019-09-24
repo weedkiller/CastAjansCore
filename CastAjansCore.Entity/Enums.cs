@@ -255,8 +255,8 @@ namespace CastAjansCore.Entity
         [Display(Name = "Yardımcı Oyuncu")]
         YardımciOyuncu = 1,
 
-        [Display(Name = "Ön SGV")]
-        OnSgv = 2,
+        [Display(Name = "Ön FGR")]
+        FGR = 2,
 
         [Display(Name = "Ana Cast")]
         AnaCast = 3

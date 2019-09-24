@@ -205,6 +205,10 @@
                                             <div class="row">
                                                 <table>
                                                     <tr>
+                                                        <th>Seç</th>
+                                                        <td><button id="@($"{Model.GuidId},{karakter.Id}{@oyuncu.Id}")" onclick="OyuncuSec('@Model.GuidId',@karakter.Id,@oyuncu.Id)">@(oyuncu.KarakterDurumu == CastAjansCore.Entity.EnuKarakterDurumu.TeklifAtildi ? "Seç" : "Çıkar")</button></td>
+                                                    </tr>
+                                                    <tr>
                                                         <th>Göz Rengi</th>
                                                         <td>: @oyuncu.GozRengi.ToDisplay()</td>
                                                     </tr>

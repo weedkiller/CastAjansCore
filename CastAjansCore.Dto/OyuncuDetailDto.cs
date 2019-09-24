@@ -10,6 +10,9 @@ namespace CastAjansCore.Dto
 
         public string ProfilUrl { get; set; }
 
+        [Display(Name = "Durumu")]
+        public EnuKarakterDurumu KarakterDurumu { get; set; }
+
         [Display(Name = "Adı")]
         public string Adi { get; set; }
 
@@ -18,6 +21,15 @@ namespace CastAjansCore.Dto
 
         [Display(Name = "Ad Soyad")]
         public string TamAdi { get { return $"{Adi} {Soyadi}"; } }
+
+        [Display(Name = "Cep")]
+        public string Cep { get; set; }
+
+        [Display(Name = "Telefon")]
+        public string Telefon { get; set; }
+
+        [Display(Name = "İlçe")]
+        public string Ilce { get; set; }
 
         [Display(Name = "Yaş")]
         public int Yas { get; set; }

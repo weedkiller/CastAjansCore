@@ -16,7 +16,7 @@ namespace CastAjansCore.Business.Concrete
 
         public async Task<List<ProjeKarakterOyuncu>> GetListByProjeKarakterIdAsync(int projeKarakterId)
         {
-            return await base._dal.GetListAsync(new List<string> { "Oyuncu", "Oyuncu.Kisi" },
+            return await base._dal.GetListAsync(new List<string> { "Oyuncu", "Oyuncu.Kisi", "Oyuncu.Kisi.Ilce" },
                 i => i.ProjeKarakterId == projeKarakterId &&
                 i.Aktif == true //&&
                 //i.Oyuncu.Aktif == true &&

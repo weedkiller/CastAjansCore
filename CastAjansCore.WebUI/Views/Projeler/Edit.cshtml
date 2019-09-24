@@ -211,6 +211,7 @@
             <a asp-action="Index" asp-route-id="@Model.Proje.MusteriId" class="btn btn-danger left"><i class="mi-arrow-back"></i> Geri</a>
             <button type="submit" class="btn btn-primary right"><i class="mi-check"></i> Kaydet</button>
             <button type="submit" asp-action="SaveAndDetail" asp-route-id="@Model.Proje.Id" class="btn btn-secondary right"><i class="mi-check"></i> Detay</button>
+            <button type="submit" asp-action="SaveAndCastList" asp-route-id="@Model.Proje.Id" class="btn btn-secondary right"><i class="mi-check"></i> CastList</button>
             @*<a asp-action="Detail" asp-route-id="@Model.Proje.GuidId" class="btn btn-danger left"><i class="mi-arrow-back"></i> Detay</a>*@
         </div>
     </div>

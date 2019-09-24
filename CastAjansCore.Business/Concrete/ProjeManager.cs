@@ -134,8 +134,12 @@ namespace CastAjansCore.Business.Concrete
                     {
                         Id = oyuncu.Oyuncu.Id,
                         ProfilUrl = oyuncu.Oyuncu.Kisi.ProfilFotoUrl,
+                        KarakterDurumu = oyuncu.KarakterDurumu,
                         Adi = oyuncu.Oyuncu.Kisi.Adi,
                         Soyadi = oyuncu.Oyuncu.Kisi.Soyadi,
+                        Cep = oyuncu.Oyuncu.Kisi.Cep,
+                        Telefon = oyuncu.Oyuncu.Kisi.Telefon.IfIsNull(oyuncu.Oyuncu.Kisi.Telefon2).ToString(),
+                        Ilce = oyuncu.Oyuncu.Kisi.Ilce.Adi,
                         Yas = (DateTime.Today.Year - oyuncu.Oyuncu.Kisi.DogumTarihi.Value.Year) - (oyuncu.Oyuncu.Kisi.DogumTarihi.Value > DateTime.Today.AddYears(-1 * (DateTime.Today.Year - oyuncu.Oyuncu.Kisi.DogumTarihi.Value.Year)) ? -1 : 0),
                         UstBeden = oyuncu.Oyuncu.UstBeden,
                         AltBeden = oyuncu.Oyuncu.AltBeden,

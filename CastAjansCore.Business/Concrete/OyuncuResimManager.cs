@@ -72,5 +72,7 @@ namespace CastAjansCore.Business.Concrete
                 }
             }
         }
+
+       
     }
 }

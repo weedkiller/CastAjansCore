@@ -1,0 +1,143 @@
+﻿@model CastAjansCore.Dto.ProjeDetailDto
+@inject CastAjansCore.WebUI.Helper.LoginHelper LoginHelper
+@using Calbay.Core.Helper
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+
+    <title>Detail</title>
+
+    <!-- Global stylesheets -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+    <link href="/Limitless_2_2/css/icons/icomoon/styles.min.css" rel="stylesheet" type="text/css">
+    <link href="/Limitless_2_2/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/Limitless_2_2/css/bootstrap_limitless.min.css" rel="stylesheet" type="text/css">
+    <link href="/Limitless_2_2/css/layout.min.css" rel="stylesheet" type="text/css">
+    <link href="/Limitless_2_2/css/components.min.css" rel="stylesheet" type="text/css">
+    <link href="/Limitless_2_2/css/colors.min.css" rel="stylesheet" type="text/css">
+    <!-- /global stylesheets -->
+    <!-- Core JS files -->
+    <script src="/Limitless_2_2/js/main/jquery.min.js"></script>
+    <script src="/Limitless_2_2/js/main/bootstrap.bundle.min.js"></script>
+    <script src="/Limitless_2_2/js/plugins/loaders/blockui.min.js"></script>
+    <script src="/Limitless_2_2/js/plugins/ui/ripple.min.js"></script>
+    <!-- /core JS files -->
+    <!-- Theme JS files -->
+    <script src="/Limitless_2_2/js/plugins/forms/styling/uniform.min.js"></script>
+    <script src="/Limitless_2_2/js/app.js"></script>
+    <script src="/Limitless_2_2/js/demo_pages/login.js"></script>
+    <!-- /theme JS files -->
+</head>
+<body>
+
+    <div class="container" style="width: 800px;">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <hr />
+                <img src="/Resimler/logo_small.png">
+                <hr />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header header-elements-inline">
+                        <h5 class="card-title"><i class="mi-content-paste mr-2"></i> Proje Bilgileri</h5>
+
+                    </div>
+                    <div class="card-body">
+                        <fieldset>
+                            <div class="form-group row">
+                                <label asp-for="IlgiliKisi" class="col-md-3 col-form-label"></label>
+                                <div class="col-md-9">
+                                    <input asp-for="IlgiliKisi" readonly class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="ProjeAdi" class="col-md-3 col-form-label"></label>
+                                <div class="col-md-9">
+                                    <input asp-for="ProjeAdi" readonly class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Proje Tarihi</label>
+                                <div class="col-md-9">
+                                    <div class="row">
+                                        <div class="col">
+                                            <input asp-for="ProjeTarihBas.Date" readonly class="form-control" />
+                                        </div>
+                                        @if (Model.ProjeTarihBas == Model.ProjeTarihBit)
+                                        {
+                                            <div class="col">
+                                                <input asp-for="ProjeTarihBit" readonly class="form-control" />
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        @foreach (var karakter in Model.ProjeKarakterleri)
+        {
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header bg-white header-elements-inline">
+                            <h6 class="card-title">@karakter.Adi</h6>
+                            <div class="header-elements">
+                                <div class="list-icons">
+                                    <a class="list-icons-item" data-action="collapse"></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <table class="table table-striped">
+                            <tr>
+                                <td>Sıra</td>
+                                <td>Ad Soyad</td>
+                                <td>Cep</td>
+                                <td>Telefon</td>
+                                <td>İlçe</td>
+                                <td>Geldi</td>
+                                <td>Gelmedi</td>
+                            </tr>
+                            @{
+                                int i = 1;
+                            }
+                            @foreach (var oyuncu in karakter.Oyuncular)
+                            {
+                                @if (oyuncu.KarakterDurumu == CastAjansCore.Entity.EnuKarakterDurumu.KabulEdildi)
+                                {
+                                    <tr>
+                                        <td>@(i++)</td>
+                                        <td>@oyuncu.TamAdi</td>
+                                        <td>@oyuncu.Cep</td>
+                                        <td>@oyuncu.Telefon</td>
+                                        <td>@oyuncu.Ilce</td>
+                                        <td><input type="checkbox" /></td>
+                                        <td><input type="checkbox" /></td>
+                                        <td></td>
+                                    </tr>
+                                }
+                            }
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</body>
+</html>

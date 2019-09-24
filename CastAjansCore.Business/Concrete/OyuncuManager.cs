@@ -7,6 +7,7 @@ using CastAjansCore.Dto;
 using CastAjansCore.Entity;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -251,6 +252,23 @@ namespace CastAjansCore.Business.Concrete
             data.length = filter.Length;
 
             return data;
+        }
+
+        public async Task AnaResimYap(int id, int resimId, UserHelper userHelper)
+        {
+            var kisi = await _kisiServis.GetByIdAsync(id);
+            var resim = await _OyuncuResimServis.GetByIdAsync(resimId);
+            kisi.ProfilFotoUrl = resim.DosyaYolu;
+
+            await _kisiServis.UpdateAsync(kisi, userHelper);
+        }
+        public async Task ResmiDondur(int id, int resimId, UserHelper userHelper)
+        { 
+            var resim = await _OyuncuResimServis.GetByIdAsync(resimId);
+            var image = new Bitmap(resim.DosyaYolu);
+            
+            image.RotateFlip(RotateFlipType.Rotate90FlipNone);
+            image.Save(resim.DosyaYolu);
         }
     }
 }

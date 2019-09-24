@@ -340,7 +340,7 @@ namespace CastAjansCore.WebUI.Controllers
                     MesajHelper.MesajEkle(ViewBag, "Şifreniz başrıyla güncellenmiştir.");
                     var userHelper = await _kullaniciServis.LoginAsync(user.KullaniciAdi, model.Sifre);
                     await _loginHelper.Login(userHelper);
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("","");
 
                 }
             }

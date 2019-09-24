@@ -112,8 +112,8 @@ $(document).ready(function () {
                 autoWidth: true,
                 render: function (data, type, row) {
                     var str = "";
+                    str += "<div class='row media-title font-weight-semibold'><div class='col nopadding'>" + row["adi"] + " " + row["soyadi"] + "</div> <div class='col nopadding'><span class='badge badge-danger'>" + moment(row["guncellemeTarihi"]).format('DD MM YYYY') + "</span></div></div>";
 
-                    str += "<div class='row media-title font-weight-semibold'>" + row["adi"] + " " + row["soyadi"] + "</div>";
                     str += "    <div class='text-nowrap'>";
                     str += "        <div class='row'><label class='col nopadding'><b>Cinsiyet</b></label><div class='col nopadding'>: " + row["cinsiyet"] + "</div></div>";
                     str += "        <div class='row'><label class='col nopadding'><b>Uyruk</b></label><div class='col nopadding'>: " + row["uyruk"] + "</div></div>";
@@ -155,7 +155,8 @@ $(document).ready(function () {
                 render: function (data, type, row) {
                     var str = "";
                     for (var i = 0; i < row["projeler"].length; i++) {
-                        str += "<a href='#'><span class='badge badge-primary'>" + moment(row["projeler"][i].tarihBas).format('DD MMM') + '-' + moment(row["projeler"][i].tarihBit).format('DD MMM') + "</span></a>";
+                        var link = "/projeler/edit/" + row["projeler"][i].id;
+                        str += "<a href='" + link+"'><span class='badge badge-primary'>" + moment(row["projeler"][i].tarihBas).format('DD MMM') + '-' + moment(row["projeler"][i].tarihBit).format('DD MMM') + "</span></a>";
                     }
 
                     return str;
@@ -169,8 +170,14 @@ $(document).ready(function () {
                 visible: _projeKarakterIndex < 0,
                 sClass: "text-center",
                 render: function (data, type, row) {
-                    var link = "<a href='Oyuncular/Delete/" + data + "' class='btn btn-sm btn-danger'><i class='mi-delete'></i></a>";
-                    return link;
+                    if (_admin) {
+                        var link = "<a href='Oyuncular/Delete/" + data + "' class='btn btn-sm btn-danger'><i class='mi-delete'></i></a>";
+                        return link;
+                    }
+                    else {
+                        return "";
+                    }
+
                 }
             }
         ],

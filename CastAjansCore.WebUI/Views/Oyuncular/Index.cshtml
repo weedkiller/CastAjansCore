@@ -9,7 +9,12 @@
 @await Html.PartialAsync("_Oyuncular", Model)
 
 @section scripts {
-
+    <script>
+        var _admin = false;
+        if (User.IsInRole("admin")) {
+            _admin = true;
+        }
+    </script>
     <script src="/Js/Oyuncular.js"></script>
 }
 

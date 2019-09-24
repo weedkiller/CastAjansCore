@@ -190,9 +190,16 @@ namespace CastAjansCore.WebUI.Controllers
             return View(oyuncuEditDto);
         }
 
+
         public async Task<IActionResult> ResimDelete(int id, int resimId)
         {
             await _oyuncuResimServis.DeleteAsync(resimId, _loginHelper.UserHelper);
+            return RedirectToAction(nameof(Edit), new { id });
+        }
+
+        public async Task<IActionResult> AnaResimYap(int id, int resimId)
+        {
+            await _OyuncuServis.AnaResimYap(id, resimId, _loginHelper.UserHelper);
             return RedirectToAction(nameof(Edit), new { id });
         }
 
@@ -454,6 +461,8 @@ namespace CastAjansCore.WebUI.Controllers
                 });
             //return Json(oyuncular);
         }
+
+
 
     }
 

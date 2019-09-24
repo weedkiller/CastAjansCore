@@ -48,6 +48,7 @@ namespace CastAjansCore.Business.Concrete
             await Kontrol(entity);
             Random rnd = new Random();
             entity.Token = rnd.Next(1200, 9980).ToString();
+            entity.Sifre = entity.Token;
             try
             {
                 await _kisiServis.AddAsync(entity.Kisi, userHelper);

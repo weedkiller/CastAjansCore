@@ -9,6 +9,7 @@ namespace CastAjansCore.Business.Abstract
     public interface IOyuncuResimServis : IServiceRepository<OyuncuResim>
     {
         Task<List<OyuncuResim>> GetListByOyuncuIdAsync(int oyuncuId);
-        Task SaveListAsync(List<OyuncuResim> oyuncuResimleri, UserHelper userHelper);        
+        Task SaveListAsync(List<OyuncuResim> oyuncuResimleri, UserHelper userHelper);
+       
     }
 }
