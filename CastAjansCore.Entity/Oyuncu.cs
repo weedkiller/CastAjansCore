@@ -21,6 +21,15 @@ namespace CastAjansCore.Entity
         [Display(Name = "Cast Tipi")]
         public EnuCastTipi? CastTipi { get; set; }
 
+        [Display(Name = "Yardımcı Oyuncu")]
+        public bool? CT_YardımciOyuncu { get; set; }
+
+        [Display(Name = "Ön FGR")]
+        public bool? CT_OnFGR { get; set; }
+
+        [Display(Name = "Ana Cast")]
+        public bool? CT_AnaCast { get; set; }
+
         [Display(Name = "Boy(Cm)")]
         public int? Boy { get; set; }
 

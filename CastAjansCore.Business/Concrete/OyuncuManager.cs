@@ -42,10 +42,19 @@ namespace CastAjansCore.Business.Concrete
             else
             {
                 Task<Oyuncu> tOyuncu = base.GetByIdAsync(id.Value);
+
                 Task<List<OyuncuResim>> tOyuncuResimleri = _OyuncuResimServis.GetListByOyuncuIdAsync(id.Value);
                 Task<List<OyuncuVideo>> tOyuncuVideolari = _OyuncuVideoServis.GetListByOyuncuIdAsync(id.Value);
 
                 OyuncuEditDto.Oyuncu = await tOyuncu;
+                OyuncuEditDto.CastTipleri = new List<int>();
+                if ((bool)OyuncuEditDto.Oyuncu.CT_AnaCast.IfIsNull(false))
+                    OyuncuEditDto.CastTipleri.Add(EnuCastTipi.AnaCast.ToInt());
+                if ((bool)OyuncuEditDto.Oyuncu.CT_YardımciOyuncu.IfIsNull(false))
+                    OyuncuEditDto.CastTipleri.Add(EnuCastTipi.YardımciOyuncu.ToInt());
+                if ((bool)OyuncuEditDto.Oyuncu.CT_OnFGR.IfIsNull(false))
+                    OyuncuEditDto.CastTipleri.Add(EnuCastTipi.FGR.ToInt());
+
                 OyuncuEditDto.KisiEditDto = await tKisiEditDto;
                 OyuncuEditDto.Oyuncu.OyuncuResimleri = await tOyuncuResimleri;
                 OyuncuEditDto.Oyuncu.OyuncuVideolari = await tOyuncuVideolari;
@@ -225,7 +234,14 @@ namespace CastAjansCore.Business.Concrete
                     (filter.YasMin == 0 || i.Kisi.DogumTarihi <= DateTime.Today.AddYears(-1 * filter.YasMin)) &&
                     (filter.YasMaks == 0 || i.Kisi.DogumTarihi >= DateTime.Today.AddYears(-1 * filter.YasMaks)) &&
                     (filter.Cinsiyet == 0 || i.Kisi.Cinsiyet == (EnuCinsiyet)filter.Cinsiyet) &&
-                    (filter.CastTipi == 0 || i.CastTipi == (EnuCastTipi)filter.CastTipi) &&
+                    (
+                        filter.CastTipi == 0 ||
+                        (
+                            (filter.CastTipi == EnuCastTipi.YardımciOyuncu.ToInt() && i.CT_YardımciOyuncu == true) ||
+                            (filter.CastTipi == EnuCastTipi.FGR.ToInt() && i.CT_OnFGR == true) ||
+                            (filter.CastTipi == EnuCastTipi.AnaCast.ToInt() && i.CT_AnaCast == true)
+                        )
+                    ) &&
                     (filter.Uyruk == 0 || i.Kisi.UyrukId == filter.Uyruk) &&
                     (filter.Il == 0 || i.Kisi.Ilce.IlId == filter.Il) &&
                     (filter.Ilce == 0 || i.Kisi.IlceId == filter.Ilce) &&
@@ -245,6 +261,15 @@ namespace CastAjansCore.Business.Concrete
                     (filter.TenRengi == 0 || i.TenRengi == (EnuTenRengi)filter.TenRengi) &&
                     (filter.SacRengi == 0 || i.SacRengi == (EnuSacRengi)filter.SacRengi) &&
                     (filter.Ehliyet == null || i.Ehliyet.Contains(filter.Ehliyet)) &&
+                    (
+                        filter.Genel == null ||
+                        (i.Aciklama.Contains(filter.Genel)) ||
+                        (i.YabanciDil.Contains(filter.Genel)) ||
+                        (i.Yetenekleri.Contains(filter.Genel)) ||
+                        (i.Tecrubeler.Contains(filter.Genel)) ||
+                        (i.OyuculukEgitimi.Contains(filter.Genel)) ||
+                        (i.Meslek.Contains(filter.Genel))
+                    ) &&
                     i.Aktif == true && i.Kisi.Aktif == true
                 );
 
@@ -263,10 +288,10 @@ namespace CastAjansCore.Business.Concrete
             await _kisiServis.UpdateAsync(kisi, userHelper);
         }
         public async Task ResmiDondur(int id, int resimId, UserHelper userHelper)
-        { 
+        {
             var resim = await _OyuncuResimServis.GetByIdAsync(resimId);
             var image = new Bitmap(resim.DosyaYolu);
-            
+
             image.RotateFlip(RotateFlipType.Rotate90FlipNone);
             image.Save(resim.DosyaYolu);
         }

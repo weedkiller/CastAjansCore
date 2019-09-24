@@ -1,4 +1,5 @@
 ﻿using Calbay.Core.Business;
+using Calbay.Core.Helper;
 using CastAjansCore.Business.Abstract;
 using CastAjansCore.Dto;
 using CastAjansCore.Entity;
@@ -11,8 +12,6 @@ using System.IO;
 using System.IO.Compression;
 using System.Text;
 using System.Threading.Tasks;
-using Calbay.Core;
-using Calbay.Core.Helper;
 
 namespace CastAjansCore.WebUI.Controllers
 {
@@ -86,6 +85,16 @@ namespace CastAjansCore.WebUI.Controllers
 
             //_ProjeServis.Pdf();
             return View(model);
+        }
+
+        [AllowAnonymous]
+        public async Task<string> OyuncuSec(string projeGuid, int karakterId,int oyuncuId,int durum)
+        {
+     
+            await _ProjeKarakterServis.UpdateDurumuAsync(projeGuid, karakterId, oyuncuId, (EnuKarakterDurumu)durum, new UserHelper { Id = 0 });
+
+            //_ProjeServis.Pdf();
+            return "OK";
         }
 
         //public ViewAsPdf Pdf(string id)

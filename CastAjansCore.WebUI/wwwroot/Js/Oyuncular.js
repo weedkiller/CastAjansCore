@@ -35,6 +35,7 @@ $(document).ready(function () {
                     Uyruk: Number($("#Filter-Oyuncu-Uyruk").val()),
                     Il: Number($("#Filter-Oyuncu-Il").val()),
                     Ilce: Number($("#Filter-Oyuncu-Ilce").val()),
+                    Genel: $("#Filter-Oyuncu-Genel").val(),
                     CastTipi: Number($("#Filter-Oyuncu-CastTipi").val()),
                     KaseMin: Number($("#Filter-Oyuncu-KaseMin").val()),
                     KaseMaks: Number($("#Filter-Oyuncu-KaseMaks").val()),
@@ -170,13 +171,13 @@ $(document).ready(function () {
                 visible: _projeKarakterIndex < 0,
                 sClass: "text-center",
                 render: function (data, type, row) {
-                    if (_admin) {
+                    //if (_admin) {
                         var link = "<a href='Oyuncular/Delete/" + data + "' class='btn btn-sm btn-danger'><i class='mi-delete'></i></a>";
                         return link;
-                    }
-                    else {
-                        return "";
-                    }
+                    //}
+                    //else {
+                    //    return "";
+                    //}
 
                 }
             }

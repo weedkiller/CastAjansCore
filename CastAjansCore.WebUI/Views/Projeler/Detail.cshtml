@@ -130,7 +130,7 @@
                 <div class="col-sm-12">
                     <div class="card">
                         <div class="card-header bg-white header-elements-inline">
-                            <h6 class="card-title">@karakter.Adi</h6>
+                            <h4 class="card-title">@karakter.Adi</h4>
                             <div class="header-elements">
                                 <div class="list-icons">
                                     <a class="list-icons-item" data-action="collapse"></a>
@@ -203,10 +203,9 @@
                                         <div>
                                             <hr />
                                             <div class="row">
-                                                <table>
+                                                <table style="width:100%">
                                                     <tr>
-                                                        <th>Seç</th>
-                                                        <td><button id="@($"{Model.GuidId},{karakter.Id}{@oyuncu.Id}")" onclick="OyuncuSec('@Model.GuidId',@karakter.Id,@oyuncu.Id)">@(oyuncu.KarakterDurumu == CastAjansCore.Entity.EnuKarakterDurumu.TeklifAtildi ? "Seç" : "Çıkar")</button></td>
+                                                        <td colspan="2"><button class="btn btn-@(oyuncu.KarakterDurumu == CastAjansCore.Entity.EnuKarakterDurumu.TeklifAtildi ? "primary" : "danger") form-control" id="@($"btn_{karakter.Id}_{@oyuncu.Id}")" onclick="OyuncuSec('@Model.GuidId',@karakter.Id,@oyuncu.Id)">@(oyuncu.KarakterDurumu == CastAjansCore.Entity.EnuKarakterDurumu.TeklifAtildi ? "Seç" : "Çıkar")</button></td>
                                                     </tr>
                                                     <tr>
                                                         <th>Göz Rengi</th>
@@ -252,5 +251,46 @@
             </div>
         }
     </div>
+
+    <script>
+        function OyuncuSec(projeGuid, karakterId, oyuncuId) {
+            var btn = document.getElementById("btn_" + karakterId + "_" + oyuncuId);
+            var durum = 1;
+            if (btn.innerText == "SEÇ") {
+                durum = 2;
+            }
+            $.ajax
+                ({
+                    //url :veri istenilen php dosyasının adresi
+                    url: '/Projeler/OyuncuSec/',
+                    type: "Post",
+                    data: { projeGuid: projeGuid, karakterId: karakterId, oyuncuId: oyuncuId, durum: durum },
+                    success: function (donen_veri) {
+                        var btn = document.getElementById("btn_" + karakterId + "_" + oyuncuId);
+                        if (donen_veri == "OK") {
+
+                            if (durum == 1) {
+                                btn.innerText = "SEÇ";
+                                btn.classList.remove("btn-danger");
+                                btn.classList.add("btn-primary");
+                            }
+                            else {
+
+                                btn.innerText = "ÇIKAR";
+                                btn.classList.remove("btn-primary");
+                                btn.classList.add("btn-danger");
+
+                            }
+
+
+                        }
+                        else {
+                            alert(donen_veri);
+                        }
+                    }
+                });
+        }
+    </script>
+
 </body>
 </html>

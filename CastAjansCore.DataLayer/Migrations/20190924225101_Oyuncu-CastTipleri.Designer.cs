@@ -4,14 +4,16 @@ using CastAjansCore.DataLayer.Concrete.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CastAjansCore.DataLayer.Migrations
 {
     [DbContext(typeof(CastAjansContext))]
-    partial class CastAjansContextModelSnapshot : ModelSnapshot
+    [Migration("20190924225101_Oyuncu-CastTipleri")]
+    partial class OyuncuCastTipleri
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -378,11 +380,11 @@ namespace CastAjansCore.DataLayer.Migrations
 
                     b.Property<int?>("Boy");
 
-                    b.Property<bool?>("CT_AnaCast");
+                    b.Property<bool>("CT_AnaCast");
 
-                    b.Property<bool?>("CT_OnFGR");
+                    b.Property<bool>("CT_OnFGR");
 
-                    b.Property<bool?>("CT_YardımciOyuncu");
+                    b.Property<bool>("CT_YardımciOyuncu");
 
                     b.Property<int?>("CastTipi");
 

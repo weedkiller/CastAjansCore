@@ -138,8 +138,8 @@ namespace CastAjansCore.Business.Concrete
                         Adi = oyuncu.Oyuncu.Kisi.Adi,
                         Soyadi = oyuncu.Oyuncu.Kisi.Soyadi,
                         Cep = oyuncu.Oyuncu.Kisi.Cep,
-                        Telefon = oyuncu.Oyuncu.Kisi.Telefon.IfIsNull(oyuncu.Oyuncu.Kisi.Telefon2).ToString(),
-                        Ilce = oyuncu.Oyuncu.Kisi.Ilce.Adi,
+                        Telefon = oyuncu.Oyuncu.Kisi.Telefon.IfIsNull(oyuncu.Oyuncu.Kisi.Telefon2).IfIsNull("").ToString(),
+                        Ilce = ((Ilce)oyuncu.Oyuncu.Kisi.Ilce.IfIsNull(new Ilce())).Adi,
                         Yas = (DateTime.Today.Year - oyuncu.Oyuncu.Kisi.DogumTarihi.Value.Year) - (oyuncu.Oyuncu.Kisi.DogumTarihi.Value > DateTime.Today.AddYears(-1 * (DateTime.Today.Year - oyuncu.Oyuncu.Kisi.DogumTarihi.Value.Year)) ? -1 : 0),
                         UstBeden = oyuncu.Oyuncu.UstBeden,
                         AltBeden = oyuncu.Oyuncu.AltBeden,
@@ -242,7 +242,7 @@ namespace CastAjansCore.Business.Concrete
 
         }
 
-        
+
 
         //public override async Task<Proje> GetByIdAsync(int id)
         //{

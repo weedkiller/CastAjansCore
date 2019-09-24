@@ -249,8 +249,8 @@ namespace CastAjansCore.Entity
 
     public enum EnuCastTipi
     {
-        [Display(Name = "Seçiniz")]
-        Seciniz = 0,
+        //[Display(Name = "Seçiniz")]
+        //Seciniz = 0,
 
         [Display(Name = "Yardımcı Oyuncu")]
         YardımciOyuncu = 1,

@@ -13,7 +13,9 @@ namespace CastAjansCore.Dto
         public Oyuncu Oyuncu { get; set; }
 
         public KisiEditDto KisiEditDto { get; set; }
-        
+
+        public List<int> CastTipleri { get; set; }
+
         public List<IFormFile> OyuncuResimleriFile { get; set; }
 
         public List<IFormFile> OyuncuVideolariFile { get; set; }
