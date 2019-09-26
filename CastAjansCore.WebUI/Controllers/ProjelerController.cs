@@ -6,6 +6,8 @@ using CastAjansCore.Entity;
 using CastAjansCore.WebUI.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -78,7 +80,6 @@ namespace CastAjansCore.WebUI.Controllers
             return RedirectToAction(nameof(CastList), new { id = Proje.GuidId });
         }
 
-        [AllowAnonymous]
         public async Task<IActionResult> CastList(string id)
         {
             ProjeDetailDto model = await _ProjeServis.GetDetailAsync(id);
@@ -87,10 +88,111 @@ namespace CastAjansCore.WebUI.Controllers
             return View(model);
         }
 
-        [AllowAnonymous]
-        public async Task<string> OyuncuSec(string projeGuid, int karakterId,int oyuncuId,int durum)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SaveAndExcelList(int? id, Proje Proje)
         {
-     
+            await Save(id, Proje);
+            return RedirectToAction(nameof(ExcelList), new { id = Proje.GuidId });
+        }
+
+        public async Task<IActionResult> ExcelList(string id)
+        {
+            ProjeDetailDto model = await _ProjeServis.GetDetailAsync(id);
+
+            byte[] fileContents;
+
+            using (var package = new ExcelPackage())
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                // Put whatever you want here in the sheet
+                // For example, for cell on row1 col1
+                worksheet.Cells[1, 1].Value = "Sıra";
+                worksheet.Cells[1, 1].Style.Font.Size = 12;
+                worksheet.Cells[1, 1].Style.Font.Bold = true;
+                worksheet.Cells[1, 1].Style.Border.Top.Style = ExcelBorderStyle.Hair;
+
+                worksheet.Cells[1, 2].Value = "Ad";
+                worksheet.Cells[1, 2].Style.Font.Size = 12;
+                worksheet.Cells[1, 2].Style.Font.Bold = true;
+                worksheet.Cells[1, 2].Style.Border.Top.Style = ExcelBorderStyle.Hair;
+
+                worksheet.Cells[1, 3].Value = "Soyad";
+                worksheet.Cells[1, 3].Style.Font.Size = 12;
+                worksheet.Cells[1, 3].Style.Font.Bold = true;
+                worksheet.Cells[1, 3].Style.Border.Top.Style = ExcelBorderStyle.Hair;
+
+                worksheet.Cells[1, 4].Value = "TC";
+                worksheet.Cells[1, 4].Style.Font.Size = 12;
+                worksheet.Cells[1, 4].Style.Font.Bold = true;
+                worksheet.Cells[1, 4].Style.Border.Top.Style = ExcelBorderStyle.Hair;
+                int count = 1;
+                foreach (var karakter in model.ProjeKarakterleri)
+                {
+                    foreach (var oyuncu in karakter.Oyuncular)
+                    {
+                        if (oyuncu.KarakterDurumu == EnuKarakterDurumu.KabulEdildi || oyuncu.KarakterDurumu == EnuKarakterDurumu.Oynadi)
+                        {
+                            count++;
+
+                            worksheet.Cells[count, 1].Value = count-1;
+                            worksheet.Cells[count, 1].Style.Font.Size = 12;
+                            worksheet.Cells[count, 1].Style.Border.Top.Style = ExcelBorderStyle.Hair;
+                                            
+                            worksheet.Cells[count, 2].Value = oyuncu.Adi;
+                            worksheet.Cells[count, 2].Style.Font.Size = 12;
+                            worksheet.Cells[count, 2].Style.Border.Top.Style = ExcelBorderStyle.Hair;
+                                            
+                            worksheet.Cells[count, 3].Value = oyuncu.Soyadi;
+                            worksheet.Cells[count, 3].Style.Font.Size = 12;
+                            worksheet.Cells[count, 3].Style.Border.Top.Style = ExcelBorderStyle.Hair;
+                                            
+                            worksheet.Cells[count, 4].Value = oyuncu.Tc;
+                            worksheet.Cells[count, 4].Style.Font.Size = 12;
+                            worksheet.Cells[count, 4].Style.Border.Top.Style = ExcelBorderStyle.Hair;
+                        }
+                    }
+                }
+
+                // So many things you can try but you got the idea.
+
+                // Finally when you're done, export it to byte array.
+                fileContents = package.GetAsByteArray();
+            }
+
+            if (fileContents == null || fileContents.Length == 0)
+            {
+                return NotFound();
+            }
+
+            return File(
+                fileContents: fileContents,
+                contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                fileDownloadName: "CastList.xlsx"
+            );
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SaveAndList(int? id, Proje Proje)
+        {
+            await Save(id, Proje);
+            return RedirectToAction(nameof(CastList), new { id = Proje.GuidId });
+        }
+
+        public async Task<IActionResult> List(string id)
+        {
+            ProjeDetailDto model = await _ProjeServis.GetDetailAsync(id);
+
+            //_ProjeServis.Pdf();
+            return View(model);
+        }
+
+        [AllowAnonymous]
+        public async Task<string> OyuncuSec(string projeGuid, int karakterId, int oyuncuId, int durum)
+        {
+
             await _ProjeKarakterServis.UpdateDurumuAsync(projeGuid, karakterId, oyuncuId, (EnuKarakterDurumu)durum, new UserHelper { Id = 0 });
 
             //_ProjeServis.Pdf();
@@ -217,7 +319,7 @@ namespace CastAjansCore.WebUI.Controllers
                     }
                 }
             }
-            return File(GetZipArchive(files), System.Net.Mime.MediaTypeNames.Application.Zip, $"{model.ProjeAdi.Replace(" ","")}.zip");
+            return File(GetZipArchive(files), System.Net.Mime.MediaTypeNames.Application.Zip, $"{model.ProjeAdi.Replace(" ", "")}.zip");
         }
 
         private static byte[] GetZipArchive(List<InMemoryFile> files)
@@ -229,7 +331,7 @@ namespace CastAjansCore.WebUI.Controllers
                 {
                     foreach (var file in files)
                     {
-                        var zipArchiveEntry = archive.CreateEntry(file.FileName, CompressionLevel.Fastest);
+                        var zipArchiveEntry = archive.CreateEntry(file.FileName, System.IO.Compression.CompressionLevel.Fastest);
                         using (var zipStream = zipArchiveEntry.Open())
                             zipStream.Write(file.Content, 0, file.Content.Length);
                     }

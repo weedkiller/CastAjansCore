@@ -22,6 +22,8 @@
 
 
         <div class="row">
+
+
             <div class="col-md-6">
                 <fieldset>
                     <legend class="font-weight-semibold"><i class="icon-truck mr-2"></i> Silinecek Kayıt</legend>
@@ -48,6 +50,18 @@
                         </div>
                     </div>
                 </fieldset>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-img-actions m-1">
+                        <img class="card-img img-fluid" src="@Model.Kisi.ProfilFotoUrl" alt="">
+                        <div class="card-img-actions-overlay card-img">
+                            <a href="@Model.Kisi.ProfilFotoUrl" class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round legitRipple" data-popup="lightbox" rel="group">
+                                <i class="icon-plus3"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <form asp-action="Delete">

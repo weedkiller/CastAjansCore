@@ -38,6 +38,7 @@ namespace CastAjansCore.Business.Concrete
             {
                 OyuncuEditDto.KisiEditDto = await tKisiEditDto;
                 OyuncuEditDto.Oyuncu = new Oyuncu();
+                OyuncuEditDto.Oyuncu.CT_YardımciOyuncu = true;
             }
             else
             {
@@ -47,18 +48,19 @@ namespace CastAjansCore.Business.Concrete
                 Task<List<OyuncuVideo>> tOyuncuVideolari = _OyuncuVideoServis.GetListByOyuncuIdAsync(id.Value);
 
                 OyuncuEditDto.Oyuncu = await tOyuncu;
-                OyuncuEditDto.CastTipleri = new List<int>();
-                if ((bool)OyuncuEditDto.Oyuncu.CT_AnaCast.IfIsNull(false))
-                    OyuncuEditDto.CastTipleri.Add(EnuCastTipi.AnaCast.ToInt());
-                if ((bool)OyuncuEditDto.Oyuncu.CT_YardımciOyuncu.IfIsNull(false))
-                    OyuncuEditDto.CastTipleri.Add(EnuCastTipi.YardımciOyuncu.ToInt());
-                if ((bool)OyuncuEditDto.Oyuncu.CT_OnFGR.IfIsNull(false))
-                    OyuncuEditDto.CastTipleri.Add(EnuCastTipi.FGR.ToInt());
-
+      
+                
                 OyuncuEditDto.KisiEditDto = await tKisiEditDto;
                 OyuncuEditDto.Oyuncu.OyuncuResimleri = await tOyuncuResimleri;
                 OyuncuEditDto.Oyuncu.OyuncuVideolari = await tOyuncuVideolari;
             }
+            OyuncuEditDto.CastTipleri = new List<int>();
+            if ((bool)OyuncuEditDto.Oyuncu.CT_YardımciOyuncu.IfIsNull(false))
+                OyuncuEditDto.CastTipleri.Add(EnuCastTipi.YardımciOyuncu.ToInt());
+            if ((bool)OyuncuEditDto.Oyuncu.CT_OnFGR.IfIsNull(false))
+                OyuncuEditDto.CastTipleri.Add(EnuCastTipi.FGR.ToInt());            
+            if ((bool)OyuncuEditDto.Oyuncu.CT_AnaCast.IfIsNull(false))
+                OyuncuEditDto.CastTipleri.Add(EnuCastTipi.AnaCast.ToInt());
 
             return OyuncuEditDto;
         }

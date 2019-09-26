@@ -13,6 +13,9 @@ namespace CastAjansCore.Dto
         [Display(Name = "Durumu")]
         public EnuKarakterDurumu KarakterDurumu { get; set; }
 
+        [Display(Name = "TC")]
+        public string Tc { get; set; }
+
         [Display(Name = "Adı")]
         public string Adi { get; set; }
 
@@ -75,5 +78,7 @@ namespace CastAjansCore.Dto
 
         [Display(Name = "Videolari")]
         public List<string> OyuncuVideolari { get; set; }
+
+        
     }
 }

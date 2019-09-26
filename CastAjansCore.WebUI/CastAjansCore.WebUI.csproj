@@ -1795,6 +1795,7 @@
 
   <ItemGroup>
     <PackageReference Include="DocumentFormat.OpenXml" Version="2.9.1" />
+    <PackageReference Include="EPPlus.Core" Version="1.5.4" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />

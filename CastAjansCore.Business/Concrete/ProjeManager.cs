@@ -135,6 +135,7 @@ namespace CastAjansCore.Business.Concrete
                         Id = oyuncu.Oyuncu.Id,
                         ProfilUrl = oyuncu.Oyuncu.Kisi.ProfilFotoUrl,
                         KarakterDurumu = oyuncu.KarakterDurumu,
+                        Tc = oyuncu.Oyuncu.Kisi.TC,
                         Adi = oyuncu.Oyuncu.Kisi.Adi,
                         Soyadi = oyuncu.Oyuncu.Kisi.Soyadi,
                         Cep = oyuncu.Oyuncu.Kisi.Cep,

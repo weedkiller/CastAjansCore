@@ -109,21 +109,24 @@ namespace CastAjansCore.WebUI.Controllers
                         Oyuncu.CT_AnaCast = false;
                         Oyuncu.CT_OnFGR = false;
                         Oyuncu.CT_YardımciOyuncu = false;
-                        foreach (EnuCastTipi item in oyuncuEditDto.CastTipleri)
+                        if (oyuncuEditDto.CastTipleri.IsNotNull())
                         {
-                            switch (item)
-                            {   
-                                case EnuCastTipi.YardımciOyuncu:
-                                    Oyuncu.CT_YardımciOyuncu = true;
-                                    break;
-                                case EnuCastTipi.FGR:
-                                    Oyuncu.CT_OnFGR = true;
-                                    break;
-                                case EnuCastTipi.AnaCast:
-                                    Oyuncu.CT_AnaCast = true;
-                                    break;
-                                default:
-                                    break;
+                            foreach (EnuCastTipi item in oyuncuEditDto.CastTipleri)
+                            {
+                                switch (item)
+                                {
+                                    case EnuCastTipi.YardımciOyuncu:
+                                        Oyuncu.CT_YardımciOyuncu = true;
+                                        break;
+                                    case EnuCastTipi.FGR:
+                                        Oyuncu.CT_OnFGR = true;
+                                        break;
+                                    case EnuCastTipi.AnaCast:
+                                        Oyuncu.CT_AnaCast = true;
+                                        break;
+                                    default:
+                                        break;
+                                }
                             }
                         }
                         Oyuncu.Kisi = oyuncuEditDto.KisiEditDto.Kisi;
@@ -390,7 +393,7 @@ namespace CastAjansCore.WebUI.Controllers
                 return NotFound();
             }
 
-            return View((object)$"{Oyuncu.Kisi.Adi} {Oyuncu.Kisi.Soyadi}");
+            return View(Oyuncu);
         }
 
         // POST: Oyuncus/Delete/5
