@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -225,6 +227,56 @@ namespace CastAjansCore.WebUI.Controllers
             await _OyuncuServis.AnaResimYap(id, resimId, _loginHelper.UserHelper);
             return RedirectToAction(nameof(Edit), new { id });
         }
+
+        public string ResimCevir(string resimUrl)
+        {
+            try
+            {
+                //var resim = await _oyuncuResimServis.GetByIdAsync(resimId);
+                var resimPath = FileHelper._WebRootPath + resimUrl.Replace('/', '\\');
+                Bitmap bitmap = new Bitmap(resimPath);
+                bitmap.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                bitmap.Save(resimPath);
+
+                return "OK";
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
+
+        public static Image RotateImage(Image img, float rotationAngle)
+        {
+            //create an empty Bitmap image
+            Bitmap bmp = new Bitmap(img.Width, img.Height);
+
+            //turn the Bitmap into a Graphics object
+            Graphics gfx = Graphics.FromImage(bmp);
+
+            //now we set the rotation point to the center of our image
+            gfx.TranslateTransform((float)bmp.Width / 2, (float)bmp.Height / 2);
+
+            //now rotate the image
+            gfx.RotateTransform(rotationAngle);
+
+            gfx.TranslateTransform(-(float)bmp.Width / 2, -(float)bmp.Height / 2);
+
+            //set the InterpolationMode to HighQualityBicubic so to ensure a high
+            //quality image once it is transformed to the specified size
+            gfx.InterpolationMode = InterpolationMode.HighQualityBicubic;
+
+            //now draw our new image onto the graphics object
+            gfx.DrawImage(img, new Point(0, 0));
+
+            //dispose of our Graphics object
+            gfx.Dispose();
+
+            //return the image
+            return bmp;
+        }
+
 
         //public async Task<IActionResult> ResimBulAsync()
         //{

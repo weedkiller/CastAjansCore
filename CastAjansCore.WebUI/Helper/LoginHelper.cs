@@ -64,7 +64,7 @@ namespace CastAjansCore.WebUI.Helper
         public UserHelper UserHelper
         {
             get
-            {
+            {            
                 var u = _httpContextAccessor.HttpContext.Session.GetObject<UserHelper>("UserHelper");
                 var cookiData = JsonConvert.DeserializeObject<UserHelper>(GetUserData()??"");
                

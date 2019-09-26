@@ -200,7 +200,7 @@
                             {
                                 <div class="card">
                                     <div class="card-img-actions m-1">
-                                        <img class="card-img img-fluid" src="@Model.Oyuncu.OyuncuResimleri[i].DosyaYolu" alt="" style="max-width:150px;">
+                                        <img id=@($"img-{Model.Oyuncu.OyuncuResimleri[i].Id}") class="card-img img-fluid" src="@Model.Oyuncu.OyuncuResimleri[i].DosyaYolu" alt="" style="max-width:150px;">
                                         <div class="card-img-actions-overlay card-img">
                                             @*<img src=@Model.Oyuncu.OyuncuResimleri[i].DosyaYolu alt="Lights" style="width:100%">*@
                                             <a href="@Model.Oyuncu.OyuncuResimleri[i].DosyaYolu" class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round legitRipple" data-popup="lightbox" rel="group">
@@ -209,11 +209,16 @@
                                             @if (Model.Oyuncu.OyuncuResimleri[i].DosyaYolu != Model.KisiEditDto.Kisi.ProfilFotoUrl)
                                             {
                                                 <a class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round ml-2 legitRipple"
-                                                   href=@($"/Oyuncular/AnaResimYap/{Model.Oyuncu.OyuncuResimleri[i].Id}?FotoId={Model.Oyuncu.Id}")
+                                                   href=@($"/Oyuncular/AnaResimYap/{Model.Oyuncu.Id}?resimId={Model.Oyuncu.OyuncuResimleri[i].Id}")
                                                    data-toggle="tooltip" title="Ana Resim Yap">
                                                     <i class="mi-local-play"></i>
                                                 </a>
                                             }
+                                            <a class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round ml-2 legitRipple"
+                                               href="@($"javascript:ResimCevir('img-{Model.Oyuncu.OyuncuResimleri[i].Id}','{Model.Oyuncu.OyuncuResimleri[i].DosyaYolu}')")"
+                                               data-toggle="tooltip" title="Çevir">
+                                                <i class="mi-sync"></i>
+                                            </a>
                                             <a class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round ml-2 legitRipple"
                                                href=@($"/Oyuncular/ResimDelete/{Model.Oyuncu.Id}?resimId={Model.Oyuncu.OyuncuResimleri[i].Id}")
                                                data-toggle="tooltip" title="Sil">
@@ -275,8 +280,8 @@
                                         <div class="card-img-actions mx-1 mt-1">
                                             <div class="card-img embed-responsive embed-responsive-16by9">
                                                 @*<iframe allowfullscreen="" frameborder="0" mozallowfullscreen="" src="@Model.Oyuncu.OyuncuVideolari[i].DosyaYolu" webkitallowfullscreen=""></iframe>*@
-                                                <video class="embed-responsive-item" controls preload="none" width="640" height="480" >
-                                                    <source src="@Model.Oyuncu.OyuncuVideolari[i].DosyaYolu">                                                    
+                                                <video class="embed-responsive-item" controls preload="none" width="640" height="480">
+                                                    <source src="@Model.Oyuncu.OyuncuVideolari[i].DosyaYolu">
                                                 </video>
                                             </div>
                                         </div>

@@ -22,6 +22,26 @@
 //    return valid;
 //}); 
 
+
+function ResimCevir(control, src) {
+    $.ajax
+        ({
+            //url :veri istenilen php dosyasının adresi
+            url: '/Oyuncular/ResimCevir/',
+            type: "Post",
+            data: { resimUrl: src },
+            success: function (donen_veri) {
+                var img = document.getElementById(control);
+                if (donen_veri == "OK") {
+                    img.src = src + "?t = " + new Date().getTime();
+                }
+                else {
+                    alert(donen_veri);
+                }
+            }
+        });
+}
+
 function GetIlceler(ddlIl, ddlIlce) {
     $.getJSON("/Ilceler/GetJson", { id: ddlIl.val() },
         function (data) {

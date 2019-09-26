@@ -157,7 +157,7 @@ $(document).ready(function () {
                     var str = "";
                     for (var i = 0; i < row["projeler"].length; i++) {
                         var link = "/projeler/edit/" + row["projeler"][i].id;
-                        str += "<a href='" + link+"'><span class='badge badge-primary'>" + moment(row["projeler"][i].tarihBas).format('DD MMM') + '-' + moment(row["projeler"][i].tarihBit).format('DD MMM') + "</span></a>";
+                        str += "<a href='" + link + "'><span class='badge badge-primary'>" + moment(row["projeler"][i].tarihBas).format('DD MMM') + '-' + moment(row["projeler"][i].tarihBit).format('DD MMM') + "</span></a>";
                     }
 
                     return str;
@@ -172,8 +172,8 @@ $(document).ready(function () {
                 sClass: "text-center",
                 render: function (data, type, row) {
                     //if (_admin) {
-                        var link = "<a href='Oyuncular/Delete/" + data + "' class='btn btn-sm btn-danger'><i class='mi-delete'></i></a>";
-                        return link;
+                    var link = "<a href='Oyuncular/Delete/" + data + "' class='btn btn-sm btn-danger'><i class='mi-delete'></i></a>";
+                    return link;
                     //}
                     //else {
                     //    return "";
@@ -209,6 +209,7 @@ function ProjeyeEkliMi(oyuncuId) {
 
     return result;
 }
+
 
 function ToDateStr(data) {
     if (data !== null) {

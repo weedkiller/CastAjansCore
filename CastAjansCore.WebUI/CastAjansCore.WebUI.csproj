@@ -1812,7 +1812,6 @@
     <ProjectReference Include="..\Calbay.Core\Calbay.Core.csproj" />
     <ProjectReference Include="..\CastAjansCore.Business\CastAjansCore.Business.csproj" />
     <ProjectReference Include="..\CastAjansCore.Dto\CastAjansCore.Dto.csproj" />
-    <ProjectReference Include="..\CommonLibrary\CommonLibrary.csproj" />
   </ItemGroup>
 
 </Project>
