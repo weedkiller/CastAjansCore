@@ -54,6 +54,9 @@ namespace CastAjansCore.Entity
         [Display(Name = "Saç Rengi")]
         public EnuSacRengi? SacRengi { get; set; }
 
+        [Display(Name = "Saç Tipi")]
+        public EnuSacTipi? SacTipi { get; set; }
+
         [MaxLength(200)]
         [Display(Name = "Meslek")]
         public string Meslek { get; set; }

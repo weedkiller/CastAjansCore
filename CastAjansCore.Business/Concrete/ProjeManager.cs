@@ -171,9 +171,9 @@ namespace CastAjansCore.Business.Concrete
 
         public async Task<ProjeEditDto> GetEditDtoAsync(int? id, int? musteriId)
         {
-            var tKul = _KullaniciServis.GetSelectListAsync();
-            var tUyruk = _UyrukServis.GetSelectListAsync();
-            var tIl = _IlServis.GetSelectListAsync();
+            var tKul = _KullaniciServis.GetSelectListAsync(i => i.Aktif);
+            var tUyruk = _UyrukServis.GetSelectListAsync(i => i.Aktif);
+            var tIl = _IlServis.GetSelectListAsync(i => i.Aktif);
 
             var projeEditDto = new ProjeEditDto()
             {

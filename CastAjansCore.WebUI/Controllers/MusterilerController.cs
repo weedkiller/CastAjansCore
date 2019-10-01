@@ -62,7 +62,7 @@ namespace CastAjansCore.WebUI.Controllers
             {
                 model.Musteri = await _MusteriServis.GetByIdAsync(id.Value);                
                 model.Musteri.Ilce = await _IlceServis.GetByIdAsync(model.Musteri.IlceId.Value);                      
-                model.Ilceler = await _IlceServis.GetSelectListAsync(i => i.IlId == model.Musteri.Ilce.IlId);
+                model.Ilceler = await _IlceServis.GetSelectListAsync(i => i.IlId == model.Musteri.Ilce.IlId && i.Aktif);
 
                 if (model == null)
                 {

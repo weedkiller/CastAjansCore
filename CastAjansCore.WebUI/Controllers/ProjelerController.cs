@@ -64,6 +64,17 @@ namespace CastAjansCore.WebUI.Controllers
             return View(ProjeListDto);
         }
 
+        public async Task<IActionResult> Projelerim()
+        {
+
+            ProjeListDto ProjeListDto = new ProjeListDto();
+            Task<List<Proje>> tProje = _ProjeServis.GetListAsync(i => i.IsiTakipEdenId == _loginHelper.UserHelper.Id && i.Aktif == true);
+
+            ProjeListDto.Projeler = await tProje;
+
+            return View("Index", ProjeListDto);
+        }
+
         [AllowAnonymous]
         public async Task<IActionResult> Detail(string id)
         {
@@ -136,18 +147,18 @@ namespace CastAjansCore.WebUI.Controllers
                         {
                             count++;
 
-                            worksheet.Cells[count, 1].Value = count-1;
+                            worksheet.Cells[count, 1].Value = count - 1;
                             worksheet.Cells[count, 1].Style.Font.Size = 12;
                             worksheet.Cells[count, 1].Style.Border.Top.Style = ExcelBorderStyle.Hair;
-                                            
+
                             worksheet.Cells[count, 2].Value = oyuncu.Adi;
                             worksheet.Cells[count, 2].Style.Font.Size = 12;
                             worksheet.Cells[count, 2].Style.Border.Top.Style = ExcelBorderStyle.Hair;
-                                            
+
                             worksheet.Cells[count, 3].Value = oyuncu.Soyadi;
                             worksheet.Cells[count, 3].Style.Font.Size = 12;
                             worksheet.Cells[count, 3].Style.Border.Top.Style = ExcelBorderStyle.Hair;
-                                            
+
                             worksheet.Cells[count, 4].Value = oyuncu.Tc;
                             worksheet.Cells[count, 4].Style.Font.Size = 12;
                             worksheet.Cells[count, 4].Style.Border.Top.Style = ExcelBorderStyle.Hair;

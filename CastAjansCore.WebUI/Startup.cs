@@ -30,7 +30,6 @@ namespace CastAjansCore.WebUI
         public Startup(IConfiguration configuration)
         {
             _configuration = configuration;
-
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -61,6 +60,8 @@ namespace CastAjansCore.WebUI
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie(options =>
             {
+                options.SlidingExpiration = true;
+                options.ExpireTimeSpan = new TimeSpan(2, 0, 0);                
                 options.LoginPath = "/Kullanicilar/Login/";
                 options.AccessDeniedPath = "/Kullanicilar/AccessDenied/";
             });

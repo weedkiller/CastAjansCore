@@ -11,6 +11,7 @@ using System.Drawing;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace CastAjansCore.Business.Concrete
 {
@@ -48,8 +49,8 @@ namespace CastAjansCore.Business.Concrete
                 Task<List<OyuncuVideo>> tOyuncuVideolari = _OyuncuVideoServis.GetListByOyuncuIdAsync(id.Value);
 
                 OyuncuEditDto.Oyuncu = await tOyuncu;
-      
-                
+
+
                 OyuncuEditDto.KisiEditDto = await tKisiEditDto;
                 OyuncuEditDto.Oyuncu.OyuncuResimleri = await tOyuncuResimleri;
                 OyuncuEditDto.Oyuncu.OyuncuVideolari = await tOyuncuVideolari;
@@ -58,7 +59,7 @@ namespace CastAjansCore.Business.Concrete
             if ((bool)OyuncuEditDto.Oyuncu.CT_YardımciOyuncu.IfIsNull(false))
                 OyuncuEditDto.CastTipleri.Add(EnuCastTipi.YardımciOyuncu.ToInt());
             if ((bool)OyuncuEditDto.Oyuncu.CT_OnFGR.IfIsNull(false))
-                OyuncuEditDto.CastTipleri.Add(EnuCastTipi.FGR.ToInt());            
+                OyuncuEditDto.CastTipleri.Add(EnuCastTipi.FGR.ToInt());
             if ((bool)OyuncuEditDto.Oyuncu.CT_AnaCast.IfIsNull(false))
                 OyuncuEditDto.CastTipleri.Add(EnuCastTipi.AnaCast.ToInt());
 
@@ -79,34 +80,55 @@ namespace CastAjansCore.Business.Concrete
 
         public override async Task AddAsync(Oyuncu entity, UserHelper userHelper)
         {
-            if (entity.Kisi.ProfilFotoUrl == null)
+
+            try
             {
-                if (entity.OyuncuResimleri.Count > 0)
+
+
+
+
+                if (entity.Kisi.ProfilFotoUrl == null)
                 {
-                    entity.Kisi.ProfilFotoUrl = entity.OyuncuResimleri[0].DosyaYolu;
+                    if (entity.OyuncuResimleri.Count > 0)
+                    {
+                        entity.Kisi.ProfilFotoUrl = entity.OyuncuResimleri[0].DosyaYolu;
+                    }
                 }
+
+                await _kisiServis.AddAsync(entity.Kisi, userHelper);
+
+                Task[] tasks = new Task[3];
+                entity.Id = entity.Kisi.Id;
+
+                tasks[0] = base.AddAsync(entity, userHelper);
+
+                foreach (var item in entity.OyuncuResimleri.Where(i => i.OyuncuId == 0))
+                {
+                    item.OyuncuId = entity.Kisi.Id;
+                }
+                tasks[1] = _OyuncuResimServis.SaveListAsync(entity.OyuncuResimleri ?? new List<OyuncuResim>(), userHelper);
+
+                foreach (var item in entity.OyuncuVideolari.Where(i => i.OyuncuId == 0))
+                {
+                    item.OyuncuId = entity.Kisi.Id;
+                }
+                tasks[2] = _OyuncuVideoServis.SaveListAsync(entity.OyuncuVideolari ?? new List<OyuncuVideo>(), userHelper);
+
+                await Task.WhenAll(tasks);
             }
-
-            await _kisiServis.AddAsync(entity.Kisi, userHelper);
-
-            Task[] tasks = new Task[3];
-            entity.Id = entity.Kisi.Id;
-
-            tasks[0] = base.AddAsync(entity, userHelper);
-
-            foreach (var item in entity.OyuncuResimleri.Where(i => i.OyuncuId == 0))
+            catch (Exception ex)
             {
-                item.OyuncuId = entity.Kisi.Id;
+                if (entity.Kisi.Id > 0)
+                {
+                    await _kisiServis.DeleteAsync(entity.Kisi.Id, userHelper);
+                }
+                if (entity.Id > 0)
+                {
+                    await DeleteAsync(entity.Id, userHelper);
+                }
+                throw ex;
             }
-            tasks[1] = _OyuncuResimServis.SaveListAsync(entity.OyuncuResimleri ?? new List<OyuncuResim>(), userHelper);
 
-            foreach (var item in entity.OyuncuVideolari.Where(i => i.OyuncuId == 0))
-            {
-                item.OyuncuId = entity.Kisi.Id;
-            }
-            tasks[2] = _OyuncuVideoServis.SaveListAsync(entity.OyuncuVideolari ?? new List<OyuncuVideo>(), userHelper);
-
-            await Task.WhenAll(tasks);
         }
 
         public override async Task UpdateAsync(Oyuncu entity, UserHelper userHelper)
@@ -262,6 +284,7 @@ namespace CastAjansCore.Business.Concrete
                     (filter.GozRengi == 0 || i.GozRengi == (EnuGozRengi)filter.GozRengi) &&
                     (filter.TenRengi == 0 || i.TenRengi == (EnuTenRengi)filter.TenRengi) &&
                     (filter.SacRengi == 0 || i.SacRengi == (EnuSacRengi)filter.SacRengi) &&
+                    (filter.SacTipi == 0 || i.SacTipi == (EnuSacTipi)filter.SacTipi) &&
                     (filter.Ehliyet == null || i.Ehliyet.Contains(filter.Ehliyet)) &&
                     (
                         filter.Genel == null ||
@@ -294,7 +317,7 @@ namespace CastAjansCore.Business.Concrete
             var resim = await _OyuncuResimServis.GetByIdAsync(resimId);
             var image = new Bitmap(resim.DosyaYolu);
 
-            image.RotateFlip(RotateFlipType.Rotate90FlipNone);
+            image.RotateFlip(RotateFlipType.Rotate270FlipNone);
             image.Save(resim.DosyaYolu);
         }
     }

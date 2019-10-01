@@ -99,9 +99,11 @@ namespace CastAjansCore.WebUI.Controllers
             try
             {
                 ModelState.Remove("Oyuncu.Id");
+                ModelState.Remove("Oyuncu.Sactipi");
                 ModelState.Remove("KisiEditDto.Kisi.Ilce.Id");
                 ModelState.Remove("KisiEditDto.Kisi.Ilce.IlId");
                 ModelState.Remove("KisiEditDto.Kisi.Ilce.Adi");
+                
 
                 if (ModelState.IsValid)
                 {

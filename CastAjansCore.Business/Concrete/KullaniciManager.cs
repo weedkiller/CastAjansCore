@@ -183,7 +183,8 @@ namespace CastAjansCore.Business.Concrete
             {
                 new MenuDto { Adi = "Müşteriler", Icon = "mi-local-play", Renk="success", Link = "/Musteriler" },
                 new MenuDto { Adi = "Oyuncular", Icon = "mi-people", Renk = "warning",Link = "/Oyuncular" },
-                new MenuDto { Adi = "Projelerim", Icon = "mi-shop", Renk = "blue", Link = " /Projeler" }
+                new MenuDto { Adi = "Projelerim", Icon = "mi-shop", Renk = "blue", Link = " /Projeler/Projelerim" },
+                new MenuDto { Adi = "Tüm Projeler", Icon = "mi-shop", Renk = "blue", Link = " /Projeler" }
             };
 
             if (rol == EnuRol.admin)

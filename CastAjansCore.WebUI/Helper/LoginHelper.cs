@@ -42,14 +42,15 @@ namespace CastAjansCore.WebUI.Helper
             ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
             var authProperties = new AuthenticationProperties
             {
-                AllowRefresh = true,
-                ExpiresUtc = DateTimeOffset.Now.AddDays(1),
-                IsPersistent = true,
+                AllowRefresh = true,                
+                //ExpiresUtc = DateTimeOffset.Now.AddDays(1),
+                ExpiresUtc = DateTime.UtcNow.AddYears(1),
+                IsPersistent = true
             };
 
             await _httpContextAccessor.HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
-                principal,
+                principal,                
                 authProperties);
         }
 

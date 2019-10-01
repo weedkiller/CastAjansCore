@@ -7,7 +7,11 @@ namespace Calbay.Core.Entities
         [Display(Name = "Admin")]
         admin = 1,
 
-        [Display(Name = "Calısan")]
-        calisan = 2
+        [Display(Name = "Çalısan")]
+        calisan = 2,
+
+        [Display(Name = "Test")]
+        test = 3,
+
     }
 }

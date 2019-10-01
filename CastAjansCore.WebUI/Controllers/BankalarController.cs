@@ -33,7 +33,7 @@ namespace CastAjansCore.WebUI.Controllers
 
         public async Task<IActionResult> Index()
         {            
-            var Bankalar = await _BankaServis.GetListAsync();
+            var Bankalar = await _BankaServis.GetListAsync(i=> i.Aktif);
             return View(Bankalar);
         }
 

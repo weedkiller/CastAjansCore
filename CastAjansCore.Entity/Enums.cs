@@ -77,6 +77,28 @@ namespace CastAjansCore.Entity
         Siyahi = 5
     }
 
+    public enum EnuSacTipi
+    {
+        [Display(Name = "Kısa")]
+        Kisa = 1,
+
+        [Display(Name = "Uzun")]
+        Uzun = 2,
+
+        [Display(Name = "Çok Uzun")]
+        CokUzun = 3,
+
+        [Display(Name = "Seyrek")]
+        Seyrek = 4,
+
+        [Display(Name = "Kel")]
+        Kel = 5,
+
+        [Display(Name = "Rasta")]
+        Rasta = 6
+
+    }
+
     public enum EnuSacRengi
     {
         [Display(Name = "-")]
@@ -119,7 +141,10 @@ namespace CastAjansCore.Entity
         Kestane = 12,
 
         [Display(Name = "Platin")]
-        Platin = 13
+        Platin = 13,
+
+        [Display(Name = "Kır")]
+        Kir = 14
     }
 
     public enum EnuKanGrubu

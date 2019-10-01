@@ -26,7 +26,7 @@ $(document).ready(function () {
                     //function(d) {
                     //    var a = $.extend({}, d,
                     //        OyuncuFilterDto = {
-                    TC: $("#Filter-Oyuncu-Tc").val(),
+                    TC: $("#Filter-Oyuncu-TC").val(),
                     Adi: $("#Filter-Oyuncu-Adi").val(),
                     Soyadi: $("#Filter-Oyuncu-Soyadi").val(),
                     YasMin: Number($("#Filter-Oyuncu-YasMin").val()),
@@ -52,6 +52,7 @@ $(document).ready(function () {
                     GozRengi: Number($("#Filter-Oyuncu-GozRengi").val()),
                     TenRengi: Number($("#Filter-Oyuncu-TenRengi").val()),
                     SacRengi: Number($("#Filter-Oyuncu-SacRengi").val()),
+                    SacTipi: Number($("#Filter-Oyuncu-SacTipi").val()),
                     Ehliyet: $("#Filter-Oyuncu-Ehliyet").val(),
                     draw: data.draw,
                     order: data.order,
