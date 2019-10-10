@@ -35,7 +35,10 @@ namespace CastAjansCore.Dto
                 }
                 else
                 {
-                    return Math.Ceiling(DateTime.Today.Subtract(DogumTarihi.Value).TotalDays / 360).ToInt();
+                    var age = DateTime.Today.Year - DogumTarihi.Value.Year;
+                    // Go back to the year the person was born in case of a leap year
+                    if (DogumTarihi.Value.Date > DateTime.Today.AddYears(-age)) age--;
+                    return age;
                 }
 
             }

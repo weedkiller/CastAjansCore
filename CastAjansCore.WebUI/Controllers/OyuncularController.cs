@@ -216,8 +216,7 @@ namespace CastAjansCore.WebUI.Controllers
             oyuncuEditDto.KisiEditDto.Uyruklar = combolar.KisiEditDto.Uyruklar;
             return View(oyuncuEditDto);
         }
-
-
+        
         public async Task<IActionResult> ResimDelete(int id, int resimId)
         {
             await _oyuncuResimServis.DeleteAsync(resimId, _loginHelper.UserHelper);
