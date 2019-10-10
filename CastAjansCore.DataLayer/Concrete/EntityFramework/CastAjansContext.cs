@@ -1,6 +1,9 @@
 ﻿using CastAjansCore.Entity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
 using System;
+using System.IO;
 using System.Linq;
 
 namespace CastAjansCore.DataLayer.Concrete.EntityFramework
@@ -15,8 +18,15 @@ namespace CastAjansCore.DataLayer.Concrete.EntityFramework
         //}
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            var builder = new ConfigurationBuilder()
+                                .SetBasePath(Directory.GetCurrentDirectory())
+                                .AddJsonFile("appsettings.json",true,true)
+                                .Build();
+
+            string cnnStr = builder.GetConnectionString("DefaultConnection");
+
             //optionsBuilder.UseSqlServer(_connectionStrings.DefaultConnection);
-            string cnnStr = "Data Source=94.73.146.4;Initial Catalog=u7506792_CastAja;Persist Security Info=True;User ID=u7506792_CastAja;Password=albay69sFENDER;MultipleActiveResultSets=True;";
+            //string cnnStr = "Data Source=94.73.146.4;Initial Catalog=u7506792_CastAja;Persist Security Info=True;User ID=u7506792_CastAja;Password=albay69sFENDER;MultipleActiveResultSets=True;";
             optionsBuilder.UseSqlServer(cnnStr);
         }
 

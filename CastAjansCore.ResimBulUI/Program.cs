@@ -4,13 +4,12 @@ using CastAjansCore.Business.Concrete;
 using CastAjansCore.DataLayer.Concrete.EntityFramework;
 using CastAjansCore.Entity;
 using MetadataExtractor;
-using MetadataExtractor.Formats.Exif;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CastAjansCore.ResimBulUI
 {
@@ -18,44 +17,30 @@ namespace CastAjansCore.ResimBulUI
     class Program
     {
         private static string webRootPath;
+        private static IOyuncuServis _oyuncuServis = new OyuncuManager(
+                    new EfOyuncuDal(),
+                    new KisiManager(new EfKisiDal(),
+                                    new IlManager(new EfIlDal()),
+                                    new IlceManager(new EfIlceDal()),
+                                    new UyrukManager(new EfUyrukDal()),
+                                    new BankaManager(new EfBankaDal())
+                                    ),
+                    new OyuncuResimManager(new EfOyuncuResimDal()),
+                    new OyuncuVideoManager(new EfOyuncuVideoDal())
+                    );
+        private static IOyuncuResimServis _oyuncuResimServis = new OyuncuResimManager(new EfOyuncuResimDal());
+        private static IOyuncuVideoServis _oyuncuVideoServis = new OyuncuVideoManager(new EfOyuncuVideoDal());
 
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             try
             {
+
+                //ResimYukle();
+                await VideoYukleAsync();
                 //Oriantetion("C:\\inetpub\\wwwroot\\CastAjans\\wwwroot\\Dosyalar\\2019\\7\\Resimler\\OyuncuResimleri\\1992-Abdullah Balcı (3).JPG");
 
-                var directoriesBozuk = ImageMetadataReader.ReadMetadata(@"C:\Projeler\CastAjansCore\CastAjansCore.WebUI\wwwroot\Dosyalar\2019\7\Resimler\OyuncuResimleri\1992-Abdullah Balcı (3).JPG");
-                var directories = ImageMetadataReader.ReadMetadata(@"C:\Projeler\CastAjansCore\CastAjansCore.WebUI\wwwroot\Dosyalar\2019\7\Resimler\OyuncuResimleri1\1992-Abdullah Balcı (3).JPG");
-
-
-                foreach (var directory in directoriesBozuk)
-                {
-                    var dDuzgun = directories.Where(i => i.Name == directory.Name).FirstOrDefault();
-                    if (dDuzgun == null)
-                    {
-                        Console.WriteLine($"Bulunamadı {directory.Name}");
-                        foreach (var tag in directory.Tags)
-                        {
-                            Console.WriteLine($"Bulunamadı {tag.TagName}:{tag.Description}");
-                        }
-                    }
-                    foreach (var tag in directory.Tags)
-                    {
-                        var tDuzgun = dDuzgun.Tags.Where(t => t.TagName == tag.TagName).FirstOrDefault();
-                        if (tDuzgun == null)
-                        {
-                            Console.WriteLine($"Bulunamadı {tag.TagName}");
-                        }
-                        if (tDuzgun.Description != tag.Description)
-                        {
-                            Console.WriteLine($"{directory.Name} - {tag.TagName}:{tag.Description} olması gereken:{tDuzgun.Description}");
-                        }
-
-                    }
-
-                    //Yeni();
-                }
+               
             }
             catch (Exception ex)
             {
@@ -64,6 +49,41 @@ namespace CastAjansCore.ResimBulUI
             }
             Console.WriteLine("Bitti {0}", DateTime.Now);
             Console.ReadLine();
+        }
+
+        private void Test()
+        {
+            var directoriesBozuk = ImageMetadataReader.ReadMetadata(@"C:\Projeler\CastAjansCore\CastAjansCore.WebUI\wwwroot\Dosyalar\2019\7\Resimler\OyuncuResimleri\1992-Abdullah Balcı (3).JPG");
+            var directories = ImageMetadataReader.ReadMetadata(@"C:\Projeler\CastAjansCore\CastAjansCore.WebUI\wwwroot\Dosyalar\2019\7\Resimler\OyuncuResimleri1\1992-Abdullah Balcı (3).JPG");
+
+
+            foreach (var directory in directoriesBozuk)
+            {
+                var dDuzgun = directories.Where(i => i.Name == directory.Name).FirstOrDefault();
+                if (dDuzgun == null)
+                {
+                    Console.WriteLine($"Bulunamadı {directory.Name}");
+                    foreach (var tag in directory.Tags)
+                    {
+                        Console.WriteLine($"Bulunamadı {tag.TagName}:{tag.Description}");
+                    }
+                }
+                foreach (var tag in directory.Tags)
+                {
+                    var tDuzgun = dDuzgun.Tags.Where(t => t.TagName == tag.TagName).FirstOrDefault();
+                    if (tDuzgun == null)
+                    {
+                        Console.WriteLine($"Bulunamadı {tag.TagName}");
+                    }
+                    if (tDuzgun.Description != tag.Description)
+                    {
+                        Console.WriteLine($"{directory.Name} - {tag.TagName}:{tag.Description} olması gereken:{tDuzgun.Description}");
+                    }
+
+                }
+
+
+            }
         }
 
         private static void Oriantetion(string pathToImageFile)
@@ -135,7 +155,7 @@ namespace CastAjansCore.ResimBulUI
             }
         }
 
-        private static void Yeni()
+        private static void ResimYukle()
         {
             UserHelper userHelper = new UserHelper
             {
@@ -144,21 +164,9 @@ namespace CastAjansCore.ResimBulUI
             webRootPath = Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot");
 
 
-            IOyuncuServis oyuncuServis = new OyuncuManager(
-                    new EfOyuncuDal(),
-                    new KisiManager(new EfKisiDal(),
-                                    new IlManager(new EfIlDal()),
-                                    new IlceManager(new EfIlceDal()),
-                                    new UyrukManager(new EfUyrukDal()),
-                                    new BankaManager(new EfBankaDal())
-                                    ),
-                    new OyuncuResimManager(new EfOyuncuResimDal()),
-                    new OyuncuVideoManager(new EfOyuncuVideoDal())
-                    );
-            IOyuncuResimServis oyuncuResimServis = new OyuncuResimManager(new EfOyuncuResimDal());
             var dosyalar = System.IO.Directory.EnumerateFiles(@"c:\\Resimler", "*", SearchOption.AllDirectories);
 
-            List<Oyuncu> oyuncular = oyuncuServis.GetList(k => k.Kisi.ProfilFotoUrl == null && k.Aktif == true && k.Kisi.Aktif == true);
+            List<Oyuncu> oyuncular = _oyuncuServis.GetList(k => k.Kisi.ProfilFotoUrl == null && k.Aktif == true && k.Kisi.Aktif == true);
             //List<Oyuncu> oyuncular = oyuncuServis.GetList(k => k.Kisi.Adi.StartsWith("OSMAN") && k.Kisi.Soyadi.StartsWith("KERİMOĞLU") && k.Aktif == true && k.Kisi.Aktif == true);
             int i = 0;
             foreach (var oyuncu in oyuncular)
@@ -231,8 +239,87 @@ namespace CastAjansCore.ResimBulUI
                                 oyuncu.EklemeZamani = minDate;
                                 oyuncu.Kisi.EklemeZamani = minDate;
                             }
-                            oyuncuServis.UpdateAsync(oyuncu, userHelper);
-                            oyuncuResimServis.SaveListAsync(resimler, userHelper);
+                            _oyuncuServis.UpdateAsync(oyuncu, userHelper);
+                            _oyuncuResimServis.SaveListAsync(resimler, userHelper);
+                        }
+                    }
+                }
+            }
+        }
+
+        private static async Task VideoYukleAsync()
+        {
+            UserHelper userHelper = new UserHelper
+            {
+                Id = 1
+            };
+            webRootPath = Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot");
+
+
+             
+            var dosyalar = System.IO.Directory.EnumerateFiles(@"c:\\Videolar", "*", SearchOption.AllDirectories);
+
+            List<Oyuncu> oyuncular = _oyuncuServis.GetList(k => k.Aktif == true && k.Kisi.Aktif == true);
+            //List<Oyuncu> oyuncular = oyuncuServis.GetList(k => k.Kisi.Adi.StartsWith("OSMAN") && k.Kisi.Soyadi.StartsWith("KERİMOĞLU") && k.Aktif == true && k.Kisi.Aktif == true);
+            int i = 0;
+            foreach (var oyuncu in oyuncular)
+            {
+                if (i % 250 == 0)
+                    Console.WriteLine($"%{i - 100 / oyuncular.Count} ({i} / {oyuncular.Count})");
+                i++;
+
+                List<OyuncuVideo> videolar = new List<OyuncuVideo>();
+
+                string yil = "";
+                if (oyuncu.Kisi.DogumTarihi != null && oyuncu.Kisi.DogumTarihi.Value.Year != 1905)
+                {
+                    yil = oyuncu.Kisi.DogumTarihi.Value.Year.ToString();
+                }
+
+                List<string> files = dosyalar.Where(d =>
+                    (yil != "" || d.StartsWith(yil)) &&
+                    d.ToLower().TurkceKarakterdenDonustur()
+                     .Contains($"{oyuncu.Kisi.Adi} {oyuncu.Kisi.Soyadi}".ToLower().TurkceKarakterdenDonustur())
+                    ).ToList();
+
+                if (files.Count == 0)
+                {
+                    Console.WriteLine($"Bulunamadı {oyuncu.Kisi.Adi} {oyuncu.Kisi.Soyadi}");
+                }
+                else
+                {
+                    List<string> control = files.GroupBy(g => g.Substring(13, 4)).Select(g => g.Key).ToList();
+
+                    if (control.Count > 1)
+                    {
+                        Console.WriteLine($"Çift Kayıt {oyuncu.Kisi.Adi} {oyuncu.Kisi.Soyadi}");
+                        foreach (var resim in files)
+                        {
+                            SaveFile(resim, "CiftKayit");
+                        }
+                    }
+                    else
+                    {
+                        DateTime minDate = DateTime.Now;
+                        foreach (var resim in files)
+                        {
+                            FileInfo fi = new FileInfo(resim);
+                            if (minDate > fi.CreationTime)
+                                minDate = fi.CreationTime;
+
+
+                            videolar.Add(new OyuncuVideo
+                            {
+                                OyuncuId = oyuncu.Id,
+                                DosyaYolu = SaveFile(resim, "OyuncuVideolari"),
+                                EklemeZamani = fi.CreationTime,
+                                GuncellemeZamani = fi.CreationTime
+                            });
+                        }
+
+                        if (videolar.Count > 0)
+                        { 
+                           await _oyuncuVideoServis.SaveListAsync(videolar, userHelper);
                         }
                     }
                 }
@@ -291,9 +378,7 @@ namespace CastAjansCore.ResimBulUI
                             GuncellemeZamani = fi.CreationTime
                         });
                     }
-
-
-
+                     
                     if (resimler.Count > 0)
                     {
                         oyuncu.Kisi.ProfilFotoUrl = resimler[0].DosyaYolu;
@@ -532,7 +617,7 @@ namespace CastAjansCore.ResimBulUI
             {
                 //string pic = Path.GetFileName(file.FileName);
 
-                tasinacakyer = $"Dosyalar/{DateTime.Now.Year}/{DateTime.Now.Month}/Resimler/{tasinacakyer}";
+                tasinacakyer = $"Dosyalar/{DateTime.Now.Year}/{DateTime.Now.Month}/{tasinacakyer}";
                 string path = Path.Combine(webRootPath, tasinacakyer.Replace("/", "\\"));
 
                 // file is uploaded
