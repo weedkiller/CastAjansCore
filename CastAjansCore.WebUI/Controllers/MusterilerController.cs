@@ -60,9 +60,13 @@ namespace CastAjansCore.WebUI.Controllers
             }
             else
             {
-                model.Musteri = await _MusteriServis.GetByIdAsync(id.Value);                
-                model.Musteri.Ilce = await _IlceServis.GetByIdAsync(model.Musteri.IlceId.Value);                      
-                model.Ilceler = await _IlceServis.GetSelectListAsync(i => i.IlId == model.Musteri.Ilce.IlId && i.Aktif);
+                model.Musteri = await _MusteriServis.GetByIdAsync(id.Value);
+                if (model.Musteri.Ilce != null)
+                {
+                    model.Musteri.Ilce = await _IlceServis.GetByIdAsync(model.Musteri.IlceId.Value);
+                    model.Ilceler = await _IlceServis.GetSelectListAsync(i => i.IlId == model.Musteri.Ilce.IlId && i.Aktif);
+                }
+                
 
                 if (model == null)
                 {

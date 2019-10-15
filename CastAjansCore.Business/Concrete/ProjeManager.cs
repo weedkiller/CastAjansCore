@@ -82,91 +82,104 @@ namespace CastAjansCore.Business.Concrete
 
         public async Task<ProjeDetailDto> GetDetailAsync(string guidId)
         {
-            //ProjeDetailDto projeDetailDto = await _projeDal.GetDetailByGuidIdAsync(guidId);
-            Proje proje = await _dal.GetAsync(new List<string> { "Musteri", "IsiTakipEden", "IsiTakipEden.Kisi" }, i => i.GuidId == new Guid(guidId) && i.Aktif == true);
-            List<ProjeKarakter> projeKarakterleri = await _ProjeKarakterServis.GetListByProjeIdAsync(proje.Id);
-            //proje = await _dal.GetAsync(i => i.GuidId.Equals(guidId));
-
-
-            var tasks = projeKarakterleri.Select(async karakter =>
+            int id = 0;
+            try
             {
-                karakter.ProjeKarakterOyunculari = await _ProjeKarakterOyuncuServis.GetListByProjeKarakterIdAsync(karakter.Id);
-                foreach (var oyuncu in karakter.ProjeKarakterOyunculari)
+
+
+                //ProjeDetailDto projeDetailDto = await _projeDal.GetDetailByGuidIdAsync(guidId);
+                Proje proje = await _dal.GetAsync(new List<string> { "Musteri", "IsiTakipEden", "IsiTakipEden.Kisi" }, i => i.GuidId == new Guid(guidId) && i.Aktif == true);
+                List<ProjeKarakter> projeKarakterleri = await _ProjeKarakterServis.GetListByProjeIdAsync(proje.Id);
+                //proje = await _dal.GetAsync(i => i.GuidId.Equals(guidId));
+
+
+                var tasks = projeKarakterleri.Select(async karakter =>
                 {
-                    var tResim = _oyuncuResimServis.GetListAsync(i => i.OyuncuId == oyuncu.OyuncuId && i.Aktif);
-                    var tVideo = _oyuncuVideoServis.GetListAsync(i => i.OyuncuId == oyuncu.OyuncuId && i.Aktif);
+                    karakter.ProjeKarakterOyunculari = await _ProjeKarakterOyuncuServis.GetListByProjeKarakterIdAsync(karakter.Id);
+                    foreach (var oyuncu in karakter.ProjeKarakterOyunculari)
+                    {
+                        var tResim = _oyuncuResimServis.GetListAsync(i => i.OyuncuId == oyuncu.OyuncuId && i.Aktif);
+                        var tVideo = _oyuncuVideoServis.GetListAsync(i => i.OyuncuId == oyuncu.OyuncuId && i.Aktif);
 
-                    oyuncu.Oyuncu.OyuncuResimleri = await tResim;
-                    oyuncu.Oyuncu.OyuncuVideolari = await tVideo;
-                }
-            });
+                        oyuncu.Oyuncu.OyuncuResimleri = await tResim;
+                        oyuncu.Oyuncu.OyuncuVideolari = await tVideo;
+                    }
+                });
 
-            await Task.WhenAll(tasks);
+                await Task.WhenAll(tasks);
 
 
-            ProjeDetailDto projeDetailDto = new ProjeDetailDto
-            {
-                Id = proje.Id,
-                GuidId = proje.GuidId,
-                ProjeAdi = proje.Adi,
-                ProjeTarihBas = proje.TarihBas,
-                ProjeTarihBit = proje.TarihBit,
-                IlgiliKisi = $"{proje.IsiTakipEden.Kisi.Adi} {proje.IsiTakipEden.Kisi.Soyadi}",
-                IlgiliCep = proje.IsiTakipEden.Kisi.Cep,
-                IlgiliTelefon = proje.IsiTakipEden.Kisi.Telefon,
-                IlgiliEPosta = proje.IsiTakipEden.Kisi.EPosta,
-                EPostaAdresleri = proje.EPostaAdresleri,
-                ProjeKarakterleri = new List<ProjeKarakterDetailDto>()
-            };
-            foreach (var karakter in projeKarakterleri)
-            {
-                var karakterDetay = new ProjeKarakterDetailDto
+                ProjeDetailDto projeDetailDto = new ProjeDetailDto
                 {
-                    Id = karakter.Id,
-                    Adi = karakter.Adi,
-                    KarakterSayisi = karakter.KarakterSayisi,
-                    Oyuncular = new List<OyuncuDetailDto>()
+                    Id = proje.Id,
+                    GuidId = proje.GuidId,
+                    ProjeAdi = proje.Adi,
+                    ProjeTarihBas = proje.TarihBas,
+                    ProjeTarihBit = proje.TarihBit,
+                    IlgiliKisi = $"{proje.IsiTakipEden.Kisi.Adi} {proje.IsiTakipEden.Kisi.Soyadi}",
+                    IlgiliCep = proje.IsiTakipEden.Kisi.Cep,
+                    IlgiliTelefon = proje.IsiTakipEden.Kisi.Telefon,
+                    IlgiliEPosta = proje.IsiTakipEden.Kisi.EPosta,
+                    EPostaAdresleri = proje.EPostaAdresleri,
+                    ProjeKarakterleri = new List<ProjeKarakterDetailDto>()
                 };
 
-                foreach (var oyuncu in karakter.ProjeKarakterOyunculari)
+                foreach (var karakter in projeKarakterleri)
                 {
-                    karakterDetay.Oyuncular.Add(new OyuncuDetailDto
+                    var karakterDetay = new ProjeKarakterDetailDto
                     {
-                        Id = oyuncu.Oyuncu.Id,
-                        ProfilUrl = oyuncu.Oyuncu.Kisi.ProfilFotoUrl,
-                        KarakterDurumu = oyuncu.KarakterDurumu,
-                        Tc = oyuncu.Oyuncu.Kisi.TC,
-                        Adi = oyuncu.Oyuncu.Kisi.Adi,
-                        Soyadi = oyuncu.Oyuncu.Kisi.Soyadi,
-                        Cep = oyuncu.Oyuncu.Kisi.Cep,
-                        Telefon = oyuncu.Oyuncu.Kisi.Telefon.IfIsNull(oyuncu.Oyuncu.Kisi.Telefon2).IfIsNull("").ToString(),
-                        Ilce = ((Ilce)oyuncu.Oyuncu.Kisi.Ilce.IfIsNull(new Ilce())).Adi,
-                        Yas = (DateTime.Today.Year - oyuncu.Oyuncu.Kisi.DogumTarihi.Value.Year) - (oyuncu.Oyuncu.Kisi.DogumTarihi.Value > DateTime.Today.AddYears(-1 * (DateTime.Today.Year - oyuncu.Oyuncu.Kisi.DogumTarihi.Value.Year)) ? -1 : 0),
-                        UstBeden = oyuncu.Oyuncu.UstBeden,
-                        AltBeden = oyuncu.Oyuncu.AltBeden,
-                        AyakNumarasi = oyuncu.Oyuncu.AltBeden,
-                        Boy = oyuncu.Oyuncu.AltBeden,
-                        Kilo = oyuncu.Oyuncu.AltBeden,
-                        GozRengi = oyuncu.Oyuncu.GozRengi,
-                        SacRengi = oyuncu.Oyuncu.SacRengi,
-                        TenRengi = oyuncu.Oyuncu.TenRengi,
-                        OyuculukEgitimi = oyuncu.Oyuncu.OyuculukEgitimi,
-                        Tecrubeler = oyuncu.Oyuncu.Tecrubeler,
-                        YabanciDil = oyuncu.Oyuncu.YabanciDil,
-                        Yetenekleri = oyuncu.Oyuncu.Yetenekleri,
-                        OyuncuResimleri = oyuncu.Oyuncu.OyuncuResimleri.Take(3).Select(i => i.DosyaYolu).ToList(),
-                        OyuncuVideolari = oyuncu.Oyuncu.OyuncuVideolari.Take(3).Select(i => i.DosyaYolu).ToList()
-                    });
+                        Id = karakter.Id,
+                        Adi = karakter.Adi,
+                        KarakterSayisi = karakter.KarakterSayisi,
+                        Oyuncular = new List<OyuncuDetailDto>()
+                    };
+
+                    foreach (var oyuncu in karakter.ProjeKarakterOyunculari)
+                    {
+                        id = oyuncu.Id;
+                        karakterDetay.Oyuncular.Add(new OyuncuDetailDto
+                        {
+                            Id = oyuncu.Oyuncu.Id,
+                            ProfilUrl = oyuncu.Oyuncu.Kisi.ProfilFotoUrl,
+                            KarakterDurumu = oyuncu.KarakterDurumu,
+                            Tc = oyuncu.Oyuncu.Kisi.TC,
+                            Adi = oyuncu.Oyuncu.Kisi.Adi,
+                            Soyadi = oyuncu.Oyuncu.Kisi.Soyadi,
+                            Cep = oyuncu.Oyuncu.Kisi.Cep,
+                            Telefon = oyuncu.Oyuncu.Kisi.Telefon.IfIsNull(oyuncu.Oyuncu.Kisi.Telefon2).IfIsNull("").ToString(),
+                            Ilce = ((Ilce)oyuncu.Oyuncu.Kisi.Ilce.IfIsNull(new Ilce())).Adi,
+                            Yas = oyuncu.Oyuncu.Kisi.DogumTarihi == null ? 0 : ((DateTime.Today.Year - oyuncu.Oyuncu.Kisi.DogumTarihi.Value.Year) - (oyuncu.Oyuncu.Kisi.DogumTarihi.Value > DateTime.Today.AddYears(-1 * (DateTime.Today.Year - oyuncu.Oyuncu.Kisi.DogumTarihi.Value.Year)) ? -1 : 0)),
+                            UstBeden = oyuncu.Oyuncu.UstBeden,
+                            AltBeden = oyuncu.Oyuncu.AltBeden,
+                            AyakNumarasi = oyuncu.Oyuncu.AltBeden,
+                            Boy = oyuncu.Oyuncu.AltBeden,
+                            Kilo = oyuncu.Oyuncu.AltBeden,
+                            GozRengi = oyuncu.Oyuncu.GozRengi,
+                            SacRengi = oyuncu.Oyuncu.SacRengi,
+                            TenRengi = oyuncu.Oyuncu.TenRengi,
+                            OyuculukEgitimi = oyuncu.Oyuncu.OyuculukEgitimi,
+                            Tecrubeler = oyuncu.Oyuncu.Tecrubeler,
+                            YabanciDil = oyuncu.Oyuncu.YabanciDil,
+                            Yetenekleri = oyuncu.Oyuncu.Yetenekleri,
+                            OyuncuResimleri = oyuncu.Oyuncu.OyuncuResimleri.Take(3).Select(i => i.DosyaYolu).ToList(),
+                            OyuncuVideolari = oyuncu.Oyuncu.OyuncuVideolari.Take(3).Select(i => i.DosyaYolu).ToList()
+                        });
+                    }
+
+
+                    projeDetailDto.ProjeKarakterleri.Add(karakterDetay);
+
                 }
 
 
-                projeDetailDto.ProjeKarakterleri.Add(karakterDetay);
+
+                return projeDetailDto;
             }
+            catch (Exception ex)
+            {
 
-
-
-            return projeDetailDto;
-
+                return null;
+            }
         }
 
         public async Task<ProjeEditDto> GetEditDtoAsync(int? id, int? musteriId)

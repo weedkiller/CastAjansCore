@@ -26,7 +26,7 @@ namespace CastAjansCore.Entity
         Evli = 2,
 
         [Display(Name = "Dul")]
-        Dul = 2
+        Dul = 3
     }
 
     public enum EnuGozRengi
@@ -41,19 +41,19 @@ namespace CastAjansCore.Entity
         Mavi = 2,
 
         [Display(Name = "Yeşil")]
-        Yesil = 2,
+        Yesil = 3,
 
         [Display(Name = "Ela")]
-        Ela = 3,
+        Ela = 4,
 
         [Display(Name = "Kahve")]
-        Kahve = 4,
+        Kahve = 5,
 
         [Display(Name = "Koyu Kahve")]
-        KoyuKahve = 5,
+        KoyuKahve = 6,
 
         [Display(Name = "Siyah")]
-        Siyah = 6
+        Siyah = 7
     }
 
     public enum EnuTenRengi
@@ -212,10 +212,10 @@ namespace CastAjansCore.Entity
         Radyo = 3,
 
         [Display(Name = "Gazete")]
-        Gazete = 3,
+        Gazete = 4,
 
         [Display(Name = "Dergi")]
-        Dergi = 3,
+        Dergi = 5
     }
 
     public enum EnuProjeDurumu
@@ -286,9 +286,4 @@ namespace CastAjansCore.Entity
         [Display(Name = "Ana Cast")]
         AnaCast = 3
     }
-
-
-
-
-
 }
