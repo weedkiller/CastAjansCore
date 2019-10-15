@@ -80,13 +80,8 @@ namespace CastAjansCore.Business.Concrete
 
         public override async Task AddAsync(Oyuncu entity, UserHelper userHelper)
         {
-
             try
             {
-
-
-
-
                 if (entity.Kisi.ProfilFotoUrl == null)
                 {
                     if (entity.OyuncuResimleri.Count > 0)
