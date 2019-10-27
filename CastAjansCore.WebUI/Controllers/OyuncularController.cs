@@ -216,7 +216,7 @@ namespace CastAjansCore.WebUI.Controllers
             oyuncuEditDto.KisiEditDto.Uyruklar = combolar.KisiEditDto.Uyruklar;
             return View(oyuncuEditDto);
         }
-        
+
         public async Task<IActionResult> ResimDelete(int id, int resimId)
         {
             await _oyuncuResimServis.DeleteAsync(resimId, _loginHelper.UserHelper);
@@ -247,7 +247,6 @@ namespace CastAjansCore.WebUI.Controllers
             }
         }
 
-
         public static Image RotateImage(Image img, float rotationAngle)
         {
             //create an empty Bitmap image
@@ -277,7 +276,6 @@ namespace CastAjansCore.WebUI.Controllers
             //return the image
             return bmp;
         }
-
 
         //public async Task<IActionResult> ResimBulAsync()
         //{
