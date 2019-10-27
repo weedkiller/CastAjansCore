@@ -74,7 +74,10 @@ namespace CastAjansCore.Entity
         Kumral = 4,
 
         [Display(Name = "Siyahi")]
-        Siyahi = 5
+        Siyahi = 5,
+
+        [Display(Name = "Buğday")]
+        Bugday = 6
     }
 
     public enum EnuSacTipi
@@ -95,7 +98,10 @@ namespace CastAjansCore.Entity
         Kel = 5,
 
         [Display(Name = "Rasta")]
-        Rasta = 6
+        Rasta = 6,
+
+        [Display(Name = "Kıvırcık")]
+        Kivircik = 7
 
     }
 

@@ -32,7 +32,10 @@ namespace CastAjansCore.Business.Concrete
 
         public override async Task SaveAsync(ProjeKarakter entity, UserHelper userHelper)
         {
-            await base.SaveAsync(entity, userHelper);
+            if (entity.ProjeKarakterOyunculari.Count > 0)
+            {
+                await base.SaveAsync(entity, userHelper);
+            }            
         }
 
         private async Task Save_ProjeKarakterOyunculariAsync(ProjeKarakter entity, UserHelper userHelper)

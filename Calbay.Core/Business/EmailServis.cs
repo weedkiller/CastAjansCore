@@ -2,6 +2,7 @@
 using Calbay.Core.Helper;
 //using MailKit.Net.Smtp;
 using Microsoft.Extensions.Options;
+using System;
 //using MimeKit;
 using System.Collections.Generic;
 using System.IO;
@@ -125,11 +126,16 @@ namespace Calbay.Core.Business
             mailMessage.Body = message;
 
 
-            SmtpClient smtp = new SmtpClient(_emailSettings.MailServer, _emailSettings.MailPort);
+            SmtpClient smtp = new SmtpClient(
+                _emailSettings.MailServer, 
+                _emailSettings.MailPort
+                );
             if (!_emailSettings.Sender.Equals(""))
                 smtp.Credentials = new NetworkCredential(_emailSettings.Sender, _emailSettings.Password);
             else
                 smtp.Credentials = CredentialCache.DefaultNetworkCredentials;
+
+            //smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
 
             smtp.EnableSsl = _emailSettings.UseSLL.ToBool(false);
             try
@@ -140,7 +146,7 @@ namespace Calbay.Core.Business
             //{
             //    return false;
             //}
-            catch/* (Exception ex)*/
+            catch (Exception ex)
             {   
                 return false;
             }

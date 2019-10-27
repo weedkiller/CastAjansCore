@@ -232,9 +232,10 @@
     <!-- /full width modal -->
     @section scripts {
         <script src="/Js/Oyuncular.js?v=2"></script>
-        <script src="/Js/Projeler.js?v=1"></script>
+        <script src="/Js/Projeler.js?v=2"></script>
         <script>
-            _projeKarakterIndex = @Model.Proje.ProjeKarakterleri.Count;
+            _MaxprojeKarakterIndex = @Model.Proje.ProjeKarakterleri.Count;
+            _projeKarakterIndex = _MaxprojeKarakterIndex;
         </script>
 
         @*<script src="/Js/Oyuncular.js"></script>*@

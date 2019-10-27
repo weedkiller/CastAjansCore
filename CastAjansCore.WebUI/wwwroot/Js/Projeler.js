@@ -1,5 +1,5 @@
 ﻿//var _tblProjeKarakterOyuncu = "tblProjeKarakterOyuncu_0";
-
+var _MaxprojeKarakterIndex = 0;
 
 function NewProjeKarakterleri() {
     var str = "";
@@ -9,36 +9,36 @@ function NewProjeKarakterleri() {
     str += "            <h5 class='card-title'>Proje Karakterleri</h5>";
     str += "            <div class='header-elements'>";
     str += "                <div class='list-icons'>";
-    str += "                    <a class='list-icons-item' href='javascript:ShowOyuncu(" + _projeKarakterIndex + ");'><i class='icon-plus3'></i></a>";
+    str += "                    <a class='list-icons-item' href='javascript:ShowOyuncu(" + _MaxprojeKarakterIndex + ");'><i class='icon-plus3'></i></a>";
     str += "                </div>";
     str += "            </div>";
     str += "        </div>";
     str += "        <div class='card-body'>";
     str += "            <fieldset>";
-    str += "                <input type='hidden' id='Proje_ProjeKarakterleri_" + _projeKarakterIndex + "__ProjeId' name='Proje.ProjeKarakterleri[" + _projeKarakterIndex + "].ProjeId' Value='0' />";
+    str += "                <input type='hidden' id='Proje_ProjeKarakterleri_" + _MaxprojeKarakterIndex + "__ProjeId' name='Proje.ProjeKarakterleri[" + _MaxprojeKarakterIndex + "].ProjeId' Value='0' />";
     str += "                <div class='form-group row'>";
     str += "                      <label class='col-lg-3 control-label'>Karakter Adı</label>";
     //str +=                 "      <span asp-validation-for='@Model.ProjeKarakterleri[i].Adi' class='text-danger'></span>"
     str += "                      <div class='col-lg-9'>";
-    str += "                          <input id='Proje_ProjeKarakterleri_" + _projeKarakterIndex + "__Adi' name='Proje.ProjeKarakterleri[" + _projeKarakterIndex + "].Adi' class='form-control' />";
+    str += "                          <input id='Proje_ProjeKarakterleri_" + _MaxprojeKarakterIndex + "__Adi' name='Proje.ProjeKarakterleri[" + _MaxprojeKarakterIndex + "].Adi' class='form-control' />";
     str += "                      </div>";
     str += "                </div>";
     str += "                <div class='form-group row'>";
     str += "                      <label class='col-lg-3 control-label'>Karakter Sayısı</label>";
     //str +=                 "      <span asp-validation-for='@Model.ProjeKarakterleri[i].KarakterSayisi' class='text-danger'></span>";
     str += "                      <div class='col-lg-9'>";
-    str += "                          <input id='Proje_ProjeKarakterleri_" + _projeKarakterIndex + "__KarakterSayisi' name='Proje.ProjeKarakterleri[" + _projeKarakterIndex + "].KarakterSayisi' class='form-control' />";
+    str += "                          <input id='Proje_ProjeKarakterleri_" + _MaxprojeKarakterIndex + "__KarakterSayisi' name='Proje.ProjeKarakterleri[" + _MaxprojeKarakterIndex + "].KarakterSayisi' class='form-control' />";
     str += "                      </div>";
     str += "                </div>";
     str += "                <div class='form-group row'>";
     str += "                      <label class='col-lg-3 control-label'>Açıklama</label>";
     //str +=                 "      <span asp-validation-for='@Model.ProjeKarakterleri[i].Aciklama' class='text-danger'></span>";
     str += "                      <div class='col-lg-9'>";
-    str += "                          <input id='Proje_ProjeKarakterleri_" + _projeKarakterIndex + "__Aciklama' name='Proje.ProjeKarakterleri[" + _projeKarakterIndex + "].Aciklama' class='form-control' />";
+    str += "                          <input id='Proje_ProjeKarakterleri_" + _MaxprojeKarakterIndex + "__Aciklama' name='Proje.ProjeKarakterleri[" + _MaxprojeKarakterIndex + "].Aciklama' class='form-control' />";
     str += "                      </div>";
     str += "                </div>";
     str += "                <div>";
-    str += "                    <table class='table' id='tblProjeKarakterOyuncu_" + _projeKarakterIndex + "'>";
+    str += "                    <table class='table' id='tblProjeKarakterOyuncu_" + _MaxprojeKarakterIndex + "'>";
     str += "                        <tbody>";
     str += "                            <tr>";
     str += "                                <th></th>";
@@ -55,7 +55,9 @@ function NewProjeKarakterleri() {
     str += "</div>";
 
     $("#divProjeKarakterleri").append(str);
-    _projeKarakterIndex += 1;
+    _MaxprojeKarakterIndex += 1;
+    _projeKarakterIndex = _MaxprojeKarakterIndex;
+
 }
 
 function ShowOyuncu(projeKarakterIndex) {

@@ -39,16 +39,16 @@ namespace CastAjansCore.WebUI.Controllers
 
         public async Task<IActionResult> Index()
         {
-            
+
             var Musterilar = await _MusteriServis.GetListAsync();
-            return View(Musterilar);
+            return View(Musterilar.OrderBy(i => i.Adi));
         }
 
 
         // GET: Musteris/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            
+
             var model = new MusteriEditDto
             {
                 Iller = (await _IlServis.GetSelectListAsync())
@@ -66,7 +66,7 @@ namespace CastAjansCore.WebUI.Controllers
                     model.Musteri.Ilce = await _IlceServis.GetByIdAsync(model.Musteri.IlceId.Value);
                     model.Ilceler = await _IlceServis.GetSelectListAsync(i => i.IlId == model.Musteri.Ilce.IlId && i.Aktif);
                 }
-                
+
 
                 if (model == null)
                 {
@@ -133,7 +133,7 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Musteris/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            
+
             if (id == null)
             {
                 return NotFound();

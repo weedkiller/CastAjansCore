@@ -3,6 +3,7 @@ using Calbay.Core.Helper;
 using CastAjansCore.Business.Abstract;
 using CastAjansCore.Dto;
 using CastAjansCore.Entity;
+using CastAjansCore.WebUI.Filters;
 using CastAjansCore.WebUI.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +19,7 @@ using System.Threading.Tasks;
 namespace CastAjansCore.WebUI.Controllers
 {
     [Authorize(Roles = "admin,calisan")]
+    [RequestFormSizeLimit(valueCountLimit: 10000)]
     public class ProjelerController : Controller
     {
         private readonly IProjeServis _ProjeServis;
@@ -252,7 +254,7 @@ namespace CastAjansCore.WebUI.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost]        
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int? id, Proje Proje)
         {
