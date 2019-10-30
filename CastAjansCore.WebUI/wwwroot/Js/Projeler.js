@@ -27,7 +27,7 @@ function NewProjeKarakterleri() {
     str += "                      <label class='col-lg-3 control-label'>Karakter Sayısı</label>";
     //str +=                 "      <span asp-validation-for='@Model.ProjeKarakterleri[i].KarakterSayisi' class='text-danger'></span>";
     str += "                      <div class='col-lg-9'>";
-    str += "                          <input id='Proje_ProjeKarakterleri_" + _MaxprojeKarakterIndex + "__KarakterSayisi' name='Proje.ProjeKarakterleri[" + _MaxprojeKarakterIndex + "].KarakterSayisi' class='form-control' />";
+    str += "                          <input id='Proje_ProjeKarakterleri_" + _MaxprojeKarakterIndex + "__KarakterSayisi' name='Proje.ProjeKarakterleri[" + _MaxprojeKarakterIndex + "].KarakterSayisi' data-val='true' data-val-required='The KarakterSayisi field is required.'  class='form-control' />";
     str += "                      </div>";
     str += "                </div>";
     str += "                <div class='form-group row'>";

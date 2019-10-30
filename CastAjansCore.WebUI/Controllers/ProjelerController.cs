@@ -254,16 +254,32 @@ namespace CastAjansCore.WebUI.Controllers
             }
         }
 
-        [HttpPost]        
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int? id, Proje Proje)
         {
+            if (Proje.ProjeKarakterleri.IsNotNull())
+            {
+                for (int i = Proje.ProjeKarakterleri.Count - 1; i >= 0; i--)
+                {
+                    if (Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari.IsNull() || Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari.Count == 0)
+                    {
+                        Proje.ProjeKarakterleri.Remove(Proje.ProjeKarakterleri[i]);
+                    }
+                }
+            }
             if (ModelState.IsValid)
             {
                 await Save(id, Proje);
                 return RedirectToAction(nameof(Index), new { id = Proje.MusteriId });
             }
-            return View(Proje);
+            else
+            {
+                ProjeEditDto projeEditDto = await _ProjeServis.GetEditDtoAsync(id, Proje.MusteriId);
+                projeEditDto.Proje = Proje;
+                return View(projeEditDto);
+            }
+
         }
 
         [HttpPost]

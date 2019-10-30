@@ -11,9 +11,8 @@ namespace CastAjansCore.Dto
         public string Adi { get; set; }
 
         [Display(Name = "Karakter Sayısı")]
-        public int KarakterSayisi { get; set; }
+        public int? KarakterSayisi { get; set; }
 
         public List<OyuncuDetailDto> Oyuncular { get; set; }
-
     }
 }

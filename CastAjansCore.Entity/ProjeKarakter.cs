@@ -18,7 +18,7 @@ namespace CastAjansCore.Entity
         [MaxLength(4000)]
         public string Aciklama { get; set; }
 
-        public int KarakterSayisi { get; set; }
+        public int? KarakterSayisi { get; set; }
 
         [ForeignKey("ProjeId")]
         public virtual Proje Proje { get; set; }
