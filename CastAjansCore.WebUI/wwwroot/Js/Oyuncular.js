@@ -83,7 +83,7 @@ $(document).ready(function () {
                     else {
                         link = "<a href='Oyuncular/Edit/" + data + "' class='btn btn-sm btn-primary'><i class='mi-mode-edit'></i></a>";
                     }
-
+                    link += "<div class='col nopadding'><span class='badge badge-danger'>" + moment(row["guncellemeTarihi"]).format('DD MM YYYY') + "</span></div>";
                     return link;
                 }
             },
@@ -97,12 +97,26 @@ $(document).ready(function () {
                 sClass: "text-center",
                 render: function (data, type, row) {
                     var link = "";
+
+           
+                    //link += "<div class='card'>";
+                    //link += "    <div class='card-img-actions m-1'>";
+                    //link += "        <img class='card-img img-fluid' src='" + data + "' alt='' style='max-width:100px;' />";
+                    //link += "        <div class='card-img-actions-overlay card-img'>";
+                    //link += "            <a href='" + data + "' class='btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round legitRipple' data-popup='lightbox' rel='group'>";
+                    //link += "                <i class='mi-zoom-in'></i>";
+                    //link += "            </a>";
                     if (data === null || data === '') {
-                        link = "<img src='/Resimler/yok.png' class='rounded-circle' style='max-width:100px;' />";
+                        link += "<img src='/Resimler/yok.png' class='rounded-circle' style='max-width:100px;' />";
                     }
                     else {
-                        link = "<img src='" + data + "' style='max-width:100px;' />";
+                        link += "<img src='" + data + "' data-popup='lightbox' rel='group' style='max-width:100px;' />";
                     }
+                    //link += "        </div>";
+                    //link += "    </div>";
+                    //link += "</div>";
+
+
                     return link;
                 }
             },
@@ -114,7 +128,7 @@ $(document).ready(function () {
                 autoWidth: true,
                 render: function (data, type, row) {
                     var str = "";
-                    str += "<div class='row media-title font-weight-semibold'><div class='col nopadding'>" + row["adi"] + " " + row["soyadi"] + "</div> <div class='col nopadding'><span class='badge badge-danger'>" + moment(row["guncellemeTarihi"]).format('DD MM YYYY') + "</span></div></div>";
+                    str += "<div class='row media-title font-weight-semibold'><div class='col nopadding'>" + row["adi"] + " " + row["soyadi"] + "</div> </div>";
 
                     str += "    <div class='text-nowrap'>";
                     str += "        <div class='row'><label class='col nopadding'><b>Cinsiyet</b></label><div class='col nopadding'>: " + row["cinsiyet"] + "</div></div>";

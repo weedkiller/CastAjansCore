@@ -209,7 +209,7 @@
                             {
                                 <div class="card">
                                     <div class="card-img-actions m-1">
-                                        <img id=@($"img-{Model.Oyuncu.OyuncuResimleri[i].Id}") class="card-img img-fluid" src="@Model.Oyuncu.OyuncuResimleri[i].DosyaYolu" alt="" style="max-width:150px;">
+                                        <img id=@($"img-{Model.Oyuncu.OyuncuResimleri[i].Id}") class="card-img img-fluid" src="@Model.Oyuncu.OyuncuResimleri[i].DosyaYolu" alt="" style="max-width:150px;" />
                                         <div class="card-img-actions-overlay card-img">
                                             @*<img src=@Model.Oyuncu.OyuncuResimleri[i].DosyaYolu alt="Lights" style="width:100%">*@
                                             <a href="@Model.Oyuncu.OyuncuResimleri[i].DosyaYolu" class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round legitRipple" data-popup="lightbox" rel="group">
@@ -303,7 +303,11 @@
 
                                                 <div class="list-icons list-icons-extended ml-auto">
                                                     @*<a href="#" class="list-icons-item"><i class="icon-download top-0"></i></a>*@
-                                                    <a href="@("/Oyuncular/FileDelete/"+Model.Oyuncu.Id+"?VideoId="+Model.Oyuncu.OyuncuVideolari[i].Id)" class="list-icons-item"><i class="icon-bin top-0"></i></a>
+                                                    <a class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round ml-2 legitRipple"
+                                                       href=@($"/Oyuncular/VideoDelete/{Model.Oyuncu.Id}?resimId={Model.Oyuncu.OyuncuVideolari[i].Id}")
+                                                       data-toggle="tooltip" title="Sil">
+                                                        <i class="mi-close"></i>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>

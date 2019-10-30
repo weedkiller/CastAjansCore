@@ -24,6 +24,7 @@ namespace CastAjansCore.WebUI.Controllers
         private readonly IUyrukServis _uyrukServis;
         private readonly IIlServis _ilServis;
         private readonly IOyuncuResimServis _oyuncuResimServis;
+        private readonly IOyuncuVideoServis _oyuncuVideoServis;
 
         //private readonly IHostingEnvironment _HostingEnvironment;
         public OyuncularController(
@@ -31,6 +32,7 @@ namespace CastAjansCore.WebUI.Controllers
             IUyrukServis uyrukServis,
             IIlServis ilServis,
             IOyuncuResimServis oyuncuResimServis,
+            IOyuncuVideoServis oyuncuVideoServis,
             LoginHelper loginHelper
         )
         {
@@ -40,6 +42,7 @@ namespace CastAjansCore.WebUI.Controllers
             _uyrukServis = uyrukServis;
             _ilServis = ilServis;
             _oyuncuResimServis = oyuncuResimServis;
+            _oyuncuVideoServis = oyuncuVideoServis;
             ViewData["UserHelper"] = _loginHelper.UserHelper;
         }
 
@@ -222,6 +225,13 @@ namespace CastAjansCore.WebUI.Controllers
             await _oyuncuResimServis.DeleteAsync(resimId, _loginHelper.UserHelper);
             return RedirectToAction(nameof(Edit), new { id });
         }
+
+        public async Task<IActionResult> VideoDelete(int id, int resimId)
+        {
+            await _oyuncuVideoServis.DeleteAsync(resimId, _loginHelper.UserHelper);
+            return RedirectToAction(nameof(Edit), new { id });
+        }
+
 
         public async Task<IActionResult> AnaResimYap(int id, int resimId)
         {

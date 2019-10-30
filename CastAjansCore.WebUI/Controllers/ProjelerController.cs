@@ -266,6 +266,15 @@ namespace CastAjansCore.WebUI.Controllers
                     {
                         Proje.ProjeKarakterleri.Remove(Proje.ProjeKarakterleri[i]);
                     }
+                    else
+                    {
+                        for (int oyuncuIndex = 0; oyuncuIndex < Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari.Count; oyuncuIndex++)
+                        {
+                            ModelState.Remove($"Proje.ProjeKarakterleri[{i}].ProjeKarakterOyunculari[{oyuncuIndex}].Oyuncu.Kisi.Adi");
+                            ModelState.Remove($"Proje.ProjeKarakterleri[{i}].ProjeKarakterOyunculari[{oyuncuIndex}].Oyuncu.Kisi.Soyadi");
+                        }
+                    }
+                  
                 }
             }
             if (ModelState.IsValid)
