@@ -51,6 +51,8 @@ namespace CastAjansCore.Dto
 
         public string ProfilFotoUrl { get; set; }
 
+        public string Cep { get; set; }
+
         public int? Boy { get; set; }
         public int? Kilo { get; set; }
         public int? UstBeden { get; set; }

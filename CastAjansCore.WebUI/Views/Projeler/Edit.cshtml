@@ -6,239 +6,239 @@
 }
 
 
-<form asp-action="Edit">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    <input type="hidden" asp-for="@Model.Proje.Id" />
-    <input type="hidden" asp-for="@Model.Proje.GuidId" />
-    <input type="hidden" asp-for="@Model.Proje.MusteriId" />
-    <input type="hidden" asp-for="@Model.Proje.EkleyenId" />
-    <input type="hidden" asp-for="@Model.Proje.EklemeZamani" />
-    <input type="hidden" asp-for="@Model.Proje.GuncelleyenId" />
-    <input type="hidden" asp-for="@Model.Proje.GuncellemeZamani" />
-    <input type="hidden" asp-for="@Model.Proje.Aktif" />
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <fieldset>
-                        <legend class="font-weight-semibold"><i class="icon-truck mr-2"></i> Bilgiler</legend>
-
-                        <div class="form-group row">
-                            <label asp-for="Proje.Adi" class="col-md-3 col-form-label"></label>
-                            <span asp-validation-for="Proje.Adi" class="text-danger"></span>
-                            <div class="col-md-9">
-                                <input asp-for="Proje.Adi" class="form-control" />
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label asp-for="Proje.MusteriId" class="col-md-3 col-form-label"></label>
-                            <div class="col-md-9">
-                                <input asp-for=Proje.Musteri.Adi readonly class="form-control" />
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label asp-for="Proje.IsiTakipEdenId" class="col-md-3 control-label"></label>
-                            <span asp-validation-for="Proje.IsiTakipEdenId" class="text-danger"></span>
-                            <div class="col-md-9">
-                                <select asp-for="Proje.IsiTakipEdenId" asp-items="Model.Kullanicilar" class="form-control"></select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label asp-for="Proje.EPostaAdresleri" class="col-md-3 col-form-label"></label>
-                            <div class="col-md-9">
-                                <input asp-for="@Model.Proje.EPostaAdresleri" class="form-control" />
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-md-3 control-label">Proje Tarihi</label>
-                            <span asp-validation-for="Proje.TarihBas" class="text-danger"></span>
-                            <span asp-validation-for="Proje.TarihBit" class="text-danger"></span>
-                            <div class="col-md-4">
-                                <input asp-for="Proje.TarihBas" class="form-control" />
-                            </div>
-                            <div class="col-md-1">-</div>
-                            <div class="col-md-4">
-                                <input asp-for="Proje.TarihBit" class="form-control" />
-                            </div>
-                        </div>
-                    </fieldset>
-                </div>
-
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <fieldset>
-                        <legend class="font-weight-semibold"><i class="icon-truck mr-2"></i> Bilgiler</legend>
-
-                        <div class="form-group row">
-                            <label asp-for="Proje.IsTipi" class="col-md-3 control-label"></label>
-                            <span asp-validation-for="Proje.IsTipi" class="text-danger"></span>
-                            <div class="col-md-9">
-                                <select asp-for="Proje.IsTipi" asp-items="Html.GetEnumSelectList<EnuIsTipi>()" class="form-control"></select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label asp-for="Proje.Mecra" class="col-md-3 control-label"></label>
-                            <span asp-validation-for="Proje.Mecra" class="text-danger"></span>
-                            <div class="col-md-9">
-                                <select asp-for="Proje.Mecra" asp-items="Html.GetEnumSelectList<EnuMecra>()" class="form-control"></select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label asp-for="Proje.Aciklama" class="col-md-3 control-label"></label>
-                            <span asp-validation-for="Proje.Aciklama" class="text-danger"></span>
-                            <div class="col-md-9">
-                                <input asp-for="Proje.Aciklama" class="form-control" />
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label asp-for="Proje.TeklifAciklama" class="col-md-3 control-label"></label>
-                            <span asp-validation-for="Proje.TeklifAciklama" class="text-danger"></span>
-                            <div class="col-md-9">
-                                <input asp-for="Proje.TeklifAciklama" class="form-control" />
-                            </div>
-                        </div>
-                    </fieldset>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <div id="divProjeKarakterleri" class="row">
-
-        @for (int i = 0; i < Model.Proje.ProjeKarakterleri.Count; i++)
-        {
-            <div class="col-md-12">
+        <input type="hidden" asp-for="@Model.Proje.Id" />
+        <input type="hidden" asp-for="@Model.Proje.GuidId" />
+        <input type="hidden" asp-for="@Model.Proje.MusteriId" />
+        <input type="hidden" asp-for="@Model.Proje.EkleyenId" />
+        <input type="hidden" asp-for="@Model.Proje.EklemeZamani" />
+        <input type="hidden" asp-for="@Model.Proje.GuncelleyenId" />
+        <input type="hidden" asp-for="@Model.Proje.GuncellemeZamani" />
+        <input type="hidden" asp-for="@Model.Proje.Aktif" />
+        <div class="row">
+            <div class="col-md-6">
                 <div class="card">
-                    <div class="card-header header-elements-inline">
-                        <h5 class="card-title">Proje Karakterleri</h5>
-                        <div class="header-elements">
-                            <div class="list-icons">
-                                <a class="list-icons-item" href=@("javascript:ShowOyuncu(" + i + ");")><i class="icon-plus3"></i></a>
-                            </div>
-                        </div>
-                    </div>
                     <div class="card-body">
                         <fieldset>
-                            @*<legend class="font-weight-semibold">
-                                    <i class="icon-truck mr-2"></i> Proje Karakterleri
-                                </legend>*@
-
-                            <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].Id" />
-                            <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeId" />
-                            <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].EkleyenId" />
-                            <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].EklemeZamani" />
-                            <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].GuncelleyenId" />
-                            <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].GuncellemeZamani" />
-                            <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].Aktif" />
+                            <legend class="font-weight-semibold"><i class="icon-truck mr-2"></i> Bilgiler</legend>
 
                             <div class="form-group row">
-                                <label asp-for="@Model.Proje.ProjeKarakterleri[i].Adi" class="col-md-3 control-label"></label>
-                                <span asp-validation-for="@Model.Proje.ProjeKarakterleri[i].Adi" class="text-danger"></span>
+                                <label asp-for="Proje.Adi" class="col-md-3 col-form-label"></label>
+                                <span asp-validation-for="Proje.Adi" class="text-danger"></span>
                                 <div class="col-md-9">
-                                    <input asp-for="@Model.Proje.ProjeKarakterleri[i].Adi" class="form-control" />
+                                    <input asp-for="Proje.Adi" class="form-control" />
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label asp-for="@Model.Proje.ProjeKarakterleri[i].KarakterSayisi" class="col-md-3 control-label"></label>
-                                <span asp-validation-for="@Model.Proje.ProjeKarakterleri[i].KarakterSayisi" class="text-danger"></span>
+                                <label asp-for="Proje.MusteriId" class="col-md-3 col-form-label"></label>
                                 <div class="col-md-9">
-                                    <input asp-for="@Model.Proje.ProjeKarakterleri[i].KarakterSayisi" class="form-control" />
+                                    <input asp-for=Proje.Musteri.Adi readonly class="form-control" />
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label asp-for="@Model.Proje.ProjeKarakterleri[i].Aciklama" class="col-md-3 control-label"></label>
-                                <span asp-validation-for="@Model.Proje.ProjeKarakterleri[i].Aciklama" class="text-danger"></span>
+                                <label asp-for="Proje.IsiTakipEdenId" class="col-md-3 control-label"></label>
+                                <span asp-validation-for="Proje.IsiTakipEdenId" class="text-danger"></span>
                                 <div class="col-md-9">
-                                    <input asp-for="@Model.Proje.ProjeKarakterleri[i].Aciklama" class="form-control" />
+                                    <select asp-for="Proje.IsiTakipEdenId" asp-items="Model.Kullanicilar" class="form-control"></select>
                                 </div>
                             </div>
-                            <div>
-                                <table class="table table-responsive" id=@("tblProjeKarakterOyuncu_" + i)>
-                                    <tr>
-                                        <th></th>
-                                        <th>Ad Soyad</th>
-                                        <th>Durumu</th>
-                                    </tr>
-                                    @for (int j = 0; j < Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari.Count; j++)
-                                    {
-                                        <tr id="@($"Proje_ProjeKarakterleri_{i}__ProjeKarakterOyunculari_{j}__tr")">
-                                            <td>
-                                                <input type="hidden" asp-for="Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].Oyuncu.Kisi.ProfilFotoUrl" />
-                                                <img style="width:100px" src="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].Oyuncu.Kisi.ProfilFotoUrl" />
-                                            </td>
-                                            <td>@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].Oyuncu.Kisi.Adi @Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].Oyuncu.Kisi.Soyadi</td>
+                            <div class="form-group row">
+                                <label asp-for="Proje.EPostaAdresleri" class="col-md-3 col-form-label"></label>
+                                <div class="col-md-9">
+                                    <input asp-for="@Model.Proje.EPostaAdresleri" class="form-control" />
+                                </div>
+                            </div>
 
-                                            <td><select asp-items="Html.GetEnumSelectList<EnuKarakterDurumu>()" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].KarakterDurumu" class="form-control"></select></td>
-                                            <td class="text-right">
-                                                <button class="btn btn-danger" type="button" onclick="@($"ProjeKarakterOyunculariSil({i}, {j});")">Sil</button>
-                                                <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].ProjeKarakterId" />
-                                                <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].OyuncuId" class="OyuncuProje" />
-                                                <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].Id" />
-                                                <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].EkleyenId" />
-                                                <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].EklemeZamani" />
-                                                <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].GuncelleyenId" />
-                                                <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].GuncellemeZamani" />
-                                                <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].Aktif" />
-                                            </td>
-                                        </tr>
-                                    }
-                                </table>
+                            <div class="form-group row">
+                                <label class="col-md-3 control-label">Proje Tarihi</label>
+                                <span asp-validation-for="Proje.TarihBas" class="text-danger"></span>
+                                <span asp-validation-for="Proje.TarihBit" class="text-danger"></span>
+                                <div class="col-md-4">
+                                    <input asp-for="Proje.TarihBas" class="form-control" />
+                                </div>
+                                <div class="col-md-1">-</div>
+                                <div class="col-md-4">
+                                    <input asp-for="Proje.TarihBit" class="form-control" />
+                                </div>
                             </div>
                         </fieldset>
                     </div>
+
                 </div>
             </div>
-        }
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <button type="button" onclick="NewProjeKarakterleri();" class="btn btn-primary form-control">Yeni Karakter Ekle<i class="icon-paperplane ml-2"></i></button>
-        </div>
-    </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <fieldset>
+                            <legend class="font-weight-semibold"><i class="icon-truck mr-2"></i> Bilgiler</legend>
 
-    <hr />
-    <div class="row">
-        <div class="col-md-12">
-            <a asp-action="Index" asp-route-id="@Model.Proje.MusteriId" class="btn btn-danger left"><i class="mi-arrow-back"></i> Geri</a>
-            <button type="submit" class="btn btn-primary right"><i class="mi-check"></i> Kaydet</button>
-            <button type="submit" asp-action="SaveAndDetail" asp-route-id="@Model.Proje.Id" class="btn btn-secondary right"><i class="mi-check"></i> Sunum</button>
-            <button type="submit" asp-action="SaveAndCastList" asp-route-id="@Model.Proje.Id" class="btn btn-secondary right"><i class="mi-check"></i> Cast List</button>
-            <button type="submit" asp-action="SaveAndExcelList" asp-route-id="@Model.Proje.Id" class="btn btn-secondary right"><i class="mi-check"></i> Excel List</button>
-            @*<a asp-action="Detail" asp-route-id="@Model.Proje.GuidId" class="btn btn-danger left"><i class="mi-arrow-back"></i> Detay</a>*@
-        </div>
-    </div>
+                            <div class="form-group row">
+                                <label asp-for="Proje.IsTipi" class="col-md-3 control-label"></label>
+                                <span asp-validation-for="Proje.IsTipi" class="text-danger"></span>
+                                <div class="col-md-9">
+                                    <select asp-for="Proje.IsTipi" asp-items="Html.GetEnumSelectList<EnuIsTipi>()" class="form-control"></select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="Proje.Mecra" class="col-md-3 control-label"></label>
+                                <span asp-validation-for="Proje.Mecra" class="text-danger"></span>
+                                <div class="col-md-9">
+                                    <select asp-for="Proje.Mecra" asp-items="Html.GetEnumSelectList<EnuMecra>()" class="form-control"></select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="Proje.Aciklama" class="col-md-3 control-label"></label>
+                                <span asp-validation-for="Proje.Aciklama" class="text-danger"></span>
+                                <div class="col-md-9">
+                                    <input asp-for="Proje.Aciklama" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="Proje.TeklifAciklama" class="col-md-3 control-label"></label>
+                                <span asp-validation-for="Proje.TeklifAciklama" class="text-danger"></span>
+                                <div class="col-md-9">
+                                    <input asp-for="Proje.TeklifAciklama" class="form-control" />
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
 
-    <div id="myModal" class="modal fade" tabindex="-1">
-        <div class="modal-dialog modal-full">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Oyuncular</h5>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="modal-body">
-                    @await Html.PartialAsync("_Oyuncular", Model.OyuncuFilterDto)
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-link" data-dismiss="modal">Kapat</button>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- /full width modal -->
-    @section scripts {
-        <script src="/Js/Oyuncular.js?v=4"></script>
-        <script src="/Js/Projeler.js?v=4"></script>
-        <script>
+
+        <div id="divProjeKarakterleri" class="row">
+
+            @for (int i = 0; i < Model.Proje.ProjeKarakterleri.Count; i++)
+            {
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header header-elements-inline">
+                            <h5 class="card-title">Proje Karakterleri</h5>
+                            <div class="header-elements">
+                                <div class="list-icons">
+                                    <a class="list-icons-item" href=@("javascript:ShowOyuncu(" + i + ");")><i class="icon-plus3"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <fieldset>
+                                @*<legend class="font-weight-semibold">
+                                    <i class="icon-truck mr-2"></i> Proje Karakterleri
+                                </legend>*@
+
+                                <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].Id" />
+                                <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeId" />
+                                <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].EkleyenId" />
+                                <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].EklemeZamani" />
+                                <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].GuncelleyenId" />
+                                <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].GuncellemeZamani" />
+                                <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].Aktif" />
+
+                                <div class="form-group row">
+                                    <label asp-for="@Model.Proje.ProjeKarakterleri[i].Adi" class="col-md-3 control-label"></label>
+                                    <span asp-validation-for="@Model.Proje.ProjeKarakterleri[i].Adi" class="text-danger"></span>
+                                    <div class="col-md-9">
+                                        <input asp-for="@Model.Proje.ProjeKarakterleri[i].Adi" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label asp-for="@Model.Proje.ProjeKarakterleri[i].KarakterSayisi" class="col-md-3 control-label"></label>
+                                    <span asp-validation-for="@Model.Proje.ProjeKarakterleri[i].KarakterSayisi" class="text-danger"></span>
+                                    <div class="col-md-9">
+                                        <input asp-for="@Model.Proje.ProjeKarakterleri[i].KarakterSayisi" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label asp-for="@Model.Proje.ProjeKarakterleri[i].Aciklama" class="col-md-3 control-label"></label>
+                                    <span asp-validation-for="@Model.Proje.ProjeKarakterleri[i].Aciklama" class="text-danger"></span>
+                                    <div class="col-md-9">
+                                        <input asp-for="@Model.Proje.ProjeKarakterleri[i].Aciklama" class="form-control" />
+                                    </div>
+                                </div>
+                                <div>
+                                    <table class="table table-responsive" id=@("tblProjeKarakterOyuncu_" + i)>
+                                        <tr>
+                                            <th></th>
+                                            <th>Ad Soyad</th>
+                                            <th>Durumu</th>
+                                        </tr>
+                                        @for (int j = 0; j < Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari.Count; j++)
+                                        {
+                                            <tr id="@($"Proje_ProjeKarakterleri_{i}__ProjeKarakterOyunculari_{j}__tr")">
+                                                <td>
+                                                    <input type="hidden" asp-for="Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].Oyuncu.Kisi.ProfilFotoUrl" />
+                                                    <img style="width:100px" src="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].Oyuncu.Kisi.ProfilFotoUrl" />
+                                                </td>
+                                                <td>@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].Oyuncu.Kisi.Adi @Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].Oyuncu.Kisi.Soyadi</td>
+
+                                                <td><select asp-items="Html.GetEnumSelectList<EnuKarakterDurumu>()" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].KarakterDurumu" class="form-control"></select></td>
+                                                <td class="text-right">
+                                                    <button class="btn btn-danger" type="button" onclick="@($"ProjeKarakterOyunculariSil({i}, {j});")">Sil</button>
+                                                    <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].ProjeKarakterId" />
+                                                    <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].OyuncuId" class="OyuncuProje" />
+                                                    <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].Id" />
+                                                    <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].EkleyenId" />
+                                                    <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].EklemeZamani" />
+                                                    <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].GuncelleyenId" />
+                                                    <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].GuncellemeZamani" />
+                                                    <input type="hidden" asp-for="@Model.Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[j].Aktif" />
+                                                </td>
+                                            </tr>
+                                        }
+                                    </table>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <button type="button" onclick="NewProjeKarakterleri();" class="btn btn-primary form-control">Yeni Karakter Ekle<i class="icon-paperplane ml-2"></i></button>
+            </div>
+        </div>
+
+        <hr />
+        <div class="row">
+            <div class="col-md-12">
+                <a asp-action="Index" asp-route-id="@Model.Proje.MusteriId" class="btn btn-danger left"><i class="mi-arrow-back"></i> Geri</a>
+                <button type="submit" class="btn btn-primary right"><i class="mi-check"></i> Kaydet</button>
+                <button type="submit" asp-action="SaveAndDetail" asp-route-id="@Model.Proje.Id" class="btn btn-secondary right"><i class="mi-check"></i> Sunum</button>
+                <button type="submit" asp-action="SaveAndCastList" asp-route-id="@Model.Proje.Id" class="btn btn-secondary right"><i class="mi-check"></i> Cast List</button>
+                <button type="submit" asp-action="SaveAndExcelList" asp-route-id="@Model.Proje.Id" class="btn btn-secondary right"><i class="mi-check"></i> Excel List</button>
+                @*<a asp-action="Detail" asp-route-id="@Model.Proje.GuidId" class="btn btn-danger left"><i class="mi-arrow-back"></i> Detay</a>*@
+            </div>
+        </div>
+
+        <div id="myModal" class="modal fade" tabindex="-1">
+            <div class="modal-dialog modal-full">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Oyuncular</h5>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        @await Html.PartialAsync("_Oyuncular", Model.OyuncuFilterDto)
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-link" data-dismiss="modal">Kapat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /full width modal -->
+        @section scripts {
+            <script src="/Js/Oyuncular.js?v=5"></script>
+            <script src="/Js/Projeler.js?v=5"></script>
+            <script>
             _MaxprojeKarakterIndex = @Model.Proje.ProjeKarakterleri.Count;
             _projeKarakterIndex = _MaxprojeKarakterIndex;
-        </script>
+            </script>
 
-        @*<script src="/Js/Oyuncular.js"></script>*@
-    }
-</form>
+            @*<script src="/Js/Oyuncular.js"></script>*@
+        }
+    </form>

@@ -131,6 +131,7 @@ $(document).ready(function () {
                     str += "<div class='row media-title font-weight-semibold'><div class='col nopadding'>" + row["adi"] + " " + row["soyadi"] + "</div> </div>";
 
                     str += "    <div class='text-nowrap'>";
+                    str += "        <div class='row'><label class='col nopadding'><b>Telefon</b></label><div class='col nopadding'>: " + row["cep"] + "</div></div>";
                     str += "        <div class='row'><label class='col nopadding'><b>Cinsiyet</b></label><div class='col nopadding'>: " + row["cinsiyet"] + "</div></div>";
                     str += "        <div class='row'><label class='col nopadding'><b>Uyruk</b></label><div class='col nopadding'>: " + row["uyruk"] + "</div></div>";
                     str += "        <div class='row'><label class='col nopadding'><b>Saç</b></label><div class='col nopadding'>: " + row["sacRengi"] + "</div></div>";

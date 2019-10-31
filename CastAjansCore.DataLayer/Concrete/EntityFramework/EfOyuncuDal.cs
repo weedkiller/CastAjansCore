@@ -34,6 +34,7 @@ namespace CastAjansCore.DataLayer.Concrete.EntityFramework
                         Id = i.Id,
                         Adi = i.Kisi.Adi,
                         Soyadi = i.Kisi.Soyadi,
+                        Cep = i.Kisi.Cep.IfIsNull(i.Kisi.Telefon.DataForUsage().IfIsNull(i.Kisi.Telefon2.DataForUsage())).DataForUsage(),
                         AltBeden = i.AltBeden,
                         Boy = i.Boy,
                         Cinsiyet = i.Kisi.Cinsiyet.ToDisplay(),
@@ -60,10 +61,10 @@ namespace CastAjansCore.DataLayer.Concrete.EntityFramework
                     item.Projeler = (from proje in context.Projeler
                                      join pkararakter in context.ProjeKarakterleri on proje.Id equals pkararakter.ProjeId
                                      join projeOyuncu in context.ProjeKarakterOyunculari on pkararakter.Id equals projeOyuncu.ProjeKarakterId
-                                     where projeOyuncu.OyuncuId == item.Id && 
-                                            proje.TarihBas >= DateTime.Today && 
-                                            projeOyuncu.Aktif && 
-                                            pkararakter.Aktif && 
+                                     where projeOyuncu.OyuncuId == item.Id &&
+                                            proje.TarihBas >= DateTime.Today &&
+                                            projeOyuncu.Aktif &&
+                                            pkararakter.Aktif &&
                                             proje.Aktif
                                      select proje).ToList();
                 }
