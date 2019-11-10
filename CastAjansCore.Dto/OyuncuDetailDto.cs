@@ -37,6 +37,10 @@ namespace CastAjansCore.Dto
         [Display(Name = "Yaş")]
         public int Yas { get; set; }
 
+        public string KimlikOn { get; set; }
+
+        public string KimlikArka { get; set; }
+
         [Display(Name = "Boy(Cm)")]
         public int? Boy { get; set; }
 
@@ -78,7 +82,8 @@ namespace CastAjansCore.Dto
 
         [Display(Name = "Videolari")]
         public List<string> OyuncuVideolari { get; set; }
-
-        
+        public string Adres { get; set; }
+        public string Il { get; set; }
+        public object DogumTarihi { get; set; }
     }
 }

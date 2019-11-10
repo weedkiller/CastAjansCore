@@ -254,11 +254,11 @@ namespace CastAjansCore.Business.Concrete
                     (filter.YasMaks == 0 || i.Kisi.DogumTarihi >= DateTime.Today.AddYears(-1 * filter.YasMaks-1)) &&
                     (filter.Cinsiyet == 0 || i.Kisi.Cinsiyet == (EnuCinsiyet)filter.Cinsiyet) &&
                     (
-                        filter.CastTipi == 0 ||
+                        filter.CastTipi == null || filter.CastTipi.Count == 3 ||
                         (
-                            (filter.CastTipi == EnuCastTipi.YardımciOyuncu.ToInt() && i.CT_YardımciOyuncu == true) ||
-                            (filter.CastTipi == EnuCastTipi.FGR.ToInt() && i.CT_OnFGR == true) ||
-                            (filter.CastTipi == EnuCastTipi.AnaCast.ToInt() && i.CT_AnaCast == true)
+                            (filter.CastTipi.Contains(1) && i.CT_YardımciOyuncu == true) ||
+                            (filter.CastTipi.Contains(2) && i.CT_OnFGR == true) ||
+                            (filter.CastTipi.Contains(3) && i.CT_AnaCast == true)
                         )
                     ) &&
                     (filter.Uyruk == 0 || i.Kisi.UyrukId == filter.Uyruk) &&

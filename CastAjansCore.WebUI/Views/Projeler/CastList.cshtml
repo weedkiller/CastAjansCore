@@ -120,16 +120,16 @@
                             {
                                 @if (oyuncu.KarakterDurumu == CastAjansCore.Entity.EnuKarakterDurumu.KabulEdildi)
                                 {
-                                    <tr>
-                                        <td>@(i++)</td>
-                                        <td>@oyuncu.TamAdi</td>
-                                        <td>@oyuncu.Cep</td>
-                                        <td>@oyuncu.Telefon</td>
-                                        <td>@oyuncu.Ilce</td>
-                                        <td><input type="checkbox" /></td>
-                                        <td><input type="checkbox" /></td>
-                                        <td></td>
-                                    </tr>
+                        <tr>
+                            <td>@(i++)</td>
+                            <td>@oyuncu.TamAdi</td>
+                            <td><a href="tel:@oyuncu.Cep">@oyuncu.Cep</a></td>
+                            <td><a href="tel:@oyuncu.Telefon">@oyuncu.Telefon</a></td>
+                            <td>@oyuncu.Ilce</td>
+                            <td><input type="checkbox" /></td>
+                            <td><input type="checkbox" /></td>
+                            <td></td>
+                        </tr>
                                 }
                             }
 

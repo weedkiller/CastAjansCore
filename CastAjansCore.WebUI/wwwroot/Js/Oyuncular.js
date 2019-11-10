@@ -17,11 +17,12 @@ $(document).ready(function () {
         {
             url: "/Oyuncular/GetOyuncuGrid",
             //contentType: "json",
+            traditional: true,
             dataSrc: "data",
             //type: "Post",
             data: function (data) {
                 //var json = jQuery.parseJSON(data)
-
+             
                 var filter = {
                     //function(d) {
                     //    var a = $.extend({}, d,
@@ -36,7 +37,7 @@ $(document).ready(function () {
                     Il: Number($("#Filter-Oyuncu-Il").val()),
                     Ilce: Number($("#Filter-Oyuncu-Ilce").val()),
                     Genel: $("#Filter-Oyuncu-Genel").val(),
-                    CastTipi: Number($("#Filter-Oyuncu-CastTipi").val()),
+                    CastTipi: $("#Filter-Oyuncu-CastTipi").val(),
                     KaseMin: Number($("#Filter-Oyuncu-KaseMin").val()),
                     KaseMaks: Number($("#Filter-Oyuncu-KaseMaks").val()),
                     BoyMin: Number($("#Filter-Oyuncu-BoyMin").val()),
@@ -98,7 +99,7 @@ $(document).ready(function () {
                 render: function (data, type, row) {
                     var link = "";
 
-           
+
                     //link += "<div class='card'>";
                     //link += "    <div class='card-img-actions m-1'>";
                     //link += "        <img class='card-img img-fluid' src='" + data + "' alt='' style='max-width:100px;' />";
@@ -131,7 +132,7 @@ $(document).ready(function () {
                     str += "<div class='row media-title font-weight-semibold'><div class='col nopadding'>" + row["adi"] + " " + row["soyadi"] + "</div> </div>";
 
                     str += "    <div class='text-nowrap'>";
-                    str += "        <div class='row'><label class='col nopadding'><b>Telefon</b></label><div class='col nopadding'>: " + row["cep"] + "</div></div>";
+                    str += "        <div class='row'><label class='col nopadding'><b>Telefon</b></label><div class='col nopadding'>: <a href='tel:" + row["cep"] + "'>" + row["cep"] + "</a></div></div>";
                     str += "        <div class='row'><label class='col nopadding'><b>Cinsiyet</b></label><div class='col nopadding'>: " + row["cinsiyet"] + "</div></div>";
                     str += "        <div class='row'><label class='col nopadding'><b>Uyruk</b></label><div class='col nopadding'>: " + row["uyruk"] + "</div></div>";
                     str += "        <div class='row'><label class='col nopadding'><b>Saç</b></label><div class='col nopadding'>: " + row["sacRengi"] + "</div></div>";
@@ -173,7 +174,7 @@ $(document).ready(function () {
                     var str = "";
                     for (var i = 0; i < row["projeler"].length; i++) {
                         var link = "/projeler/edit/" + row["projeler"][i].id;
-                        str += "<a href='" + link + "'><span class='badge badge-primary'>" + moment(row["projeler"][i].tarihBas).format('DD MMM') + '-' + moment(row["projeler"][i].tarihBit).format('DD MMM') + "</span></a>";
+                        str += "<a href='" + link + "'><span class='badge badge-primary' data-toggle='tooltip' data-placement='top' title='" + row["projeler"][i].adi + "'>" + moment(row["projeler"][i].tarihBas).format('DD MMM') + '-' + moment(row["projeler"][i].tarihBit).format('DD MMM') + "</span></a>";
                     }
 
                     return str;
@@ -217,7 +218,7 @@ function ProjeyeEkliMi(oyuncuId) {
     var inputs = $(".OyuncuProje");
 
     for (var i = 0; i < inputs.length; i++) {
-        if (inputs[i].value == oyuncuId) {
+        if (Number(inputs[i].value) === oyuncuId) {
             result = true;
             break;
         }

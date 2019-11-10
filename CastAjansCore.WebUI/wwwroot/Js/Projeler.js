@@ -37,10 +37,11 @@ function NewProjeKarakterleri() {
     str += "                          <input id='Proje_ProjeKarakterleri_" + _MaxprojeKarakterIndex + "__Aciklama' name='Proje.ProjeKarakterleri[" + _MaxprojeKarakterIndex + "].Aciklama' class='form-control' />";
     str += "                      </div>";
     str += "                </div>";
-    str += "                <div>";
-    str += "                    <table class='table' id='tblProjeKarakterOyuncu_" + _MaxprojeKarakterIndex + "'>";
+    str += "                <div class='table-responsive'>";
+    str += "                    <table class='table table-scrollable' id='tblProjeKarakterOyuncu_" + _MaxprojeKarakterIndex + "'>";
     str += "                        <tbody>";
     str += "                            <tr>";
+    str += "                                <th>Sıra</th>";
     str += "                                <th></th>";
     str += "                                <th>Ad</th>";
     str += "                                <th>Soyad</th>";
@@ -80,6 +81,7 @@ function OyuncuEkle(btn, profilFotoUrl, adi, soyadi, oyuncuId) {
     var cell2 = row.insertCell(2);
     var cell3 = row.insertCell(3);
     var cell4 = row.insertCell(4);
+    var cell5 = row.insertCell(5);
     var str = "";
     str = "<select class='form-control' data-val='true' id='Proje_ProjeKarakterleri_" + _projeKarakterIndex + "__ProjeKarakterOyunculari_" + rowCount + "__KarakterDurumu' name='Proje.ProjeKarakterleri[" + _projeKarakterIndex + "].ProjeKarakterOyunculari[" + rowCount + "].KarakterDurumu'>";
     str += "    <option selected = 'selected' value = '1'> Teklif Atıldı</option> ";
@@ -87,19 +89,18 @@ function OyuncuEkle(btn, profilFotoUrl, adi, soyadi, oyuncuId) {
     str += "    <option value='3'>Oynadı</option>";
     str += "</select>";
 
+    cell0.innerHTML = rowCount + 1;
     if (profilFotoUrl !== "") {
-        cell0.innerHTML = "<img style='width: 100px' src='" + profilFotoUrl + "' />";
+        cell1.innerHTML = "<img style='width: 100px' src='" + profilFotoUrl + "' />";
     }
-    cell1.innerHTML = adi;
-
-    cell2.innerHTML = soyadi;
-    cell3.innerHTML = str;
-    cell4.classList.add("text-right");
-    cell4.innerHTML = "<button class='btn btn-danger legitRipple' type='button' onclick='ProjeKarakterOyunculariSil(" + _projeKarakterIndex + ", " + rowCount + ");'>Sil</button>";
-    cell4.innerHTML += "<input type='hidden' id='Proje_ProjeKarakterleri_" + _projeKarakterIndex + "__ProjeKarakterOyunculari_" + rowCount + "__OyuncuId' name='Proje.ProjeKarakterleri[" + _projeKarakterIndex + "].ProjeKarakterOyunculari[" + rowCount + "].OyuncuId'  value='" + oyuncuId + "'/>";
-    cell4.innerHTML += "<input type='hidden' id='Proje_ProjeKarakterleri_" + _projeKarakterIndex + "__ProjeKarakterOyunculari_" + rowCount + "__Id' name='Proje.ProjeKarakterleri[" + _projeKarakterIndex + "].ProjeKarakterOyunculari[" + rowCount + "].Id'  value='0'/>";
-    cell4.innerHTML += "<input type='hidden' id='Proje_ProjeKarakterleri_" + _projeKarakterIndex + "__ProjeKarakterOyunculari_" + rowCount + "__Aktif' name='Proje.ProjeKarakterleri[" + _projeKarakterIndex + "].ProjeKarakterOyunculari[" + rowCount + "].Aktif'  value='True'/>";
-
+    cell2.innerHTML = adi;
+    cell3.innerHTML = soyadi;
+    cell4.innerHTML = str;
+    cell5.classList.add("text-right");
+    cell5.innerHTML = "<button class='btn btn-danger legitRipple' type='button' onclick='ProjeKarakterOyunculariSil(" + _projeKarakterIndex + ", " + rowCount + ");'>Sil</button>";
+    cell5.innerHTML += "<input type='hidden' id='Proje_ProjeKarakterleri_" + _projeKarakterIndex + "__ProjeKarakterOyunculari_" + rowCount + "__OyuncuId' name='Proje.ProjeKarakterleri[" + _projeKarakterIndex + "].ProjeKarakterOyunculari[" + rowCount + "].OyuncuId'  value='" + oyuncuId + "'/>";
+    cell5.innerHTML += "<input type='hidden' id='Proje_ProjeKarakterleri_" + _projeKarakterIndex + "__ProjeKarakterOyunculari_" + rowCount + "__Id' name='Proje.ProjeKarakterleri[" + _projeKarakterIndex + "].ProjeKarakterOyunculari[" + rowCount + "].Id'  value='0'/>";
+    cell5.innerHTML += "<input type='hidden' id='Proje_ProjeKarakterleri_" + _projeKarakterIndex + "__ProjeKarakterOyunculari_" + rowCount + "__Aktif' name='Proje.ProjeKarakterleri[" + _projeKarakterIndex + "].ProjeKarakterOyunculari[" + rowCount + "].Aktif'  value='True'/>";
 
     //<tr id="Proje_ProjeKarakterleri_0__ProjeKarakterOyunculari_0__tr">
     //  <td>
@@ -132,13 +133,13 @@ function OyuncuEkle(btn, profilFotoUrl, adi, soyadi, oyuncuId) {
 function ProjeKarakterOyunculariSil(projeKarakterIndex, rowCount) {
     var id = $("#Proje_ProjeKarakterleri_" + projeKarakterIndex + "__ProjeKarakterOyunculari_" + rowCount + "__Id").val();
 
-    if (id === "0") {
-        $("#Proje_ProjeKarakterleri_" + projeKarakterIndex + "__ProjeKarakterOyunculari_" + rowCount + "__tr").remove();
-    }
-    else {
-        $("#Proje_ProjeKarakterleri_" + projeKarakterIndex + "__ProjeKarakterOyunculari_" + rowCount + "__Aktif").val("False");
-        $("#Proje_ProjeKarakterleri_" + projeKarakterIndex + "__ProjeKarakterOyunculari_" + rowCount + "__tr").hide();
-    }
+    //if (id === "0") {
+    //    $("#Proje_ProjeKarakterleri_" + projeKarakterIndex + "__ProjeKarakterOyunculari_" + rowCount + "__tr").remove();
+    //}
+    //else {
+    $("#Proje_ProjeKarakterleri_" + projeKarakterIndex + "__ProjeKarakterOyunculari_" + rowCount + "__Aktif").val("False");
+    $("#Proje_ProjeKarakterleri_" + projeKarakterIndex + "__ProjeKarakterOyunculari_" + rowCount + "__tr").hide();
+    //}
 
 }
 //class OyuncuFilterDto {

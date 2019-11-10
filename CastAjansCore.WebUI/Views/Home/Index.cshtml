@@ -9,7 +9,7 @@
     <!-- Info blocks -->
     @foreach (var item in LoginHelper.UserHelper.Menuler)
     {
-        @if (@item.Link != "#")
+        if (item.Link != "#")
         {
             <div class="col-md-4">
                 <div class="card">
@@ -53,6 +53,6 @@
                 <a asp-controller="Projeler" asp-action="Index" class="btn bg-blue">Browse articles</a>
             </div>
         </div>
-    </div>
-</div>*@
+    </div>*@
+</div>
 <!-- /info blocks -->

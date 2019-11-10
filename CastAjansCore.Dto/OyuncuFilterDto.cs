@@ -22,7 +22,7 @@ namespace CastAjansCore.Dto
         public int Ilce { get; set; }
         public int KaseMin { get; set; }
         public int KaseMaks { get; set; }
-        public int CastTipi { get; set; }
+        public List<int> CastTipi { get; set; }
         public int BoyMin { get; set; }
         public int BoyMaks { get; set; }
         public int KiloMin { get; set; }

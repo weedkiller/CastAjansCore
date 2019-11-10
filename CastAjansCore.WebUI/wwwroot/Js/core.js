@@ -32,7 +32,7 @@ function ResimCevir(control, src) {
             data: { resimUrl: src },
             success: function (donen_veri) {
                 var img = document.getElementById(control);
-                if (donen_veri == "OK") {
+                if (donen_veri === "OK") {
                     img.src = src + "?t = " + new Date().getTime();
                 }
                 else {
@@ -47,7 +47,7 @@ function GetIlceler(ddlIl, ddlIlce) {
         function (data) {
             ddlIlce.empty();
             ddlIlce.append($('<option/>', {
-                value: 0,
+                val: null,
                 text: "Seçiniz"
             }));
             $.each(data, function (index, itemData) {
@@ -111,13 +111,13 @@ var Modals = function () {
 
         // onHidden callback
         $('#modal_onhidden').on('hidden.bs.modal', function () {
-            alert('onHidden callback fired.')
+            alert('onHidden callback fired.');
         });
     };
 
     // Bootbox extension
     var _componentModalBootbox = function () {
-        if (typeof bootbox == 'undefined') {
+        if (typeof bootbox === 'undefined') {
             console.warn('Warning - bootbox.min.js is not loaded.');
             return;
         }

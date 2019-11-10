@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -61,7 +62,7 @@ namespace CastAjansCore.WebUI.Controllers
                 ProjeListDto.Musteri = await _MusteriServis.GetByIdAsync(id.Value); ;
             }
 
-            ProjeListDto.Projeler = await tProje;
+            ProjeListDto.Projeler = (await tProje).OrderByDescending(i => i.TarihBas).ToList();
 
             return View(ProjeListDto);
         }
@@ -72,7 +73,7 @@ namespace CastAjansCore.WebUI.Controllers
             ProjeListDto ProjeListDto = new ProjeListDto();
             Task<List<Proje>> tProje = _ProjeServis.GetListAsync(i => i.IsiTakipEdenId == _loginHelper.UserHelper.Id && i.Aktif == true);
 
-            ProjeListDto.Projeler = await tProje;
+            ProjeListDto.Projeler = (await tProje).OrderByDescending(i => i.TarihBas).ToList();
 
             return View("Index", ProjeListDto);
         }
@@ -109,82 +110,82 @@ namespace CastAjansCore.WebUI.Controllers
             return RedirectToAction(nameof(ExcelList), new { id = Proje.GuidId });
         }
 
-        public async Task<IActionResult> ExcelList(string id)
-        {
-            ProjeDetailDto model = await _ProjeServis.GetDetailAsync(id);
+        //public async Task<IActionResult> ExcelList(string id)
+        //{
+        //    ProjeDetailDto model = await _ProjeServis.GetDetailAsync(id);
 
-            byte[] fileContents;
+        //    byte[] fileContents;
 
-            using (var package = new ExcelPackage())
-            {
-                var worksheet = package.Workbook.Worksheets.Add("Sheet1");
+        //    using (var package = new ExcelPackage())
+        //    {
+        //        var worksheet = package.Workbook.Worksheets.Add("Sheet1");
 
-                // Put whatever you want here in the sheet
-                // For example, for cell on row1 col1
-                worksheet.Cells[1, 1].Value = "Sıra";
-                worksheet.Cells[1, 1].Style.Font.Size = 12;
-                worksheet.Cells[1, 1].Style.Font.Bold = true;
-                worksheet.Cells[1, 1].Style.Border.Top.Style = ExcelBorderStyle.Hair;
+        //        // Put whatever you want here in the sheet
+        //        // For example, for cell on row1 col1
+        //        worksheet.Cells[1, 1].Value = "Sıra";
+        //        worksheet.Cells[1, 1].Style.Font.Size = 12;
+        //        worksheet.Cells[1, 1].Style.Font.Bold = true;
+        //        worksheet.Cells[1, 1].Style.Border.Top.Style = ExcelBorderStyle.Hair;
 
-                worksheet.Cells[1, 2].Value = "Ad";
-                worksheet.Cells[1, 2].Style.Font.Size = 12;
-                worksheet.Cells[1, 2].Style.Font.Bold = true;
-                worksheet.Cells[1, 2].Style.Border.Top.Style = ExcelBorderStyle.Hair;
+        //        worksheet.Cells[1, 2].Value = "Ad";
+        //        worksheet.Cells[1, 2].Style.Font.Size = 12;
+        //        worksheet.Cells[1, 2].Style.Font.Bold = true;
+        //        worksheet.Cells[1, 2].Style.Border.Top.Style = ExcelBorderStyle.Hair;
 
-                worksheet.Cells[1, 3].Value = "Soyad";
-                worksheet.Cells[1, 3].Style.Font.Size = 12;
-                worksheet.Cells[1, 3].Style.Font.Bold = true;
-                worksheet.Cells[1, 3].Style.Border.Top.Style = ExcelBorderStyle.Hair;
+        //        worksheet.Cells[1, 3].Value = "Soyad";
+        //        worksheet.Cells[1, 3].Style.Font.Size = 12;
+        //        worksheet.Cells[1, 3].Style.Font.Bold = true;
+        //        worksheet.Cells[1, 3].Style.Border.Top.Style = ExcelBorderStyle.Hair;
 
-                worksheet.Cells[1, 4].Value = "TC";
-                worksheet.Cells[1, 4].Style.Font.Size = 12;
-                worksheet.Cells[1, 4].Style.Font.Bold = true;
-                worksheet.Cells[1, 4].Style.Border.Top.Style = ExcelBorderStyle.Hair;
-                int count = 1;
-                foreach (var karakter in model.ProjeKarakterleri)
-                {
-                    foreach (var oyuncu in karakter.Oyuncular)
-                    {
-                        if (oyuncu.KarakterDurumu == EnuKarakterDurumu.KabulEdildi || oyuncu.KarakterDurumu == EnuKarakterDurumu.Oynadi)
-                        {
-                            count++;
+        //        worksheet.Cells[1, 4].Value = "TC";
+        //        worksheet.Cells[1, 4].Style.Font.Size = 12;
+        //        worksheet.Cells[1, 4].Style.Font.Bold = true;
+        //        worksheet.Cells[1, 4].Style.Border.Top.Style = ExcelBorderStyle.Hair;
+        //        int count = 1;
+        //        foreach (var karakter in model.ProjeKarakterleri)
+        //        {
+        //            foreach (var oyuncu in karakter.Oyuncular)
+        //            {
+        //                if (oyuncu.KarakterDurumu == EnuKarakterDurumu.KabulEdildi || oyuncu.KarakterDurumu == EnuKarakterDurumu.Oynadi)
+        //                {
+        //                    count++;
 
-                            worksheet.Cells[count, 1].Value = count - 1;
-                            worksheet.Cells[count, 1].Style.Font.Size = 12;
-                            worksheet.Cells[count, 1].Style.Border.Top.Style = ExcelBorderStyle.Hair;
+        //                    worksheet.Cells[count, 1].Value = count - 1;
+        //                    worksheet.Cells[count, 1].Style.Font.Size = 12;
+        //                    worksheet.Cells[count, 1].Style.Border.Top.Style = ExcelBorderStyle.Hair;
 
-                            worksheet.Cells[count, 2].Value = oyuncu.Adi;
-                            worksheet.Cells[count, 2].Style.Font.Size = 12;
-                            worksheet.Cells[count, 2].Style.Border.Top.Style = ExcelBorderStyle.Hair;
+        //                    worksheet.Cells[count, 2].Value = oyuncu.Adi;
+        //                    worksheet.Cells[count, 2].Style.Font.Size = 12;
+        //                    worksheet.Cells[count, 2].Style.Border.Top.Style = ExcelBorderStyle.Hair;
 
-                            worksheet.Cells[count, 3].Value = oyuncu.Soyadi;
-                            worksheet.Cells[count, 3].Style.Font.Size = 12;
-                            worksheet.Cells[count, 3].Style.Border.Top.Style = ExcelBorderStyle.Hair;
+        //                    worksheet.Cells[count, 3].Value = oyuncu.Soyadi;
+        //                    worksheet.Cells[count, 3].Style.Font.Size = 12;
+        //                    worksheet.Cells[count, 3].Style.Border.Top.Style = ExcelBorderStyle.Hair;
 
-                            worksheet.Cells[count, 4].Value = oyuncu.Tc;
-                            worksheet.Cells[count, 4].Style.Font.Size = 12;
-                            worksheet.Cells[count, 4].Style.Border.Top.Style = ExcelBorderStyle.Hair;
-                        }
-                    }
-                }
+        //                    worksheet.Cells[count, 4].Value = oyuncu.Tc;
+        //                    worksheet.Cells[count, 4].Style.Font.Size = 12;
+        //                    worksheet.Cells[count, 4].Style.Border.Top.Style = ExcelBorderStyle.Hair;
+        //                }
+        //            }
+        //        }
 
-                // So many things you can try but you got the idea.
+        //        // So many things you can try but you got the idea.
 
-                // Finally when you're done, export it to byte array.
-                fileContents = package.GetAsByteArray();
-            }
+        //        // Finally when you're done, export it to byte array.
+        //        fileContents = package.GetAsByteArray();
+        //    }
 
-            if (fileContents == null || fileContents.Length == 0)
-            {
-                return NotFound();
-            }
+        //    if (fileContents == null || fileContents.Length == 0)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return File(
-                fileContents: fileContents,
-                contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                fileDownloadName: "CastList.xlsx"
-            );
-        }
+        //    return File(
+        //        fileContents: fileContents,
+        //        contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        //        fileDownloadName: "CastList.xlsx"
+        //    );
+        //}
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -274,7 +275,7 @@ namespace CastAjansCore.WebUI.Controllers
                             ModelState.Remove($"Proje.ProjeKarakterleri[{i}].ProjeKarakterOyunculari[{oyuncuIndex}].Oyuncu.Kisi.Soyadi");
                         }
                     }
-                  
+
                 }
             }
             if (ModelState.IsValid)
@@ -379,6 +380,183 @@ namespace CastAjansCore.WebUI.Controllers
             }
 
             return archiveFile;
+        }
+
+        public async Task<FileResult> KimliklerDosya(string id)
+        {
+            ProjeDetailDto model = await _ProjeServis.GetDetailAsync(id);
+            List<InMemoryFile> files = new List<InMemoryFile>();
+            foreach (var karakter in model.ProjeKarakterleri)
+            {
+                foreach (var oyuncu in karakter.Oyuncular)
+                {
+                    if (oyuncu.KarakterDurumu == EnuKarakterDurumu.KabulEdildi)
+                    {
+
+                        if (oyuncu.KimlikOn.IsNotNull())
+                        {
+                            string dosyaYeri = FileHelper._WebRootPath + oyuncu.KimlikOn.Replace("/", "\\");
+                            if (System.IO.File.Exists(dosyaYeri))
+                            {
+                                string filename = $"{oyuncu.Adi} {oyuncu.Soyadi}_{oyuncu.Tc}_On{Path.GetExtension(oyuncu.KimlikOn)}";
+
+                                InMemoryFile file = new InMemoryFile
+                                {
+                                    FileName = filename,
+                                    Content = System.IO.File.ReadAllBytes(dosyaYeri)
+                                };
+                                files.Add(file);
+                            }
+                            dosyaYeri = FileHelper._WebRootPath + oyuncu.KimlikArka.Replace("/", "\\");
+                            if (System.IO.File.Exists(dosyaYeri))
+                            {
+                                string filename = $"{oyuncu.Adi} {oyuncu.Soyadi}_{oyuncu.Tc}_Arka{Path.GetExtension(oyuncu.KimlikArka)}";
+
+                                InMemoryFile file = new InMemoryFile
+                                {
+                                    FileName = filename,
+                                    Content = System.IO.File.ReadAllBytes(dosyaYeri)
+                                };
+                                files.Add(file);
+                            }
+                        }
+                    }
+                }
+            }
+            return File(GetZipArchive(files), System.Net.Mime.MediaTypeNames.Application.Zip, $"{model.ProjeAdi.Replace(" ", "")}.zip");
+        }
+
+        public async Task<IActionResult> ExcelList(string id)
+        {
+            ProjeDetailDto model = await _ProjeServis.GetDetailAsync(id);
+
+            byte[] fileContents;
+
+            using (var package = new ExcelPackage())
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                // Put whatever you want here in the sheet
+                // For example, for cell on row1 col1
+                worksheet.Cells[1, 1].Value = "Sıra";
+                worksheet.Cells[1, 1].Style.Font.Size = 12;
+                worksheet.Cells[1, 1].Style.Font.Bold = true;
+                worksheet.Cells[1, 1].Style.Border.Top.Style = ExcelBorderStyle.Hair;
+                worksheet.Column(1).Width = 10;
+
+                worksheet.Cells[1, 2].Value = "Ad";
+                worksheet.Cells[1, 2].Style.Font.Size = 12;
+                worksheet.Cells[1, 2].Style.Font.Bold = true;
+                worksheet.Cells[1, 2].Style.Border.Top.Style = ExcelBorderStyle.Hair;
+                worksheet.Column(2).Width = 25;
+
+                worksheet.Cells[1, 3].Value = "Soyad";
+                worksheet.Cells[1, 3].Style.Font.Size = 12;
+                worksheet.Cells[1, 3].Style.Font.Bold = true;
+                worksheet.Cells[1, 3].Style.Border.Top.Style = ExcelBorderStyle.Hair;
+                worksheet.Column(3).Width = 25;
+
+                worksheet.Cells[1, 4].Value = "TC";
+                worksheet.Cells[1, 4].Style.Font.Size = 12;
+                worksheet.Cells[1, 4].Style.Font.Bold = true;
+                worksheet.Cells[1, 4].Style.Border.Top.Style = ExcelBorderStyle.Hair;
+                worksheet.Column(4).Width = 25;
+
+                worksheet.Cells[1, 5].Value = "D.Tarihi";
+                worksheet.Cells[1, 5].Style.Font.Size = 12;
+                worksheet.Cells[1, 5].Style.Font.Bold = true;
+                worksheet.Cells[1, 5].Style.Border.Top.Style = ExcelBorderStyle.Hair;
+                worksheet.Column(5).Width = 25;
+
+                worksheet.Cells[1, 6].Value = "Telefon";
+                worksheet.Cells[1, 6].Style.Font.Size = 12;
+                worksheet.Cells[1, 6].Style.Font.Bold = true;
+                worksheet.Cells[1, 6].Style.Border.Top.Style = ExcelBorderStyle.Hair;
+                worksheet.Column(6).Width = 25;
+                 
+                worksheet.Cells[1, 7].Value = "İl";
+                worksheet.Cells[1, 7].Style.Font.Size = 12;
+                worksheet.Cells[1, 7].Style.Font.Bold = true;
+                worksheet.Column(7).Style.Border.Top.Style = ExcelBorderStyle.Hair;
+                worksheet.Column(7).Width = 25;
+
+                worksheet.Cells[1, 8].Value = "İlce";
+                worksheet.Cells[1, 8].Style.Font.Size = 12;
+                worksheet.Cells[1, 8].Style.Font.Bold = true;
+                worksheet.Column(8).Style.Border.Top.Style = ExcelBorderStyle.Hair;
+                worksheet.Column(8).Width = 25;
+
+                worksheet.Cells[1, 9].Value = "Adres";
+                worksheet.Cells[1, 9].Style.Font.Size = 12;
+                worksheet.Cells[1, 9].Style.Font.Bold = true;
+                worksheet.Cells[1, 9].Style.Border.Top.Style = ExcelBorderStyle.Hair;
+                worksheet.Column(9).Width = 50;
+                int count = 1;
+
+                foreach (var karakter in model.ProjeKarakterleri)
+                {
+                    foreach (var oyuncu in karakter.Oyuncular)
+                    {
+                        if (oyuncu.KarakterDurumu == EnuKarakterDurumu.KabulEdildi || oyuncu.KarakterDurumu == EnuKarakterDurumu.Oynadi)
+                        {
+                            count++;
+
+                            worksheet.Cells[count, 1].Value = count - 1;
+                            worksheet.Cells[count, 1].Style.Font.Size = 12;
+                            worksheet.Cells[count, 1].Style.Border.Top.Style = ExcelBorderStyle.Hair;
+
+                            worksheet.Cells[count, 2].Value = oyuncu.Adi;
+                            worksheet.Cells[count, 2].Style.Font.Size = 12;
+                            worksheet.Cells[count, 2].Style.Border.Top.Style = ExcelBorderStyle.Hair;
+
+                            worksheet.Cells[count, 3].Value = oyuncu.Soyadi;
+                            worksheet.Cells[count, 3].Style.Font.Size = 12;
+                            worksheet.Cells[count, 3].Style.Border.Top.Style = ExcelBorderStyle.Hair;
+
+                            worksheet.Cells[count, 4].Value = oyuncu.Tc;
+                            worksheet.Cells[count, 4].Style.Font.Size = 12;
+                            worksheet.Cells[count, 4].Style.Border.Top.Style = ExcelBorderStyle.Hair;
+
+                            worksheet.Cells[count, 5].Value = oyuncu.DogumTarihi;
+                            worksheet.Cells[count, 5].Style.Numberformat.Format = "dd-MM-yyyy";
+                            worksheet.Cells[count, 5].Style.Font.Size = 12;
+                            worksheet.Cells[count, 5].Style.Border.Top.Style = ExcelBorderStyle.Hair;
+
+                            worksheet.Cells[count, 6].Value = oyuncu.Telefon;
+                            worksheet.Cells[count, 6].Style.Font.Size = 12;
+                            worksheet.Cells[count, 6].Style.Border.Top.Style = ExcelBorderStyle.Hair;
+                             
+                            worksheet.Cells[count, 7].Value = oyuncu.Il;
+                            worksheet.Cells[count, 7].Style.Font.Size = 12;
+                            worksheet.Cells[count, 7].Style.Border.Top.Style = ExcelBorderStyle.Hair;
+
+                            worksheet.Cells[count, 8].Value = oyuncu.Ilce;
+                            worksheet.Cells[count, 8].Style.Font.Size = 12;
+                            worksheet.Cells[count, 8].Style.Border.Top.Style = ExcelBorderStyle.Hair;
+
+                            worksheet.Cells[count, 9].Value = oyuncu.Adres;
+                            worksheet.Cells[count, 9].Style.Font.Size = 12;
+                            worksheet.Cells[count, 9].Style.Border.Top.Style = ExcelBorderStyle.Hair;
+                        }
+                    }
+                }
+
+                // So many things you can try but you got the idea.
+
+                // Finally when you're done, export it to byte array.
+                fileContents = package.GetAsByteArray();
+            }
+
+            if (fileContents == null || fileContents.Length == 0)
+            {
+                return NotFound();
+            }
+
+            return File(
+                fileContents: fileContents,
+                contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                fileDownloadName: "CastList.xlsx"
+            );
         }
 
         public class InMemoryFile

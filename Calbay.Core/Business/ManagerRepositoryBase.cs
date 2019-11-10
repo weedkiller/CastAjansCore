@@ -36,18 +36,21 @@ namespace Calbay.Core.Business
 
         public virtual async Task AddAsync(TEntity entity, UserHelper userHelper)
         {
-            if (userHelper == null)
+            if (entity.Aktif.IsNull() || entity.Aktif)
             {
-                userHelper = new UserHelper();
+                if (userHelper == null)
+                {
+                    userHelper = new UserHelper();
+                }
+
+                entity.EkleyenId = userHelper.Id;
+                entity.EklemeZamani = DateTime.Now;
+                entity.GuncelleyenId = userHelper.Id;
+                entity.GuncellemeZamani = DateTime.Now;
+                entity.Aktif = true;
+
+                await _dal.AddAsync(entity);
             }
-
-            entity.EkleyenId = userHelper.Id;
-            entity.EklemeZamani = DateTime.Now;
-            entity.GuncelleyenId = userHelper.Id;
-            entity.GuncellemeZamani = DateTime.Now;
-            entity.Aktif = true;
-
-            await _dal.AddAsync(entity);
         }
 
         public virtual void Delete(int id, UserHelper userHelper)
@@ -91,7 +94,7 @@ namespace Calbay.Core.Business
             return await _dal.GetAsync(x => x.Id == id);
         }
 
-         
+
 
         public virtual List<TEntity> GetList(Expression<Func<TEntity, bool>> filter = null)
         {
@@ -133,7 +136,7 @@ namespace Calbay.Core.Business
             if (userHelper == null)
             {
                 userHelper = new UserHelper();
-            }            
+            }
             entity.GuncelleyenId = userHelper.Id;
             entity.GuncellemeZamani = DateTime.Now;
 
