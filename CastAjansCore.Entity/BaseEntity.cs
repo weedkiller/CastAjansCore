@@ -14,7 +14,7 @@ namespace CastAjansCore.Entity
 
         public DateTime GuncellemeZamani { get; set; }
 
-        public bool Aktif { get; set; }
+        public bool Aktif { get; set; } = true;
 
     }
 }
