@@ -3,6 +3,7 @@
 @using Calbay.Core.Helper
 @{
     Layout = null;
+    ViewData["Title"] = $"Life Ajans - {Model.MusteriAdi} {Model.ProjeAdi}";
 }
 
 <!DOCTYPE html>
@@ -11,7 +12,7 @@
 <head>
     <meta name="viewport" content="width=device-width" />
 
-    <title>Detail</title>
+    <title>@ViewData["Title"]</title>
 
     <!-- Global stylesheets -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
@@ -33,6 +34,12 @@
     <script src="/Limitless_2_2/js/app.js"></script>
     <script src="/Limitless_2_2/js/demo_pages/login.js"></script>
     <!-- /theme JS files -->
+
+    <style>
+        .form-group {
+            margin-bottom: 0;
+        }
+    </style>
 </head>
 <body>
 
@@ -54,15 +61,9 @@
                     <div class="card-body">
                         <fieldset>
                             <div class="form-group row">
-                                <label asp-for="IlgiliKisi" class="col-md-3 col-form-label"></label>
-                                <div class="col-md-9">
-                                    <input asp-for="IlgiliKisi" readonly class="form-control" />
-                                </div>
-                            </div>
-                            <div class="form-group row">
                                 <label asp-for="ProjeAdi" class="col-md-3 col-form-label"></label>
                                 <div class="col-md-9">
-                                    <input asp-for="ProjeAdi" readonly class="form-control" />
+                                    <input value="@($"{Model.MusteriAdi}-{Model.ProjeAdi}") readonly class="form-control" />
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -72,7 +73,7 @@
                                         <div class="col">
                                             <input asp-for="ProjeTarihBas.Date" readonly class="form-control" />
                                         </div>
-                                        @if (Model.ProjeTarihBas == Model.ProjeTarihBit)
+                                        @if (Model.ProjeTarihBas != Model.ProjeTarihBit)
                                         {
                                             <div class="col">
                                                 <input asp-for="ProjeTarihBit" readonly class="form-control" />
@@ -81,7 +82,48 @@
                                     </div>
                                 </div>
                             </div>
-
+                            <div class="form-group row">
+                                <label asp-for="IlgiliKisi" class="col-md-3 col-form-label"></label>
+                                <div class="col-md-9">
+                                    <input asp-for="IlgiliKisi" readonly class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Reji</label>
+                                <div class="col-md-9">
+                                    <input readonly class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Prodüksiyon</label>
+                                <div class="col-md-9">
+                                    <input readonly class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Yapımcı</label>
+                                <div class="col-md-9">
+                                    <input readonly class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Servis Sayısı</label>
+                                <div class="col-md-9">
+                                    <input readonly class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Dağıtıma Kalan Servis Sayısı</label>
+                                <div class="col-md-9">
+                                    <input readonly class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Açıklama</label>
+                                <div class="col-md-9">
+                                    <textarea rows="3" readonly class="form-control" />
+                                </div>
+                            </div>
                         </fieldset>
                     </div>
                 </div>
@@ -120,16 +162,16 @@
                             {
                                 @if (oyuncu.KarakterDurumu == CastAjansCore.Entity.EnuKarakterDurumu.KabulEdildi)
                                 {
-                        <tr>
-                            <td>@(i++)</td>
-                            <td>@oyuncu.TamAdi</td>
-                            <td><a href="tel:@oyuncu.Cep">@oyuncu.Cep</a></td>
-                            <td><a href="tel:@oyuncu.Telefon">@oyuncu.Telefon</a></td>
-                            <td>@oyuncu.Ilce</td>
-                            <td><input type="checkbox" /></td>
-                            <td><input type="checkbox" /></td>
-                            <td></td>
-                        </tr>
+                                    <tr>
+                                        <td>@(i++)</td>
+                                        <td>@oyuncu.TamAdi</td>
+                                        <td><a href="tel:@oyuncu.Cep">@oyuncu.Cep</a></td>
+                                        <td><a href="tel:@oyuncu.Telefon">@oyuncu.Telefon</a></td>
+                                        <td>@oyuncu.Ilce</td>
+                                        <td><input type="checkbox" /></td>
+                                        <td><input type="checkbox" /></td>
+                                        <td></td>
+                                    </tr>
                                 }
                             }
 

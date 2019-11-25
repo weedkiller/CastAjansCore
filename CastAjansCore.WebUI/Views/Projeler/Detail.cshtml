@@ -3,6 +3,7 @@
 @using Calbay.Core.Helper
 @{
     Layout = null;
+    ViewData["Title"] =  $"Life Ajans - {Model.MusteriAdi} {Model.ProjeAdi}";
 }
 
 <!DOCTYPE html>
@@ -11,7 +12,7 @@
 <head>
     <meta name="viewport" content="width=device-width" />
 
-    <title>Detail</title>
+    <title>@ViewData["Title"]</title>
 
     <!-- Global stylesheets -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
@@ -41,6 +42,11 @@
     <script src="/Limitless_2_2/js/app.js"></script>
     <script src="/Limitless_2_2/js/demo_pages/login.js"></script>
     <!-- /theme JS files -->
+    <style>
+        .form-group {
+            margin-bottom: 0;
+        }
+    </style>
 </head>
 <body>
 
@@ -56,10 +62,10 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header header-elements-inline">
-                        <h5 class="card-title"><i class="mi-content-paste mr-2"></i> İletişim Bilgileri</h5>
+                        <h5 class="card-title"><i class="mi-content-paste mr-2"></i>Proje Bilgileri</h5>
                         @if (LoginHelper.UserHelper != null)
                         {
-                            <div class="right"><a asp-action="MailGonder" asp-route-Id="@Model.GuidId" class="btn btn-outline-primary">Mail Gonder</a></div>
+                        <div class="right"><a asp-action="MailGonder" asp-route-Id="@Model.GuidId" class="btn btn-outline-primary">Mail Gonder</a></div>
                         }
                         <div class="right"><a asp-action="zip" asp-route-Id="@Model.GuidId" class="btn btn-secondary">Dosyaları İndir</a></div>
 
@@ -68,63 +74,47 @@
                     <div class="card-body">
                         <fieldset>
                             <div class="form-group row">
-                                <label asp-for="IlgiliKisi" class="col-md-3 col-form-label"></label>
-                                <div class="col-md-9">
-                                    <input asp-for="IlgiliKisi" readonly class="form-control" />
+                                <label asp-for="ProjeAdi" class="col-4 col-sm-3 col-form-label"></label>
+                                <div class="col-8 col-sm-9">
+                                    <div class="row">
+                                        <div class="col"><input asp-for="MusteriAdi" readonly class="form-control" /></div>
+                                        <div class="col"><input asp-for="ProjeAdi" readonly class="form-control" /></div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label asp-for="IlgiliEPosta" class="col-md-3 col-form-label"></label>
-                                <div class="col-md-9">
-                                    <input asp-for="IlgiliEPosta" readonly class="form-control" />
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label asp-for="IlgiliCep" class="col-md-3 col-form-label"></label>
-                                <div class="col-md-9">
-                                    <input asp-for="IlgiliCep" readonly class="form-control" />
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label asp-for="IlgiliTelefon" class="col-md-3 col-form-label"></label>
-                                <div class="col-md-9">
-                                    <input asp-for="IlgiliTelefon" readonly class="form-control" />
-                                </div>
-                            </div>
-                        </fieldset>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card">
-                    <div class="card-header header-elements-inline">
-                        <h5 class="card-title"><i class="mi-content-paste mr-2"></i> İş Tanımı</h5>
-                    </div>
-                    <div class="card-body">
-                        <fieldset>
-                            <div class="form-group row">
-                                <label asp-for="ProjeAdi" class="col-md-3 col-form-label"></label>
-                                <div class="col-md-9">
-                                    <input asp-for="ProjeAdi" readonly class="form-control" />
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-md-3 col-form-label">Proje Tarihi</label>
-                                <div class="col-md-9">
+                                <label class="col-4 col-3 col-form-label">Proje Tarihi</label>
+                                <div class="col-8 col-sm-9">
                                     <div class="row">
                                         <div class="col">
                                             <input asp-for="ProjeTarihBas.Date" readonly class="form-control" />
                                         </div>
-                                        @if (Model.ProjeTarihBas == Model.ProjeTarihBit)
+                                        @if (Model.ProjeTarihBas != Model.ProjeTarihBit)
                                         {
-                                            <div class="col">
-                                                <input asp-for="ProjeTarihBit" readonly class="form-control" />
-                                            </div>
+                                        <div class="col">
+                                            <input asp-for="ProjeTarihBit" readonly class="form-control" />
+                                        </div>
                                         }
                                     </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="IlgiliKisi" class="col-4 col-sm-3 col-form-label"></label>
+                                <div class="col-8 col-sm-9">
+                                    <div class="row">
+                                        <div class="col"><input asp-for="IlgiliKisi" readonly class="form-control" /></div>
+                                        <div class="col"><input asp-for="IlgiliEPosta" readonly class="form-control" /></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="IlgiliTelefon" class="col-4 col-sm-3 col-form-label"></label>
+                                <div class="col-8 col-sm-9">
+                                    <div class="row">
+                                        <div class="col"><a class="form-control" href="tel:@Model.IlgiliCep">@Model.IlgiliCep</a></div>
+                                        <div class="col"><a class="form-control" href="tel:@Model.IlgiliTelefon">@Model.IlgiliTelefon</a></div>
+                                    </div>
+
                                 </div>
                             </div>
                         </fieldset>
@@ -132,153 +122,155 @@
                 </div>
             </div>
         </div>
+
+
         @foreach (var karakter in Model.ProjeKarakterleri)
         {
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="card">
-                        <div class="card-header bg-white header-elements-inline">
-                            <h4 class="card-title">@karakter.Adi</h4>
-                            <div class="header-elements">
-                                <div class="list-icons">
-                                    <a class="list-icons-item" data-action="collapse"></a>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header bg-white header-elements-inline">
+                        <h4 class="card-title">@karakter.Adi</h4>
+                        <div class="header-elements">
+                            <div class="list-icons">
+                                <a class="list-icons-item" data-action="collapse"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        @foreach (var oyuncu in karakter.Oyuncular)
+                            {
+                        <div class="row">
+                            <div class="col-6 col-md-4">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="card">
+                                            <div class="card-img-actions m-1">
+                                                <img class="card-img img-fluid" src="@(oyuncu.ProfilUrl + "?v=" + DateTime.Now.ToString("ddMMyyyyHHmmss"))" alt="">
+                                                <div class="card-img-actions-overlay card-img">
+                                                    <a href="@(oyuncu.ProfilUrl + "?v=" + DateTime.Now.ToString("ddMMyyyyHHmmss"))" class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round legitRipple" data-popup="lightbox" rel="group">
+                                                        <i class="icon-plus3"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <h6 class="media-title font-weight-semibold">
+                                    <a href="#">@oyuncu.Adi @oyuncu.Soyadi</a>
+                                </h6>
+
+                                <button class="btn btn-@(oyuncu.KarakterDurumu == CastAjansCore.Entity.EnuKarakterDurumu.TeklifAtildi ? "primary" : "danger") form-control" id="@($"btn_{karakter.Id}_{@oyuncu.Id}")" onclick="OyuncuSec('@Model.GuidId',@karakter.Id,@oyuncu.Id)">@(oyuncu.KarakterDurumu == CastAjansCore.Entity.EnuKarakterDurumu.TeklifAtildi ? "Seç" : "Çıkar")</button>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <fieldset>
+                                            <div class="form-group row">
+                                                <label asp-for="@oyuncu.Yas" class="col col-md-3 col-form-label"></label>
+                                                <div class="col col-md-9">
+                                                    <input value="@oyuncu.Yas" readonly class="form-control" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label asp-for="@oyuncu.Boy" class="col col-md-3 col-form-label"></label>
+                                                <div class="col col-md-9">
+                                                    <input value="@($"{oyuncu.Boy} cm")" readonly class="form-control" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label asp-for="@oyuncu.Kilo" class="col col-md-3 col-form-label"></label>
+                                                <div class="col col-md-9">
+                                                    <input value="@($"{oyuncu.Kilo} kg")" readonly class="form-control" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label asp-for="@oyuncu.Tecrubeler" class="col-md-3 col-form-label"></label>
+                                                <div class="col-md-9">
+                                                    <textarea rows="3" readonly class=" form-control">@oyuncu.Tecrubeler</textarea>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-8">
+                                <div class="row">
+                                    @foreach (string resim in oyuncu.OyuncuResimleri)
+                                            {
+
+                                    <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+                                        <div class="card">
+                                            <div class="card-img-actions m-1">
+                                                <img class="card-img img-fluid" src="@(resim + "?v=" + DateTime.Now.ToString("ddMMyyyyHHmmss"))" alt="">
+                                                <div class="card-img-actions-overlay card-img">
+                                                    <a href="@(resim + "?v=" + DateTime.Now.ToString("ddMMyyyyHHmmss"))" class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round legitRipple" data-popup="lightbox" rel="group">
+                                                        <i class="icon-plus3"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                            }
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <fieldset>
+                                            <div class="form-group row">
+                                                <label asp-for="@oyuncu.GozRengi" class="col col-md-3 col-form-label"></label>
+                                                <div class="col col-md-9">
+                                                    <input value="@oyuncu.GozRengi.ToDisplay()" readonly class="form-control" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label asp-for="@oyuncu.SacRengi" class="col col-md-3 col-form-label"></label>
+                                                <div class="col col-md-9">
+                                                    <input value="@oyuncu.SacRengi.ToDisplay()" readonly class="form-control" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label asp-for="@oyuncu.TenRengi" class="col col-md-3 col-form-label"></label>
+                                                <div class="col col-md-9">
+                                                    <input value="@oyuncu.TenRengi.ToDisplay()" readonly class="form-control" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label asp-for="@oyuncu.UstBeden" class="col col-md-3 col-form-label"></label>
+                                                <div class="col col-md-9">
+                                                    <input value="@oyuncu.UstBeden" readonly class="form-control" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label asp-for="@oyuncu.AltBeden" class="col col-md-3 col-form-label"></label>
+                                                <div class="col col-md-9">
+                                                    <input value="@oyuncu.AltBeden" readonly class="form-control" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label asp-for="@oyuncu.Yetenekleri" class="col-md-3 col-form-label"></label>
+                                                <div class="col-md-9">
+                                                    <textarea rows="3" readonly class="form-control">@oyuncu.Yetenekleri</textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label asp-for="@oyuncu.YabanciDil" class="col-md-3 col-form-label"></label>
+                                                <div class="col-md-9">
+                                                    <textarea rows="3" readonly class="form-control">@oyuncu.YabanciDil</textarea>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="card-body">
-                            @foreach (var oyuncu in karakter.Oyuncular)
-                            {
-                                <div class="row">
-                                    <div class="col-6 col-md-4">
-                                        <div class="row">
-                                            <div class="col">
-                                                <div class="card">
-                                                    <div class="card-img-actions m-1">
-                                                        <img class="card-img img-fluid" src="@oyuncu.ProfilUrl" alt="">
-                                                        <div class="card-img-actions-overlay card-img">
-                                                            <a href="@oyuncu.ProfilUrl" class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round legitRipple" data-popup="lightbox" rel="group">
-                                                                <i class="icon-plus3"></i>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <h6 class="media-title font-weight-semibold">
-                                            <a href="#">@oyuncu.Adi @oyuncu.Soyadi</a>
-                                        </h6>
-
-                                        <button class="btn btn-@(oyuncu.KarakterDurumu == CastAjansCore.Entity.EnuKarakterDurumu.TeklifAtildi ? "primary" : "danger") form-control" id="@($"btn_{karakter.Id}_{@oyuncu.Id}")" onclick="OyuncuSec('@Model.GuidId',@karakter.Id,@oyuncu.Id)">@(oyuncu.KarakterDurumu == CastAjansCore.Entity.EnuKarakterDurumu.TeklifAtildi ? "Seç" : "Çıkar")</button>
-
-                                        <div class="row">
-                                            <div class="col">
-                                                <fieldset>
-                                                    <div class="form-group row">
-                                                        <label asp-for="@oyuncu.Yas" class="col-md-3 col-form-label"></label>
-                                                        <div class="col-md-9">
-                                                            <input value="@oyuncu.Yas" readonly class="form-control" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group row">
-                                                        <label asp-for="@oyuncu.Boy" class="col-md-3 col-form-label"></label>
-                                                        <div class="col-md-9">
-                                                            <input value="@($"{oyuncu.Boy} cm")" readonly class="form-control" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group row">
-                                                        <label asp-for="@oyuncu.Kilo" class="col-md-3 col-form-label"></label>
-                                                        <div class="col-md-9">
-                                                            <input value="@($"{oyuncu.Kilo} kg")" readonly class="form-control" />
-                                                        </div>
-                                                    </div>
-
-                                                </fieldset>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-6 col-md-8">
-                                        <div class="row">
-                                            @foreach (string resim in oyuncu.OyuncuResimleri)
-                                            {
-                                                <div class="col-6 col-md-4 col-lg-3 col-xl-2">
-                                                    <div class="card">
-                                                        <div class="card-img-actions m-1">
-                                                            <img class="card-img img-fluid" src="@resim" alt="">
-                                                            <div class="card-img-actions-overlay card-img">
-                                                                <a href="@resim" class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round legitRipple" data-popup="lightbox" rel="group">
-                                                                    <i class="icon-plus3"></i>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            }
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <fieldset>
-                                                    <div class="form-group row">
-                                                        <label asp-for="@oyuncu.GozRengi" class="col-md-3 col-form-label"></label>
-                                                        <div class="col-md-9">
-                                                            <input value="@oyuncu.GozRengi.ToDisplay()" readonly class="form-control" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group row">
-                                                        <label asp-for="@oyuncu.SacRengi" class="col-md-3 col-form-label"></label>
-                                                        <div class="col-md-9">
-                                                            <input value="@oyuncu.SacRengi.ToDisplay()" readonly class="form-control" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group row">
-                                                        <label asp-for="@oyuncu.TenRengi" class="col-md-3 col-form-label"></label>
-                                                        <div class="col-md-9">
-                                                            <input value="@oyuncu.TenRengi.ToDisplay()" readonly class="form-control" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group row">
-                                                        <label asp-for="@oyuncu.UstBeden" class="col-md-3 col-form-label"></label>
-                                                        <div class="col-md-9">
-                                                            <input value="@oyuncu.UstBeden" readonly class="form-control" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group row">
-                                                        <label asp-for="@oyuncu.AltBeden" class="col-md-3 col-form-label"></label>
-                                                        <div class="col-md-9">
-                                                            <input value="@oyuncu.AltBeden" readonly class="form-control" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group row">
-                                                        <label asp-for="@oyuncu.YabanciDil" class="col-md-3 col-form-label"></label>
-                                                        <div class="col-md-9">
-                                                            <textarea rows="3" readonly class="form-control">@oyuncu.YabanciDil</textarea>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group row">
-                                                        <label asp-for="@oyuncu.Yetenekleri" class="col-md-3 col-form-label"></label>
-                                                        <div class="col-md-9">
-                                                            <textarea rows="3" readonly class="form-control">@oyuncu.Yetenekleri</textarea>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group row">
-                                                        <label asp-for="@oyuncu.Tecrubeler" class="col-md-3 col-form-label"></label>
-                                                        <div class="col-md-9">
-                                                            <textarea rows="3" readonly class=" form-control">@oyuncu.Tecrubeler</textarea>
-                                                        </div>
-                                                    </div>
-                                                </fieldset>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <hr />
-                                <hr />
+                        <hr />
+                        <hr />
                             }
-                        </div>
                     </div>
                 </div>
             </div>
+        </div>
         }
     </div>
 

@@ -21,6 +21,7 @@ namespace CastAjansCore.DataLayer.Concrete.EntityFramework
                     .Select(p => new ProjeDetailDto
                     {
                         Id = p.Id,
+                        MusteriAdi = p.Musteri.Adi,
                         ProjeAdi = p.Adi,
                         ProjeTarihBas = p.TarihBas,
                         ProjeTarihBit = p.TarihBit,

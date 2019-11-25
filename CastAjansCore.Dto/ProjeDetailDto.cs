@@ -23,6 +23,9 @@ namespace CastAjansCore.Dto
         [Display(Name = "İlgili EPosta")]        
         public string IlgiliEPosta { get; set; }
 
+        [Display(Name = "Müşteri")]
+        public string MusteriAdi { get; set; }
+
         [Display(Name = "Proje Adı")]
         public string ProjeAdi { get; set; }
 

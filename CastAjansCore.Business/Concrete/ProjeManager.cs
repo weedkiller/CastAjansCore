@@ -113,6 +113,7 @@ namespace CastAjansCore.Business.Concrete
                 {
                     Id = proje.Id,
                     GuidId = proje.GuidId,
+                    MusteriAdi = proje.Musteri.Adi,
                     ProjeAdi = proje.Adi,
                     ProjeTarihBas = proje.TarihBas,
                     ProjeTarihBit = proje.TarihBit,
