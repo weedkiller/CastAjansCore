@@ -63,7 +63,7 @@
                             <div class="form-group row">
                                 <label asp-for="ProjeAdi" class="col-md-3 col-form-label"></label>
                                 <div class="col-md-9">
-                                    <input value="@($"{Model.MusteriAdi}-{Model.ProjeAdi}") readonly class="form-control" />
+                                    <input value="@($"{Model.MusteriAdi}-{Model.ProjeAdi}")" readonly class="form-control" />
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -75,53 +75,75 @@
                                         </div>
                                         @if (Model.ProjeTarihBas != Model.ProjeTarihBit)
                                         {
-                                            <div class="col">
-                                                <input asp-for="ProjeTarihBit" readonly class="form-control" />
-                                            </div>
+                                        <div class="col">
+                                            <input asp-for="ProjeTarihBit" readonly class="form-control" />
+                                        </div>
                                         }
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <label asp-for="IlgiliKisi" class="col-md-3 col-form-label"></label>
-                                <div class="col-md-9">
-                                    <input asp-for="IlgiliKisi" readonly class="form-control" />
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label asp-for="IlgiliKisi" class="col-md-3 col-form-label"></label>
+                                        <div class="col-md-9">
+                                            <input asp-for="IlgiliKisi" readonly class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-md-3 col-form-label">Reji</label>
+                                        <div class="col-md-9">
+                                            <input readonly class="form-control" />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <label class="col-md-3 col-form-label">Reji</label>
-                                <div class="col-md-9">
-                                    <input readonly class="form-control" />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-md-3 col-form-label">Prodüksiyon</label>
+                                        <div class="col-md-9">
+                                            <input readonly class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-md-3 col-form-label">Yapımcı</label>
+                                        <div class="col-md-9">
+                                            <input readonly class="form-control" />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <label class="col-md-3 col-form-label">Prodüksiyon</label>
-                                <div class="col-md-9">
-                                    <input readonly class="form-control" />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-md-3 col-form-label">Servis Sayısı</label>
+                                        <div class="col-md-9">
+                                            <input readonly class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-md-3 col-form-label">Dağıtıma Kalan Servis Sayısı</label>
+                                        <div class="col-md-9">
+                                            <input readonly class="form-control" />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <label class="col-md-3 col-form-label">Yapımcı</label>
-                                <div class="col-md-9">
-                                    <input readonly class="form-control" />
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-md-3 col-form-label">Servis Sayısı</label>
-                                <div class="col-md-9">
-                                    <input readonly class="form-control" />
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-md-3 col-form-label">Dağıtıma Kalan Servis Sayısı</label>
-                                <div class="col-md-9">
-                                    <input readonly class="form-control" />
-                                </div>
-                            </div>
+
+
+
                             <div class="form-group row">
                                 <label class="col-md-3 col-form-label">Açıklama</label>
                                 <div class="col-md-9">
-                                    <textarea rows="3" readonly class="form-control" />
+                                    <input readonly class="form-control" />
                                 </div>
                             </div>
                         </fieldset>
@@ -133,52 +155,52 @@
 
         @foreach (var karakter in Model.ProjeKarakterleri)
         {
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="card">
-                        <div class="card-header bg-white header-elements-inline">
-                            <h6 class="card-title">@karakter.Adi</h6>
-                            <div class="header-elements">
-                                <div class="list-icons">
-                                    <a class="list-icons-item" data-action="collapse"></a>
-                                </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header bg-white header-elements-inline">
+                        <h6 class="card-title">@karakter.Adi</h6>
+                        <div class="header-elements">
+                            <div class="list-icons">
+                                <a class="list-icons-item" data-action="collapse"></a>
                             </div>
                         </div>
+                    </div>
 
-                        <table class="table table-striped">
-                            <tr>
-                                <td>Sıra</td>
-                                <td>Ad Soyad</td>
-                                <td>Cep</td>
-                                <td>Telefon</td>
-                                <td>İlçe</td>
-                                <td>Geldi</td>
-                                <td>Gelmedi</td>
-                            </tr>
-                            @{
+                    <table class="table table-striped">
+                        <tr>
+                            <td>Sıra</td>
+                            <td>Ad Soyad</td>
+                            <td>Cep</td>
+                            <td>Telefon</td>
+                            <td>İlçe</td>
+                            <td>Geldi</td>
+                            <td>Gelmedi</td>
+                        </tr>
+                        @{
                                 int i = 1;
-                            }
-                            @foreach (var oyuncu in karakter.Oyuncular)
+                        }
+                        @foreach (var oyuncu in karakter.Oyuncular)
                             {
-                                @if (oyuncu.KarakterDurumu == CastAjansCore.Entity.EnuKarakterDurumu.KabulEdildi)
+                        @if (oyuncu.KarakterDurumu == CastAjansCore.Entity.EnuKarakterDurumu.KabulEdildi)
                                 {
-                                    <tr>
-                                        <td>@(i++)</td>
-                                        <td>@oyuncu.TamAdi</td>
-                                        <td><a href="tel:@oyuncu.Cep">@oyuncu.Cep</a></td>
-                                        <td><a href="tel:@oyuncu.Telefon">@oyuncu.Telefon</a></td>
-                                        <td>@oyuncu.Ilce</td>
-                                        <td><input type="checkbox" /></td>
-                                        <td><input type="checkbox" /></td>
-                                        <td></td>
-                                    </tr>
+                        <tr>
+                            <td>@(i++)</td>
+                            <td>@oyuncu.TamAdi</td>
+                            <td><a href="tel:@oyuncu.Cep">@oyuncu.Cep</a></td>
+                            <td><a href="tel:@oyuncu.Telefon">@oyuncu.Telefon</a></td>
+                            <td>@oyuncu.Ilce</td>
+                            <td><input type="checkbox" /></td>
+                            <td><input type="checkbox" /></td>
+                            <td></td>
+                        </tr>
                                 }
                             }
 
-                        </table>
-                    </div>
+                    </table>
                 </div>
             </div>
+        </div>
         }
     </div>
 </body>
