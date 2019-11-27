@@ -148,7 +148,7 @@ namespace CastAjansCore.Business.Concrete
                             Soyadi = oyuncu.Oyuncu.Kisi.Soyadi,
                             DogumTarihi = oyuncu.Oyuncu.Kisi.DogumTarihi,
                             Cep = oyuncu.Oyuncu.Kisi.Cep,
-                            Telefon = oyuncu.Oyuncu.Kisi.Telefon.IfIsNull(oyuncu.Oyuncu.Kisi.Telefon2).IfIsNull("").ToString(),
+                            Telefon = oyuncu.Oyuncu.Kisi.Telefon ?? oyuncu.Oyuncu.Kisi.Telefon2 ?? "",
                             Adres = oyuncu.Oyuncu.Kisi.Adres,
                             Il = ((Il)((Ilce)oyuncu.Oyuncu.Kisi.Ilce.IfIsNull(new Ilce())).Il.IfIsNull(new Il())).Adi,
                             Ilce = ((Ilce)oyuncu.Oyuncu.Kisi.Ilce.IfIsNull(new Ilce())).Adi,

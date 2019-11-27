@@ -442,7 +442,7 @@ namespace CastAjansCore.WebUI.Controllers
                 worksheet.Cells[1, 1].Style.Font.Size = 12;
                 worksheet.Cells[1, 1].Style.Font.Bold = true;
                 worksheet.Cells[1, 1].Style.Border.Top.Style = ExcelBorderStyle.Hair;
-                worksheet.Column(1).Width = 10;
+                worksheet.Column(1).Width = 6;
 
                 worksheet.Cells[1, 2].Value = "Ad";
                 worksheet.Cells[1, 2].Style.Font.Size = 12;
@@ -459,38 +459,40 @@ namespace CastAjansCore.WebUI.Controllers
                 worksheet.Cells[1, 4].Value = "TC";
                 worksheet.Cells[1, 4].Style.Font.Size = 12;
                 worksheet.Cells[1, 4].Style.Font.Bold = true;
+                worksheet.Cells[1, 4].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 worksheet.Cells[1, 4].Style.Border.Top.Style = ExcelBorderStyle.Hair;
-                worksheet.Column(4).Width = 25;
+                worksheet.Column(4).Width = 18;
 
                 worksheet.Cells[1, 5].Value = "D.Tarihi";
                 worksheet.Cells[1, 5].Style.Font.Size = 12;
                 worksheet.Cells[1, 5].Style.Font.Bold = true;
+                worksheet.Cells[1, 5].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 worksheet.Cells[1, 5].Style.Border.Top.Style = ExcelBorderStyle.Hair;
-                worksheet.Column(5).Width = 25;
+                worksheet.Column(5).Width = 18;
 
                 worksheet.Cells[1, 6].Value = "Telefon";
                 worksheet.Cells[1, 6].Style.Font.Size = 12;
                 worksheet.Cells[1, 6].Style.Font.Bold = true;
                 worksheet.Cells[1, 6].Style.Border.Top.Style = ExcelBorderStyle.Hair;
-                worksheet.Column(6).Width = 25;
-                 
+                worksheet.Column(6).Width = 20;
+
                 worksheet.Cells[1, 7].Value = "İl";
                 worksheet.Cells[1, 7].Style.Font.Size = 12;
                 worksheet.Cells[1, 7].Style.Font.Bold = true;
                 worksheet.Column(7).Style.Border.Top.Style = ExcelBorderStyle.Hair;
-                worksheet.Column(7).Width = 25;
+                worksheet.Column(7).Width = 20;
 
                 worksheet.Cells[1, 8].Value = "İlce";
                 worksheet.Cells[1, 8].Style.Font.Size = 12;
                 worksheet.Cells[1, 8].Style.Font.Bold = true;
                 worksheet.Column(8).Style.Border.Top.Style = ExcelBorderStyle.Hair;
-                worksheet.Column(8).Width = 25;
+                worksheet.Column(8).Width = 20;
 
                 worksheet.Cells[1, 9].Value = "Adres";
                 worksheet.Cells[1, 9].Style.Font.Size = 12;
                 worksheet.Cells[1, 9].Style.Font.Bold = true;
                 worksheet.Cells[1, 9].Style.Border.Top.Style = ExcelBorderStyle.Hair;
-                worksheet.Column(9).Width = 50;
+                worksheet.Column(9).Width = 60;
                 int count = 1;
 
                 foreach (var karakter in model.ProjeKarakterleri)
@@ -515,17 +517,19 @@ namespace CastAjansCore.WebUI.Controllers
 
                             worksheet.Cells[count, 4].Value = oyuncu.Tc;
                             worksheet.Cells[count, 4].Style.Font.Size = 12;
+                            worksheet.Cells[count, 4].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                             worksheet.Cells[count, 4].Style.Border.Top.Style = ExcelBorderStyle.Hair;
 
                             worksheet.Cells[count, 5].Value = oyuncu.DogumTarihi;
                             worksheet.Cells[count, 5].Style.Numberformat.Format = "dd-MM-yyyy";
                             worksheet.Cells[count, 5].Style.Font.Size = 12;
+                            worksheet.Cells[count, 5].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                             worksheet.Cells[count, 5].Style.Border.Top.Style = ExcelBorderStyle.Hair;
 
-                            worksheet.Cells[count, 6].Value = oyuncu.Telefon;
+                            worksheet.Cells[count, 6].Value = oyuncu.Cep ?? oyuncu.Telefon;
                             worksheet.Cells[count, 6].Style.Font.Size = 12;
                             worksheet.Cells[count, 6].Style.Border.Top.Style = ExcelBorderStyle.Hair;
-                             
+
                             worksheet.Cells[count, 7].Value = oyuncu.Il;
                             worksheet.Cells[count, 7].Style.Font.Size = 12;
                             worksheet.Cells[count, 7].Style.Border.Top.Style = ExcelBorderStyle.Hair;
