@@ -40,7 +40,7 @@ namespace CastAjansCore.WebUI.Controllers
         public async Task<IActionResult> Index()
         {
 
-            var Musterilar = await _MusteriServis.GetListAsync();
+            var Musterilar = await _MusteriServis.GetListAsync(i=>i.Aktif==true);
             return View(Musterilar.OrderBy(i => i.Adi));
         }
 

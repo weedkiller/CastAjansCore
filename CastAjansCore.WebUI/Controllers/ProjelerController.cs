@@ -256,39 +256,88 @@ namespace CastAjansCore.WebUI.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken] 
         public async Task<IActionResult> Edit(int? id, Proje Proje)
         {
-            if (Proje.ProjeKarakterleri.IsNotNull())
+            try
             {
-                for (int i = Proje.ProjeKarakterleri.Count - 1; i >= 0; i--)
-                {
-                    if (Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari.IsNull() || Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari.Count == 0)
-                    {
-                        Proje.ProjeKarakterleri.Remove(Proje.ProjeKarakterleri[i]);
-                    }
-                    else
-                    {
-                        for (int oyuncuIndex = 0; oyuncuIndex < Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari.Count; oyuncuIndex++)
-                        {
-                            ModelState.Remove($"Proje.ProjeKarakterleri[{i}].ProjeKarakterOyunculari[{oyuncuIndex}].Oyuncu.Kisi.Adi");
-                            ModelState.Remove($"Proje.ProjeKarakterleri[{i}].ProjeKarakterOyunculari[{oyuncuIndex}].Oyuncu.Kisi.Soyadi");
-                        }
-                    }
 
+
+                if (Proje.ProjeKarakterleri.IsNotNull())
+                {
+                    for (int i = Proje.ProjeKarakterleri.Count - 1; i >= 0; i--)
+                    {
+                        if (Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari.IsNull() || Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari.Count == 0)
+                        {
+                            Proje.ProjeKarakterleri.Remove(Proje.ProjeKarakterleri[i]);
+                        }
+                        else
+                        {
+                            //ModelState.Remove($"Proje.ProjeKarakterleri[{i}]");
+                            for (int oyuncuIndex = 0; oyuncuIndex < Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari.Count; oyuncuIndex++)
+                            {
+                                //Proje.ProjeKarakterleri[i].ProjeKarakterOyunculari[0].Oyuncu.Kisi.Uyruk.Id
+                                ModelState.Remove($"Proje.ProjeKarakterleri[{i}]");
+                                ModelState.Remove($"Proje.ProjeKarakterleri[{i}].ProjeKarakterOyunculari[{oyuncuIndex}].Id");
+                                ModelState.Remove($"Proje.ProjeKarakterleri[{i}].ProjeKarakterOyunculari[{oyuncuIndex}].OyuncuId");
+                                ModelState.Remove($"Proje.ProjeKarakterleri[{i}].ProjeKarakterOyunculari[{oyuncuIndex}].Oyuncu.Id");
+                                ModelState.Remove($"Proje.ProjeKarakterleri[{i}].ProjeKarakterOyunculari[{oyuncuIndex}].Oyuncu.EkleyenId");
+                                ModelState.Remove($"Proje.ProjeKarakterleri[{i}].ProjeKarakterOyunculari[{oyuncuIndex}].Oyuncu.EklemeZamani");
+                                ModelState.Remove($"Proje.ProjeKarakterleri[{i}].ProjeKarakterOyunculari[{oyuncuIndex}].Oyuncu.GuncelleyenId");
+                                ModelState.Remove($"Proje.ProjeKarakterleri[{i}].ProjeKarakterOyunculari[{oyuncuIndex}].Oyuncu.GuncellemeZamani");
+                                ModelState.Remove($"Proje.ProjeKarakterleri[{i}].ProjeKarakterOyunculari[{oyuncuIndex}].Oyuncu.Aktif");
+                                ModelState.Remove($"Proje.ProjeKarakterleri[{i}].ProjeKarakterOyunculari[{oyuncuIndex}].Oyuncu.Kisi.Id");
+                                ModelState.Remove($"Proje.ProjeKarakterleri[{i}].ProjeKarakterOyunculari[{oyuncuIndex}].Oyuncu.Kisi.Adi");
+                                ModelState.Remove($"Proje.ProjeKarakterleri[{i}].ProjeKarakterOyunculari[{oyuncuIndex}].Oyuncu.Kisi.Soyadi");
+                                //ModelState.Remove($"Proje.ProjeKarakterleri[{i}].ProjeKarakterOyunculari[{oyuncuIndex}].Oyuncu.Kisi.EkleyenId");
+                                //ModelState.Remove($"Proje.ProjeKarakterleri[{i}].ProjeKarakterOyunculari[{oyuncuIndex}].Oyuncu.Kisi.EklemeZamani");
+                                //ModelState.Remove($"Proje.ProjeKarakterleri[{i}].ProjeKarakterOyunculari[{oyuncuIndex}].Oyuncu.Kisi.GuncelleyenId");
+                                //ModelState.Remove($"Proje.ProjeKarakterleri[{i}].ProjeKarakterOyunculari[{oyuncuIndex}].Oyuncu.Kisi.GuncellemeZamani");
+                                //ModelState.Remove($"Proje.ProjeKarakterleri[{i}].ProjeKarakterOyunculari[{oyuncuIndex}].Oyuncu.Kisi.Aktif");
+                                //ModelState.Remove($"Proje.ProjeKarakterleri[{i}].ProjeKarakterOyunculari[{oyuncuIndex}].Oyuncu.Kisi.Uyruk.Id");
+                                //ModelState.Remove($"Proje.ProjeKarakterleri[{i}].ProjeKarakterOyunculari[{oyuncuIndex}].Oyuncu.Kisi.Uyruk.Adi");
+                                //ModelState.Remove($"Proje.ProjeKarakterleri[{i}].ProjeKarakterOyunculari[{oyuncuIndex}].Oyuncu.Kisi.Uyruk.Soyadi");
+                                //ModelState.Remove($"Proje.ProjeKarakterleri[{i}].ProjeKarakterOyunculari[{oyuncuIndex}].Oyuncu.Kisi.Uyruk.EkleyenId");
+                                //ModelState.Remove($"Proje.ProjeKarakterleri[{i}].ProjeKarakterOyunculari[{oyuncuIndex}].Oyuncu.Kisi.Uyruk.EklemeZamani");
+                                //ModelState.Remove($"Proje.ProjeKarakterleri[{i}].ProjeKarakterOyunculari[{oyuncuIndex}].Oyuncu.Kisi.Uyruk.GuncelleyenId");
+                                //ModelState.Remove($"Proje.ProjeKarakterleri[{i}].ProjeKarakterOyunculari[{oyuncuIndex}].Oyuncu.Kisi.Uyruk.GuncellemeZamani");
+                                //ModelState.Remove($"Proje.ProjeKarakterleri[{i}].ProjeKarakterOyunculari[{oyuncuIndex}].Oyuncu.Kisi.Uyruk.Aktif");
+                            }
+                        }
+
+                    }
                 }
+                //ModelState.MaxAllowedErrors = 10000;
+                //foreach (var key in ModelState.Keys)
+                //    if (key.Split('.').Length > 2)
+                //        ModelState[key].Errors.Clear();
+                //if (ModelState.IsValid)
+                //{
+                    await Save(id, Proje);
+                    return RedirectToAction(nameof(Index), new { id = Proje.MusteriId });
+                //}
+                //else
+                //{
+                //    foreach (var item in ModelState.Values)
+                //    {
+                //        if (item.ValidationState == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid)
+                //        {
+                //            foreach (var err in item.Errors)
+                //            {
+                //                MesajHelper.HataEkle(ViewBag, err.ErrorMessage);
+                //            }
+                //        }
+                //    }
+                //    MesajHelper.HataEkle(ViewBag, ModelState);
+                //}
             }
-            if (ModelState.IsValid)
+            catch (Exception ex)
             {
-                await Save(id, Proje);
-                return RedirectToAction(nameof(Index), new { id = Proje.MusteriId });
+                MesajHelper.HataEkle(ViewBag, ex.Message);
             }
-            else
-            {
-                ProjeEditDto projeEditDto = await _ProjeServis.GetEditDtoAsync(id, Proje.MusteriId);
-                projeEditDto.Proje = Proje;
-                return View(projeEditDto);
-            }
+            ProjeEditDto projeEditDto = await _ProjeServis.GetEditDtoAsync(id, Proje.MusteriId);
+            projeEditDto.Proje = Proje;
+            return View(projeEditDto);
 
         }
 

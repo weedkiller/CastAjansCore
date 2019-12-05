@@ -20,7 +20,7 @@ namespace CastAjansCore.Entity
 
         public int? KarakterSayisi { get; set; }
 
-        [ForeignKey("ProjeId")]
+        [ForeignKey("ProjeId")] 
         public virtual Proje Proje { get; set; }
 
         public IList<ProjeKarakterOyuncu> ProjeKarakterOyunculari { get; set; }

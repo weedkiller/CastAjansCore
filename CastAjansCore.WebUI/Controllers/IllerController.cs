@@ -30,7 +30,7 @@ namespace CastAjansCore.WebUI.Controllers
 
         public async Task<IActionResult> Index()
         {
-            
+
             var Illar = await _IlServis.GetListAsync();
             return View(Illar);
         }
@@ -38,7 +38,7 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Ils/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            
+
             if (id == null)
             {
                 return NotFound();
@@ -52,11 +52,11 @@ namespace CastAjansCore.WebUI.Controllers
 
             return View(entity);
         }
-        
+
         // GET: Ils/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            
+
             if (id == null)
             {
                 return View(new Il());
@@ -83,9 +83,9 @@ namespace CastAjansCore.WebUI.Controllers
             if (ModelState.IsValid)
             {
                 try
-                { 
+                {
                     if (id == null || id == 0)
-                    {                      
+                    {
                         await _IlServis.AddAsync(Il, _loginHelper.UserHelper);
                     }
                     else
@@ -110,6 +110,10 @@ namespace CastAjansCore.WebUI.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            else
+            {
+                MesajHelper.HataEkle(ViewBag, ModelState);
+            }
 
             return View(Il);
         }
@@ -117,7 +121,7 @@ namespace CastAjansCore.WebUI.Controllers
         // GET: Ils/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            
+
             if (id == null)
             {
                 return NotFound();

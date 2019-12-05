@@ -208,7 +208,7 @@ namespace CastAjansCore.Business.Concrete
                     TarihBas = DateTime.Today,
                     TarihBit = DateTime.Today,
                     Musteri = await _MusteriServis.GetByIdAsync(musteriId.Value),
-                    ProjeKarakterleri = new List<ProjeKarakter>(),
+                    ProjeKarakterleri = new List<ProjeKarakter>()
                 };
             }
             else

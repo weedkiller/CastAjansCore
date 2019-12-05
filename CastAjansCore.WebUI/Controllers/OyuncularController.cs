@@ -106,7 +106,7 @@ namespace CastAjansCore.WebUI.Controllers
                 ModelState.Remove("KisiEditDto.Kisi.Ilce.Id");
                 ModelState.Remove("KisiEditDto.Kisi.Ilce.IlId");
                 ModelState.Remove("KisiEditDto.Kisi.Ilce.Adi");
-                
+
 
                 if (ModelState.IsValid)
                 {
@@ -206,6 +206,10 @@ namespace CastAjansCore.WebUI.Controllers
                         }
                     }
                     return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    MesajHelper.HataEkle(ViewBag, ModelState);
                 }
             }
             catch (Exception ex)
