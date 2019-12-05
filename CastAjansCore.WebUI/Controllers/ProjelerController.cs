@@ -559,7 +559,7 @@ namespace CastAjansCore.WebUI.Controllers
             return File(
                 fileContents: fileContents,
                 contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                fileDownloadName: "CastList.xlsx"
+                fileDownloadName: $"{model.MusteriAdi}-{model.ProjeAdi}-CastList.xlsx"
             );
         }
 
