@@ -280,6 +280,7 @@ namespace CastAjansCore.Business.Concrete
                     (filter.TenRengi == 0 || i.TenRengi == (EnuTenRengi)filter.TenRengi) &&
                     (filter.SacRengi == 0 || i.SacRengi == (EnuSacRengi)filter.SacRengi) &&
                     (filter.SacTipi == 0 || i.SacTipi == (EnuSacTipi)filter.SacTipi) &&
+                    (filter.Durumu == 0 || i.Durumu == (EnuOyuncuDurumu)filter.Durumu) &&
                     (filter.Ehliyet == null || i.Ehliyet.Contains(filter.Ehliyet)) &&
                     (
                         filter.Genel == null ||

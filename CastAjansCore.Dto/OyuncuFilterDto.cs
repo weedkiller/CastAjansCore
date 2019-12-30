@@ -38,6 +38,7 @@ namespace CastAjansCore.Dto
         public int SacRengi { get; set; }
         public int SacTipi { get; set; }
         public string Ehliyet { get; set; }
+        public int Durumu { get; set; }
         public string Genel { get; set; }
         public int Draw { get; set; }
         public int Start { get; set; }

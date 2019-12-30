@@ -55,6 +55,8 @@ $(document).ready(function () {
                     SacRengi: Number($("#Filter-Oyuncu-SacRengi").val()),
                     SacTipi: Number($("#Filter-Oyuncu-SacTipi").val()),
                     Ehliyet: $("#Filter-Oyuncu-Ehliyet").val(),
+                    Durumu: Number($("#Filter-Oyuncu-Durumu").val()),
+                    
                     draw: data.draw,
                     order: data.order,
                     start: data.start,

@@ -271,10 +271,10 @@ namespace CastAjansCore.Entity
 
     public enum EnuOyuncuDurumu
     {
-        [Display(Name = "Teklif Atıldı")]
+        [Display(Name = "Aktif")]
         Aktif = 1,
 
-        [Display(Name = "Kabul Edildi")]
+        [Display(Name = "Pasif")]
         Pasif = 2
     }
 
