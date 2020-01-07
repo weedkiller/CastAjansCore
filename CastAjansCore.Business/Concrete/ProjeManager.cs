@@ -157,9 +157,9 @@ namespace CastAjansCore.Business.Concrete
                             KimlikArka = oyuncu.Oyuncu.Kisi.KimlikArkaUrl,
                             UstBeden = oyuncu.Oyuncu.UstBeden,
                             AltBeden = oyuncu.Oyuncu.AltBeden,
-                            AyakNumarasi = oyuncu.Oyuncu.AltBeden,
-                            Boy = oyuncu.Oyuncu.AltBeden,
-                            Kilo = oyuncu.Oyuncu.AltBeden,
+                            AyakNumarasi = oyuncu.Oyuncu.AyakNumarasi,
+                            Boy = oyuncu.Oyuncu.Boy,
+                            Kilo = oyuncu.Oyuncu.Kilo,
                             GozRengi = oyuncu.Oyuncu.GozRengi,
                             SacRengi = oyuncu.Oyuncu.SacRengi,
                             TenRengi = oyuncu.Oyuncu.TenRengi,
@@ -167,8 +167,8 @@ namespace CastAjansCore.Business.Concrete
                             Tecrubeler = oyuncu.Oyuncu.Tecrubeler,
                             YabanciDil = oyuncu.Oyuncu.YabanciDil,
                             Yetenekleri = oyuncu.Oyuncu.Yetenekleri,
-                            OyuncuResimleri = oyuncu.Oyuncu.OyuncuResimleri.Take(3).Select(i => i.DosyaYolu).ToList(),
-                            OyuncuVideolari = oyuncu.Oyuncu.OyuncuVideolari.Take(3).Select(i => i.DosyaYolu).ToList()
+                            OyuncuResimleri = oyuncu.Oyuncu.OyuncuResimleri.OrderByDescending(d => d.EklemeZamani).Take(3).Select(i => i.DosyaYolu).ToList(),
+                            OyuncuVideolari = oyuncu.Oyuncu.OyuncuVideolari.OrderByDescending(d => d.EklemeZamani).Take(3).Select(i => i.DosyaYolu).ToList()
                         });
                     }
 
