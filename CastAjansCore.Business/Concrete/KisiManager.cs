@@ -39,15 +39,15 @@ namespace CastAjansCore.Business.Concrete
 
         private async Task Kontrol(Kisi entity)
         {
-            var tTC = GetAsync(i => (entity.Id == 0 || i.Id != entity.Id) && entity.TC.IsNotNull() && i.TC == entity.TC && i.Aktif == true);
-            var tEPosta = GetAsync(i => (entity.Id == 0 || i.Id != entity.Id) && entity.EPosta.IsNotNull() && i.EPosta == entity.EPosta && i.Aktif == true);
+            var tTC = GetAsync(i => (entity.Id == 0 || i.Id != entity.Id) && entity.TC.IsNotNull() && i.TC == entity.TC && i.Aktif == true && entity.Aktif ==true);
+            var tEPosta = GetAsync(i => (entity.Id == 0 || i.Id != entity.Id) && entity.EPosta.IsNotNull() && i.EPosta == entity.EPosta && i.Aktif == true && entity.Aktif == true);
 
-            if (await tTC != null)
+            if ((await tTC) != null)
             {
                 throw new Exception($"{entity.TC} TC'li kayıt mevcuttur.");
             }
 
-            if (await tEPosta != null)
+            if ((await tEPosta) != null)
             {
                 throw new Exception($"{entity.EPosta} E-Postalı kayıt mevcuttur.");
             }
@@ -57,6 +57,12 @@ namespace CastAjansCore.Business.Concrete
         {
             await Kontrol(entity);
             await base.AddAsync(entity, userHelper);
+        }
+
+        public override async Task UpdateAsync(Kisi entity, UserHelper userHelper)
+        {
+            await Kontrol(entity);
+            await base.UpdateAsync(entity, userHelper);
         }
 
 

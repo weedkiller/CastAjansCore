@@ -73,9 +73,8 @@ namespace CastAjansCore.Business.Concrete
 
         public override async Task DeleteAsync(int id, UserHelper userHelper)
         {
-            var tKisi = _kisiServis.DeleteAsync(id, userHelper);
-            var tOyuncu = base.DeleteAsync(id, userHelper);
-            await Task.WhenAll(tKisi, tOyuncu);
+            await _kisiServis.DeleteAsync(id, userHelper);
+            await base.DeleteAsync(id, userHelper);            
         }
 
         public override async Task AddAsync(Oyuncu entity, UserHelper userHelper)
