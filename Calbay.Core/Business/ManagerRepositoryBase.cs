@@ -142,5 +142,6 @@ namespace Calbay.Core.Business
 
             await _dal.UpdateAsync(entity);
         }
+
     }
 }

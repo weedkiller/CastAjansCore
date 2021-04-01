@@ -186,6 +186,16 @@ namespace Calbay.Core.DataAccess
             }
         }
 
+        //public IQueryable<TEntity> IncludeMany(params Expression<Func<TEntity, object>>[] includes)
+        //{
+        //    return _entities.IncludeMultiple(includes);
+        //}
+
+        //public IEnumerable<TEntity> GetSql(string sql)
+        //{
+        //    return Entities.FromSql(sql);
+        //}
+
 
     }
 }

@@ -6,35 +6,35 @@ using System.Threading.Tasks;
 
 namespace Calbay.Core.DataAccess
 {
-    public interface IEntitiyRepository<T> where T : class, IEntity, new()
+    public interface IEntitiyRepository<TEntity> where TEntity : class, IEntity, new()
     {
-        T Get(Expression<Func<T, bool>> filter = null);
+        TEntity Get(Expression<Func<TEntity, bool>> filter = null);
 
-        Task<T> GetAsync(Expression<Func<T, bool>> filter = null);
+        Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> filter = null);
 
-        Task<T> GetAsync(List<string> includes, Expression<Func<T, bool>> filter);
+        Task<TEntity> GetAsync(List<string> includes, Expression<Func<TEntity, bool>> filter);
 
-        List<T> GetList(Expression<Func<T, bool>> filter = null);
+        List<TEntity> GetList(Expression<Func<TEntity, bool>> filter = null);
 
-        List<T> GetList(List<string> includes, Expression<Func<T, bool>> filter = null);
+        List<TEntity> GetList(List<string> includes, Expression<Func<TEntity, bool>> filter = null);
 
-        Task<List<T>> GetListAsync(Expression<Func<T, bool>> filter = null);
+        Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> filter = null);
 
-        Task<List<T>> GetListAsync(List<string> includes, Expression<Func<T, bool>> filter = null);
+        Task<List<TEntity>> GetListAsync(List<string> includes, Expression<Func<TEntity, bool>> filter = null);
 
         //Task<GridDto<T>> GetGridAsync(int start = 0, int pageSize = 0, List<string> includes = null, Expression<Func<T, bool>> filter = null);
 
-        void Add(T entity);
+        void Add(TEntity entity);
 
-        void Update(T entity);
+        void Update(TEntity entity);
 
-        void Delete(T entity);
+        void Delete(TEntity entity);
 
-        Task AddAsync(T entity);
+        Task AddAsync(TEntity entity);
 
-        Task UpdateAsync(T entity);
+        Task UpdateAsync(TEntity entity);
 
-        Task DeleteAsync(T entity);
+        Task DeleteAsync(TEntity entity);
         
     }
 }
